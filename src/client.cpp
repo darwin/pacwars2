@@ -1040,7 +1040,7 @@ int HandleClientMessage()
             
             MSG >> client_info.client_num >> major >> minor;
             ConOutEx(CLIENT_FONT, "Welcome to %s", (char *) &MSG.buf[POS_MSG_WSNAME]);
-            ConOutEx(CLIENT_FONT, "Server version: %d.%02d", major, minor);
+            ConOutEx(CLIENT_FONT, "Server protocol version: %d.%02d", major, minor);
             ConOutEx(CLIENT_FONT, "Server message: %s", (char *) &MSG.buf[POS_MSG_WSMSG]);
             if (major > PROTOCOL_VERSION_MAJOR || (major == PROTOCOL_VERSION_MAJOR && minor > PROTOCOL_VERSION_MINOR)) 
             {
@@ -1587,7 +1587,7 @@ int CL_ChangeMap(char *mapname, char *scriptname)
   client_info.game.map.InitAnims();
   client_info.game.map.GenerateYLookup();
   ScriptMan->RunScript(map_script_num, "csInit");
-  
+
   // send accomplished message
   Uint8 sendbuf[LEN_MSG_ID];
   net_msg MSG(sendbuf);

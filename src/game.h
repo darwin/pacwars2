@@ -76,27 +76,27 @@ extern SDL_Surface *becherbar;
 //## Data structures
 //###########################################################################
 
-class DECLSPEC CGame { public:
-	Uint8 state;
-	Uint32 starttick;
-	TICK_TYPE tick;				// last thinking tick
-	Uint16 last_oid;			// last created object id
+class DECLSPEC CGame { 
+public:
+	Uint8         state;
+	Uint32        starttick;
+	TICK_TYPE     tick;				            // last thinking tick
+	Uint16        last_oid;			          // last created object id
 
 	// game data
-	CVars vars;
-	CMapState map;
-	GObj *objs[GAME_MAX_OBJS];
+	CVars         vars;
+	CMapState     map;
+	GObj          *objs[GAME_MAX_OBJS];
 
-	// game types
-	Uint8 game_type;
+	// game type
+	Uint8         game_type;
 
 	// helpers
+	CReplicator   replicator;
 
-	CReplicator replicator;
-
-	int GBSlots[MAX_GAMEBAR_PLAYERS];
-	int MainSlot;
-	int BecherSlot;
+	int           GBSlots[MAX_GAMEBAR_PLAYERS];
+	int           MainSlot;
+	int           BecherSlot;
 
 	// methods
 	 CGame();
@@ -108,7 +108,7 @@ class DECLSPEC CGame { public:
 		if (last_oid == 0)
 			last_oid = 1;
 	}
-		// 0 is reservedobject id####################################################he float interpretation of the string.  Generally, all cvar_t declarations should be registered in the apropriate init function before any console commands are executed:
+		// 0 is reservedobject id
 		int RebornObject(Uint16 id, GAME_MAXOBJS_TYPE slot, Uint8 ot);	// chybovy kod
 
 	void ServerThink(TICK_TYPE time);
@@ -119,9 +119,9 @@ class DECLSPEC CGame { public:
 	char ServerReplicate(int cnum, CReplicator & rep, TICK_TYPE time);
 	char ClientReplicate(TICK_TYPE time);
 
-	void SetGameType(Uint8 gametype) {
-		game_type = gametype;
-	} void UpdateGamebarSlots();
+  void SetGameType(Uint8 gametype) { game_type = gametype; } 
+  
+  void UpdateGamebarSlots();
 	void RenderPlayerBar(GPlayer * p, SDL_Surface * screen, int font,
 						 int px, int py);
 	void RenderStatusBar(SDL_Surface * screen, int font, int px, int py);
@@ -133,7 +133,7 @@ class DECLSPEC CGame { public:
 	void Reset();
 
   private:
-	 bool l1;
+  bool l1;
 	bool l2;
 	bool l3;
 	bool l4;

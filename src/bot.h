@@ -26,6 +26,10 @@
 #include "pw2.h"
 #include "pac.h"
 
+#include "aibase.h"
+
+extern cvar_t	ai_level;
+
 // NOTE: you can add the bot into the game by typing (in console) :
 // 
 // cb botname
@@ -44,7 +48,10 @@
 //## API
 //###########################################################################
 
-int bot_think(GPlayer* player, CGame* game, MoveVector* mv);
+extern int bot_init(GPlayer* player, CGame* game);
+extern int bot_command(GPlayer* player, CGame* game, char* cmd, char* params);
+extern int bot_think(GPlayer* player, CGame* game, MoveVector* mv);
+extern int bot_done(GPlayer* player, CGame* game);
 
 
 #endif

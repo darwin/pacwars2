@@ -14,6 +14,7 @@
 #define PAC_PLAYER_H
 
 #include "const.h"
+#include "pathlib/pathlib.h"
 #include "replication.h"
 #include "prediction.h"
 #include "net.h"
@@ -129,6 +130,18 @@ public:
 
     TICK_TYPE last_x_tick;
     TICK_TYPE last_y_tick;
+    
+    /////////////////////////////////////////////////////////////////////
+    // bot ai part
+
+    PED*          pe;                     // path engine
+    PathStep*     steps;
+    int           cur_step;
+
+    int           last_speed;             // last move in pixels
+
+    char          last_horizontal;
+    char          last_vertical;
 
     //###########################################################################
     // synchronized data
@@ -175,6 +188,7 @@ public:
     RValue<TICK_TYPE> warpin_end;  
     RValue<TICK_TYPE> bornin_end;  
     RValue<TICK_TYPE> warpout_end;  
+
 };
 
 #endif

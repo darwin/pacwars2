@@ -65,6 +65,12 @@
 
 #include "bldnum.h"
 
+extern cvar_t	ai_level;
+extern int bot_init(GPlayer* player, CGame* game);
+extern int bot_command(GPlayer* player, CGame* game, char* cmd, char* params);
+extern int bot_think(GPlayer* player, CGame* game, MoveVector* mv);
+extern int bot_done(GPlayer* player, CGame* game);
+
 //###########################################################################
 //## Globals
 //###########################################################################
@@ -2262,6 +2268,45 @@ void CCreateBot(char *string)
 #endif
 }
 
+
+void CBotCommand(char *string)
+{
+  int r;
+  char name[MAX_WORD_INPUTED], cmd[MAX_WORD_INPUTED], params[MAX_WORD_INPUTED];
+#ifdef PW_NETCLIENT
+  
+  params[0] = 0;
+  if (sscanf(string, "%s %s %[^\n]", name, cmd, params) < 2) 
+  {
+    ConOut("Error: usage: bc <bot_name> <command name> (params)");
+    return;
+  }
+  
+  if (net_client_status == NS_CONNECTED) 
+  {
+     GAME_MAXOBJS_TYPE i;
+     // find bot "name"
+     for (i=0; i<GAME_MAX_OBJS; i++) 
+     {
+       if ((client_info.game.objs[i]->state&OSTATE_ACTIVE) && (client_info.game.objs[i]->GetType()==ot_player))
+       {
+         GPlayer * p = (GPlayer*)client_info.game.objs[i];
+         if (strcmp(p->player_name.GetValRef()->chars, name)==0 && p->brain_type==bt_bot)
+         {
+           // send command to bot
+           bot_command(p, p->game, cmd, params);
+           return;
+         }
+       }
+     }
+    ConOutEx(CMD_FONT, "No such a bot \"%s\"", name);  
+  } else
+    ConOutEx(CMD_FONT, "Connect to the server first", SDL_GetError());
+#else
+  ConOut("Net: client support isn't compiled !");
+#endif
+}
+
 void CDestroyPlayer(char *string)
 {
   int r;
@@ -2648,6 +2693,9 @@ void AddConsoleVars()
   Cvar_RegisterVariable(&alphamenu);
   Cvar_RegisterVariable(&autoserver);
   Cvar_RegisterVariable(&theme);
+
+  //ai
+  Cvar_RegisterVariable(&ai_level);
 }
 
 void AddConsoleCommands()
@@ -2700,6 +2748,7 @@ void AddConsoleCommands()
   AddCommand(&CUploadSound, "ulsound", CMD_CLIENT);
   AddCommand(&CCreatePlayer, "cp", CMD_CLIENT);
   AddCommand(&CCreateBot, "cb", CMD_CLIENT);
+  AddCommand(&CBotCommand, "bc", CMD_CLIENT);
   AddCommand(&CDestroyPlayer, "dp", CMD_CLIENT);
   AddCommand(&CSkinPlayer, "sp", CMD_CLIENT);
   AddCommand(&CChasePlayer, "chase", CMD_CLIENT);
@@ -3788,8 +3837,8 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
     }
     
     if (MapLoaded != 2) {
-      sprintf(genstr, "PW2 v%d.%02d build %04d", VERSION_MAJOR,
-        VERSION_MINOR, build_number);
+      sprintf(genstr, "PW2 v%d.%02d, protocol v%d.%02d, build %04d", VERSION_MAJOR,
+        VERSION_MINOR, PROTOCOL_VERSION_MAJOR, PROTOCOL_VERSION_MINOR, build_number);
       DrawText(genstr, screen, SmallFont, 480 - 6 * strlen(genstr),
         screen->h - 1 * 13);
     }
@@ -3849,16 +3898,16 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
 
   MapFreeMem();
 
-  GUI_Done();
+//  GUI_Done();
   
+  SDL_FreeSurface(app.GetScreen());
+  app.SetScreen(screen);
+
   DoneMouse();
   
   DoneConsole();
   
   DoneScripting();			// Done scripting engine
-  
-  SDL_FreeSurface(app.GetScreen());
-  app.SetScreen(screen);
 
   SpriteMan.Destroy();
   SkinMan.Destroy();

@@ -77,10 +77,17 @@ ping            (GPLAYER_ID+31 , 0             , 0)
   
   last_x_tick;
   last_y_tick;
+
+  steps = NULL; 
+  pe = NULL;
+
+  last_speed = 8;
 }
 
 GPlayer::~GPlayer()
 {
+  if (brain_type==bt_bot) bot_done(this, game);
+
   if (skin) SkinMan.Unregister(skin);
 
   if (pistolka) SpriteMan.Unregister(pistolka);
@@ -185,6 +192,20 @@ void GPlayer::Draw(SDL_Surface * screen, SDL_Rect * screen_rect)
     int f=addons->anims[3]->frames-(warpout_end-curtime)/warp_framedelay;
     if (f<0) f=0;
     GEntity::Draw(screen, screen_rect, xpos, ypos, skin_gr_sx, skin_gr_sy, f, 2, addons, 255);
+  }
+
+  if (steps)
+  {
+    int i=0;
+    do
+    {
+      Sint16 x = steps[i].Pos.X * 16 + 8;
+      Sint16 y = steps[i].Pos.Y * 16 + 8;
+      NormalizePos(&x, &y);
+      GEntity::Draw(screen, screen_rect, x, y, 8, 8, 0, 4, pistolka, 255);
+      i++;
+    } 
+    while (!(steps[i].Type&PST_END));
   }
 }
 
@@ -364,6 +385,7 @@ char GPlayer::GetReplicated(Uint8 id, net_msg* msg, TICK_TYPE time)
   if (brain_type.Read(id, msg ,time))
   {
     predictor.Reset();  
+    if ((game->state==GS_CLIENT) && (brain_type==bt_bot)) bot_init(this, game);
     return 1;
   }
   if (brain_owner.Read(id, msg ,time))
@@ -683,6 +705,8 @@ void GPlayer::MoveAutonomous(MoveVector* mv, TICK_TYPE time)
   if (time<speed_end) STEPS+=6;
   if (time<glue_end) STEPS=0;
 
+  last_speed = STEPS;
+
   rect_t r1;
   GetBoundingBox(&r1);
   
@@ -815,7 +839,40 @@ void GPlayer::MoveAutonomous(MoveVector* mv, TICK_TYPE time)
       }
     i++;
   }
-  
+
+  /*
+  for (i=0; i<STEPS;)
+  {
+    rect_t sr = r1;
+    MoveBoundingBox(&r1, dx, dy);
+
+    // collision with other objects
+      if (GlobalCollision(&r1, GPlayerObjColB, GPlayerMapColB))
+      {
+        if (dx)
+        {
+          r1 = sr;
+          MoveBoundingBox(&r1, dx, 0);
+          if (GlobalCollision(&r1, GPlayerObjColB, GPlayerMapColB))
+          {
+            if (dy)
+            {
+              r1 = sr;
+              MoveBoundingBox(&r1, 0, dy);
+              if (GlobalCollision(&r1, GPlayerObjColB, GPlayerMapColB))
+              {
+                // cannot move
+                r1 = sr;
+                break;
+              }
+            }
+          }
+        }
+      }
+    i++;
+  }
+  */
+
   xpos = r1.left + xsize/2;
   ypos = r1.top + ysize/2;
   NormalizePos();

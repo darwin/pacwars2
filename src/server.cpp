@@ -844,7 +844,7 @@ int HandleServerMessage()
           packet.data[pos] = (const Uint8)PW2_RESPONSE_SERVERINFO; pos++;
           packet.data[pos] = PROTOCOL_VERSION_MAJOR; pos++;
           packet.data[pos] = PROTOCOL_VERSION_MINOR; pos++;
-          packet.data[pos] = PWP_TOTALMAX_CLIENTS; pos++;
+          packet.data[pos] = server_info.maxclients; pos++;
           packet.data[pos] = net_server_status; pos++;
           
           if (net_server_status == NS_RUNNING) 
