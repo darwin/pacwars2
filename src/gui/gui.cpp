@@ -684,6 +684,14 @@ void GUI_Input::eventDraw(SDL_Surface* surface, const PG_Rect& rect) {
 	DrawBorder(rect, 1, false);
 }
 
+char* my_strupr(char* text) {
+	while(*text != 0) {
+		*text=toupper(*text);
+		text++;
+	}
+	return text;
+}
+
 void GUI_Input::DrawText(SDL_Surface* surface, const PG_Rect* rect) {
 	int h;
 	int x,y;
@@ -693,9 +701,12 @@ void GUI_Input::DrawText(SDL_Surface* surface, const PG_Rect* rect) {
 	y = (rect->h - h)/2;
 
 	// draw text
-	char* DrawText = GetDrawText();
+	char DrawText[10];
+	strcpy(DrawText, GetDrawText());
+	my_strupr(DrawText);
+
 	if(DrawText[0] != 0){
-		PG_DrawObject::DrawText(x+offset_x,y+2, _strupr(DrawText), textcolor, GetFont());
+		PG_DrawObject::DrawText(x+offset_x,y+2, DrawText, textcolor, GetFont());
 	}		
 }
 
@@ -772,7 +783,7 @@ void GUI_Input::SetText(char* new_text){
 
 GUI_Help1Menu::GUI_Help1Menu():
 GUI_BaseMenu(GUI_HELP1, PG_Rect(HM1_PX,HM1_PY,HM1_VX,HM1_VY)),
-Board1(NULL, PG_Rect(HM1_PX,HM1_PY,HM1_VX,HM1_VY), false),
+Board1(NULL, PG_Rect(HM1_PX,HM1_PY,HM1_VX,HM1_VY)),
 mBack1(NULL, PG_Rect(HM1_PX+1, HM1_PY+1, help1->w, help1->h), false, help1),
 Help1Menu(NULL, PG_Rect(HM1_PX+1,HM1_PY+4,HM1_VX-2,25), "Weapons & Bonuses", "GUI_Label"),
 lLine1a(NULL, PG_Rect(HM1_G1_PX,HM1_G1_PY, HM1_G1_VX-2, 20), "SMALL PISTOL", "GUI_LabelL"),
@@ -967,7 +978,7 @@ void GUI_Help1Menu::Hide()
 
 GUI_Help2Menu::GUI_Help2Menu():
 GUI_BaseMenu(GUI_HELP2, PG_Rect(HM2_PX,HM2_PY,HM2_VX,HM2_VY)),
-Board1(NULL, PG_Rect(HM2_PX,HM2_PY,HM2_VX,HM2_VY), false),
+Board1(NULL, PG_Rect(HM2_PX,HM2_PY,HM2_VX,HM2_VY)),
 mBack1(NULL, PG_Rect(HM2_PX+1, HM2_PY+1, help2->w, help2->h), false, help2),
 Help2Menu(NULL, PG_Rect(HM2_PX+1,HM2_PY+4,HM2_VX-2,25), "Items & Ammo", "GUI_Label"),
 lI1a(NULL, PG_Rect(HM2_I1_PX,HM2_I1_PY, HM2_I1_VX-2, 20), "SPEED", "GUI_LabelL"),
