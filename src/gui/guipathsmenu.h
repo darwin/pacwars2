@@ -2,8 +2,8 @@
 #define GUIPATHSMENU_H
 
 #include "guibasemenu.h"
+#include "pglabel.h"
 
-class GUI_Label;
 class GUI_TextEdit;
 class GUI_ButtonSmall;
 
@@ -12,22 +12,22 @@ class GUI_PathsMenu : public GUI_BaseMenu {
 public:
   GUI_PathsMenu();
 
-  GUI_Label* lPathsMenu;
-  GUI_Label* lEffect;
+  PG_Label* lPathsMenu;
+  PG_Label* lEffect;
 
-  GUI_Label* lScriptDir;
+  PG_Label* lScriptDir;
   GUI_TextEdit* eScriptDir;
-  GUI_Label* lSpriteDir;
+  PG_Label* lSpriteDir;
   GUI_TextEdit* eSpriteDir;
-  GUI_Label* lMapDir;
+  PG_Label* lMapDir;
   GUI_TextEdit* eMapDir;
-  GUI_Label* lSndDir;
+  PG_Label* lSndDir;
   GUI_TextEdit* eSndDir;
-  GUI_Label* lSkinDir;
+  PG_Label* lSkinDir;
   GUI_TextEdit* eSkinDir;
-  GUI_Label* lGuiDir;
+  PG_Label* lGuiDir;
   GUI_TextEdit* eGuiDir;
-  GUI_Label* lGfxDir;
+  PG_Label* lGfxDir;
   GUI_TextEdit* eGfxDir;
 
   GUI_ButtonSmall* bChange;

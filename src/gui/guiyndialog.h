@@ -2,8 +2,8 @@
 #define GUIYNDIALOG_H
 
 #include "guibasemenu.h"
+#include "pglabel.h"
 
-class GUI_Label;
 class GUI_ButtonSmall;
 
 class GUI_YNDialog : public GUI_BaseMenu {
@@ -12,8 +12,8 @@ public:
 
   void Reset(void (*cb)(int res), char* title, char* line1="", char* tla="YES", char* tlb="NO");
 
-  GUI_Label* YNDialog;
-  GUI_Label* lPrompt1;
+  PG_Label* YNDialog;
+  PG_Label* lPrompt1;
 
   GUI_ButtonSmall* bA;
   GUI_ButtonSmall* bB;

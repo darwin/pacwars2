@@ -4,23 +4,29 @@
 
 GUI_PathsMenu::GUI_PathsMenu() : GUI_BaseMenu(GUI_PATHS, PG_Rect(PM_PX,PM_PY,PM_VX,PM_VY)) {
 
-	lPathsMenu = new GUI_Label(this, PG_Rect(1,4,PM_VX-2,25), "PATHS FOR GAME", false);
-	lEffect = new GUI_Label(this, PG_Rect(1,30,PM_VX-2,20), "Changes will take effect after restarting program.", false);
+	lPathsMenu = new PG_Label(this, PG_Rect(1,4,PM_VX-2,25), "PATHS FOR GAME", "GUI_Label");
+	lEffect = new PG_Label(this, PG_Rect(1,30,PM_VX-2,20), "Changes will take effect after restarting program.", "GUI_Label");
 
-	lScriptDir = new GUI_Label(this, PG_Rect(1,PM_BASE, 120,20), "Scripts:", false);
+	lScriptDir = new PG_Label(this, PG_Rect(1,PM_BASE, 118,20), "Scripts:", "GUI_LabelR");
 	eScriptDir = new GUI_TextEdit(this, PG_Rect(120,PM_BASE,215,20));
-	lMapDir = new GUI_Label(this, PG_Rect(1,PM_BASE+20, 119,20), "Maps:", false);
+
+	lMapDir = new PG_Label(this, PG_Rect(1,PM_BASE+20, 118,20), "Maps:", "GUI_LabelR");
 	eMapDir = new GUI_TextEdit(this, PG_Rect(120,PM_BASE+20,215,20));
-	lSkinDir = new GUI_Label(this, PG_Rect(1,PM_BASE+40, 119,20), "Skins:", false);
+
+	lSkinDir = new PG_Label(this, PG_Rect(1,PM_BASE+40, 118,20), "Skins:", "GUI_LabelR");
 	eSkinDir = new GUI_TextEdit(this, PG_Rect(120,PM_BASE+40,215,20));
-	lSpriteDir = new GUI_Label(this, PG_Rect(1,PM_BASE+60, 119,20), "Sprites:", false);
+
+	lSpriteDir = new PG_Label(this, PG_Rect(1,PM_BASE+60, 118,20), "Sprites:", "GUI_LabelR");
 	eSpriteDir = new GUI_TextEdit(this, PG_Rect(120,PM_BASE+60,215,20));
-	lGfxDir = new GUI_Label(this, PG_Rect(1,PM_BASE+80, 119,20), "Graphics:", false);
+
+	lGfxDir = new PG_Label(this, PG_Rect(1,PM_BASE+80, 118,20), "Graphics:", "GUI_LabelR");
 	eGfxDir = new GUI_TextEdit(this, PG_Rect(120,PM_BASE+80,215,20));
-	lGuiDir = new GUI_Label(this, PG_Rect(1,PM_BASE+100, 119,20), "GUI:", false);
+
+	lGuiDir = new PG_Label(this, PG_Rect(1,PM_BASE+100, 118,20), "GUI:", "GUI_LabelR");
 	eGuiDir = new GUI_TextEdit(this, PG_Rect(120,PM_BASE+100,215,20));
-	lSndDir = new GUI_Label(this, PG_Rect(1,PM_BASE+120, 119,20), "Sound:", false);
-	eSndDir = new GUI_TextEdit(this, PG_Rect(120,PM_BASE+120,215,20));
+
+	lSndDir = new PG_Label(this, PG_Rect(1,PM_BASE+120, 118,20), "Sound:", "GUI_LabelR");
+	eSndDir = new GUI_TextEdit(this, PG_Rect(120,PM_BASE+119,215,20));
 
 	bChange = new GUI_ButtonSmall(this, 1, PG_Rect(25,PM_BASE+150,150,25), "APPLY");
 	bCancel = new GUI_ButtonSmall(this, 2, PG_Rect(25+150+10,PM_BASE+150,150,25), "BACK");
@@ -28,14 +34,6 @@ GUI_PathsMenu::GUI_PathsMenu() : GUI_BaseMenu(GUI_PATHS, PG_Rect(PM_PX,PM_PY,PM_
 	Default();
 
 	lPathsMenu->SetFont(MainFont);
-
-	lScriptDir->SetAlignment(PG_TA_RIGHT);
-	lMapDir->SetAlignment(PG_TA_RIGHT);
-	lSkinDir->SetAlignment(PG_TA_RIGHT);
-	lSpriteDir->SetAlignment(PG_TA_RIGHT);
-	lGfxDir->SetAlignment(PG_TA_RIGHT);
-	lGuiDir->SetAlignment(PG_TA_RIGHT);
-	lSndDir->SetAlignment(PG_TA_RIGHT);
 
 	LoadThemeStyle("GUI_Board");
 }

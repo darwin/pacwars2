@@ -186,6 +186,7 @@ void GUI_Bitmap::eventDraw(SDL_Surface* surface, const PG_Rect& rect) {
 /////////////////////////////////////////////////////////////////////////////
 
 
+/*
 GUI_Label::GUI_Label(PG_Widget* parent, const PG_Rect& r, char* text, bool storebackground, char* style) : PG_Label(parent,r,text) {
 	SetFont(TextFont);
 	SetAlignment(PG_TA_CENTER);
@@ -196,6 +197,7 @@ GUI_LabelC::GUI_LabelC(PG_Widget* parent, const PG_Rect& r, char* text, bool sto
 	SetFont(TextFont);
 	SetAlignment(PG_TA_LEFT);
 }
+*/
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -403,8 +405,8 @@ void GUI_OKDialog1::Reset(char* title, char* line1)
 
 GUI_OKDialog1::GUI_OKDialog1(char* title, char* line1, char* line2) : GUI_BaseMenu(GUI_OKDIALOG1, PG_Rect(OKD1_PX,OKD1_PY,OKD1_VX,OKD1_VY)){
 
-	OKDialog1 = new GUI_Label(this, PG_Rect(1,4,OKD1_VX-2,25), title, false);
-	lPrompt1 = new GUI_Label(this, PG_Rect(1,35, OKD1_VX-2,20), line1, false);
+	OKDialog1 = new PG_Label(this, PG_Rect(1,4,OKD1_VX-2,25), title, "GUI_Label");
+	lPrompt1 = new PG_Label(this, PG_Rect(1,35, OKD1_VX-2,20), line1, "GUI_Label");
 	bOK = new GUI_ButtonSmall(this, 1, PG_Rect(105,65,150,25), "OK");
 
 	Default();
@@ -446,9 +448,9 @@ void GUI_OKDialog2::Reset(char* title, char* line1, char* line2)
 
 GUI_OKDialog2::GUI_OKDialog2(char* title, char* line1, char* line2) : GUI_BaseMenu(GUI_OKDIALOG2, PG_Rect(OKD2_PX,OKD2_PY,OKD2_VX,OKD2_VY)) {
 
-  OKDialog2 = new GUI_Label(this, PG_Rect(1,4,OKD2_VX-2,25), title, false);
-  lPrompt1 = new GUI_Label(this, PG_Rect(1,35, OKD2_VX-2,20), line1, false);
-  lPrompt2 = new GUI_Label(this, PG_Rect(1,55, OKD2_VX-2,20), line2, false);
+  OKDialog2 = new PG_Label(this, PG_Rect(1,4,OKD2_VX-2,25), title, "GUI_Label");
+  lPrompt1 = new PG_Label(this, PG_Rect(1,35, OKD2_VX-2,20), line1, "GUI_Label");
+  lPrompt2 = new PG_Label(this, PG_Rect(1,55, OKD2_VX-2,20), line2, "GUI_Label");
   bOK = new GUI_ButtonSmall(this, 1, PG_Rect(105,90,150,25), "OK");
 
   Default();
@@ -804,41 +806,40 @@ GUI_Help1Menu::GUI_Help1Menu():
 GUI_BaseMenu(GUI_HELP1, PG_Rect(HM1_PX,HM1_PY,HM1_VX,HM1_VY)),
 Board1(NULL, PG_Rect(HM1_PX,HM1_PY,HM1_VX,HM1_VY), false),
 mBack1(NULL, PG_Rect(HM1_PX+1, HM1_PY+1, help1->w, help1->h), false, help1),
-Help1Menu(NULL, PG_Rect(HM1_PX+1,HM1_PY+4,HM1_VX-2,25), "Weapons & Bonuses", false),
-lLine1a(NULL, PG_Rect(HM1_G1_PX,HM1_G1_PY, HM1_G1_VX-2, 20), "SMALL PISTOL", false),
-lLine1b(NULL, PG_Rect(HM1_G1_PX,HM1_G1_PY+HM1_LY1, HM1_G1_VX-2, 20), "fires small slow projectiles", false),
-lLine1c(NULL, PG_Rect(HM1_G1_PX,HM1_G1_PY+2*HM1_LY1, HM1_G1_VX-2, 20), "bounces with shield and some kind of walls", false),
-lLine2a(NULL, PG_Rect(HM1_G2_PX,HM1_G2_PY, HM1_G2_VX-2, 20), "BECHEROMET", false),
-lLine2b(NULL, PG_Rect(HM1_G2_PX,HM1_G2_PY+HM1_LY1, HM1_G2_VX-2, 20), "fires high piercing shots in clusters", false),
-lLine2c(NULL, PG_Rect(HM1_G2_PX,HM1_G2_PY+2*HM1_LY1, HM1_G2_VX-2, 20), "loaded by becherovka bottles", false),
-lLine3a(NULL, PG_Rect(HM1_G3_PX,HM1_G3_PY, HM1_G3_VX-2, 20), "RAILGUN", false),
-lLine3b(NULL, PG_Rect(HM1_G3_PX,HM1_G3_PY+HM1_LY1, HM1_G3_VX-2, 20), "after small delay for charge fires long fireline", false),
-lLine3c(NULL, PG_Rect(HM1_G3_PX,HM1_G3_PY+2*HM1_LY1, HM1_G3_VX-2, 20), "works on basis of pressed alcohol gas", false),
-lLine4a(NULL, PG_Rect(HM1_G4_PX,HM1_G4_PY, HM1_G4_VX-2, 20), "RAPID BOMB", false),
-lLine4b(NULL, PG_Rect(HM1_G4_PX,HM1_G4_PY+HM1_LY1, HM1_G4_VX-2, 20), "droped bomb blows up after a period of time", false),
-lLine4c(NULL, PG_Rect(HM1_G4_PX,HM1_G4_PY+2*HM1_LY1, HM1_G4_VX-2, 20), "chemical modification of rapid drink", false),
-lLine5a(NULL, PG_Rect(HM1_G5_PX,HM1_G5_PY, HM1_G5_VX-2, 20), "BETON GRENADE", false),
-lLine5b(NULL, PG_Rect(HM1_G5_PX,HM1_G5_PY+HM1_LY1, HM1_G5_VX-2, 20), "after throwed detonates when stroked", false),
-lLine5c(NULL, PG_Rect(HM1_G5_PX,HM1_G5_PY+2*HM1_LY1, HM1_G5_VX-2, 20), "deadly modification of beton mixture", false),
-lI1a(NULL, PG_Rect(HM1_I1_PX,HM1_I1_PY, HM1_I1_VX-2, 20), "BECHER", false),
-lI1b(NULL, PG_Rect(HM1_I1_PX,HM1_I1_PY+HM1_LY2, HM1_I1_VX-2, 20), "80 points", false),
-lI2a(NULL, PG_Rect(HM1_I2_PX,HM1_I2_PY, HM1_I2_VX-2, 20), "RAPID", false),
-lI2b(NULL, PG_Rect(HM1_I2_PX,HM1_I2_PY+HM1_LY2, HM1_I2_VX-2, 20), "20 points", false),
-lI3a(NULL, PG_Rect(HM1_I3_PX,HM1_I3_PY, HM1_I3_VX-2, 20), "GOLD", false),
-lI3b(NULL, PG_Rect(HM1_I3_PX,HM1_I3_PY+HM1_LY2, HM1_I3_VX-2, 20), "6 points", false),
-lI4a(NULL, PG_Rect(HM1_I4_PX,HM1_I4_PY, HM1_I4_VX-2, 20), "GOLD", false),
-lI4b(NULL, PG_Rect(HM1_I4_PX,HM1_I4_PY+HM1_LY2, HM1_I4_VX-2, 20), "5 points", false),
-lI5a(NULL, PG_Rect(HM1_I5_PX,HM1_I5_PY, HM1_I5_VX-2, 20), "DRINK", false),
-lI5b(NULL, PG_Rect(HM1_I5_PX,HM1_I5_PY+HM1_LY2, HM1_I5_VX-2, 20), "11 points", false),
-lI6a(NULL, PG_Rect(HM1_I6_PX,HM1_I6_PY, HM1_I6_VX-2, 20), "DRINK", false),
-lI6b(NULL, PG_Rect(HM1_I6_PX,HM1_I6_PY+HM1_LY2, HM1_I6_VX-2, 20), "13 points", false),
+Help1Menu(NULL, PG_Rect(HM1_PX+1,HM1_PY+4,HM1_VX-2,25), "Weapons & Bonuses", "GUI_Label"),
+lLine1a(NULL, PG_Rect(HM1_G1_PX,HM1_G1_PY, HM1_G1_VX-2, 20), "SMALL PISTOL", "GUI_LabelL"),
+lLine1b(NULL, PG_Rect(HM1_G1_PX,HM1_G1_PY+HM1_LY1, HM1_G1_VX-2, 20), "fires small slow projectiles", "GUI_LabelL"),
+lLine1c(NULL, PG_Rect(HM1_G1_PX,HM1_G1_PY+2*HM1_LY1, HM1_G1_VX-2, 20), "bounces with shield and some kind of walls", "GUI_LabelL"),
+lLine2a(NULL, PG_Rect(HM1_G2_PX,HM1_G2_PY, HM1_G2_VX-2, 20), "BECHEROMET", "GUI_LabelL"),
+lLine2b(NULL, PG_Rect(HM1_G2_PX,HM1_G2_PY+HM1_LY1, HM1_G2_VX-2, 20), "fires high piercing shots in clusters", "GUI_LabelL"),
+lLine2c(NULL, PG_Rect(HM1_G2_PX,HM1_G2_PY+2*HM1_LY1, HM1_G2_VX-2, 20), "loaded by becherovka bottles", "GUI_LabelL"),
+lLine3a(NULL, PG_Rect(HM1_G3_PX,HM1_G3_PY, HM1_G3_VX-2, 20), "RAILGUN", "GUI_LabelL"),
+lLine3b(NULL, PG_Rect(HM1_G3_PX,HM1_G3_PY+HM1_LY1, HM1_G3_VX-2, 20), "after small delay for charge fires long fireline", "GUI_LabelL"),
+lLine3c(NULL, PG_Rect(HM1_G3_PX,HM1_G3_PY+2*HM1_LY1, HM1_G3_VX-2, 20), "works on basis of pressed alcohol gas", "GUI_LabelL"),
+lLine4a(NULL, PG_Rect(HM1_G4_PX,HM1_G4_PY, HM1_G4_VX-2, 20), "RAPID BOMB", "GUI_LabelL"),
+lLine4b(NULL, PG_Rect(HM1_G4_PX,HM1_G4_PY+HM1_LY1, HM1_G4_VX-2, 20), "droped bomb blows up after a period of time", "GUI_LabelL"),
+lLine4c(NULL, PG_Rect(HM1_G4_PX,HM1_G4_PY+2*HM1_LY1, HM1_G4_VX-2, 20), "chemical modification of rapid drink", "GUI_LabelL"),
+lLine5a(NULL, PG_Rect(HM1_G5_PX,HM1_G5_PY, HM1_G5_VX-2, 20), "BETON GRENADE", "GUI_LabelL"),
+lLine5b(NULL, PG_Rect(HM1_G5_PX,HM1_G5_PY+HM1_LY1, HM1_G5_VX-2, 20), "after throwed detonates when stroked", "GUI_LabelL"),
+lLine5c(NULL, PG_Rect(HM1_G5_PX,HM1_G5_PY+2*HM1_LY1, HM1_G5_VX-2, 20), "deadly modification of beton mixture", "GUI_LabelL"),
+lI1a(NULL, PG_Rect(HM1_I1_PX,HM1_I1_PY, HM1_I1_VX-2, 20), "BECHER", "GUI_LabelL"),
+lI1b(NULL, PG_Rect(HM1_I1_PX,HM1_I1_PY+HM1_LY2, HM1_I1_VX-2, 20), "80 points", "GUI_LabelL"),
+lI2a(NULL, PG_Rect(HM1_I2_PX,HM1_I2_PY, HM1_I2_VX-2, 20), "RAPID", "GUI_LabelL"),
+lI2b(NULL, PG_Rect(HM1_I2_PX,HM1_I2_PY+HM1_LY2, HM1_I2_VX-2, 20), "20 points", "GUI_LabelL"),
+lI3a(NULL, PG_Rect(HM1_I3_PX,HM1_I3_PY, HM1_I3_VX-2, 20), "GOLD", "GUI_LabelL"),
+lI3b(NULL, PG_Rect(HM1_I3_PX,HM1_I3_PY+HM1_LY2, HM1_I3_VX-2, 20), "6 points", "GUI_LabelL"),
+lI4a(NULL, PG_Rect(HM1_I4_PX,HM1_I4_PY, HM1_I4_VX-2, 20), "GOLD", "GUI_LabelL"),
+lI4b(NULL, PG_Rect(HM1_I4_PX,HM1_I4_PY+HM1_LY2, HM1_I4_VX-2, 20), "5 points", "GUI_LabelL"),
+lI5a(NULL, PG_Rect(HM1_I5_PX,HM1_I5_PY, HM1_I5_VX-2, 20), "DRINK", "GUI_LabelL"),
+lI5b(NULL, PG_Rect(HM1_I5_PX,HM1_I5_PY+HM1_LY2, HM1_I5_VX-2, 20), "11 points", "GUI_LabelL"),
+lI6a(NULL, PG_Rect(HM1_I6_PX,HM1_I6_PY, HM1_I6_VX-2, 20), "DRINK", "GUI_LabelL"),
+lI6b(NULL, PG_Rect(HM1_I6_PX,HM1_I6_PY+HM1_LY2, HM1_I6_VX-2, 20), "13 points", "GUI_LabelL"),
 //bPrev(NULL, 2, PG_Rect(HM1_PX+5,HM1_PY+330,70,20), "PREV"),
 bReturn(NULL, 1, PG_Rect(HM1_PX+(HM1_VX-100)/2,HM1_PY+330,100,20), "RETURN"),
 bNext(NULL, 3, PG_Rect(HM1_PX+HM1_VX-5-70,HM1_PY+330,70,20), "NEXT")
 {
   Default();
 
-  Help1Menu.SetAlignment(PG_TA_CENTER);
   Help1Menu.SetFont(MainFont);
 
   AddChild(&Help1Menu);
@@ -1000,56 +1001,55 @@ GUI_Help2Menu::GUI_Help2Menu():
 GUI_BaseMenu(GUI_HELP2, PG_Rect(HM2_PX,HM2_PY,HM2_VX,HM2_VY)),
 Board1(NULL, PG_Rect(HM2_PX,HM2_PY,HM2_VX,HM2_VY), false),
 mBack1(NULL, PG_Rect(HM2_PX+1, HM2_PY+1, help2->w, help2->h), false, help2),
-Help2Menu(NULL, PG_Rect(HM2_PX+1,HM2_PY+4,HM2_VX-2,25), "Items & Ammo", false),
-lI1a(NULL, PG_Rect(HM2_I1_PX,HM2_I1_PY, HM2_I1_VX-2, 20), "SPEED", false),
-lI1b(NULL, PG_Rect(HM2_I1_PX,HM2_I1_PY+HM2_LY1, HM2_I1_VX-2, 20), "faster moving", false),
-lI2a(NULL, PG_Rect(HM2_I2_PX,HM2_I2_PY, HM2_I2_VX-2, 20), "POWER", false),
-lI2b(NULL, PG_Rect(HM2_I2_PX,HM2_I2_PY+HM2_LY1, HM2_I2_VX-2, 20), "full bomb power", false),
-lI3a(NULL, PG_Rect(HM2_I3_PX,HM2_I3_PY, HM2_I3_VX-2, 20), "SHIELD", false),
-lI3b(NULL, PG_Rect(HM2_I3_PX,HM2_I3_PY+HM2_LY1, HM2_I3_VX-2, 20), "add shields", false),
-lI4a(NULL, PG_Rect(HM2_I4_PX,HM2_I4_PY, HM2_I4_VX-2, 20), "INVISIBILITY", false),
-lI4b(NULL, PG_Rect(HM2_I4_PX,HM2_I4_PY+HM2_LY1, HM2_I4_VX-2, 20), "", false),
-lI5a(NULL, PG_Rect(HM2_I5_PX,HM2_I5_PY, HM2_I5_VX-2, 20), "PUNCH", false),
-lI5b(NULL, PG_Rect(HM2_I5_PX,HM2_I5_PY+HM2_LY1, HM2_I5_VX-2, 20), "punching bombs", false),
-lI6a(NULL, PG_Rect(HM2_I6_PX,HM2_I6_PY, HM2_I6_VX-2, 20), "WARP", false),
-lI6b(NULL, PG_Rect(HM2_I6_PX,HM2_I6_PY+HM2_LY1, HM2_I6_VX-2, 20), "add warps", false),
-lI7a(NULL, PG_Rect(HM2_I7_PX,HM2_I7_PY, HM2_I7_VX-2, 20), "GLASSES", false),
-lI7b(NULL, PG_Rect(HM2_I7_PX,HM2_I7_PY+HM2_LY1, HM2_I7_VX-2, 20), "detecting invisibles", false),
-lJ1a(NULL, PG_Rect(HM2_J1_PX,HM2_J1_PY, HM2_J1_VX-2, 20), "BECHEROMET", false),
-lJ1b(NULL, PG_Rect(HM2_J1_PX,HM2_J1_PY+HM2_LY2, HM2_J1_VX-2, 20), "enable weapon", false),
-lJ2a(NULL, PG_Rect(HM2_J2_PX,HM2_J2_PY, HM2_J2_VX-2, 20), "RAILGUN", false),
-lJ2b(NULL, PG_Rect(HM2_J2_PX,HM2_J2_PY+HM2_LY2, HM2_J2_VX-2, 20), "enable weapon", false),
-lJ3a(NULL, PG_Rect(HM2_J3_PX,HM2_J3_PY, HM2_J3_VX-2, 20), "BOMB", false),
-lJ3b(NULL, PG_Rect(HM2_J3_PX,HM2_J3_PY+HM2_LY2, HM2_J3_VX-2, 20), "enable weapon", false),
-lJ4a(NULL, PG_Rect(HM2_J4_PX,HM2_J4_PY, HM2_J4_VX-2, 20), "GRENADE", false),
-lJ4b(NULL, PG_Rect(HM2_J4_PX,HM2_J4_PY+HM2_LY2, HM2_J4_VX-2, 20), "enable weapon", false),
-lJ5a(NULL, PG_Rect(HM2_J5_PX,HM2_J5_PY, HM2_J5_VX-2, 20), "AMMO", false),
-lJ5b(NULL, PG_Rect(HM2_J5_PX,HM2_J5_PY+HM2_LY2, HM2_J5_VX-2, 20), "becheromet", false),
-lJ6a(NULL, PG_Rect(HM2_J6_PX,HM2_J6_PY, HM2_J6_VX-2, 20), "AMMO", false),
-lJ6b(NULL, PG_Rect(HM2_J6_PX,HM2_J6_PY+HM2_LY2, HM2_J6_VX-2, 20), "railgun", false),
-lJ7a(NULL, PG_Rect(HM2_J7_PX,HM2_J7_PY, HM2_J7_VX-2, 20), "AMMO", false),
-lJ7b(NULL, PG_Rect(HM2_J7_PX,HM2_J7_PY+HM2_LY2, HM2_J7_VX-2, 20), "bombs", false),
-lK1a(NULL, PG_Rect(HM2_K1_PX,HM2_K1_PY, HM2_K1_VX-2, 20), "AMMO", false),
-lK1b(NULL, PG_Rect(HM2_K1_PX,HM2_K1_PY+HM2_LY3, HM2_K1_VX-2, 20), "grenades", false),
-lK2a(NULL, PG_Rect(HM2_K2_PX,HM2_K2_PY, HM2_K2_VX-2, 20), "TURTLE", false),
-lK2b(NULL, PG_Rect(HM2_K2_PX,HM2_K2_PY+HM2_LY3, HM2_K2_VX-2, 20), "slower moving", false),
-lK3a(NULL, PG_Rect(HM2_K3_PX,HM2_K3_PY, HM2_K3_VX-2, 20), "GLUE", false),
-lK3b(NULL, PG_Rect(HM2_K3_PX,HM2_K3_PY+HM2_LY3, HM2_K3_VX-2, 20), "not able moving", false),
-lK4a(NULL, PG_Rect(HM2_K4_PX,HM2_K4_PY, HM2_K4_VX-2, 20), "REVERSE", false),
-lK4b(NULL, PG_Rect(HM2_K4_PX,HM2_K4_PY+HM2_LY3, HM2_K4_VX-2, 20), "reverse controls", false),
-lK5a(NULL, PG_Rect(HM2_K5_PX,HM2_K5_PY, HM2_K5_VX-2, 20), "LOST", false),
-lK5b(NULL, PG_Rect(HM2_K5_PX,HM2_K5_PY+HM2_LY3, HM2_K5_VX-2, 20), "disable weapons", false),
-lK6a(NULL, PG_Rect(HM2_K6_PX,HM2_K6_PY, HM2_K6_VX-2, 20), "BERSERK", false),
-lK6b(NULL, PG_Rect(HM2_K6_PX,HM2_K6_PY+HM2_LY3, HM2_K6_VX-2, 20), "kill by touch", false),
-lK7a(NULL, PG_Rect(HM2_K7_PX,HM2_K7_PY, HM2_K7_VX-2, 20), " ", false),
-lK7b(NULL, PG_Rect(HM2_K7_PX,HM2_K7_PY+HM2_LY3, HM2_K7_VX-2, 20), " ", false),
+Help2Menu(NULL, PG_Rect(HM2_PX+1,HM2_PY+4,HM2_VX-2,25), "Items & Ammo", "GUI_Label"),
+lI1a(NULL, PG_Rect(HM2_I1_PX,HM2_I1_PY, HM2_I1_VX-2, 20), "SPEED", "GUI_LabelL"),
+lI1b(NULL, PG_Rect(HM2_I1_PX,HM2_I1_PY+HM2_LY1, HM2_I1_VX-2, 20), "faster moving", "GUI_LabelL"),
+lI2a(NULL, PG_Rect(HM2_I2_PX,HM2_I2_PY, HM2_I2_VX-2, 20), "POWER", "GUI_LabelL"),
+lI2b(NULL, PG_Rect(HM2_I2_PX,HM2_I2_PY+HM2_LY1, HM2_I2_VX-2, 20), "full bomb power", "GUI_LabelL"),
+lI3a(NULL, PG_Rect(HM2_I3_PX,HM2_I3_PY, HM2_I3_VX-2, 20), "SHIELD", "GUI_LabelL"),
+lI3b(NULL, PG_Rect(HM2_I3_PX,HM2_I3_PY+HM2_LY1, HM2_I3_VX-2, 20), "add shields", "GUI_LabelL"),
+lI4a(NULL, PG_Rect(HM2_I4_PX,HM2_I4_PY, HM2_I4_VX-2, 20), "INVISIBILITY", "GUI_LabelL"),
+lI4b(NULL, PG_Rect(HM2_I4_PX,HM2_I4_PY+HM2_LY1, HM2_I4_VX-2, 20), "", "GUI_LabelL"),
+lI5a(NULL, PG_Rect(HM2_I5_PX,HM2_I5_PY, HM2_I5_VX-2, 20), "PUNCH", "GUI_LabelL"),
+lI5b(NULL, PG_Rect(HM2_I5_PX,HM2_I5_PY+HM2_LY1, HM2_I5_VX-2, 20), "punching bombs", "GUI_LabelL"),
+lI6a(NULL, PG_Rect(HM2_I6_PX,HM2_I6_PY, HM2_I6_VX-2, 20), "WARP", "GUI_LabelL"),
+lI6b(NULL, PG_Rect(HM2_I6_PX,HM2_I6_PY+HM2_LY1, HM2_I6_VX-2, 20), "add warps", "GUI_LabelL"),
+lI7a(NULL, PG_Rect(HM2_I7_PX,HM2_I7_PY, HM2_I7_VX-2, 20), "GLASSES", "GUI_LabelL"),
+lI7b(NULL, PG_Rect(HM2_I7_PX,HM2_I7_PY+HM2_LY1, HM2_I7_VX-2, 20), "detecting invisibles", "GUI_LabelL"),
+lJ1a(NULL, PG_Rect(HM2_J1_PX,HM2_J1_PY, HM2_J1_VX-2, 20), "BECHEROMET", "GUI_LabelL"),
+lJ1b(NULL, PG_Rect(HM2_J1_PX,HM2_J1_PY+HM2_LY2, HM2_J1_VX-2, 20), "enable weapon", "GUI_LabelL"),
+lJ2a(NULL, PG_Rect(HM2_J2_PX,HM2_J2_PY, HM2_J2_VX-2, 20), "RAILGUN", "GUI_LabelL"),
+lJ2b(NULL, PG_Rect(HM2_J2_PX,HM2_J2_PY+HM2_LY2, HM2_J2_VX-2, 20), "enable weapon", "GUI_LabelL"),
+lJ3a(NULL, PG_Rect(HM2_J3_PX,HM2_J3_PY, HM2_J3_VX-2, 20), "BOMB", "GUI_LabelL"),
+lJ3b(NULL, PG_Rect(HM2_J3_PX,HM2_J3_PY+HM2_LY2, HM2_J3_VX-2, 20), "enable weapon", "GUI_LabelL"),
+lJ4a(NULL, PG_Rect(HM2_J4_PX,HM2_J4_PY, HM2_J4_VX-2, 20), "GRENADE", "GUI_LabelL"),
+lJ4b(NULL, PG_Rect(HM2_J4_PX,HM2_J4_PY+HM2_LY2, HM2_J4_VX-2, 20), "enable weapon", "GUI_LabelL"),
+lJ5a(NULL, PG_Rect(HM2_J5_PX,HM2_J5_PY, HM2_J5_VX-2, 20), "AMMO", "GUI_LabelL"),
+lJ5b(NULL, PG_Rect(HM2_J5_PX,HM2_J5_PY+HM2_LY2, HM2_J5_VX-2, 20), "becheromet", "GUI_LabelL"),
+lJ6a(NULL, PG_Rect(HM2_J6_PX,HM2_J6_PY, HM2_J6_VX-2, 20), "AMMO", "GUI_LabelL"),
+lJ6b(NULL, PG_Rect(HM2_J6_PX,HM2_J6_PY+HM2_LY2, HM2_J6_VX-2, 20), "railgun", "GUI_LabelL"),
+lJ7a(NULL, PG_Rect(HM2_J7_PX,HM2_J7_PY, HM2_J7_VX-2, 20), "AMMO", "GUI_LabelL"),
+lJ7b(NULL, PG_Rect(HM2_J7_PX,HM2_J7_PY+HM2_LY2, HM2_J7_VX-2, 20), "bombs", "GUI_LabelL"),
+lK1a(NULL, PG_Rect(HM2_K1_PX,HM2_K1_PY, HM2_K1_VX-2, 20), "AMMO", "GUI_LabelL"),
+lK1b(NULL, PG_Rect(HM2_K1_PX,HM2_K1_PY+HM2_LY3, HM2_K1_VX-2, 20), "grenades", "GUI_LabelL"),
+lK2a(NULL, PG_Rect(HM2_K2_PX,HM2_K2_PY, HM2_K2_VX-2, 20), "TURTLE", "GUI_LabelL"),
+lK2b(NULL, PG_Rect(HM2_K2_PX,HM2_K2_PY+HM2_LY3, HM2_K2_VX-2, 20), "slower moving", "GUI_LabelL"),
+lK3a(NULL, PG_Rect(HM2_K3_PX,HM2_K3_PY, HM2_K3_VX-2, 20), "GLUE", "GUI_LabelL"),
+lK3b(NULL, PG_Rect(HM2_K3_PX,HM2_K3_PY+HM2_LY3, HM2_K3_VX-2, 20), "not able moving", "GUI_LabelL"),
+lK4a(NULL, PG_Rect(HM2_K4_PX,HM2_K4_PY, HM2_K4_VX-2, 20), "REVERSE", "GUI_LabelL"),
+lK4b(NULL, PG_Rect(HM2_K4_PX,HM2_K4_PY+HM2_LY3, HM2_K4_VX-2, 20), "reverse controls", "GUI_LabelL"),
+lK5a(NULL, PG_Rect(HM2_K5_PX,HM2_K5_PY, HM2_K5_VX-2, 20), "LOST", "GUI_LabelL"),
+lK5b(NULL, PG_Rect(HM2_K5_PX,HM2_K5_PY+HM2_LY3, HM2_K5_VX-2, 20), "disable weapons", "GUI_LabelL"),
+lK6a(NULL, PG_Rect(HM2_K6_PX,HM2_K6_PY, HM2_K6_VX-2, 20), "BERSERK", "GUI_LabelL"),
+lK6b(NULL, PG_Rect(HM2_K6_PX,HM2_K6_PY+HM2_LY3, HM2_K6_VX-2, 20), "kill by touch", "GUI_LabelL"),
+lK7a(NULL, PG_Rect(HM2_K7_PX,HM2_K7_PY, HM2_K7_VX-2, 20), " ", "GUI_LabelL"),
+lK7b(NULL, PG_Rect(HM2_K7_PX,HM2_K7_PY+HM2_LY3, HM2_K7_VX-2, 20), " ", "GUI_LabelL"),
 bPrev(NULL, 2, PG_Rect(HM2_PX+5,HM2_PY+365,70,20), "PREV"),
 bReturn(NULL, 1, PG_Rect(HM2_PX+(HM2_VX-100)/2,HM2_PY+365,100,20), "RETURN")
 //bNext(NULL, 3, PG_Rect(HM2_PX+HM2_VX-5-70,HM2_PY+365,70,20), "NEXT")
 {
   Default();
 
-  Help2Menu.SetAlignment(PG_TA_CENTER);
   Help2Menu.SetFont(MainFont);
   
   AddChild(&Help2Menu);

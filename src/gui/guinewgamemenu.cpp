@@ -16,27 +16,27 @@ GUI_NewGameMenu::GUI_NewGameMenu(): GUI_BaseMenu(GUI_NEWGAME, PG_Rect(NG_PX,NG_P
 
 	NGMenu = this;
 
-	NewGameMenu = new GUI_Label(this, PG_Rect(1,4,NG_VX-2,25), "NEW GAME", false);
-	lIP = new GUI_Label(this, PG_Rect(1,30,NG_VX-2,20), "<HERE COMES IP ADDRESS>", false);
-	lHost = new GUI_Label(this, PG_Rect(1,51,NG_VX-2,20), "<HERE COMES HOST NAME>", false);
-	lServerName = new GUI_Label(this, PG_Rect(1,90, 119,20), "Server name:", false);
+	NewGameMenu = new PG_Label(this, PG_Rect(1,4,NG_VX-2,25), "NEW GAME", "GUI_Label");
+	lIP = new PG_Label(this, PG_Rect(1,30,NG_VX-2,20), "<HERE COMES IP ADDRESS>", "GUI_Label");
+	lHost = new PG_Label(this, PG_Rect(1,51,NG_VX-2,20), "<HERE COMES HOST NAME>", "GUI_Label");
+	lServerName = new PG_Label(this, PG_Rect(1,90, 119,20), "Server name:", "GUI_Label");
 	eServerName = new GUI_TextEdit(this, PG_Rect(120,90,215,20));
-	lWelcomeMsg = new GUI_Label(this, PG_Rect(1,120,119,20), "Welcome msg:", false);
+	lWelcomeMsg = new PG_Label(this, PG_Rect(1,120,119,20), "Welcome msg:", "GUI_Label");
 	eWelcomeMsg = new GUI_TextEdit(this, PG_Rect(120,120,215,20));
-	lMaxClients = new GUI_Label(this, PG_Rect(1,150,119,20), "Max clients:", false);
+	lMaxClients = new PG_Label(this, PG_Rect(1,150,119,20), "Max clients:", "GUI_Label");
 	eMaxClients = new GUI_NumEdit(this, PG_Rect(120,150,80,20), 1, PWP_TOTALMAX_CLIENTS);
 
-	lChoose1 = new GUI_Label(this, PG_Rect(25,179, 150,20), "Choose map:", false);
+	lChoose1 = new PG_Label(this, PG_Rect(25,179, 150,20), "Choose map:", "GUI_Label");
 	WidgetList1 = new PG_WidgetList(this, PG_Rect(26, 201, 148, 64), "GUI_WidgetList");
 
-	lChoose2 = new GUI_Label(this, PG_Rect(25+150+10,179, 150,20), "Choose script:", false);
+	lChoose2 = new PG_Label(this, PG_Rect(25+150+10,179, 150,20), "Choose script:", "GUI_Label");
 	WidgetList2 = new PG_WidgetList(this, PG_Rect(26+150+10, 201, 148, 64), "GUI_WidgetList");
 
 	Board3 = new GUI_Board(this, PG_Rect(25, 273, NG_VX-50, 54), false, "GUI_MapInfoBoard");
-	lAuthFile = new GUI_Label(Board3, PG_Rect(2,2, NG_VX-50-8,12), "file", false);
-	lDesc1 = new GUI_Label(Board3, PG_Rect(2,14, NG_VX-50-20,12), "d1", false);
-	lDesc2 = new GUI_Label(Board3, PG_Rect(2,26, NG_VX-50-20,12), "d2", false);
-	lDesc3 = new GUI_Label(Board3, PG_Rect(2,38, NG_VX-50-20,12), "d3", false);
+	lAuthFile = new PG_Label(Board3, PG_Rect(2,2, NG_VX-50-8,12), "file", "GUI_Label");
+	lDesc1 = new PG_Label(Board3, PG_Rect(2,14, NG_VX-50-20,12), "d1", "GUI_Label");
+	lDesc2 = new PG_Label(Board3, PG_Rect(2,26, NG_VX-50-20,12), "d2", "GUI_Label");
+	lDesc3 = new PG_Label(Board3, PG_Rect(2,38, NG_VX-50-20,12), "d3", "GUI_Label");
 
 	cJoin = new GUI_CheckBox(this, PG_Rect(25,333,NG_VX-50, CB_SIZEY), "join the game after starting server", true, GUI_Gray64);
 

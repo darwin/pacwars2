@@ -10,12 +10,12 @@ GUI_JoinGameMenu* JGMenu;
 GUI_JoinGameMenu::GUI_JoinGameMenu() : GUI_BaseMenu(GUI_JOINGAME, PG_Rect(JG_PX,JG_PY,JG_VX,JG_VY)) {
 	JGMenu = this;
 
-	JoinGameMenu = new GUI_Label(this, PG_Rect(1,4,JG_VX-2,25), "JOIN GAME", false);
-	lServerAddress = new GUI_Label(this, PG_Rect(1,50, 119,20), "Server address:", false);
+	JoinGameMenu = new PG_Label(this, PG_Rect(1,4,JG_VX-2,25), "JOIN GAME", "GUI_Label");
+	lServerAddress = new PG_Label(this, PG_Rect(1,50, 119,20), "Server address:", "GUI_Label");
 	eServerAddress = new GUI_TextEdit(this, PG_Rect(120,50,215,20));
-	lClientName = new GUI_Label(this, PG_Rect(1,80, 119,20), "client name:", false);
+	lClientName = new PG_Label(this, PG_Rect(1,80, 119,20), "client name:", "GUI_Label");
 	eClientName = new GUI_TextEdit(this, PG_Rect(120,80,215,20));
-	lClientDesc = new GUI_Label(this, PG_Rect(1,110, 119,20), "client finger:", false);
+	lClientDesc = new PG_Label(this, PG_Rect(1,110, 119,20), "client finger:", "GUI_Label");
 	eClientDesc = new GUI_TextEdit(this, PG_Rect(120,110,215,20));
 	bConnect = new GUI_ButtonSmall(this, 1, PG_Rect(25,140,150,25), "CONNECT");
 	bCancel = new GUI_ButtonSmall(this, 2, PG_Rect(25+150+10,140,150,25), "BACK");

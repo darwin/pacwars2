@@ -25,8 +25,8 @@ GUI_YNDialog::GUI_YNDialog() : GUI_BaseMenu(GUI_YNDIALOG, PG_Rect(YN_PX,YN_PY,YN
 
 	Default();
 
-	YNDialog = new GUI_Label(this, PG_Rect(1,4,YN_VX-2,25), "", false);
-	lPrompt1 = new GUI_Label(this, PG_Rect(1,35, YN_VX-2,20), "", false);
+	YNDialog = new PG_Label(this, PG_Rect(1,4,YN_VX-2,25), "", "GUI_Label");
+	lPrompt1 = new PG_Label(this, PG_Rect(1,35, YN_VX-2,20), "", "GUI_Label");
 	bA = new GUI_ButtonSmall(this, 1, PG_Rect(25,65,150,25), "YES");
 	bB = new GUI_ButtonSmall(this, 2, PG_Rect(25+150+10,65,150,25), "NO");
 

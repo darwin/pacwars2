@@ -2,8 +2,8 @@
 #define GUIJOINGAMEMENU_H
 
 #include "guibasemenu.h"
+#include "pglabel.h"
 
-class GUI_Label;
 class GUI_TextEdit;
 class GUI_ButtonSmall;
 
@@ -11,13 +11,13 @@ class GUI_JoinGameMenu : public GUI_BaseMenu {
 public:
   GUI_JoinGameMenu();
 
-  GUI_Label* JoinGameMenu;
+  PG_Label* JoinGameMenu;
 
-  GUI_Label* lServerAddress;
+  PG_Label* lServerAddress;
   GUI_TextEdit* eServerAddress;
-  GUI_Label* lClientName;
+  PG_Label* lClientName;
   GUI_TextEdit* eClientName;
-  GUI_Label* lClientDesc;
+  PG_Label* lClientDesc;
   GUI_TextEdit* eClientDesc;
 
   GUI_ButtonSmall* bConnect;

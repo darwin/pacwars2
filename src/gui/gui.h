@@ -132,6 +132,7 @@ public:
 // Label
 /////////////////////////////////////////////////////////////////////////////
 
+/*
 class GUI_Label : public PG_Label {
 public:
   GUI_Label(PG_Widget* parent, const PG_Rect& r, char* text, bool storebackground = false, char* style = "GUI_Label");
@@ -141,6 +142,7 @@ class GUI_LabelC : public PG_Label {
 public:
   GUI_LabelC(PG_Widget* parent, const PG_Rect& r, char* text, bool storebackground = false);
 };
+*/
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -260,8 +262,8 @@ public:
 
   void Reset(char* title, char* line1="");
   
-  GUI_Label* OKDialog1;
-  GUI_Label* lPrompt1;
+  PG_Label* OKDialog1;
+  PG_Label* lPrompt1;
   GUI_ButtonSmall* bOK;
 
   GUI_Board* Board1;
@@ -287,9 +289,9 @@ public:
 
   void Reset(char* title, char* line1="", char* line2="");
   
-  GUI_Label* OKDialog2;
-  GUI_Label* lPrompt1;
-  GUI_Label* lPrompt2;
+  PG_Label* OKDialog2;
+  PG_Label* lPrompt1;
+  PG_Label* lPrompt2;
   GUI_ButtonSmall* bOK;
 
   GUI_Board* Board1;
@@ -507,44 +509,44 @@ public:
   
   GUI_Board Board1;
   GUI_Bitmap mBack1;
-  GUI_LabelC Help1Menu;
+  PG_Label Help1Menu;
   
-  GUI_LabelC lLine1a;
-  GUI_LabelC lLine1b;
-  GUI_LabelC lLine1c;
+  PG_Label lLine1a;
+  PG_Label lLine1b;
+  PG_Label lLine1c;
 
-  GUI_LabelC lLine2a;
-  GUI_LabelC lLine2b;
-  GUI_LabelC lLine2c;
+  PG_Label lLine2a;
+  PG_Label lLine2b;
+  PG_Label lLine2c;
 
-  GUI_LabelC lLine3a;
-  GUI_LabelC lLine3b;
-  GUI_LabelC lLine3c;
+  PG_Label lLine3a;
+  PG_Label lLine3b;
+  PG_Label lLine3c;
   
-  GUI_LabelC lLine4a;
-  GUI_LabelC lLine4b;
-  GUI_LabelC lLine4c;
+  PG_Label lLine4a;
+  PG_Label lLine4b;
+  PG_Label lLine4c;
 
-  GUI_LabelC lLine5a;
-  GUI_LabelC lLine5b;
-  GUI_LabelC lLine5c;
+  PG_Label lLine5a;
+  PG_Label lLine5b;
+  PG_Label lLine5c;
 
   GUI_ButtonSmall bReturn;
   GUI_ButtonSmall bNext;
   //GUI_ButtonSmall bPrev;
 
-  GUI_LabelC lI1a;
-  GUI_LabelC lI1b;
-  GUI_LabelC lI2a;
-  GUI_LabelC lI2b;
-  GUI_LabelC lI3a;
-  GUI_LabelC lI3b;
-  GUI_LabelC lI4a;
-  GUI_LabelC lI4b;
-  GUI_LabelC lI5a;
-  GUI_LabelC lI5b;
-  GUI_LabelC lI6a;
-  GUI_LabelC lI6b;
+  PG_Label lI1a;
+  PG_Label lI1b;
+  PG_Label lI2a;
+  PG_Label lI2b;
+  PG_Label lI3a;
+  PG_Label lI3b;
+  PG_Label lI4a;
+  PG_Label lI4b;
+  PG_Label lI5a;
+  PG_Label lI5b;
+  PG_Label lI6a;
+  PG_Label lI6b;
   
 
   void Show();
@@ -619,56 +621,56 @@ public:
   
   GUI_Board Board1;
   GUI_Bitmap mBack1;
-  GUI_LabelC Help2Menu;
+  PG_Label Help2Menu;
   
   GUI_ButtonSmall bReturn;
   //GUI_ButtonSmall bNext;
   GUI_ButtonSmall bPrev;
 
-  GUI_LabelC lI1a;
-  GUI_LabelC lI1b;
-  GUI_LabelC lI2a;
-  GUI_LabelC lI2b;
-  GUI_LabelC lI3a;
-  GUI_LabelC lI3b;
-  GUI_LabelC lI4a;
-  GUI_LabelC lI4b;
-  GUI_LabelC lI5a;
-  GUI_LabelC lI5b;
-  GUI_LabelC lI6a;
-  GUI_LabelC lI6b;
-  GUI_LabelC lI7a;
-  GUI_LabelC lI7b;
+  PG_Label lI1a;
+  PG_Label lI1b;
+  PG_Label lI2a;
+  PG_Label lI2b;
+  PG_Label lI3a;
+  PG_Label lI3b;
+  PG_Label lI4a;
+  PG_Label lI4b;
+  PG_Label lI5a;
+  PG_Label lI5b;
+  PG_Label lI6a;
+  PG_Label lI6b;
+  PG_Label lI7a;
+  PG_Label lI7b;
 
-  GUI_LabelC lJ1a;
-  GUI_LabelC lJ1b;
-  GUI_LabelC lJ2a;
-  GUI_LabelC lJ2b;
-  GUI_LabelC lJ3a;
-  GUI_LabelC lJ3b;
-  GUI_LabelC lJ4a;
-  GUI_LabelC lJ4b;
-  GUI_LabelC lJ5a;
-  GUI_LabelC lJ5b;
-  GUI_LabelC lJ6a;
-  GUI_LabelC lJ6b;
-  GUI_LabelC lJ7a;
-  GUI_LabelC lJ7b;
+  PG_Label lJ1a;
+  PG_Label lJ1b;
+  PG_Label lJ2a;
+  PG_Label lJ2b;
+  PG_Label lJ3a;
+  PG_Label lJ3b;
+  PG_Label lJ4a;
+  PG_Label lJ4b;
+  PG_Label lJ5a;
+  PG_Label lJ5b;
+  PG_Label lJ6a;
+  PG_Label lJ6b;
+  PG_Label lJ7a;
+  PG_Label lJ7b;
 
-  GUI_LabelC lK1a;
-  GUI_LabelC lK1b;
-  GUI_LabelC lK2a;
-  GUI_LabelC lK2b;
-  GUI_LabelC lK3a;
-  GUI_LabelC lK3b;
-  GUI_LabelC lK4a;
-  GUI_LabelC lK4b;
-  GUI_LabelC lK5a;
-  GUI_LabelC lK5b;
-  GUI_LabelC lK6a;
-  GUI_LabelC lK6b;
-  GUI_LabelC lK7a;
-  GUI_LabelC lK7b;
+  PG_Label lK1a;
+  PG_Label lK1b;
+  PG_Label lK2a;
+  PG_Label lK2b;
+  PG_Label lK3a;
+  PG_Label lK3b;
+  PG_Label lK4a;
+  PG_Label lK4b;
+  PG_Label lK5a;
+  PG_Label lK5b;
+  PG_Label lK6a;
+  PG_Label lK6b;
+  PG_Label lK7a;
+  PG_Label lK7b;
   
 
   void Show();

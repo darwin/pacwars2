@@ -2,8 +2,8 @@
 #define GUICLIENTMENU_H
 
 #include "guibasemenu.h"
+#include "pglabel.h"
 
-class GUI_Label;
 class GUI_CheckBox;
 class GUI_ButtonSmall;
 class GUI_TextEdit;
@@ -12,18 +12,18 @@ class GUI_ClientMenu : public GUI_BaseMenu {
 public:
   GUI_ClientMenu();
 
-  GUI_Label* ClientMenu;
+  PG_Label* ClientMenu;
 
-  GUI_Label* lClientName;
+  PG_Label* lClientName;
   GUI_TextEdit* eClientName;
-  GUI_Label* lClientDesc;
+  PG_Label* lClientDesc;
   GUI_TextEdit* eClientDesc;
 
   GUI_CheckBox* cDelTmps;
   GUI_CheckBox* cDRqs;
   GUI_CheckBox* cURqs;
 
-  GUI_Label* lEffect;
+  PG_Label* lEffect;
 
   GUI_ButtonSmall* bSet;
   GUI_ButtonSmall* bCancel;

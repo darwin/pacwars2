@@ -2,12 +2,12 @@
 #define GUIRESULTSMENU_H
 
 #include "guibasemenu.h"
+#include "pglabel.h"
+
 #include "cvar.h"
 
 #define RM_MAX_NAMES 20
 #define RM_BASE 65
-
-class GUI_Label;
 
 class GUI_ResultsMenu : public GUI_BaseMenu {
 public:
@@ -15,16 +15,16 @@ public:
 
   GUI_ResultsMenu();
   
-  GUI_Label* lResultsMenu;
-  GUI_Label* lLabel1;
+  PG_Label* lResultsMenu;
+  PG_Label* lLabel1;
 
-  GUI_Label* lNameTitle;
-  GUI_Label* lFragsTitle;
-  GUI_Label* lPointsTitle;
+  PG_Label* lNameTitle;
+  PG_Label* lFragsTitle;
+  PG_Label* lPointsTitle;
   
-  GUI_Label* lName[RM_MAX_NAMES];
-  GUI_Label* lPoints[RM_MAX_NAMES];
-  GUI_Label* lFrags[RM_MAX_NAMES];
+  PG_Label* lName[RM_MAX_NAMES];
+  PG_Label* lPoints[RM_MAX_NAMES];
+  PG_Label* lFrags[RM_MAX_NAMES];
   
   void Default();
   void Return();

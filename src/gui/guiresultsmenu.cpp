@@ -10,12 +10,12 @@
 GUI_ResultsMenu::GUI_ResultsMenu(): GUI_BaseMenu(GUI_RESULTS, PG_Rect(RM_PX,RM_PY,RM_VX,RM_VY)) 
 {
   int px, py;
-  lResultsMenu = new GUI_Label(this, PG_Rect(1,4,RM_VX-2,25), "RESULTS", false);
-  lLabel1 = new GUI_Label(this, PG_Rect(1,30,RM_VX-2,20), "Press SPACE to continue", false);
+  lResultsMenu = new PG_Label(this, PG_Rect(1,4,RM_VX-2,25), "RESULTS", "GUI_Label");
+  lLabel1 = new PG_Label(this, PG_Rect(1,30,RM_VX-2,20), "Press SPACE to continue", "GUI_Label");
   px = 0; py = 59;
-  lNameTitle = new GUI_Label(this, PG_Rect(px, py, RM_VX/2 + 20, 20), "NAME", false, "GUI_ResultTitle");
-  lFragsTitle = new GUI_Label(this, PG_Rect(px + 20 + RM_VX/2, py, 60, 20), "FRAGS", false, "GUI_ResultTitle");
-  lPointsTitle = new GUI_Label(this, PG_Rect(px + 20+60 + RM_VX/2, py, RM_VX/2-60 - 20, 20), "POINTS", false, "GUI_ResultTitle");
+  lNameTitle = new PG_Label(this, PG_Rect(px, py, RM_VX/2 + 20, 20), "NAME", "GUI_ResultTitle");
+  lFragsTitle = new PG_Label(this, PG_Rect(px + 20 + RM_VX/2, py, 60, 20), "FRAGS", "GUI_ResultTitle");
+  lPointsTitle = new PG_Label(this, PG_Rect(px + 20+60 + RM_VX/2, py, RM_VX/2-60 - 20, 20), "POINTS", "GUI_ResultTitle");
   
   lResultsMenu->SetFont(MainFont);
   
@@ -23,11 +23,11 @@ GUI_ResultsMenu::GUI_ResultsMenu(): GUI_BaseMenu(GUI_RESULTS, PG_Rect(RM_PX,RM_P
   py = 59+19;
   for (int i=0; i<RM_MAX_NAMES; i++)
   {
-    lName[i] = new GUI_Label(this, PG_Rect(px, py + i*19, RM_VX/2 + 20, 20), "", false, "GUI_ResultLine");
+    lName[i] = new PG_Label(this, PG_Rect(px, py + i*19, RM_VX/2 + 20, 20), "", "GUI_ResultLine");
     lName[i]->SetAlignment(PG_TA_LEFT);
-    lFrags[i] = new GUI_Label(this, PG_Rect(px + 20 + RM_VX/2, py + i*19, 60, 20), "", false, "GUI_ResultLine");
+    lFrags[i] = new PG_Label(this, PG_Rect(px + 20 + RM_VX/2, py + i*19, 60, 20), "", "GUI_ResultLine");
     lFrags[i]->SetAlignment(PG_TA_LEFT);
-    lPoints[i] = new GUI_Label(this, PG_Rect(px + 20 + 60 + RM_VX/2, py + i*19, RM_VX/2-60 - 20, 20), "", false, "GUI_ResultLine");
+    lPoints[i] = new PG_Label(this, PG_Rect(px + 20 + 60 + RM_VX/2, py + i*19, RM_VX/2-60 - 20, 20), "", "GUI_ResultLine");
     lPoints[i]->SetAlignment(PG_TA_LEFT);
   }
 

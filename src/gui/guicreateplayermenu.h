@@ -2,9 +2,10 @@
 #define GUICREATEPLAYERMENU_H
 
 #include "guibasemenu.h"
+#include "pglabel.h"
+
 #include "cvar.h"
 
-class GUI_Label;
 class GUI_TextEdit;
 class GUI_SkinCtrl;
 class GUI_Input;
@@ -16,11 +17,11 @@ public:
 	GUI_CreatePlayerMenu(int id, int inum);
 	int num;
 
-	GUI_Label* CreatePlayerMenu;
+	PG_Label* CreatePlayerMenu;
 
-	GUI_Label* lPName;
+	PG_Label* lPName;
 	GUI_TextEdit* ePName;
-	GUI_Label* lSkin;
+	PG_Label* lSkin;
 	GUI_TextEdit* eSkin;
 	GUI_SkinCtrl* SkinCtrl;
 
@@ -38,19 +39,19 @@ public:
 	GUI_Input* iWeapon4;
 	GUI_Input* iWeapon5;
 
-	GUI_Label* lUp;
-	GUI_Label* lDown;
-	GUI_Label* lLeft;
-	GUI_Label* lRight;
-	GUI_Label* lFire;
-	GUI_Label* lWarp;
-	GUI_Label* lShield;
+	PG_Label* lUp;
+	PG_Label* lDown;
+	PG_Label* lLeft;
+	PG_Label* lRight;
+	PG_Label* lFire;
+	PG_Label* lWarp;
+	PG_Label* lShield;
 
-	GUI_Label* lWeapon1;
-	GUI_Label* lWeapon2;
-	GUI_Label* lWeapon3;
-	GUI_Label* lWeapon4;
-	GUI_Label* lWeapon5;
+	PG_Label* lWeapon1;
+	PG_Label* lWeapon2;
+	PG_Label* lWeapon3;
+	PG_Label* lWeapon4;
+	PG_Label* lWeapon5;
 
 	GUI_ButtonSmall* bOK;
 	GUI_ButtonSmall* bCancel;

@@ -3,9 +3,9 @@
 
 #include "guibasemenu.h"
 #include "pgslider.h"
+#include "pglabel.h"
 
 class GUI_Board;
-class GUI_Label;
 class GUI_NumEdit;
 class GUI_CheckBox;
 class GUI_ButtonSmall;
@@ -25,20 +25,20 @@ public:
   GUI_SoundMenu();
 
   GUI_Board* Board1;
-  GUI_Label* SoundMenu;
-  GUI_Label* lRange;
+  PG_Label* SoundMenu;
+  PG_Label* lRange;
 
-  GUI_Label* lMusicVolume;
+  PG_Label* lMusicVolume;
   PG_Slider* eMusicVolume;
-  GUI_Label* lSoundVolume;
+  PG_Label* lSoundVolume;
   PG_Slider* eSoundVolume;
 
   GUI_CheckBox* cSwap;
   GUI_ButtonSmall* b3ds;
 
-  GUI_Label* l3dDist;
+  PG_Label* l3dDist;
   GUI_FloatEdit* e3dDist;
-  GUI_Label* l3dRoll;
+  PG_Label* l3dRoll;
   GUI_FloatEdit* e3dRoll;
 
   GUI_ButtonSmall* bSet;

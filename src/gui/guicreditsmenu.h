@@ -2,10 +2,10 @@
 #define GUICREDITSMENU_H
 
 #include "guibasemenu.h"
+#include "pglabel.h"
 
 class GUI_Board;
 class GUI_Bitmap;
-class GUI_LabelC;
 class GUI_ButtonSmall;
 
 
@@ -14,9 +14,9 @@ public:
   GUI_CreditsMenu();
 
   GUI_Bitmap* mBack1;
-  GUI_LabelC* CreditsMenu;
+  PG_Label* CreditsMenu;
 
-  GUI_LabelC* lLine[19];
+  PG_Label* lLine[19];
 
   GUI_ButtonSmall* bOK;
 

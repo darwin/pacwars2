@@ -654,6 +654,30 @@
  	    <filename name="icondown" value="woid/s1l.png"/>
 	</object>
     </widget>
-   
+
+	<widget>
+		<type value="GUI_Label"/>
+		<object>
+			<name value="Label"/>
+			<property name="alignment" value="1"/>
+		</object>
+	</widget>
+
+	<widget>
+		<type value="GUI_LabelR"/>
+		<object>
+			<name value="Label"/>
+			<property name="alignment" value="2"/>
+		</object>
+	</widget>
+
+	<widget>
+		<type value="GUI_LabelL"/>
+		<object>
+			<name value="Label"/>
+			<property name="alignment" value="0"/>
+		</object>
+	</widget>
+
 </theme>
 

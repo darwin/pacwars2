@@ -10,8 +10,8 @@
 
 GUI_DeletePlayerMenu::GUI_DeletePlayerMenu() : GUI_BaseMenu(GUI_DELETEPLAYER, PG_Rect(DPM_PX,DPM_PY,DPM_VX,DPM_VY)) {
 
-  DeletePlayerMenu = new GUI_Label(this, PG_Rect(1,4,DPM_VX-2,25), "DELETE PLAYER", false);
-  lChoose = new GUI_Label(this, PG_Rect(25,40, 159,20), "Choose player name to delete:", false);
+  DeletePlayerMenu = new PG_Label(this, PG_Rect(1,4,DPM_VX-2,25), "DELETE PLAYER", "GUI_Label");
+  lChoose = new PG_Label(this, PG_Rect(25,40, 159,20), "Choose player name to delete:", "GUI_Label");
   WidgetList = new PG_WidgetList(this, PG_Rect(26+150+10, 40, 148, 64));
   bDelete = new GUI_ButtonSmall(this, 1, PG_Rect(25,120,150,25), "DELETE");
   bCancel = new GUI_ButtonSmall(this, 2, PG_Rect(25+150+10,120,150,25), "BACK");

@@ -30,17 +30,17 @@ void GUI_SoundMenu::Return() {
 
 GUI_SoundMenu::GUI_SoundMenu() : GUI_BaseMenu(GUI_SOUND, PG_Rect(SM_PX,SM_PY,SM_VX,SM_VY)) {
 
-	SoundMenu = new GUI_Label(this, PG_Rect(1,4,SM_VX-2,25), "SOUND OPTIONS", false);
-	lRange = new GUI_Label(this, PG_Rect(1,30,SM_VX-2,20), "Edit sound properties", false);
-	lMusicVolume = new GUI_Label(this, PG_Rect(1,65, 119,20), "Music volume:", false);
+	SoundMenu = new PG_Label(this, PG_Rect(1,4,SM_VX-2,25), "SOUND OPTIONS", "GUI_Label");
+	lRange = new PG_Label(this, PG_Rect(1,30,SM_VX-2,20), "Edit sound properties", "GUI_Label");
+	lMusicVolume = new PG_Label(this, PG_Rect(1,65, 119,20), "Music volume:", "GUI_Label");
 	eMusicVolume = new PG_Slider(this, 4, PG_Rect(120,65+5,215,20),  false);
-	lSoundVolume = new GUI_Label(this, PG_Rect(1,90, 119,20), "Sound volume:", false);
+	lSoundVolume = new PG_Label(this, PG_Rect(1,90, 119,20), "Sound volume:", "GUI_Label");
 	eSoundVolume = new PG_Slider(this, 5, PG_Rect(120,90+5,215,20), 0);
 	b3ds = new GUI_ButtonSmall(this, 3, PG_Rect(25,120,310,25), "ENABLE/DISABLE 3D sound engine");
 	cSwap = new GUI_CheckBox(this, PG_Rect(25,147,310,CB_SIZEY), "swap left/right sound channel", true, GUI_Gray64);
-	l3dDist = new GUI_Label(this, PG_Rect(1,170, 119,20), "3D distance step:", false);
+	l3dDist = new PG_Label(this, PG_Rect(1,170, 119,20), "3D distance step:", "GUI_Label");
 	e3dDist = new GUI_FloatEdit(this, PG_Rect(120,170,215,20), 0, 50);
-	l3dRoll = new GUI_Label(this, PG_Rect(1,195, 119,20), "3D sound rollover:", false);
+	l3dRoll = new PG_Label(this, PG_Rect(1,195, 119,20), "3D sound rollover:", "GUI_Label");
 	e3dRoll = new GUI_FloatEdit(this, PG_Rect(120,195,215,20), 0, 50);
 	bSet = new GUI_ButtonSmall(this, 1, PG_Rect(25,225,150, 25), "APPLY");
 	bCancel = new GUI_ButtonSmall(this, 2, PG_Rect(25+150+10,225,150,25), "BACK");

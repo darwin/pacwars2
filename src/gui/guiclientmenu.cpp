@@ -4,11 +4,11 @@
 
 GUI_ClientMenu::GUI_ClientMenu() : GUI_BaseMenu(GUI_CLIENT, PG_Rect(CMS_PX,CMS_PY,CMS_VX,CMS_VY)) {
 
-	ClientMenu = new GUI_Label(this, PG_Rect(1,4,CMS_VX-2,25), "CLIENT OPTIONS", false);
-	lEffect = new GUI_Label(this, PG_Rect(1,30,CMS_VX-2,20), "This settings will affect the client side of the game.", false);
-	lClientName = new GUI_Label(this, PG_Rect(1,65, 119,20), "Station name:", false);
+	ClientMenu = new PG_Label(this, PG_Rect(1,4,CMS_VX-2,25), "CLIENT OPTIONS", "GUI_Label");
+	lEffect = new PG_Label(this, PG_Rect(1,30,CMS_VX-2,20), "This settings will affect the client side of the game.", "GUI_Label");
+	lClientName = new PG_Label(this, PG_Rect(1,65, 119,20), "Station name:", "GUI_Label");
 	eClientName = new GUI_TextEdit(this, PG_Rect(120,65,215,20));
-	lClientDesc = new GUI_Label(this, PG_Rect(1,90, 119,20), "Station finger:", false);
+	lClientDesc = new PG_Label(this, PG_Rect(1,90, 119,20), "Station finger:", "GUI_Label");
 	eClientDesc  = new GUI_TextEdit(this, PG_Rect(120,90,215,20));
 	cDelTmps = new GUI_CheckBox(this, PG_Rect(25,115,310,CB_SIZEY), "delete temporary files after transmission", false, GUI_Gray64);
 	cDRqs = new GUI_CheckBox(this, PG_Rect(25,140,310,CB_SIZEY), "allow download requests", false, GUI_Gray64);

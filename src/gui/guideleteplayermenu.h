@@ -2,10 +2,11 @@
 #define GUIDELETEPLAYERMENU_H
 
 #include "guibasemenu.h"
-#include "cvar.h"
 #include "pgwidgetlist.h"
+#include "pglabel.h"
 
-class GUI_Label;
+#include "cvar.h"
+
 class GUI_LabelL;
 class GUI_ButtonSmall;
 
@@ -13,10 +14,10 @@ class GUI_DeletePlayerMenu : public GUI_BaseMenu {
 public:
   GUI_DeletePlayerMenu();
   
-  GUI_Label* DeletePlayerMenu;
+  PG_Label* DeletePlayerMenu;
   GUI_ButtonSmall* bDelete;
   GUI_ButtonSmall* bCancel;
-  GUI_Label* lChoose;
+  PG_Label* lChoose;
   PG_WidgetList* WidgetList;
 
   GUI_LabelL* selected1; // pointer to actualy selected item

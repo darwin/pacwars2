@@ -3,9 +3,9 @@
 
 #include "guibasemenu.h"
 #include "pgwidgetlist.h"
+#include "pglabel.h"
 
 class GUI_Board;
-class GUI_Label;
 class GUI_NumEdit;
 class GUI_CheckBox;
 class GUI_ButtonSmall;
@@ -26,27 +26,27 @@ class GUI_NewGameMenu : public GUI_BaseMenu {
 public:
   GUI_NewGameMenu();
 
-  GUI_Label* NewGameMenu;
-  GUI_Label* lServerName;
+  PG_Label* NewGameMenu;
+  PG_Label* lServerName;
   GUI_TextEdit* eServerName;
-  GUI_Label* lWelcomeMsg;
+  PG_Label* lWelcomeMsg;
   GUI_TextEdit* eWelcomeMsg;
-  GUI_Label* lMaxClients;
+  PG_Label* lMaxClients;
   GUI_NumEdit* eMaxClients;
-  GUI_Label* lIP;
-  GUI_Label* lHost;
+  PG_Label* lIP;
+  PG_Label* lHost;
   GUI_ButtonSmall* bStartIt;
   GUI_ButtonSmall* bCancel;
 
-  GUI_Label* lChoose1;
-  GUI_Label* lChoose2;
+  PG_Label* lChoose1;
+  PG_Label* lChoose2;
 
   GUI_Board* Board3;
 
-  GUI_Label* lAuthFile;
-  GUI_Label* lDesc1;
-  GUI_Label* lDesc2;
-  GUI_Label* lDesc3;
+  PG_Label* lAuthFile;
+  PG_Label* lDesc1;
+  PG_Label* lDesc2;
+  PG_Label* lDesc3;
 
   GUI_CheckBox* cJoin;
 
