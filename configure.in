@@ -38,6 +38,9 @@ AM_PATH_SDL($SDL_VERSION,
 	    AC_MSG_ERROR([*** SDL version $SDL_VERSION not found!])
 )
 
+SDL_PREFIX=`sdl-config --prefix`
+AC_SUBST(SDL_PREFIX)
+
 
 dnl Check for SDL_ttf
 
@@ -50,15 +53,14 @@ if test x$have_SDL_ttf_lib = xno; then
     AC_MSG_ERROR([*** Unable to find SDL_ttf library !])
 fi
 
-AC_CHECK_HEADER(SDL_ttf.h, [have_SDL_ttf_include=yes])
-
-if test x$have_SDL_ttf_include = xno; then
-    AC_CHECK_HEADER(SDL/SDL_ttf.h, [have_SDL_ttf_include=yes])
-fi
+AC_CHECK_HEADER($SDL_PREFIX/include/SDL/SDL_ttf.h, [have_SDL_ttf_include=yes])
 
 if test x$have_SDL_ttf_include = xno; then
     AC_MSG_ERROR([*** Unable to find SDL_ttf headers !])
 fi
+
+
+dnl Check for SDL_image
 
 have_SDL_image_lib=no
 have_SDL_image_include=no
@@ -69,15 +71,30 @@ if test x$have_SDL_image_lib = xno; then
     AC_MSG_ERROR([*** Unable to find SDL_image library !])
 fi
 
-AC_CHECK_HEADER(SDL_image.h, [have_SDL_image_include=yes])
-
-if test x$have_SDL_image_include = xno; then
-    AC_CHECK_HEADER(SDL/SDL_image.h, [have_SDL_image_include=yes])
-fi
+AC_CHECK_HEADER($SDL_PREFIX/include/SDL/SDL_image.h, [have_SDL_image_include=yes])
 
 if test x$have_SDL_image_include = xno; then
     AC_MSG_ERROR([*** Unable to find SDL_image headers !])
 fi
+
+
+dnl Check for SDL_net
+
+have_SDL_net_lib=no
+have_SDL_net_include=no
+
+AC_CHECK_LIB(SDL_net, SDLNet_Init, have_SDL_net_lib=yes)
+
+if test x$have_SDL_net_lib = xno; then
+    AC_MSG_ERROR([*** Unable to find SDL_net library !])
+fi
+
+AC_CHECK_HEADER($SDL_PREFIX/include/SDL/SDL_net.h, [have_SDL_net_include=yes])
+
+if test x$have_SDL_net_include = xno; then
+    AC_MSG_ERROR([*** Unable to find SDL_net headers !])
+fi
+
 
 dnl Check for freetype
 
@@ -87,10 +104,14 @@ if test x$have_freetype = xno; then
     AC_MSG_ERROR([*** Unable to find FreeType library (http://www.freetype.org/)])
 fi
 
+
+dnl ParaGUI checks
+
 AM_PATH_PARAGUI($PARAGUI_VERSION,
             :,
             AC_MSG_ERROR([*** PARAGUI version $PARAGUI_VERSION not found!])
 )
+
 
 AM_CONFIG_HEADER(config.h)
 
