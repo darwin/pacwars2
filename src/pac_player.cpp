@@ -262,7 +262,8 @@ void GPlayer::ClientThink(Uint32 time)
       game->replicator.Mark();
       
       MoveAutonomous(&mv, time);
-//      predictor.Add(&mv);
+       ConOut("cm - %d:[%d,%d]", time, *xpos.GetValRef(), *ypos.GetValRef());
+      predictor.Add(&mv);
     }
 /*
     TICK_TYPE replay_time = MAX(last_x_tick, last_y_tick);
@@ -319,16 +320,9 @@ MoveVector GPlayer::DecodeMV(net_msg* msg, TICK_TYPE time)
   return mv;
 }
 
-
-void GPlayer::SendAdjustPosition(CReplicator* rep)
-{
-  *rep<<REP_ADJUSTPOSITION<<slot<<xpos<<ypos<<game->tick;
-}
-
-
 void GPlayer::Replication(int cnum, CReplicator* rep)
 {
-  GEntity::Replication(cnum, rep);
+  GEntity::Replication(cnum, rep); // cnum!=brain_owner || brain_owner==250); 
   
   frags.Write(rep, cnum);
   points.Write(rep, cnum);
@@ -374,9 +368,6 @@ void GPlayer::Replication(int cnum, CReplicator* rep)
 
 char GPlayer::GetReplicated(Uint8 id, net_msg* msg, TICK_TYPE time)
 {
-//  if (xpos.Read(id, msg ,time)) { last_x_tick = time; return 1; }
-//  if (ypos.Read(id, msg ,time)) { last_y_tick = time; return 1; }
-  
   if (GEntity::GetReplicated(id, msg, time)) return 1;
   
   if (frags.Read(id, msg ,time)) return 1;
@@ -1103,14 +1094,15 @@ void GPlayer::ServerThink(Uint32 time)
 void GPlayer::AdjustPosition(Uint16 nx, Uint16 ny, TICK_TYPE time)
 {
   // called from client side
+   ConOut("AP - %d:[%d,%d] (curtime=%d)", time, nx, ny, curtime);
   SetPos(nx, ny);
   Uint8 sh = predictor.head;
   predictor.head = predictor.Find(time);
-  //ConOut("AP %d, %d", time, curtime);
+//  ConOut("AP %d, %d", time, curtime);
   while (predictor.head != sh) 
   {
-    //_beep(100,100);
-    MoveAutonomous(&predictor.p[predictor.head], time);
+    MoveAutonomous(&predictor.p[predictor.head], predictor.p[predictor.head].tick);
+     ConOut("   x %d:[%d,%d]", predictor.p[predictor.head].tick, *xpos.GetValRef(), *ypos.GetValRef(), time, curtime);
     predictor.FwHead();
   }
 }

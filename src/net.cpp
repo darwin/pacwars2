@@ -142,7 +142,7 @@ void net_msg::W8(Uint8 val)
 	pos++;
 #ifdef PARANOID
 	if (pos > MSG_MAX_BODY_SIZE)
-		fprintf(stderr, "MSG: Write8 overflow");
+		ConErr( "MSG: Write8 overflow");
 #endif
 }
 
@@ -152,7 +152,7 @@ void net_msg::W16(Uint16 val)
 	pos += 2;
 #ifdef PARANOID
 	if (pos > MSG_MAX_BODY_SIZE)
-		fprintf(stderr, "MSG: Write16 overflow");
+		ConErr( "MSG: Write16 overflow");
 #endif
 }
 
@@ -162,7 +162,7 @@ void net_msg::W32(Uint32 val)
 	pos += 4;
 #ifdef PARANOID
 	if (pos > MSG_MAX_BODY_SIZE)
-		fprintf(stderr, "MSG: Write32 overflow");
+		ConErr( "MSG: Write32 overflow");
 #endif
 }
 
@@ -172,7 +172,7 @@ void net_msg::WStr(char *s)
 	pos += strlen(s) + 1;
 #ifdef PARANOID
 	if (pos > MSG_MAX_BODY_SIZE)
-		fprintf(stderr, "MSG: WriteString overflow");
+		ConErr( "MSG: WriteString overflow");
 #endif
 }
 
@@ -182,7 +182,7 @@ void net_msg::WMem(void *src, int len)
 	pos += len;
 #ifdef PARANOID
 	if (pos > MSG_MAX_BODY_SIZE)
-		fprintf(stderr, "MSG: WriteMem overflow");
+		ConErr( "MSG: WriteMem overflow");
 #endif
 }
 
@@ -192,7 +192,7 @@ Uint8 net_msg::R8(void)
 	pos++;
 #ifdef PARANOID
 	if (pos > MSG_MAX_BODY_SIZE)
-		fprintf(stderr, "MSG: Read8 overflow");
+		ConErr( "MSG: Read8 overflow");
 #endif
 	return r;
 }
@@ -203,7 +203,7 @@ Uint16 net_msg::R16(void)
 	pos += 2;
 #ifdef PARANOID
 	if (pos > MSG_MAX_BODY_SIZE)
-		fprintf(stderr, "MSG: Read16 overflow");
+		ConErr( "MSG: Read16 overflow");
 #endif
 	return r;
 }
@@ -214,7 +214,7 @@ Uint32 net_msg::R32(void)
 	pos += 4;
 #ifdef PARANOID
 	if (pos > MSG_MAX_BODY_SIZE)
-		fprintf(stderr, "MSG: Read32 overflow");
+		ConErr( "MSG: Read32 overflow");
 #endif
 	return r;
 }
@@ -225,7 +225,7 @@ char *net_msg::RStr(void)
 	pos += strlen(r) + 1;
 #ifdef PARANOID
 	if (pos > MSG_MAX_BODY_SIZE)
-		fprintf(stderr, "MSG: ReadString overflow");
+		ConErr( "MSG: ReadString overflow");
 #endif
 	return r;
 }
@@ -236,7 +236,7 @@ void net_msg::RMem(void *dest, int len)
 	pos += len;
 #ifdef PARANOID
 	if (pos > MSG_MAX_BODY_SIZE)
-		fprintf(stderr, "MSG: ReadMem overflow");
+		ConErr( "MSG: ReadMem overflow");
 #endif
 }
 
@@ -245,7 +245,7 @@ net_msg & net_msg::operator << (net_msg & right) {
 	pos += right.pos;
 #ifdef PARANOID
 	if (pos > MSG_MAX_BODY_SIZE)
-		fprintf(stderr, "MSG: msg copy overflow");
+		ConErr( "MSG: msg copy overflow");
 #endif
 	return *this;
 }
@@ -296,7 +296,7 @@ net_msg & net_msg::operator >> (net_msg & right) {
 	right.pos += pos;
 #ifdef PARANOID
 	if (right.pos > MSG_MAX_BODY_SIZE)
-		fprintf(stderr, "MSG: msg copy overflow");
+		ConErr( "MSG: msg copy overflow");
 #endif
 	return *this;
 }
@@ -457,7 +457,7 @@ int SendMsg(net_message_pool * pool, UDPsocket sock, int channel,
 	// if there is no room, kick off oldest message
 	if (i == pool->ssize) {
 		msg = oldest_msg;
-		fprintf(stderr,
+		ConErr(
 				"Net: no room for sent message, dropping oldest message\n");
 	}
 
@@ -495,7 +495,7 @@ int SendMsg(net_message_pool * pool, UDPsocket sock, int channel,
 	if (pool == &server.msg_pool)
 		sprintf(tbuf, "CLIENT: server.msg_pool");
 
-	fprintf(stderr, "%s: \tSend[%d] \t\t->%d \t\t(len=%d, resend=%d)\n",
+	ConErr( "%s: \tSend[%d] \t\t->%d \t\t(len=%d, resend=%d)\n",
 			tbuf, msg->id, channel, len, resend);
 #endif
 	int retcode = SDLNet_UDP_Send(sock, channel, msg->packet);
@@ -556,7 +556,7 @@ int ReceiveMsg(net_message_pool * pool, UDPsocket sock, int channel,
 	// check if packet is confirming message
 	if (mNUM == 0) {
 #ifdef NET_LOGGING
-		fprintf(stderr, "%s: \tConfirmation[%d] \t->%d\n", tbuf, mCRC,
+		ConErr( "%s: \tConfirmation[%d] \t->%d\n", tbuf, mCRC,
 				channel);
 #endif
 		msg = pool->smessages;
@@ -570,7 +570,7 @@ int ReceiveMsg(net_message_pool * pool, UDPsocket sock, int channel,
 			}
 			msg++;
 		}
-		fprintf(stderr, "Net: duplicit confirmation packet(%d)\n", mCRC);
+		ConErr( "Net: duplicit confirmation packet(%d)\n", mCRC);
 		return 0;
 	}
 	// check CRC
@@ -594,7 +594,7 @@ int ReceiveMsg(net_message_pool * pool, UDPsocket sock, int channel,
 	pool->rmessages[pool->rpos] = mNUM;
 
 #ifdef NET_LOGGING
-	fprintf(stderr, "%s: \tReceive[%d] \t\t<-%d\n", tbuf, mNUM, channel);
+	ConErr( "%s: \tReceive[%d] \t\t<-%d\n", tbuf, mNUM, channel);
 #endif
   CONFIRM:
 	if (confirm) {
@@ -619,7 +619,7 @@ int ResendMsgs(net_message_pool * pool, UDPsocket sock)
 			msg->times++;
 			if (msg->times >= PWP_MAX_RESENDS) {
 				msg->state = PS_UNUSED;
-				fprintf(stderr,
+				ConErr(
 						"Net: max_resends exceeds - packet(%d) was lost\n",
 						msg->id);
 				continue;
@@ -628,7 +628,7 @@ int ResendMsgs(net_message_pool * pool, UDPsocket sock)
 			msg->sended = SDL_GetTicks();
 			msg->timeout += msg->sended;
 			SDLNet_UDP_Send(sock, msg->packet->channel, msg->packet);
-			fprintf(stderr, "Net: resend packet(%d) to %d\n", msg->id,
+			ConErr( "Net: resend packet(%d) to %d\n", msg->id,
 					msg->packet->channel);
 		}
 		msg++;
@@ -657,14 +657,14 @@ int CreatePool(net_message_pool * pool, int send_size, int rec_size,
 	pool->ssize = send_size;
 	pool->rmessages = (Uint16 *) malloc(rec_size * sizeof(Uint16));
 	if (!pool->rmessages) {
-		fprintf(stderr,
+		ConErr(
 				"Net: Couldn't allocate rmessages: Out of memory\n");
 		return 1;
 	}
 	pool->smessages =
 		(net_message *) malloc(send_size * sizeof(net_message));
 	if (!pool->smessages) {
-		fprintf(stderr,
+		ConErr(
 				"Net: Couldn't allocate smessages: Out of memory\n");
 		return 1;
 	}
@@ -672,7 +672,7 @@ int CreatePool(net_message_pool * pool, int send_size, int rec_size,
 	for (int i = 0; i < pool->ssize; i++) {
 		pool->smessages[i].packet = SDLNet_AllocPacket(packet_size);
 		if (!pool->smessages[i].packet) {
-			fprintf(stderr,
+			ConErr(
 					"Net: Couldn't allocate packets (pool): Out of memory\n");
 			return 1;
 		}
@@ -813,7 +813,7 @@ void NetCleanup(void)
 int InitNet()
 {
 	if (SDLNet_Init() < 0) {
-		fprintf(stderr, "Couldn't initialize net: %s\n",
+		ConErr( "Couldn't initialize net: %s\n",
 				SDLNet_GetError());
 		return 1;
 	}
@@ -821,7 +821,7 @@ int InitNet()
 
 	confirm_packet = SDLNet_AllocPacket(MSG_HEADER_SIZE + 1);
 	if (confirm_packet == NULL) {
-		fprintf(stderr,
+		ConErr(
 				"Couldn't allocate packet (InitNet): Out of memory\n");
 		return 1;
 	}

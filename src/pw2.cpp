@@ -457,6 +457,7 @@ void RenderMapScreen(CGame & game)
 {
   SDL_Rect view;
   
+  SDL_PumpEvents();    
   if (game.map.DrawBG(screen, game.vars.camx, game.vars.camy) == 1) {
     //    MapRestore();
   }
@@ -467,7 +468,10 @@ void RenderMapScreen(CGame & game)
   view.h = MSCRH;
   for (GAME_MAXOBJS_TYPE i = 0; i < GAME_MAX_OBJS; i++) {
     if (game.objs[i]->state & OSTATE_ACTIVE)
+    {
+      SDL_PumpEvents();    
       game.objs[i]->Draw(screen, &view);
+    }
   }
   
   game.map.DrawFG(screen, game.vars.camx, game.vars.camy);
@@ -3060,14 +3064,8 @@ void Renderscreen(SDL_Surface * screen)
           }
         }
       }
-      
-      
-      
     }
-    
   }
-  
-  
   counter++;
 }
 
@@ -3077,7 +3075,12 @@ void DoneMap()
   MapFreeMem();
 }
 
-//extern "C" HWND ReturnSDLHWND();  //woid
+
+Uint32 EventTimerCB(Uint32 interval, void *param)
+{
+  SDL_PumpEvents();
+  return 1;
+}
 
 //###########################################################################
 //## Program entry point
@@ -3122,21 +3125,6 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
 #else
   LoadConfig(PW_CONFIG_FILE);
 #endif
-  
-  PG_Application app;
-  strcpy(fname, gui_dir.string);
-  if (fname[strlen(fname) - 1] == '/')
-    fname[strlen(fname) - 1] = 0;
-  app.SetApplicationPath(fname);
-  fprintf(stderr, "loading theme %s from %s\n", theme.string, fname);
-  if (!app.LoadTheme(theme.string, true, fname))
-  {
-    fprintf(stderr, "Couldn't load menu theme %s from %s\nCheck config.cfg for \"gui_dir\" and \"theme\"\n", theme.string, gui_dir.string);
-    if (!app.LoadTheme(DEFAULT_THEME, true, fname)) {
-      fprintf(stderr, "Couldn't load default menu theme %s from %s\n", DEFAULT_THEME, gui_dir.string);
-      exit(2);
-    }
-  }
   
   Uint32 videoflags;
   
@@ -3253,11 +3241,26 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
   
   // Initialize SDL
   fprintf(stderr, "initing SDL\n");
-  if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO|SDL_INIT_NOPARACHUTE) < 0) {
+  if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO|SDL_INIT_NOPARACHUTE|SDL_INIT_TIMER ) < 0) {
     fprintf(stderr, "Couldn't initialize SDL: %s\n", SDL_GetError());
     exit(1);
   }
   atexit(SDL_Quit);
+  
+  PG_Application app;
+  strcpy(fname, gui_dir.string);
+  if (fname[strlen(fname) - 1] == '/')
+    fname[strlen(fname) - 1] = 0;
+  app.SetApplicationPath(fname);
+  fprintf(stderr, "loading theme %s from %s\n", theme.string, fname);
+  if (!app.LoadTheme(theme.string, true, fname))
+  {
+    fprintf(stderr, "Couldn't load menu theme %s from %s\nCheck config.cfg for \"gui_dir\" and \"theme\"\n", theme.string, gui_dir.string);
+    if (!app.LoadTheme(DEFAULT_THEME, true, fname)) {
+      fprintf(stderr, "Couldn't load default menu theme %s from %s\n", DEFAULT_THEME, gui_dir.string);
+      exit(2);
+    }
+  }
   
   // Intialize network
   fprintf(stderr, "initing net\n");
@@ -3642,21 +3645,26 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
     CommandExecuteOut("ss");
   }
  
+  SDL_TimerID event_timer_id = SDL_AddTimer(100, EventTimerCB, 0);
+
   fprintf(stderr, "entering main loop\n");
   GUI_OpenMenu(GUI_MAINMENU);
   inloop = true;
   while (MainProgram) {
     PollNet();
+    SDL_PumpEvents();    
     
     // ====== new tick ======
     ticktime = SDL_GetTicks();
     if (server_info.active) {
       SV_Move(ticktime);
+      SDL_PumpEvents();    
     }
     ticktime = SDL_GetTicks();
     if (client_info.active) {
       CL_Move(ticktime);
       client_info.game.UpdateGamebarSlots();
+      SDL_PumpEvents();    
     } 
     
     if (!GUI_menu && waiting_connection) {
@@ -3735,8 +3743,10 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
     }
     
     ProcessEvents();
+    SDL_PumpEvents();    
     if (MainProgram)
       Renderscreen(screen);
+    SDL_PumpEvents();    
     
     if (InfoDown) {
       // print the framerate
@@ -3766,11 +3776,12 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
       sprintf(genstr, "client ticks %d", client_info.game.tick);
       DrawText(genstr, screen, SmallFont, INFO_BASEX + screen->w - 160, INFO_BASEY + 5 * 13);
       
-      sprintf(genstr, "transfer %d / %d", server.zs.total_in,
-        server.zs.total_out);
+      sprintf(genstr, "transfer %d / %d", server.zs.total_in, server.zs.total_out);
       DrawText(genstr, screen, SmallFont, INFO_BASEX + screen->w - 160, INFO_BASEY + 8 * 13);
+
     }
     
+    SDL_PumpEvents();    
     if (MapLoaded != 2) {
       sprintf(genstr, "PW2 v%d.%02d build %04d", VERSION_MAJOR,
         VERSION_MINOR, build_number);
@@ -3781,6 +3792,7 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
     if (NetStatsDown)
       DrawNetStats();
     
+    SDL_PumpEvents();    
     if (GUI_menu) {
       if (enable_menu_music) {
         Play_Music(menu_music_file.string);
@@ -3796,7 +3808,7 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
       
       SDL_SetColorKey(app.GetScreen(), SDL_SRCCOLORKEY, 0x0);
 
-		// will change that again -- Alex
+		  // will change that again -- Alex
       if (GUI_id != GUI_MAINMENU) {
         GUI_menu->DrawHLine(0, 0, GUI_menu->w-1, 255, 255, 255);
         GUI_menu->DrawHLine(0, GUI_menu->h-1, GUI_menu->w, 255, 255, 255);
@@ -3811,6 +3823,7 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
         screen->h - 1 * 13);
     }
     
+    SDL_PumpEvents();    
     if (ConsoleDown)
       DrawConsole();
     else {
@@ -3822,14 +3835,18 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
       DrawChat(screen);
     }
     
+    SDL_PumpEvents();    
     UpdateMouse();
     DrawMouse(screen);
     SDL_Flip(screen);
+    SDL_PumpEvents();    
     if (want_quit) App_Quit();
   }
   inloop = false;
   
   SDL_Delay(1000);			// wait for byebye sound
+
+  SDL_RemoveTimer(event_timer_id);
   
   MapFreeMem();
 
@@ -3842,6 +3859,7 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
   DoneScripting();			// Done scripting engine
   
   SDL_FreeSurface(app.GetScreen());
+  app.SetScreen(screen);
 
   SpriteMan.Destroy();
   SkinMan.Destroy();

@@ -674,7 +674,7 @@ int HandleServerMessage()
     {
       if ((cnum>=server_info.maxclients) || (client[cnum].status==CS_UNUSED))
       {
-        fprintf(stderr, "%d>Server: received bad client msg_packet ID=%d from %s !\n", server_info.ticks, msg_spackets[n]->data[POS_MSG_ID], AddrToS(&msg_spackets[n]->address));
+        ConErr("%d>Server: received bad client msg_packet ID=%d from %s !\n", server_info.ticks, msg_spackets[n]->data[POS_MSG_ID], AddrToS(&msg_spackets[n]->address));
         continue;
       }
       aclient = &client[cnum];
@@ -763,7 +763,7 @@ int HandleServerMessage()
         else
           if (!CheckFileName((char*)&MSG.buf[POS_MSG_FN]))
           {
-            fprintf(stderr, "%d>Server: invalid download request %s (packet ID=%d from %s) !\n", server_info.ticks, (char*)&MSG.buf[POS_MSG_FN], msg_spackets[n]->data[POS_MSG_ID], AddrToS(&msg_spackets[n]->address));
+            ConErr("%d>Server: invalid download request %s (packet ID=%d from %s) !\n", server_info.ticks, (char*)&MSG.buf[POS_MSG_FN], msg_spackets[n]->data[POS_MSG_ID], AddrToS(&msg_spackets[n]->address));
           }
           else
           {
@@ -781,7 +781,7 @@ int HandleServerMessage()
         else
           if (!CheckFileName((char*)&MSG.buf[POS_MSG_FN]))
           {
-            fprintf(stderr, "%d>Server: invalid upload request %s (packet ID=%d from %s) !\n", server_info.ticks, (char*)&MSG.buf[POS_MSG_FN], msg_spackets[n]->data[POS_MSG_ID], AddrToS(&msg_spackets[n]->address));
+            ConErr("%d>Server: invalid upload request %s (packet ID=%d from %s) !\n", server_info.ticks, (char*)&MSG.buf[POS_MSG_FN], msg_spackets[n]->data[POS_MSG_ID], AddrToS(&msg_spackets[n]->address));
           }
           else
           {
@@ -815,7 +815,7 @@ int HandleServerMessage()
         
         
       default:
-        fprintf(stderr, "%d>Server: Unresolved message packet ID=%d from %s !\n", server_info.ticks, msg_spackets[n]->data[POS_MSG_ID], AddrToS(&msg_spackets[n]->address));
+        ConErr("%d>Server: Unresolved message packet ID=%d from %s !\n", server_info.ticks, msg_spackets[n]->data[POS_MSG_ID], AddrToS(&msg_spackets[n]->address));
       }        
     }
     else // we've got unbound packet
@@ -833,7 +833,7 @@ int HandleServerMessage()
             msg_spackets[n]->data[POS_MSG_ID+3]!=57 ||
             msg_spackets[n]->data[POS_MSG_ID+4]!=127)
         {
-            fprintf(stderr, "%d>Server: bad LOGIN MAGICK\n", server_info.ticks);
+            ConErr("%d>Server: bad LOGIN MAGICK\n", server_info.ticks);
             return 0;
         }
           
@@ -847,7 +847,7 @@ int HandleServerMessage()
             {
               if (client[i].status==CS_ACTIVE)
               {
-                fprintf(stderr, "%d>Server: multiple LOGIN attemp\n", server_info.ticks);
+                ConErr("%d>Server: multiple LOGIN attemp\n", server_info.ticks);
                 return 0;
               }
               if (client[i].status==CS_PREPARING) 
@@ -895,7 +895,7 @@ LOSTWELCOME:
             SendMsg(&tmp_pool, msg_ssock, server_info.maxclients, msg_spacket->data, msg_spacket->len, true, RESEND_SYSTEM);
             SDLNet_UDP_Unbind(msg_ssock, server_info.maxclients);
             DestroyPool(&tmp_pool);
-            fprintf(stderr, "%d>Server: no more room to log on server\n", server_info.ticks);
+            ConErr("%d>Server: no more room to log on server\n", server_info.ticks);
           } 
           else 
           {
@@ -942,7 +942,7 @@ LOSTWELCOME:
           SendMsg(&tmp_pool, msg_ssock, server_info.maxclients, msg_spacket->data, msg_spacket->len, true, RESEND_SYSTEM);
           SDLNet_UDP_Unbind(msg_ssock, server_info.maxclients);
           DestroyPool(&tmp_pool);
-          fprintf(stderr, "%d>Server: attempt to connection when server is not running\n", server_info.ticks);
+          ConErr("%d>Server: attempt to connection when server is not running\n", server_info.ticks);
         }
         break;
       }
@@ -1186,7 +1186,6 @@ char SV_ParseReplication(net_msg * msg, TICK_TYPE time, int cnum)
   MoveVector mv;
   Uint16 oid;
 
-  static Uint16 last_move_tick = 0;
   while (rep_code!=REP_END) {
     (*msg)>>rep_code;
     switch (rep_code) {
@@ -1196,33 +1195,15 @@ char SV_ParseReplication(net_msg * msg, TICK_TYPE time, int cnum)
       if (obj->oid!=oid) break;  // move was made for old player
 
       if (obj->GetType()!=ot_player) 
-        fprintf(stderr, "%d>Server: error SV_ParseReplication SERVERMOVE for non-player object", server_info.ticks);
+        ConErr("%d>Server: error SV_ParseReplication SERVERMOVE for non-player object", server_info.ticks);
       else
       {
         player = (GPlayer*)obj;
         mv = player->DecodeMV(msg, time);
         // do move in global game state
-        //if (rand()%2==0) { ConOutEx(SERVER_FONT, "lost"); continue;}   // lost simulation
+        //if (rand()%100==0) { ConOutEx(SERVER_FONT, "lost"); continue;}   // lost simulation
 
-        if (mv.tick>=last_move_tick)
-        {
-          player->ServerMove(&mv);
-//          player->xpos.MakeDirty(-1, true);
-//          player->ypos.MakeDirty(-1, true);
-          
-/*          client[cnum].replicator.Reset();
-          client[cnum].replicator.SetLayer(1);
-          // adjust position
-          player->SendAdjustPosition(&client[cnum].replicator);
-          client[cnum].replicator.Mark();
-*/
-          
-        }
-        else // packets were switched
-        {
-          // musime zahodit ?
-//          player->ServerMove(&mv);
-        }
+        player->ServerMove(&mv);
       }
       
       break;
@@ -1230,14 +1211,14 @@ char SV_ParseReplication(net_msg * msg, TICK_TYPE time, int cnum)
       break;
       
     case REP_REPLICATION: 
-      fprintf(stderr, "%d>Server: error SV_ParseReplication forbiden rep_code=%d\n", server_info.ticks, rep_code);
+      ConErr("%d>Server: error SV_ParseReplication forbiden rep_code=%d\n", server_info.ticks, rep_code);
       break;
       
     default: 
-      fprintf(stderr, "%d>Server: error SV_ParseReplication unknown rep_code=%d\n", server_info.ticks, rep_code);
+      ConErr("%d>Server: error SV_ParseReplication unknown rep_code=%d\n", server_info.ticks, rep_code);
     }
   }
-  
+
   return 1;
 }
 
@@ -1251,7 +1232,7 @@ int HandleServerGame(Uint32 deltaticks)
   net_client* aclient;
   
   TICK_TYPE incoming_tick;
-  
+
   n = SDLNet_UDP_RecvV(game_ssock, game_spackets);
   while ( n-- > 0 ) 
   {
@@ -1260,7 +1241,7 @@ int HandleServerGame(Uint32 deltaticks)
     {
       if ((cnum>=server_info.maxclients) || (client[cnum].status==CS_UNUSED))
       {
-        fprintf(stderr, "%d>Server: received bad client game_packet ID=%d from %s !\n", server_info.ticks, game_spackets[n]->data[POS_MSG_ID], AddrToS(&game_spackets[n]->address));
+        ConErr("%d>Server: received bad client game_packet ID=%d from %s !\n", server_info.ticks, game_spackets[n]->data[POS_MSG_ID], AddrToS(&game_spackets[n]->address));
         continue;
       }
       aclient = &client[cnum];
@@ -1272,18 +1253,36 @@ int HandleServerGame(Uint32 deltaticks)
       // let's parse client's packet
       GMP>>incoming_tick;
       // momentalne zahazuju zpravy "z budoucnosti" - teorie relativity tady selhava ;))
-      //      if (server_info.ticks+deltaticks>=incoming_tick)
+      //if (server_info.ticks>=incoming_tick)
       {
         if (!SV_ParseReplication(&GMP, incoming_tick, cnum))
         {
-          fprintf(stderr, "%d>Server: error parsing client replication - incomingtick=%d !\n", server_info.ticks, incoming_tick);
+          ConErr("%d>Server: error parsing client replication - incomingtick=%d !\n", server_info.ticks, incoming_tick);
           continue;
         }
       }
-      // else TODO: vratit message do fronty ? to se jste nevi ...
     }
   }
   
+ 	for (GAME_MAXOBJS_TYPE i = 0; i < GAME_MAX_OBJS; i++) 
+  {
+		if (server_info.game.objs[i]->GetType()==ot_player)
+    {
+      GPlayer* player = (GPlayer*)server_info.game.objs[i];
+      if (player->brain_owner!=250 && (player->xpos.IsDirty(cnum) || player->ypos.IsDirty(cnum)))
+      {
+        client[cnum].replicator.SetLayer(1);
+        // adjust position
+        client[player->brain_owner].replicator<<REP_ADJUSTPOSITION<<player->slot<<player->xpos<<player->ypos<<server_info.ticks<<player->oid;
+        client[player->brain_owner].replicator.Mark();
+        player->xpos.MakeDirty(player->brain_owner, false);
+        player->ypos.MakeDirty(player->brain_owner, false);
+        ConOut("SS - %d:[%d,%d]", server_info.ticks, *player->xpos.GetValRef(), *player->ypos.GetValRef());
+      }
+
+    }
+	}
+
   return 0;
 }
 
@@ -1322,10 +1321,8 @@ void SV_Move(Uint32 ticktime)
     
     // updatuj animace - nemaji vliv na stav hry
     server_info.game.map.UpdateAnims();
-    // TODO: spust mapovej skript pro tento tick
     
     // simuluj objekty
-    // TODO: konfrontuj objekty
     for (int j=0; j<THINKINGS_PER_TICK; j++)
     {
       server_info.game.ServerThink(server_info.ticks);            
@@ -1345,8 +1342,9 @@ void SV_Move(Uint32 ticktime)
       {
         if (client[i].status==CS_ACTIVE) 
         {
+          //client[i].replicator.Reset();
+          //server_info.game.ServerAdjustPositions(i, client[i].replicator, server_info.ticks);
           // replicate client's data according to server game state
-          //          client[i].game.replicator.Reset(); // kvuli (**)
           server_info.game.ServerReplicate(i, client[i].replicator, server_info.ticks);
           
           if (client[i].replicator.dirty) // does client need update ?
@@ -1453,13 +1451,13 @@ void SV_DestroyPlayer(net_msg * MSG, int owner)
     }
     else
     {
-      fprintf(stderr, "%d>Server: client ID=%d tried to destroy not owned player \"%s\"!\n", server_info.ticks, owner, (const char *)&MSG->buf[POS_MSG_DESTROY_PLNAME]);
+      ConErr("%d>Server: client ID=%d tried to destroy not owned player \"%s\"!\n", server_info.ticks, owner, (const char *)&MSG->buf[POS_MSG_DESTROY_PLNAME]);
       SV_ClientPrintf(owner, "Server: you do not own player \"%s\"", p->player_name.GetValRef()->chars);
     }
   }
   else
   {
-    fprintf(stderr, "%d>Server: DestroyPlayer - tried to destroy non-exist player \"%s\"\n", server_info.ticks, (const char *)&MSG->buf[POS_MSG_DESTROY_PLNAME]);
+    ConErr("%d>Server: DestroyPlayer - tried to destroy non-exist player \"%s\"\n", server_info.ticks, (const char *)&MSG->buf[POS_MSG_DESTROY_PLNAME]);
     SV_ClientPrintf(owner, "Server: no such a player \"%s\"", &MSG->buf[POS_MSG_DESTROY_PLNAME]);
   }
 }
@@ -1492,13 +1490,13 @@ void SV_SkinPlayer(net_msg * MSG, int owner)
     }
     else
     {
-      fprintf(stderr, "%d>Server: client ID=%d tried to skin not owned player \"%s\"!\n", server_info.ticks, owner, (const char *)&MSG->buf[POS_MSG_SKIN_PLNAME]);
+      ConErr("%d>Server: client ID=%d tried to skin not owned player \"%s\"!\n", server_info.ticks, owner, (const char *)&MSG->buf[POS_MSG_SKIN_PLNAME]);
       SV_ClientPrintf(owner, "Server: you do not own player \"%s\"", p->player_name.GetValRef()->chars);
     }
   }
   else
   {
-    fprintf(stderr, "%d>Server: SkinPlayer - tried to skin non-exist player \"%s\"\n", server_info.ticks, (const char *)&MSG->buf[POS_MSG_SKIN_PLNAME]);
+    ConErr("%d>Server: SkinPlayer - tried to skin non-exist player \"%s\"\n", server_info.ticks, (const char *)&MSG->buf[POS_MSG_SKIN_PLNAME]);
     SV_ClientPrintf(owner, "Server: no such a player \"%s\"", &MSG->buf[POS_MSG_SKIN_PLNAME]);
   }
 }

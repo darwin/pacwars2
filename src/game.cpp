@@ -193,11 +193,11 @@ int CGame::RebornObject(Uint16 id, GAME_MAXOBJS_TYPE slot, Uint8 ot)
 		break;
 
 	case ot_entity:
-		fprintf(stderr, "RebornObject: attempt to create abstract object");
+		ConErr( "RebornObject: attempt to create abstract object");
 		return 3;
 
 	default:
-		fprintf(stderr,
+		ConErr(
 				"RebornObject: attempt to reborn to unknown object");
 	}
 
@@ -213,12 +213,12 @@ int CGame::RebornObject(Uint16 id, GAME_MAXOBJS_TYPE slot, Uint8 ot)
 GAME_MAXOBJS_TYPE CGame::FindUnusedSlot()
 {
 	if (state == GS_CLIENT)
-		fprintf(stderr, "CLIENT MADE NEW OBJECT !!!\n");
+		ConErr( "CLIENT MADE NEW OBJECT !!!\n");
 	for (GAME_MAXOBJS_TYPE i = 0; i < GAME_MAX_OBJS; i++) {
 		if (!(objs[i]->state & OSTATE_ACTIVE))
 			return i;
 	}
-	fprintf(stderr, "FindUnusedSlot: no unused slot available");
+	ConErr( "FindUnusedSlot: no unused slot available");
 	return 0;
 }
 
@@ -644,6 +644,27 @@ void CGame::RenderResults(SDL_Surface * screen, int font)
 	DrawText(line, screen, font, px, py);
 }
 
+char CGame::ServerAdjustPositions(int cnum, CReplicator & rep, TICK_TYPE time)
+{
+	for (GAME_MAXOBJS_TYPE i = 0; i < GAME_MAX_OBJS; i++) 
+  {
+    if (objs[i]->GetType()==ot_player && ((GPlayer*)objs[i])->brain_owner==cnum) 
+    {
+      GPlayer* player = (GPlayer*)objs[i];
+      if (player->xpos.IsDirty(cnum) || player->ypos.IsDirty(cnum))
+      {
+        rep.SetLayer(1);
+        // adjust position
+        rep<<REP_ADJUSTPOSITION<<i<<player->xpos<<player->ypos<<time<<player->oid;
+        rep.Mark();
+        player->xpos.MakeDirty(cnum, false);
+        player->ypos.MakeDirty(cnum, false);
+      }
+    }
+	}
+
+	return 1;
+}
 
 char CGame::ServerReplicate(int cnum, CReplicator & rep, TICK_TYPE time)
 {
@@ -654,42 +675,44 @@ char CGame::ServerReplicate(int cnum, CReplicator & rep, TICK_TYPE time)
 	for (GAME_MAXOBJS_TYPE i = 0; i < GAME_MAX_OBJS; i++) {
 		Uint8 ot = objs[i]->GetType();
 		bool relevant = true;
-		/*if (vars.chasing!=-1)
-		   {
-		   if ((objs[i]->state&OSTATE_ACTIVE) && (objs[vars.chasing]->state&OSTATE_ACTIVE) 
-		   && objs[vars.chasing]->GetType()==ot_player && vars.chasing!=i)
-		   {
-		   GPlayer* p = (GPlayer*)objs[vars.chasing];
-		   if (ot==ot_player || ot==ot_bomb || ot==ot_rail || ot==ot_shot || ot==ot_grenade || 
-		   ot==ot_fray || ot==ot_entity || ot==ot_extra || ot==ot_bshot)
-		   {
-		   if (p->Destination((GEntity*)objs[i])>RELEVANT_DESTINATION*16) 
-		   relevant = false;
-		   }
-		   }
-		   } */
-
-		if (relevant || objs[i]->was_relevant) {
-			bool sd = rep.dirty;
-
-			Uint8 layer = LAY_REPLICATION;
-			Uint16 base;
-			rep.SetLayer(layer);
-
-			base = rep.pos[layer];
-			rep << REP_REPLICATION << i << objs[i]->oid << ot;	// write REP_CODE header
-			rep.dirty = false;
-
-			objs[i]->Replication(cnum, &rep);
-			// did the object any replication ?
-			if (!rep.dirty) {
-				rep.pos[layer] = base;	// clear REP_CODE
-			} else {
-				rep.Mark();		// mark data block
-			}
-
-			rep.dirty = sd || rep.dirty;
-		}
+/*
+    if (vars.chasing!=-1)
+    {
+      if ((objs[i]->state&OSTATE_ACTIVE) && (objs[vars.chasing]->state&OSTATE_ACTIVE) 
+        && objs[vars.chasing]->GetType()==ot_player && vars.chasing!=i)
+      {
+        GPlayer* p = (GPlayer*)objs[vars.chasing];
+        if (ot==ot_player || ot==ot_bomb || ot==ot_rail || ot==ot_shot || ot==ot_grenade || 
+          ot==ot_fray || ot==ot_entity || ot==ot_extra || ot==ot_bshot)
+        {
+          if (p->Destination((GEntity*)objs[i])>RELEVANT_DESTINATION*16) 
+            relevant = false;
+        }
+      }
+    } 
+*/
+    if (relevant || objs[i]->was_relevant) 
+    {
+      bool sd = rep.dirty;
+      
+      Uint8 layer = LAY_REPLICATION;
+      Uint16 base;
+      rep.SetLayer(layer);
+      
+      base = rep.pos[layer];
+      rep << REP_REPLICATION << i << objs[i]->oid << ot;	// write REP_CODE header
+      rep.dirty = false;
+      
+      objs[i]->Replication(cnum, &rep);
+      // did the object any replication ?
+      if (!rep.dirty) {
+        rep.pos[layer] = base;	// clear REP_CODE
+      } else {
+        rep.Mark();		// mark data block
+      }
+      
+      rep.dirty = sd || rep.dirty;
+    }
 
 		objs[i]->was_relevant = relevant;
 	}

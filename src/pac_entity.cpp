@@ -162,14 +162,15 @@ void GEntity::Draw(SDL_Surface * screen, SDL_Rect * screen_rect, Uint16 x, Uint1
 }
 
 
-void GEntity::Replication(int cnum, CReplicator* rep)
+void GEntity::Replication(int cnum, CReplicator* rep, bool replicate_position)
 {
   GObj::Replication(cnum, rep);
 
-//  if (role!=ROLE_AutonomousProxy) 
+  if (replicate_position) 
+  {
     xpos.Write(rep, cnum);
-//  if (role!=ROLE_AutonomousProxy) 
     ypos.Write(rep, cnum);
+  }
   frame.Write(rep, cnum);
   anim.Write(rep, cnum);
   framedelay.Write(rep, cnum);
@@ -177,28 +178,16 @@ void GEntity::Replication(int cnum, CReplicator* rep)
   ysize.Write(rep, cnum);
 }
 
-char GEntity::GetReplicated(Uint8 id, net_msg* msg, TICK_TYPE time)
+char GEntity::GetReplicated(Uint8 id, net_msg* msg, TICK_TYPE time, bool replicate_position)
 {
   if (GObj::GetReplicated(id, msg, time)) return 1;
   
-//  if (role!=ROLE_AutonomousProxy)
+  if (replicate_position) 
   {
     if (xpos.Read(id, msg ,time)) return 1;
-  }
-/*  else
-  { 
-    if (xpos.ReadAndDiscard(id, msg ,time)) return 1;
-  }
-*/    
-//  if (role!=ROLE_AutonomousProxy) 
-  {
     if (ypos.Read(id, msg ,time)) return 1;
   }
-/*  else
-  {
-    if (ypos.ReadAndDiscard(id, msg ,time)) return 1;
-  }
-*/
+
   if (frame.Read(id, msg ,time))
   {
     SetFrame(frame);

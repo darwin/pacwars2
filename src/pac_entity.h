@@ -38,8 +38,8 @@ public:
     virtual void ServerThink(Uint32 time);
     virtual void Draw(SDL_Surface * s, SDL_Rect * r);
     virtual void Draw(SDL_Surface * screen, SDL_Rect * screen_rect, Uint16 x, Uint16 y, Uint16 sx, Uint16 sy, Uint8 frame, Uint8 anim, CSpriteInfo* dsprite = NULL, Uint8 alpha=255);
-    virtual void Replication(int cnum, CReplicator* rep);
-    virtual char GetReplicated(Uint8 id, net_msg* msg, TICK_TYPE time);
+    virtual void Replication(int cnum, CReplicator* rep, bool replicate_position = true);
+    virtual char GetReplicated(Uint8 id, net_msg* msg, TICK_TYPE time, bool replicate_position = true);
     virtual void MakeDirty(int i, bool dirty);
 
     virtual void Animate();

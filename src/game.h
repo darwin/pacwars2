@@ -115,6 +115,7 @@ class DECLSPEC CGame { public:
 	void ClientThink(TICK_TYPE time);
 	void GameThink(TICK_TYPE time);
 
+  char ServerAdjustPositions(int cnum, CReplicator & rep, TICK_TYPE time);
 	char ServerReplicate(int cnum, CReplicator & rep, TICK_TYPE time);
 	char ClientReplicate(TICK_TYPE time);
 

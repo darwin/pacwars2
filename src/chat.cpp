@@ -52,6 +52,7 @@ void ResetChat()
   chat_text[0] = 0;
   chat_on = false;
   chat_history_index = -1;
+  blocked_inputs = 0;
 }
 
 void ChatMoveHistory()

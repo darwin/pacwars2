@@ -982,7 +982,7 @@ int HandleClientMessage()
             ConOutEx(CLIENT_FONT, "Client: rejected - server is full");
             CL_Clear();
           } else
-            fprintf(stderr,
+            ConErr(
             "%d>Client: unexpected SERVERFULL message from %s",
             client_info.ticks,
             AddrToS(&msg_cpackets[n]->address));
@@ -992,7 +992,7 @@ int HandleClientMessage()
             ConOutEx(CLIENT_FONT, "Client: you were kicked.");
             CL_Clear();
           } else
-            fprintf(stderr,
+            ConErr(
             "%d>Client: unexpected YWDROPPED message from %s",
             client_info.ticks,
             AddrToS(&msg_cpackets[n]->address));
@@ -1002,7 +1002,7 @@ int HandleClientMessage()
             MSG >> slot;
             CL_FreeKBSlot(slot);
           } else
-            fprintf(stderr,
+            ConErr(
             "%d>Client: unexpected KBNOTIFY message from %s",
             client_info.ticks,
             AddrToS(&msg_cpackets[n]->address));
@@ -1026,7 +1026,7 @@ int HandleClientMessage()
             ConOutEx(CLIENT_FONT, "Client: rejected - server is not running");
             CL_Clear();
           } else
-            fprintf(stderr,
+            ConErr(
             "%d>Client: unexpected SERVEROFF message from %s",
             client_info.ticks,
             AddrToS(&msg_cpackets[n]->address));
@@ -1056,7 +1056,7 @@ int HandleClientMessage()
             }
           } 
           else
-            fprintf(stderr, "%d>Client: unexpected WELCOME message from %s", client_info.ticks, AddrToS(&msg_cpackets[n]->address));
+            ConErr( "%d>Client: unexpected WELCOME message from %s", client_info.ticks, AddrToS(&msg_cpackets[n]->address));
           break;
           
         case MSGID_SERVERDOWN:
@@ -1083,7 +1083,7 @@ int HandleClientMessage()
               break;
             }
           } else
-            fprintf(stderr,
+            ConErr(
             "%d>Client: unexpected SERVERDOWN message from %s",
             client_info.ticks,
             AddrToS(&msg_cpackets[n]->address));
@@ -1097,7 +1097,7 @@ int HandleClientMessage()
               break;
               
             default:
-              fprintf(stderr,
+              ConErr(
                 "%d>Client: Unresolved message packet (client) ID=%d from %s!\n",
                 client_info.ticks,
                 msg_cpackets[n]->data[POS_MSG_ID],
@@ -1105,7 +1105,7 @@ int HandleClientMessage()
       }
     } else					//we've got unbound message
     {
-      fprintf(stderr,
+      ConErr(
         "%d>Client: Unresolved unbound message packet (client) ID=%d from %s!\n",
         client_info.ticks, msg_cpackets[n]->data[POS_MSG_ID],
         AddrToS(&msg_cpackets[n]->address));
@@ -1275,7 +1275,7 @@ int HandleFileResponse()
   
   if ((server.file_status != FS_WAIT_RECEIVING)
     && (server.file_status != FS_WAIT_SENDING)) {
-    fprintf(stderr, "%d>unexpected file transfer response !!",
+    ConErr( "%d>unexpected file transfer response !!",
       client_info.ticks);
     return 1;
   }
@@ -1519,7 +1519,9 @@ int CL_Download(Uint8 ft_id, char *fname)
 void CL_EnterGame(Uint32 time)
 {
   Uint32 atime = SDL_GetTicks();
-  Uint32 delta = (atime - entersent) / 2;
+  // -- woid, no delta works better, server is one step before all clients
+  // seems there is a bug with client timer which runs before server's one -> causes unconsistent game state
+  Uint32 delta = 0; //(atime - entersent) / 2; 
   
   ClearPool(&server.game_pool);
   
@@ -1596,13 +1598,13 @@ int CL_ChangeMap(char *mapname, char *scriptname)
   return 0;
 }
 
-char CL_ParseReplication(net_msg * msg, TICK_TYPE time, CGame & game,
-                         int client)
+char CL_ParseReplication(net_msg * msg, TICK_TYPE time, CGame & game, int client)
 {
   Uint8 rep_code = REP_END + 1;
   
   GObj *obj;
   GPlayer *player;
+  Uint16 oid;
   
   GAME_MAXOBJS_TYPE slot;
   TICK_TYPE tick;
@@ -1614,24 +1616,25 @@ GOT_REPCODE_IN_REPLICATION_CYCLE:
       
     case REP_ADJUSTPOSITION:
       Uint16 x, y;
-      (*msg) >> slot >> x >> y >> tick;
+      (*msg) >> slot >> x >> y >> tick >> oid;
       
       obj = game.objs[slot];
-      if (obj->GetType() != ot_player)
-        fprintf(stderr,
-        "%d>Client: error CL_ParseReplication ADJUSTPOSITION called for non-player object slot=%d\n",
-        client_info.ticks, slot);
-      else {
-        player = (GPlayer *) obj;
-        // adjust position + prediction
-        player->AdjustPosition(x, y, tick);
+      if (obj->GetType() != ot_player || oid != game.objs[slot]->oid)	// is the replication for new object ?
+      {
+        ConErr("%d>Client: error CL_ParseReplication ADJUSTPOSITION called for non-player object slot=%d\n", client_info.ticks, slot);
+        // creation of object
+        game.RebornObject(oid, slot, ot_player);	// reborn was made by ServerReplicate 
       }
+
+      obj = game.objs[slot];
+      player = (GPlayer *) obj;
+      // adjust position + prediction
+      player->AdjustPosition(x, y, tick);
       break;
       
     case REP_REPLICATION:
       // force object to get replicated
       Uint8 ot;
-      Uint16 oid;
       (*msg) >> slot >> oid >> ot;
       
       if (oid != game.objs[slot]->oid)	// is the replication for new object ?
@@ -1642,7 +1645,7 @@ GOT_REPCODE_IN_REPLICATION_CYCLE:
       
       obj = game.objs[slot];
       if (obj->GetType() != ot)
-        fprintf(stderr,
+        ConErr(
         "%d>Client: error CL_ParseReplication REP_REPLICATION: nonconsistent object types %d",
         client_info.ticks, ot);
       
@@ -1659,13 +1662,13 @@ GOT_REPCODE_IN_REPLICATION_CYCLE:
       break;
       
     case REP_SERVERMOVE:
-      fprintf(stderr,
+      ConErr(
         "%d>Client: error CL_ParseReplication forbiden rep_code=%d\n",
         client_info.ticks, rep_code);
       break;
       
     default:
-      fprintf(stderr,
+      ConErr(
         "%d>Client: error CL_ParseReplication unknown rep_code=%d\n",
         client_info.ticks, rep_code);
     }
@@ -1697,7 +1700,7 @@ int HandleClientGame(Uint32 deltaticks)
       if (!CL_ParseReplication
         (&GMP, incoming_tick, client_info.game,
         client_info.client_num)) {
-        fprintf(stderr,
+        ConErr(
           "%d>Client: error parsing server replication - incomingtick=%d !\n",
           client_info.ticks, incoming_tick);
         continue;

@@ -65,7 +65,6 @@ public:
     virtual void ServerMove(MoveVector* mv);
     
     virtual void AdjustPosition(Uint16 nx, Uint16 ny, TICK_TYPE time);
-            void SendAdjustPosition(CReplicator* rep);
 
     virtual void Born();
     virtual void AddPoints(int n) { points+=n; if (points>9999) points = 9999; }
@@ -137,7 +136,7 @@ public:
     RValue<PString> player_name;
 
     RValue<Uint8> brain_type;    // soulfree, client, bot,
-    RValue<Uint8> brain_owner;   // 0,.., maxclients-1, maxclients==owner_is_server
+    RValue<Uint8> brain_owner;   // 0,.., maxclients-1, maxclients==owner_is_server, 250 = undefined
     RValue<Uint8> kbindex;       // index to keybindigns array
 
     RValue<Sint8> frags;
