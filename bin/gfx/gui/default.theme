@@ -13,7 +13,7 @@
 	<object>
 	    <type value="GradientWidget"/>
 	    <name value="GradientWidget"/>
-	    <filename name="background" value="menu/back.bmp"/>
+	    <filename name="background" value="menu/back.png"/>
 	    <property name="backmode" value="TILE"/>
 	    <property name="blend" value="0"/>
 	    <property name="bordersize" value="0"/>
@@ -24,7 +24,7 @@
 	<object>
 	    <type value="GradientWidget"/>
 	    <name value="Scrollbar"/>
-	    <filename name="background" value="menu/lb_sb1.bmp"/>
+	    <filename name="background" value="menu/lb_sb1.png"/>
 	    <property name="backmode" value="TILE"/>
 	    <property name="blend" value="0"/>
 	</object>
@@ -59,8 +59,8 @@
 	    <property name="transparency0" value="0"/>
 	    <property name="transparency1" value="0"/>
 	    <property name="transparency2" value="0"/>
-	    <filename name="iconup" value="menu/aup.bmp"/>
-  	    <filename name="icondown" value="menu/aup.bmp" colorkey="0x000000FF"/>
+	    <filename name="iconup" value="menu/aup.png"/>
+  	    <filename name="icondown" value="menu/aup.png" colorkey="0x000000FF"/>
 	</object>
 	<object>
 	    <type value="Button"/>
@@ -83,8 +83,8 @@
 	    <property name="transparency0" value="0"/>
 	    <property name="transparency1" value="0"/>
 	    <property name="transparency2" value="0"/>
-	    <filename name="iconup" value="menu/adown.bmp" colorkey="0x000000FF"/>
-	    <filename name="icondown" value="menu/adown.bmp" colorkey="0x000000FF"/>
+	    <filename name="iconup" value="menu/adown.png" colorkey="0x000000FF"/>
+	    <filename name="icondown" value="menu/adown.png" colorkey="0x000000FF"/>
 	</object>
 	<object>
 	    <type value="Button"/>
@@ -107,8 +107,8 @@
 	    <property name="transparency0" value="0"/>
 	    <property name="transparency1" value="0"/>
 	    <property name="transparency2" value="0"/>
-	    <filename name="iconup" value="menu/aelec.bmp" colorkey="0x000000FF"/>
-	    <filename name="icondown" value="menu/aelec.bmp" colorkey="0x000000FF"/>
+	    <filename name="iconup" value="menu/aelec.png" colorkey="0x000000FF"/>
+	    <filename name="icondown" value="menu/aelec.png" colorkey="0x000000FF"/>
 	</object>
     </widget>
     <widget>
@@ -135,8 +135,8 @@
 	    <property name="transparency1" value="255"/>
 	    <property name="transparency2" value="255"/>
 	    <property name="shift" value="0"/>
-	    <filename name="iconup" value="default/rb_off.bmp" colorkey="0x000000FF"/>
-            <filename name="icondown" value="default/rb_on.bmp" colorkey="0x000000FF"/>
+	    <filename name="iconup" value="default/rb_off.png" colorkey="0x000000FF"/>
+            <filename name="icondown" value="default/rb_on.png" colorkey="0x000000FF"/>
 	</object>
     </widget>
 
@@ -146,7 +146,7 @@
 	<object>
 	    <type value="GUI_Label"/>
 	    <name value="GUI_Label"/>
-	    <filename name="background" value="menu/back.bmp"/>
+	    <filename name="background" value="menu/back.png"/>
 	    <property name="backmode" value="TILE"/>
 	    <property name="blend" value="0"/>
 	    <property name="bordersize" value="0"/>
@@ -172,7 +172,7 @@
 	<object>
 	    <type value="GradientWidget"/>
 	    <name value="GradientWidget"/>
-	    <filename name="background" value="menu/back.bmp"/>
+	    <filename name="background" value="menu/back.png"/>
 	    <property name="backmode" value="TILE"/>
 	    <property name="blend" value="0"/>
 	</object>
@@ -183,7 +183,7 @@
 	<object>
 	    <type value="GradientWidget"/>
 	    <name value="GradientWidget"/>
-	    <filename name="background" value="menu/lineedit.bmp" colorkey="0x000000FF"/>
+	    <filename name="background" value="menu/lineedit.png" colorkey="0x000000FF"/>
 	    <property name="backmode" value="TILE"/>
 	    <property name="blend" value="0"/>
 	</object>
@@ -194,9 +194,9 @@
 	<object>
 	    <type value="Button"/>
 	    <name value="Button"/>
-	    <filename name="background0" value="menu/mb_title.bmp"/>
-	    <filename name="background1" value="menu/mb_title.bmp"/>
-	    <filename name="background2" value="menu/mb_title.bmp"/>
+	    <filename name="background0" value="menu/mb_title.png"/>
+	    <filename name="background1" value="menu/mb_title.png"/>
+	    <filename name="background2" value="menu/mb_title.png"/>
 	    <property name="backmode0" value="TILE"/>
 	    <property name="backmode1" value="TILE"/>
 	    <property name="backmode2" value="TILE"/>
@@ -219,9 +219,9 @@
 	<object>
 	    <type value="Button"/>
 	    <name value="Button"/>
-	    <filename name="background0" value="menu/mb_button1.bmp"/>
-	    <filename name="background1" value="menu/mb_button1.bmp"/>
-	    <filename name="background2" value="menu/mb_button1.bmp"/>
+	    <filename name="background0" value="menu/mb_button1.png"/>
+	    <filename name="background1" value="menu/mb_button1.png"/>
+	    <filename name="background2" value="menu/mb_button1.png"/>
 	    <property name="backmode0" value="TILE"/>
 	    <property name="backmode1" value="TILE"/>
 	    <property name="backmode2" value="TILE"/>
@@ -244,9 +244,9 @@
 	<object>
 	    <type value="Button"/>
 	    <name value="Button"/>
-	    <filename name="background0" value="menu/mb_button1.bmp"/>
-	    <filename name="background1" value="menu/mb_button1.bmp"/>
-	    <filename name="background2" value="menu/mb_button1.bmp"/>
+	    <filename name="background0" value="menu/mb_button1.png"/>
+	    <filename name="background1" value="menu/mb_button1.png"/>
+	    <filename name="background2" value="menu/mb_button1.png"/>
 	    <property name="backmode0" value="TILE"/>
 	    <property name="backmode1" value="TILE"/>
 	    <property name="backmode2" value="TILE"/>
@@ -270,13 +270,13 @@
 	    <type value="Button"/>
 	    <name value="CheckWidget"/>
 	    <property name="shift" value="0"/>
-	    <filename name="iconup" value="menu/choff.bmp" colorkey="0x000000FF"/>
-	    <filename name="icondown" value="menu/chon.bmp" colorkey="0x000000FF"/>
+	    <filename name="iconup" value="menu/choff.png" colorkey="0x000000FF"/>
+	    <filename name="icondown" value="menu/chon.png" colorkey="0x000000FF"/>
 	</object>
 	<object>
 	    <type value="GradientWidget"/>
 	    <name value="GradientWidget"/>
-	    <filename name="background" value="menu/ch_back.bmp"/>
+	    <filename name="background" value="menu/ch_back.png"/>
 	    <property name="backmode" value="TILE"/>
 	    <property name="blend" value="0"/>
 	    <property name="bordersize" value="0"/>
@@ -288,7 +288,7 @@
 	<object>
 	    <type value="GradientWidget"/>
 	    <name value="GradientWidget"/>
-	    <filename name="background" value="menu/lineedit.bmp" colorkey="0x000000FF"/>
+	    <filename name="background" value="menu/lineedit.png" colorkey="0x000000FF"/>
 	    <property name="backmode" value="TILE"/>
 	    <property name="blend" value="0"/>
 	</object>
@@ -299,7 +299,7 @@
 	<object>
 	    <type value="GradientWidget"/>
 	    <name value="GradientWidget"/>
-	    <filename name="background" value="menu/lb_back.bmp"/>
+	    <filename name="background" value="menu/lb_back.png"/>
 	    <property name="backmode" value="TILE"/>
 	    <property name="blend" value="0"/>
 	    <property name="bordersize" value="1"/>
@@ -311,7 +311,7 @@
 	<object>
 	    <type value="GradientWidget"/>
 	    <name value="GradientWidget"/>
-	    <filename name="background" value="menu/lb_back.bmp"/>
+	    <filename name="background" value="menu/lb_back.png"/>
 	    <property name="backmode" value="TILE"/>
 	    <property name="blend" value="0"/>
 	    <property name="bordersize" value="1"/>
@@ -323,7 +323,7 @@
 	<object>
 	    <type value="GradientWidget"/>
 	    <name value="GradientWidget"/>
-	    <filename name="background" value="menu/input1.bmp"/>
+	    <filename name="background" value="menu/input1.png"/>
 	    <property name="backmode" value="TILE"/>
 	    <property name="blend" value="0"/>
 	    <property name="bordersize" value="1"/>
@@ -396,8 +396,8 @@
 	    <property name="transparency0" value="0"/>
 	    <property name="transparency1" value="0"/>
 	    <property name="transparency2" value="0"/>
-	    <filename name="iconup" value="menu/aup.bmp" colorkey="0x000000FF"/>
-  	    <filename name="icondown" value="menu/aup.bmp" colorkey="0x000000FF"/>
+	    <filename name="iconup" value="menu/aup.png" colorkey="0x000000FF"/>
+  	    <filename name="icondown" value="menu/aup.png" colorkey="0x000000FF"/>
 	</object>
 	<object>
 	    <type value="Button"/>
@@ -420,8 +420,8 @@
 	    <property name="transparency0" value="0"/>
 	    <property name="transparency1" value="0"/>
 	    <property name="transparency2" value="0"/>
-	    <filename name="iconup" value="menu/adown.bmp" colorkey="0x000000FF"/>
-	    <filename name="icondown" value="menu/adown.bmp" colorkey="0x000000FF"/>
+	    <filename name="iconup" value="menu/adown.png" colorkey="0x000000FF"/>
+	    <filename name="icondown" value="menu/adown.png" colorkey="0x000000FF"/>
 	</object>
 	<object>
 	    <type value="Button"/>
@@ -446,8 +446,8 @@
 	    <property name="transparency2" value="0"/>
 	    <property name="width" value="16"/>
 	    <property name="height" value="16"/>
-	    <filename name="iconup" value="menu/aelec.bmp" colorkey="0x000000FF"/>
-	    <filename name="icondown" value="menu/aelec.bmp" colorkey="0x000000FF"/>
+	    <filename name="iconup" value="menu/aelec.png" colorkey="0x000000FF"/>
+	    <filename name="icondown" value="menu/aelec.png" colorkey="0x000000FF"/>
 	</object>
 	<object>
 	    <type value="GradientWidget"/>
@@ -463,7 +463,7 @@
 	<object>
 	    <type value="GradientWidget"/>
 	    <name value="Scrollbar"/>
-	    <filename name="background" value="menu/lb_sb1.bmp"/>
+	    <filename name="background" value="menu/lb_sb1.png"/>
 	    <property name="backmode" value="TILE"/>
 	    <gradient name="gradient" color0="0x00B0B1B6" color1="0x0083838D" color2="0x007B7B83" color3="0x00585765"/>
 	    <property name="blend" value="0"/>
@@ -543,8 +543,8 @@
 	    <property name="transparency0" value="0"/>
 	    <property name="transparency1" value="0"/>
 	    <property name="transparency2" value="0"/>
-	    <filename name="iconup" value="menu/aup.bmp" colorkey="0x000000FF"/>
-  	    <filename name="icondown" value="menu/aup.bmp" colorkey="0x000000FF"/>
+	    <filename name="iconup" value="menu/aup.png" colorkey="0x000000FF"/>
+  	    <filename name="icondown" value="menu/aup.png" colorkey="0x000000FF"/>
 	</object>
 	<object>
 	    <type value="Button"/>
@@ -567,8 +567,8 @@
 	    <property name="transparency0" value="0"/>
 	    <property name="transparency1" value="0"/>
 	    <property name="transparency2" value="0"/>
-	    <filename name="iconup" value="menu/adown.bmp" colorkey="0x000000FF"/>
-	    <filename name="icondown" value="menu/adown.bmp" colorkey="0x000000FF"/>
+	    <filename name="iconup" value="menu/adown.png" colorkey="0x000000FF"/>
+	    <filename name="icondown" value="menu/adown.png" colorkey="0x000000FF"/>
 	</object>
 	<object>
 	    <type value="Button"/>
@@ -591,8 +591,8 @@
 	    <property name="transparency0" value="0"/>
 	    <property name="transparency1" value="0"/>
 	    <property name="transparency2" value="0"/>
-	    <filename name="iconup" value="menu/aelec.bmp" colorkey="0x000000FF"/>
-	    <filename name="icondown" value="menu/aelec.bmp" colorkey="0x000000FF"/>
+	    <filename name="iconup" value="menu/aelec.png" colorkey="0x000000FF"/>
+	    <filename name="icondown" value="menu/aelec.png" colorkey="0x000000FF"/>
 	</object>
     </widget>
 
@@ -601,7 +601,7 @@
 	<object>
 	    <type value="GradientWidget"/>
 	    <name value="GradientWidget"/>
-	    <filename name="background" value="menu/lineedit.bmp" colorkey="0x000000FF"/>
+	    <filename name="background" value="menu/lineedit.png" colorkey="0x000000FF"/>
 	    <property name="backmode" value="TILE"/>
 	    <property name="blend" value="0"/>
 	    <property name="bordersize" value="1"/>
@@ -609,7 +609,7 @@
 	<object>
 	    <type value="LineEdit"/>
 	    <name value="LineEdit"/>
-	    <filename name="textcursor" value="menu/editcurs.bmp" colorkey="0x000000FF"/>
+	    <filename name="textcursor" value="menu/editcurs.png" colorkey="0x000000FF"/>
 	</object>
     </widget>
    
