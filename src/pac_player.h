@@ -143,6 +143,11 @@ public:
     char          last_horizontal;
     char          last_vertical;
 
+	 int				bot_brain_type;
+	 GObj				*target;
+	 int				bot_mode;
+	 Uint16			bot_pos_x, bot_pos_y;
+
     //###########################################################################
     // synchronized data
     //###########################################################################
