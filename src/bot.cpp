@@ -149,6 +149,8 @@ int bot_init(GPlayer* player, CGame* game)
   player->steps = NULL;
   player->cur_step = 0;
 
+  
+
   return 0;
 }
 
@@ -191,6 +193,66 @@ int bot_command(GPlayer* player, CGame* game, char* cmd, char* params)
 
   
     return 0;
+  }
+
+  //Report position
+  if (strcmp(cmd, "pos") == 0)
+  {
+	  ConOut("bot %s: I am located at: %d x %d", 
+		  player->player_name.GetValRef()->chars, 
+		  player->xpos>>4,
+		  player->ypos>>4);
+
+	  return 0;
+  }
+
+  //Follow me - Order the bot to follow a specific player
+  if (strcmp(cmd, "follow") == 0)
+  {
+		char leadername[256];
+		Uint16 leader_x;
+		Uint16 leader_y;
+		Uint16 cur_x = player->xpos;
+		Uint16 cur_y = player->ypos;
+
+	  if (sscanf(params, "%s", leadername) < 1) 
+		  return 2;
+
+	  //Find the player
+	  for(int x=0; x<GAME_MAX_OBJS; x++)
+	  {
+			switch (game->objs[x]->GetType()) 
+			{
+				case ot_player:
+			   {
+					GPlayer* enemy = (GPlayer*)game->objs[x];
+					if(strcmp(enemy->player_name.GetValRef()->chars, leadername) == 0)
+					{
+						//We have found the leader, get his coords
+						leader_x = enemy->xpos>>4;
+						leader_y = enemy->ypos>>4;
+					}
+			   }//End of ot_player
+			} //End of switch
+
+	  } //End of loop
+
+	  //Set the bot's destination to the leader
+    cur_x>>=4;
+    cur_y>>=4;
+
+    MapNode* start = peMapXY(player->pe, cur_x, cur_y);
+    MapNode* dest = peMapXY(player->pe, leader_x, leader_y);
+
+	CIRect rect(CIPoint(0,0), CIPoint(mapwidth, mapheight));
+    Map2PE(&rect, player->pe, &game->map);
+    int length = peFindPath(player->pe, start, dest, 0, 1, &player->steps);
+    if (length) 
+      player->cur_step = 0; 
+    else 
+      ConOut("bot \"%s\": I don't know how to get there", player->player_name.GetValRef()->chars);
+
+
   }
 
   return 1;
