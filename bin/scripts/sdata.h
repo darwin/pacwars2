@@ -159,6 +159,9 @@ struct SCPLAYER{
   Uint8 bombs_ammo;
   Uint8 mines_ammo;
   Uint8 becher_ammo;
+
+  //Bot personalityinformation
+  Uint8 bot_brain_type;
 };
 
 struct SCSHOT{
