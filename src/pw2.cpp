@@ -2933,7 +2933,7 @@ main(int argc, char *argv[])
 	audio_rate = MIX_DEFAULT_FREQUENCY;
 	audio_format = MIX_DEFAULT_FORMAT;
 	audio_channels = 2;
-	audio_buffers = 512;
+	audio_buffers = 1024;
 #endif
 
 #endif
@@ -2961,7 +2961,6 @@ main(int argc, char *argv[])
 	fprintf(stderr, "executed: %s on %s, %s\n\n", argv[0], time, date);
 
 	// parse and process program's arguments
-	// disabled fullscreen for debugging (alex)
 	videoflags = SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN;	//|SDL_ASYNCBLIT|SDL_OPENGLBLIT;
 	if (!fullscreen.value)
 		videoflags &= ~SDL_FULLSCREEN;

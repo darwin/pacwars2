@@ -155,18 +155,24 @@ type=DATA
 [Config for BinMakefileAm]
 addcxxflags=
 bin_program=pw2
-cxxflags=
+cxxflags= -O1
 ldadd=
 ldflags=
+libtool_dir=
+path_to_bin_program=src
 [General]
 AMChanged=false
 author=pipelka
-email=pipelka@braindead
+dir_where_make_will_be_called=./
+email=pipelka@teleweb.at
 kdevprj_version=1.3
 lfv_open_groups=
+make_options= -j1
 makefiles=./Makefile.am,src/Makefile.am,src/gui/Makefile.am,src/seer/Makefile.am,src/console/Makefile.am,include/Makefile.am,doc/Makefile.am,bin/Makefile.am,bin/snd/Makefile.am,bin/scripts/Makefile.am,bin/maps/Makefile.am,bin/gfx/Makefile.am,bin/gfx/sprites/Makefile.am,bin/gfx/skins/Makefile.am,bin/gfx/gui/Makefile.am,bin/gfx/gui/.xvpics/Makefile.am,bin/gfx/gui/qnx/Makefile.am,bin/gfx/gui/menu/Makefile.am,bin/gfx/gui/fonts/Makefile.am,bin/gfx/game/Makefile.am,
+modifyMakefiles=false
 project_name=pw2
 project_type=normal_empty
+short_info=
 sub_dir=src/
 version=
 version_control=CVS

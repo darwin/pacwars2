@@ -7,7 +7,7 @@ dnl The minimum SDL version required
 SDL_VERSION=1.1.7
 
 dnl The minimum ParaGUI version required
-PARAGUI_VERSION=0.6.4
+PARAGUI_VERSION=0.6.5
 
 dnl Setup for automake
 AM_INIT_AUTOMAKE(pw2, $PW2_VERSION)
