@@ -4,44 +4,26 @@
 //## 
 //###########################################################################
 
-#define GUI_NOMENU        0
-#define GUI_MAINMENU      1
-#define GUI_NEWGAME       2
-#define GUI_JOINGAME      3
-#define GUI_CREATEPLAYER  4
-#define GUI_DELETEPLAYER  5
-#define GUI_OPTIONS       6
-#define GUI_DISCONNECT    7
-#define GUI_PATHS         8
-#define GUI_SOUND         9
-#define GUI_QUIT          10
-#define GUI_CREDITS       11
-#define GUI_CREATEPLAYER1 12
-#define GUI_CREATEPLAYER2 13
-#define GUI_CREATEPLAYER3 14
-#define GUI_CREATEPLAYER4 15
-#define GUI_OKDIALOG1     16
-#define GUI_OKDIALOG2     17
-#define GUI_YNDIALOG      18
-#define GUI_HELP1         19
-#define GUI_HELP2         20
-#define GUI_HELP3         21
+#include "gui.h"
 
-#define GUI_SERVER        30
-#define GUI_VIDEO         31
-#define GUI_CLIENT        32
+#include "gmath.h"
+#include "pac_player.h"
+#include "mouse.h"
 
-#define GUI_RESULTS       200
+#include "server.h"
+#include "client.h"
+#include "pw2.h"
+#include "mapman.h"
 
-// forward declarations
-void GUI_Show(int id);
-void GUI_Return();
-void GUI_OpenMenu(int id);
-
-class GUI_BaseMenu;
+extern void App_Quit();
+extern void CEndServer(char *string);
 
 GUI_BaseMenu* GUI_menu = NULL;
 int GUI_id = 0;
+
+extern GUI_OKDialog1 *OKD1;
+extern GUI_OKDialog2 *OKD2;
+extern GUI_YNDialog *YND;
 
 // Menu fonts
 TTF_Font* TextFont;
@@ -172,14 +154,6 @@ void GUI_InitColors(SDL_Surface* screen)
 // Board
 /////////////////////////////////////////////////////////////////////////////
 
-class GUI_Board : public SDLGradientWidget {
-public:
-  GUI_Board(SDLWidget* parent, SDL_Rect& r, bool storebackground = false, char* theme=NULL);
-//  void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
-  
-  bool drawbackground;
-};
-
 GUI_Board::GUI_Board(SDLWidget* parent, SDL_Rect& r,  bool storebackground, char* theme):
 SDLGradientWidget(parent,r)
 {
@@ -190,30 +164,10 @@ SDLGradientWidget(parent,r)
     LoadThemeStyle(theme,"GradientWidget");
 }
 
-/*
-void GUI_Board::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
-{
-  if (drawbackground) {
-    SDL_FillRect(surface, rect, SDL_MapRGB(surface->format, c.r, c.g, c.b));
-    SDLWidget::DrawBorder(surface, rect, 1, false);
-  }
-  else
-    SDL_FillRect(surface, rect, 0);
-}
-*/
 
 /////////////////////////////////////////////////////////////////////////////
 // Bitmap
 /////////////////////////////////////////////////////////////////////////////
-
-class GUI_Bitmap : public SDLWidget {
-public:
-  GUI_Bitmap(SDLWidget* parent, SDL_Rect& r, bool storebackground = false, SDL_Surface* s=NULL);
-  void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
-  
-  SDL_Surface *bitmap;
-  bool drawbackground;
-};
 
 GUI_Bitmap::GUI_Bitmap(SDLWidget* parent, SDL_Rect& r,  bool storebackground, SDL_Surface* s):
 SDLWidget(parent,r,storebackground)
@@ -237,19 +191,6 @@ void GUI_Bitmap::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
 // Label
 /////////////////////////////////////////////////////////////////////////////
 
-class GUI_Label : public SDLLabel {
-public:
-  GUI_Label(SDLWidget* parent, SDL_Rect& r, char* text, bool storebackground = false);
- // void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
-
-  void SetColor(SDL_Color c1, SDL_Color c2);
-  
-  SDL_Color c;
-  int shifty;
-  int shiftx;
-  int bgmode;
-};
-
 
 GUI_Label::GUI_Label(SDLWidget* parent, SDL_Rect& r, char* text, bool storebackground):
 SDLLabel(parent,r,text,storebackground)
@@ -267,70 +208,6 @@ void GUI_Label::SetColor(SDL_Color c1, SDL_Color c2)
 {
 
 }
-/*
-void GUI_Label::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
-{
-	SDL_Rect srcrect;
-
-  if (bgmode) {
-    if (bgmode>=1 && bgmode<=2)
-    {
-      SDL_FillRect(surface, rect, SDL_MapRGB(surface->format, c.r, c.g, c.b));
-      if (bgmode==1)
-      {
-        SDLWidget::DrawBorder(surface, rect, 1, false);
-      }
-    }
-    else
-    {
-      SDL_FillRect(surface, rect, 0);
-    }
-  }
-  
-  my_srfText = TTF_RenderText_Blended(GetFont(), my_textLabel, GetTextColor());
-  if (my_srfText)
-  {
-		switch (my_alignment) {
-			case SDL_TA_LEFT:
-			my_rectLabel.x = rect->x;
-			my_rectLabel.y = rect->y + (rect->h - my_srfText->h) / 2;
-			break;
-
-			case SDL_TA_RIGHT:
-			my_rectLabel.x = rect->x + (rect->w - my_srfText->w);
-			my_rectLabel.y = rect->y + (rect->h - my_srfText->h) / 2;
-			break;
-
-			case SDL_TA_CENTER:
-			my_rectLabel.x = rect->x + (rect->w - my_srfText->w) / 2;
-			my_rectLabel.y = rect->y + (rect->h - my_srfText->h) / 2;
-			break;
-		}
-
-		srcrect.x = 0;
-		srcrect.y = 0;
-		srcrect.w = my_srfText->w;
-		srcrect.h = my_srfText->h;
-
-		my_rectLabel.h = my_srfText->h;
-		my_rectLabel.w = my_srfText->w;
-
-		SDL_BlitSurface(my_srfText, &srcrect, surface, &my_rectLabel);
-		SDL_FreeSurface(my_srfText);
-    my_srfText = false;
-  }
-}
-*/
-class GUI_LabelC : public SDLLabel {
-public:
-  GUI_LabelC(SDLWidget* parent, SDL_Rect& r, char* text, bool storebackground = false);
-//  void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
-  
-  SDL_Color c;
-  int shifty;
-  int shiftx;
-  int bgmode;
-};
 
 
 GUI_LabelC::GUI_LabelC(SDLWidget* parent, SDL_Rect& r, char* text, bool storebackground):
@@ -345,84 +222,10 @@ SDLLabel(parent,r,text,storebackground)
   SetAlignment(SDL_TA_LEFT); 
 }
 
-/*
-void GUI_LabelC::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
-{
-  /*if (bgmode) {
-    if (bgmode>=1 && bgmode<=2)
-    {
-      SDL_FillRect(surface, rect, SDL_MapRGB(surface->format, c.r, c.g, c.b));
-      if (bgmode==1)
-      {
-        SDLWidget::DrawBorder(surface, rect, 1, false);
-      }
-    }
-    else
-    {
-      SDL_FillRect(surface, rect, 0);
-    }
-  }*/
-/*  SDL_FillRect(surface, rect, 0);
-  
-	SDL_Rect srcrect;
-  
-  my_srfText = TTF_RenderText_Blended(GetFont(), my_textLabel, GetTextColor());
-  if (my_srfText)
-  {
-		switch (my_alignment) {
-			case SDL_TA_LEFT:
-			my_rectLabel.x = rect->x;
-			my_rectLabel.y = rect->y + (rect->h - my_srfText->h) / 2;
-			break;
 
-			case SDL_TA_RIGHT:
-			my_rectLabel.x = rect->x + (rect->w - my_srfText->w);
-			my_rectLabel.y = rect->y + (rect->h - my_srfText->h) / 2;
-			break;
-
-			case SDL_TA_CENTER:
-			my_rectLabel.x = rect->x + (rect->w - my_srfText->w) / 2;
-			my_rectLabel.y = rect->y + (rect->h - my_srfText->h) / 2;
-			break;
-		}
-
-		srcrect.x = 0;
-		srcrect.y = 0;
-		srcrect.w = my_srfText->w;
-		srcrect.h = my_srfText->h;
-
-		my_rectLabel.h = my_srfText->h;
-		my_rectLabel.w = my_srfText->w;
-
-		SDL_BlitSurface(my_srfText, &srcrect, surface, &my_rectLabel);
-		SDL_FreeSurface(my_srfText);
-    my_srfText = false;
-  }
-}
-*/
 /////////////////////////////////////////////////////////////////////////////
 // Label
 /////////////////////////////////////////////////////////////////////////////
-
-class GUI_LabelL : public SDLLabel {
-public:
-  GUI_LabelL(SDLWidget* parent, SDL_Rect& r, char* text, GUI_LabelL** iselected, CSMapInfo* si, SDL_Color ic1, SDL_Color ic2, void (*cb)(GUI_LabelL*)=NULL);
-  void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
-  bool eventMouseButtonDown(const SDL_MouseButtonEvent* button);
-
-
-  CSMapInfo* msi;
-  SDL_Color c1;
-  SDL_Color c2;
-  int shifty;
-  int shiftx;
-  int bgmode;
-
-  void (*callback)(GUI_LabelL*);
-  
-  GUI_LabelL** selected;
-};
-
 
 GUI_LabelL::GUI_LabelL(SDLWidget* parent, SDL_Rect& r, char* text, GUI_LabelL** iselected, CSMapInfo* si, SDL_Color ic1, SDL_Color ic2, void (*cb)(GUI_LabelL*)):
 SDLLabel(parent,r,text,false)
@@ -460,19 +263,10 @@ void GUI_LabelL::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
   SDLLabel::eventDraw(surface, rect);  
 }
 
-bool eventMouseButtonDown(const SDL_MouseButtonEvent* button);
-
 
 /////////////////////////////////////////////////////////////////////////////
 // ResultLine
 /////////////////////////////////////////////////////////////////////////////
-
-class GUI_ResultLine : public GUI_Label {
-public:
-  GUI_ResultLine();
-  void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
-};
-
 
 GUI_ResultLine::GUI_ResultLine():
 GUI_Label(NULL, SDLWidget::mkrect(0,0,1,1), "x", false)
@@ -496,16 +290,6 @@ void GUI_ResultLine::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
 // Buttons
 /////////////////////////////////////////////////////////////////////////////
 
-class GUI_Button : public SDLButton {
-public:
-  GUI_Button(SDLWidget* parent, int btnid, SDL_Rect& r, char* text);
-//  void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
-  
-  SDL_Color c;
-  int shifty;
-  bool drawbackground;
-};
-
 GUI_Button::GUI_Button(SDLWidget* parent, int btnid, SDL_Rect& r, char* text):
 SDLButton(parent,btnid,r,text)
 {
@@ -516,82 +300,6 @@ SDLButton(parent,btnid,r,text)
   drawbackground = false;
 }
 
-/*
-void GUI_Button::eventDraw(SDL_Surface* surface, SDL_Rect* rect){
-  SDL_Rect r;
-  
-  //  _beep(200,100);
-  if (drawbackground) {
-    SDL_FillRect(surface, rect, SDL_MapRGB(surface->format, c.r, c.g, c.b));
-    SDLWidget::DrawBorder(surface, rect, 1, false);
-  }
-  else
-    SDL_FillRect(surface, rect, 0);
-  
-  int shift = ((state == BTN_STATE_PRESSED) || (togglemode && isPressed)) ? 4 : 0;
-  
-  r.x = rect->x + rect->w/2; //+ shift;
-  r.y = rect->y + rect->h/2 + shift;
-  r.h = 0;
-  
-  if(labeltext[0] != 0){
-    
-    SDL_Surface* label_srf = TTF_RenderText_Blended(GetFont(), labeltext, GetTextColor());
-    
-    SDL_Rect lr;
-    lr.x = (rect->w - label_srf->w)/2;// + shift;
-    lr.y = r.y + r.h;
-    lr.w = label_srf->w;
-    lr.h = label_srf->h;
-    
-    lr.y = rect->y + (rect->h - label_srf->h)/2;
-    if((lr.y + lr.h) > (rect->y + rect->h)){
-      lr.y = rect->h - (label_srf->h+3) + shift;
-    }
-    
-    lr.y+=shifty;
-    SDL_BlitSurface(label_srf, NULL, surface, &lr);
-    SDL_FreeSurface(label_srf);
-  }
-}
-*/
-
-class GUI_ButtonBig : public GUI_Button {
-public:
-  GUI_ButtonBig(SDLWidget* parent, int btnid, SDL_Rect& r, char* text);
-  void eventMouseLeave() { 
-    //SetFont(MainFont); 
-    if (enabled)
-    {
-      SetTextColor(GUI_BtnTextColor); 
-      Redraw(); 
-    }
-  }
-  void eventMouseEnter() { 
-    //SetFont(MainFont2); 
-    if (enabled)
-    {
-      SetTextColor(GUI_BtnATextColor); 
-      Redraw(); 
-    }
-  }
-	bool eventMouseButtonDown(const SDL_MouseButtonEvent* button)
-  {
-    if (enabled)
-      return GUI_Button::eventMouseButtonDown(button);
-    return true;
-  }
-	bool eventMouseButtonUp(const SDL_MouseButtonEvent* button)
-  {
-    if (enabled)
-      return GUI_Button::eventMouseButtonUp(button);
-    return true;
-  }
-
-public:
-  bool enabled;
-
-};
 
 GUI_ButtonBig::GUI_ButtonBig(SDLWidget* parent, int btnid, SDL_Rect& r, char* text):
 GUI_Button(parent,btnid,r,text)
@@ -603,12 +311,38 @@ GUI_Button(parent,btnid,r,text)
 	LoadThemeStyle("GUI_MenuButton", "Button");
 }
 
-class GUI_ButtonSmall : public GUI_Button {
-public:
-  GUI_ButtonSmall(SDLWidget* parent, int btnid, SDL_Rect& r, char* text);
-  void eventMouseLeave() { /*SetFont(BtnFont);*/ SetTextColor(GUI_BtnTextColor); Redraw(); }
-  void eventMouseEnter() { /*SetFont(BtnFont2);*/ SetTextColor(GUI_BtnATextColor); Redraw(); }
-};
+void GUI_ButtonBig::eventMouseLeave() {
+    //SetFont(MainFont);
+    if (enabled)
+    {
+      SetTextColor(GUI_BtnTextColor);
+      Redraw();
+    }
+}
+
+void GUI_ButtonBig::eventMouseEnter() {
+    //SetFont(MainFont2);
+    if (enabled)
+    {
+      SetTextColor(GUI_BtnATextColor);
+      Redraw();
+    }
+}
+
+bool GUI_ButtonBig::eventMouseButtonDown(const SDL_MouseButtonEvent* button) {
+    if (enabled)
+      return GUI_Button::eventMouseButtonDown(button);
+
+    return true;
+}
+
+bool GUI_ButtonBig::eventMouseButtonUp(const SDL_MouseButtonEvent* button) {
+    if (enabled)
+      return GUI_Button::eventMouseButtonUp(button);
+
+    return true;
+}
+
 
 GUI_ButtonSmall::GUI_ButtonSmall(SDLWidget* parent, int btnid, SDL_Rect& r, char* text):
 GUI_Button(parent,btnid,r,text)
@@ -619,23 +353,22 @@ GUI_Button(parent,btnid,r,text)
 	LoadThemeStyle("GUI_NormalButton", "Button");
 }
 
+void GUI_ButtonSmall::eventMouseLeave() {
+	/*SetFont(BtnFont);*/
+	SetTextColor(GUI_BtnTextColor); Redraw();
+}
+
+void GUI_ButtonSmall::eventMouseEnter() {
+	/*SetFont(BtnFont2);*/
+	SetTextColor(GUI_BtnATextColor); Redraw();
+}
+
 
 /////////////////////////////////////////////////////////////////////////////
 // Checkbox
 /////////////////////////////////////////////////////////////////////////////
 
-#define CB_SIZEY 20
-class DECLSPEC GUI_CheckBox : public SDLCheckButton {
-public: 
-	
-	GUI_CheckBox(SDLWidget* parent, SDL_Rect& r, char* text, bool ipressed=false, SDL_Color bg = GUI_Black);
-	~GUI_CheckBox();
-
-  void eventMouseEnter();
-  void eventMouseLeave();
-};
-
-GUI_CheckBox::GUI_CheckBox(SDLWidget* parent, SDL_Rect& r, char* text, bool ipressed, SDL_Color bg) : 
+GUI_CheckBox::GUI_CheckBox(SDLWidget* parent, SDL_Rect& r, char* text, bool ipressed, SDL_Color bg) :
 SDLCheckButton(parent,99, r, text)
 {
   if (ipressed) SetPressed();
@@ -663,11 +396,6 @@ void GUI_CheckBox::eventMouseLeave() {
 // TextEdit
 /////////////////////////////////////////////////////////////////////////////
 
-class GUI_TextEdit : public SDLLineEdit {
-public:
-  GUI_TextEdit(SDLWidget* parent, SDL_Rect& r);
-};
-
 GUI_TextEdit::GUI_TextEdit(SDLWidget* parent, SDL_Rect& r):
 SDLLineEdit(parent, r)
 {
@@ -678,15 +406,6 @@ SDLLineEdit(parent, r)
 /////////////////////////////////////////////////////////////////////////////
 // NumEdit
 /////////////////////////////////////////////////////////////////////////////
-
-class GUI_NumEdit : public GUI_TextEdit {
-public:
-  GUI_NumEdit(SDLWidget* parent, SDL_Rect& r, int imin, int imax);
-  
-  bool eventFilterKey(const SDL_KeyboardEvent* key);
-
-  int min, max;
-};
 
 GUI_NumEdit::GUI_NumEdit(SDLWidget* parent, SDL_Rect& r, int imin, int imax):
 GUI_TextEdit(parent, r)
@@ -734,15 +453,6 @@ bool GUI_NumEdit::eventFilterKey(const SDL_KeyboardEvent* key)
 /////////////////////////////////////////////////////////////////////////////
 // FloatEdit
 /////////////////////////////////////////////////////////////////////////////
-
-class GUI_FloatEdit : public GUI_TextEdit {
-public:
-  GUI_FloatEdit(SDLWidget* parent, SDL_Rect& r, float imin, float max);
-  
-  bool eventFilterKey(const SDL_KeyboardEvent* key);
-  
-  float min, max;
-};
 
 GUI_FloatEdit::GUI_FloatEdit(SDLWidget* parent, SDL_Rect& r, float imin, float imax):
 GUI_TextEdit(parent, r)
@@ -795,25 +505,8 @@ bool GUI_FloatEdit::eventFilterKey(const SDL_KeyboardEvent* key)
 // Scrollbar
 /////////////////////////////////////////////////////////////////////////////
 
-class GUI_ScrollBar : public SDLScrollBar {
-public:
-  GUI_ScrollBar(SDLWidget* parent, int id, SDL_Rect& r, int direction);
-};
-
-GUI_ScrollBar::GUI_ScrollBar(SDLWidget* parent, int id, SDL_Rect& r, int direction) : SDLScrollBar(parent, id, r, direction)
-{
-
+GUI_ScrollBar::GUI_ScrollBar(SDLWidget* parent, int id, SDL_Rect& r, int direction) : SDLScrollBar(parent, id, r, direction) {
 }
-
-#define LB_POSX 5
-
-class GUI_WidgetList : public SDLWidgetList {
-public: 
-  GUI_WidgetList(SDLWidget* parent, SDL_Rect& r);
-  ~GUI_WidgetList();
-
-  void AddWidget(SDLWidget* w);
-};
 
 GUI_WidgetList::GUI_WidgetList(SDLWidget* parent, SDL_Rect& r) : SDLWidgetList(parent, r/*, true*/){
   
@@ -889,29 +582,10 @@ void GUI_WidgetList::AddWidget(SDLWidget* w) {
 	*/
 }
 
-
 	
 /////////////////////////////////////////////////////////////////////////////
 // Base menu widgets
 /////////////////////////////////////////////////////////////////////////////
-
-class GUI_BaseMenu : public SDLWidget {
-public:
-  int mid;
-  int parentmid;
-  GUI_BaseMenu *next;
-  
-  GUI_BaseMenu(int iid, SDL_Rect& rect): SDLWidget(NULL, rect) { mid = iid; next = NULL; }
-  
-  void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
-  void Clear();
-  
-  virtual void Default() { }
-  virtual void Execute() { }
-  virtual void Show()=0;
-  virtual void Hide()=0;
-  virtual void Return(); 
-};
 
 void GUI_BaseMenu::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
 {
@@ -940,31 +614,6 @@ void GUI_BaseMenu::Return()
 /////////////////////////////////////////////////////////////////////////////
 // OK dialog widgets
 /////////////////////////////////////////////////////////////////////////////
-#define OKD1_PX 140
-#define OKD1_PY 140
-#define OKD1_VX 360
-#define OKD1_VY 95
-
-
-class GUI_OKDialog1 : public GUI_BaseMenu {
-public:
-  GUI_OKDialog1(char* title, char* line1="", char* line2="");
-
-  void Reset(char* title, char* line1="");
-  
-  GUI_Board Board1;
-  GUI_Label OKDialog1;
-  
-  GUI_Label lPrompt1;
-  
-  GUI_ButtonSmall bOK;
-  
-  void Show();
-  void Hide();
-  void Default();
-  
-  bool eventButtonClick(int id, SDLWidget* widget);
-};
 
 void GUI_OKDialog1::Reset(char* title, char* line1)
 {
@@ -1038,32 +687,6 @@ void GUI_OKDialog1::Hide()
 /////////////////////////////////////////////////////////////////////////////
 // OK dialog widgets
 /////////////////////////////////////////////////////////////////////////////
-#define OKD2_PX 140
-#define OKD2_PY 140
-#define OKD2_VX 360
-#define OKD2_VY 120
-
-
-class GUI_OKDialog2 : public GUI_BaseMenu {
-public:
-  GUI_OKDialog2(char* title, char* line1="", char* line2="");
-
-  void Reset(char* title, char* line1="", char* line2="");
-  
-  GUI_Board Board1;
-  GUI_Label OKDialog2;
-  
-  GUI_Label lPrompt1;
-  GUI_Label lPrompt2;
-  
-  GUI_ButtonSmall bOK;
-  
-  void Show();
-  void Hide();
-  void Default();
-  
-  bool eventButtonClick(int id, SDLWidget* widget);
-};
 
 void GUI_OKDialog2::Reset(char* title, char* line1, char* line2)
 {
@@ -1144,35 +767,6 @@ void GUI_OKDialog2::Hide()
 /////////////////////////////////////////////////////////////////////////////
 // OK dialog widgets
 /////////////////////////////////////////////////////////////////////////////
-#define YN_PX 140
-#define YN_PY 140
-#define YN_VX 360
-#define YN_VY 95
-
-
-class GUI_YNDialog : public GUI_BaseMenu {
-public:
-  GUI_YNDialog();
-
-  void Reset(void (*cb)(int res), char* title, char* line1="", char* tla="YES", char* tlb="NO");
-  
-  GUI_Board Board1;
-  GUI_Label YNDialog;
-  
-  GUI_Label lPrompt1;
-  
-  GUI_ButtonSmall bA;
-  GUI_ButtonSmall bB;
-
-  int result;
-  void (*callback)(int res);
-
-  void Show();
-  void Hide();
-  void Default();
-  
-  bool eventButtonClick(int id, SDLWidget* widget);
-};
 
 void GUI_YNDialog::Reset(void (*cb)(int res), char* title, char* line1, char* tla, char* tlb)
 {
@@ -1257,37 +851,6 @@ void GUI_YNDialog::Hide()
 /////////////////////////////////////////////////////////////////////////////
 // Main menu widgets
 /////////////////////////////////////////////////////////////////////////////
-#define MM_PX 180
-#define MM_PY 40
-#define MM_VX 280
-#define MM_VY 400
-
-
-class GUI_MainMenu : public GUI_BaseMenu {
-public:
-  GUI_MainMenu();
-
-//  GUI_Bitmap mBack1;
-  
-  GUI_ButtonBig lMainMenu;
-  GUI_ButtonBig bNewGame;
-  GUI_ButtonBig bEndGame;
-  GUI_ButtonBig bJoinDiscGame;
-  GUI_ButtonBig bCreatePlayer;
-  GUI_ButtonBig bDeletePlayer;
-  GUI_ButtonBig bOptions;
-  GUI_ButtonBig bHelp;
-  GUI_ButtonBig bCredits;
-  GUI_ButtonBig bQuit;
-  GUI_ButtonBig bGame;
-  
-  void Show();
-  void Hide();
-  void Return();
-  void Default();
-  
-  bool eventButtonClick(int id, SDLWidget* widget);
-};
 
 GUI_MainMenu::GUI_MainMenu():
 GUI_BaseMenu(GUI_MAINMENU, mkrect(MM_PX,MM_PY,MM_VX,MM_VY)),
@@ -1488,36 +1051,6 @@ void GUI_MainMenu::Return()
 /////////////////////////////////////////////////////////////////////////////
 // JoinGame menu widgets
 /////////////////////////////////////////////////////////////////////////////
-#define JG_PX 140
-#define JG_PY 165
-#define JG_VX 360
-#define JG_VY 170
-
-
-class GUI_JoinGameMenu : public GUI_BaseMenu {
-public:
-  GUI_JoinGameMenu();
-  
-  GUI_Board Board1;
-  GUI_Label JoinGameMenu;
-  
-  GUI_Label lServerAddress;
-  GUI_TextEdit eServerAddress;
-  GUI_Label lClientName;
-  GUI_TextEdit eClientName;
-  GUI_Label lClientDesc;
-  GUI_TextEdit eClientDesc;
-  
-  GUI_ButtonSmall bConnect;
-  GUI_ButtonSmall bCancel;
-  
-  void Show();
-  void Hide();
-  void Default();
-  void Return();
-  
-  bool eventButtonClick(int id, SDLWidget* widget);
-};
 
 GUI_JoinGameMenu* JGMenu;
 
@@ -1649,57 +1182,6 @@ void GUI_JoinGameMenu::Hide()
 /////////////////////////////////////////////////////////////////////////////
 // NewGame menu widgets
 /////////////////////////////////////////////////////////////////////////////
-#define NG_PX 140
-#define NG_PY 40
-#define NG_VX 360
-#define NG_VY 400
-
-class GUI_NewGameMenu : public GUI_BaseMenu {
-public:
-  GUI_NewGameMenu();
-  
-  GUI_Board Board;
-  GUI_Label NewGameMenu;
-  GUI_Label lServerName;
-  GUI_TextEdit eServerName;
-  GUI_Label lWelcomeMsg;
-  GUI_TextEdit eWelcomeMsg;
-  GUI_Label lMaxClients;
-  GUI_NumEdit eMaxClients;
-  GUI_Label lIP;
-  GUI_Label lHost;
-  GUI_ButtonSmall bStartIt;
-  GUI_ButtonSmall bCancel;
-
-  GUI_Label lChoose1;
-  GUI_Label lChoose2;
-
-  GUI_Board Board1;
-  GUI_Board Board2;
-  GUI_Board Board3;
-
-  GUI_Label lAuthFile;
-  GUI_Label lDesc1;
-  GUI_Label lDesc2;
-  GUI_Label lDesc3;
-
-  GUI_CheckBox cJoin;
-
-  GUI_WidgetList WidgetList1; 
-  GUI_WidgetList WidgetList2; 
-
-  GUI_LabelL* selected1;
-  GUI_LabelL* selected2;
-  
-  void Show();
-  void Hide();
-  void Default();
-  void Return();
-
-  void GenerateScriptSelection();
-  
-  bool eventButtonClick(int id, SDLWidget* widget);
-};
 
 GUI_NewGameMenu* NGMenu;
 
@@ -2049,31 +1531,6 @@ void GUI_NewGameMenu::Hide()
 /////////////////////////////////////////////////////////////////////////////
 // Disconnect menu widgets
 /////////////////////////////////////////////////////////////////////////////
-#define DG_PX 140
-#define DG_PY 140
-#define DG_VX 360
-#define DG_VY 120
-
-
-class GUI_DisconnectMenu : public GUI_BaseMenu {
-public:
-  GUI_DisconnectMenu();
-  
-  GUI_Board Board1;
-  GUI_Label DisconnectMenu;
-  
-  GUI_Label lPrompt1;
-  GUI_Label lPrompt2;
-  
-  GUI_ButtonSmall bOK;
-  GUI_ButtonSmall bCancel;
-  
-  void Show();
-  void Hide();
-  void Default();
-  
-  bool eventButtonClick(int id, SDLWidget* widget);
-};
 
 GUI_DisconnectMenu::GUI_DisconnectMenu():
 GUI_BaseMenu(GUI_DISCONNECT, mkrect(DG_PX,DG_PY,DG_VX,DG_VY)),
@@ -2160,62 +1617,6 @@ void GUI_DisconnectMenu::Hide()
 /////////////////////////////////////////////////////////////////////////////
 // Credits menu widgets
 /////////////////////////////////////////////////////////////////////////////
-#define CM_PX 90
-#define CM_PY 30
-#define CM_VX 460
-#define CM_VY 420
-
-
-class GUI_CreditsMenu : public GUI_BaseMenu {
-public:
-  GUI_CreditsMenu();
-  
-  GUI_Board Board1;
-  GUI_Bitmap mBack1;
-  GUI_LabelC CreditsMenu;
-  
-  GUI_LabelC lLine1;
-  GUI_LabelC lLine2;
-  GUI_LabelC lLine3;
-  GUI_LabelC lLine4;
-  GUI_LabelC lLine5;
-  GUI_LabelC lLine6;
-  GUI_LabelC lLine7;
-  GUI_LabelC lLine8;
-  GUI_LabelC lLine9;
-  GUI_LabelC lLine10;
-  GUI_LabelC lLine11;
-  GUI_LabelC lLine12;
-  GUI_LabelC lLine13;
-  GUI_LabelC lLine14;
-  GUI_LabelC lLine15;
-  GUI_LabelC lLine16;
-  GUI_LabelC lLine17;
-  GUI_LabelC lLine18;
-  GUI_LabelC lLine19;
-  GUI_LabelC lLine20;
-
-  GUI_ButtonSmall bOK;
-  
-  void Show();
-  void Hide();
-  void Default();
-  
-  bool eventButtonClick(int id, SDLWidget* widget);
-};
-
-#define CM_G1_PX (CM_PX+8)
-#define CM_G1_PY (CM_PY)
-#define CM_G1_VX (CM_VX/2)
-
-#define CM_G1X_PX (CM_PX+52)
-#define CM_G1X_PY (CM_PY)
-
-
-#define CM_G2_PX (CM_PX+10+CM_VX/2+10)
-#define CM_G2_PY (CM_PY-120)
-#define CM_G2_VX (CM_VX/2)
-
 
 GUI_CreditsMenu::GUI_CreditsMenu():
 GUI_BaseMenu(GUI_CREDITS, mkrect(CM_PX,CM_PY,CM_VX,CM_VY)),
@@ -2405,30 +1806,6 @@ void GUI_CreditsMenu::Hide()
 /////////////////////////////////////////////////////////////////////////////
 // Options menu widgets
 /////////////////////////////////////////////////////////////////////////////
-#define OM_PX 180
-#define OM_PY 100
-#define OM_VX 280
-#define OM_VY 280
-
-
-class GUI_OptionsMenu : public GUI_BaseMenu {
-public:
-  GUI_OptionsMenu();
-  
-  GUI_ButtonBig lOptionsMenu;
-  GUI_ButtonBig bServer;
-  GUI_ButtonBig bClient;
-  GUI_ButtonBig bVideo;
-  GUI_ButtonBig bSound;
-  GUI_ButtonBig bPaths;
-  GUI_ButtonBig bBack;
-  
-  void Show();
-  void Hide();
-  void Default();
-  
-  bool eventButtonClick(int id, SDLWidget* widget);
-};
 
 GUI_OptionsMenu::GUI_OptionsMenu():
 GUI_BaseMenu(GUI_OPTIONS, mkrect(OM_PX,OM_PY,OM_VX,OM_VY)),
@@ -2510,29 +1887,6 @@ void GUI_OptionsMenu::Hide()
 /////////////////////////////////////////////////////////////////////////////
 // CreatePlayers menu widgets
 /////////////////////////////////////////////////////////////////////////////
-#define CPS_PX 180
-#define CPS_PY 130
-#define CPS_VX 280
-#define CPS_VY 240
-
-
-class GUI_CreatePlayerSelMenu : public GUI_BaseMenu {
-public:
-  GUI_CreatePlayerSelMenu();
-  
-  GUI_ButtonBig lCreatePlayerSelMenu;
-  GUI_ButtonBig bCP1;
-  GUI_ButtonBig bCP2;
-  GUI_ButtonBig bCP3;
-  GUI_ButtonBig bCP4;
-  GUI_ButtonBig bBack;
-  
-  void Show();
-  void Hide();
-  void Default();
-  
-  bool eventButtonClick(int id, SDLWidget* widget);
-};
 
 GUI_CreatePlayerSelMenu::GUI_CreatePlayerSelMenu():
 GUI_BaseMenu(GUI_CREATEPLAYER, mkrect(CPS_PX,CPS_PY,CPS_VX,CPS_VY)),
@@ -2609,45 +1963,6 @@ void GUI_CreatePlayerSelMenu::Hide()
 /////////////////////////////////////////////////////////////////////////////
 // Paths menu widgets
 /////////////////////////////////////////////////////////////////////////////
-#define PM_PX 140
-#define PM_PY 120
-#define PM_VX 360
-#define PM_VY 245
-
-
-class GUI_PathsMenu : public GUI_BaseMenu {
-public:
-  GUI_PathsMenu();
-  
-  GUI_Board Board1;
-  GUI_Label lPathsMenu;
-  GUI_Label lEffect;
-  
-  GUI_Label lScriptDir;
-  GUI_TextEdit eScriptDir;
-  GUI_Label lSpriteDir;
-  GUI_TextEdit eSpriteDir;
-  GUI_Label lMapDir;
-  GUI_TextEdit eMapDir;
-  GUI_Label lSndDir;
-  GUI_TextEdit eSndDir;
-  GUI_Label lSkinDir;
-  GUI_TextEdit eSkinDir;
-  GUI_Label lGuiDir;
-  GUI_TextEdit eGuiDir;
-  GUI_Label lGfxDir;
-  GUI_TextEdit eGfxDir;
-  
-  GUI_ButtonSmall bChange;
-  GUI_ButtonSmall bCancel;
-  
-  void Show();
-  void Hide();
-  void Default();
-  void Return();
-  
-  bool eventButtonClick(int id, SDLWidget* widget);
-};
 
 void GUI_PathsMenu::Return()
 {
@@ -2660,8 +1975,6 @@ void GUI_PathsMenu::Return()
   eGfxDir.EditEnd();
   GUI_BaseMenu::Return();
 }
-
-#define PM_BASE 65
 
 GUI_PathsMenu::GUI_PathsMenu():
 GUI_BaseMenu(GUI_PATHS, mkrect(PM_PX,PM_PY,PM_VX,PM_VY)),
@@ -2826,35 +2139,10 @@ void GUI_PathsMenu::Hide()
   bCancel.Hide();
 }
 
-/////////////////////////////////////////////////////////////////////////////
-// CreatePlayer menu widgets
-/////////////////////////////////////////////////////////////////////////////
-#define CP_PX 120
-#define CP_PY 90
-#define CP_VX 400
-#define CP_VY 270
-
-#define CP_SK_X    (CP_PX+CP_VX-34-10)
-#define CP_SK_Y    (CP_PY+40)
 
 /////////////////////////////////////////////////////////////////////////////
 // Skin widgets
 /////////////////////////////////////////////////////////////////////////////
-
-class GUI_ButtonS : public SDLWidget {
-public:
-  GUI_ButtonS(SDLWidget* parent, int btnid, SDL_Rect& r);
-  
-  void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
-  bool eventMouseButtonDown(const SDL_MouseButtonEvent* button);
-  bool eventMouseButtonUp(const SDL_MouseButtonEvent* button);
-  
-  bool SetBackground(const char* filename, int mode);
-  
-  SDL_Surface* background;
-  
-  int id;
-};
 
 GUI_ButtonS::GUI_ButtonS(SDLWidget* parent, int btnid, SDL_Rect& r):
 SDLWidget(parent, r, false)
@@ -2908,21 +2196,6 @@ bool GUI_ButtonS::SetBackground(const char* filename, int mode){
   background = SDL_LoadBMP(SDLApplication::GetRelativePath((char*)filename));
   return (background != NULL);
 }
-
-class GUI_SkinPic : public SDLWidget {
-public:
-  GUI_SkinPic(SDLWidget* parent, SDL_Rect& r);
-  ~GUI_SkinPic();
-  
-  void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
-  
-  GUI_TextEdit *lName;
-  CSpriteInfo* sprite;
-  
-  bool NextSkin();
-  bool PrevSkin();
-  void SetSkin(char* name);
-};
 
 GUI_SkinPic::GUI_SkinPic(SDLWidget* parent, SDL_Rect& r):
 SDLWidget(parent, r, false)
@@ -3014,22 +2287,6 @@ void GUI_SkinPic::SetSkin(char* ns)
   GetParent()->Redraw();
 }
 
-
-class GUI_SkinCtrl : public SDLWidget {
-public:
-  GUI_SkinCtrl(SDLWidget* parent, SDL_Rect& r, bool storebackground = false);
-  
-  void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
-  bool eventButtonClick(int id, SDLWidget* widget);
-  
-  GUI_SkinPic SkinPic;
-  SDLButton bNext;
-  SDLButton bPrev;
-  
-  SDL_Color c;
-  bool drawbackground;
-};
-
 GUI_SkinCtrl::GUI_SkinCtrl(SDLWidget* parent, SDL_Rect& r,  bool storebackground):
 SDLWidget(parent,r,storebackground),
 SkinPic(NULL, SDLWidget::mkrect(CP_SK_X+1, CP_SK_Y+1, 32, 32)),
@@ -3088,38 +2345,6 @@ bool GUI_SkinCtrl::eventButtonClick(int id, SDLWidget* widget)
   return true;
 }
 
-class GUI_Input : public SDLGradientWidget{
-public:
-	GUI_Input(SDLWidget* parent, SDL_Rect& r, int iid);
-	~GUI_Input();
-
-	void InputBegin();
-	void InputEnd();
-	char* GetText();
-	void SetText(char* new_text);
-
-  SDL_Color c_color;
-
-	void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
-	bool eventKeyDown(const SDL_KeyboardEvent* key);
-	bool eventMouseButtonDown(const SDL_MouseButtonEvent* button);
-	void eventInputFocusLost(SDLMessageObject* newfocus);
-
-	void DrawText(SDL_Surface* surface, SDL_Rect* rect);
-	char* GetDrawText();
-
-  Uint16 GetSym() { return sym; }
-  void SetSym(Uint16 s) { sym=s; }
-	
-	char text[256];
-	bool waiting;
-	int offset_x;
-  int id;
-
-  Uint16 sym;
-
-	SDL_Color textcolor;
-};
 
 GUI_Input::GUI_Input(SDLWidget* parent, SDL_Rect& r, int iid) :
 SDLGradientWidget(parent,r){
@@ -3233,62 +2458,6 @@ void GUI_Input::SetText(char* new_text){
 }
 
 
-class GUI_CreatePlayerMenu : public GUI_BaseMenu {
-public:
-  GUI_CreatePlayerMenu(int id, int inum);
-  int num;
-
-  GUI_Board Board1;
-  GUI_Label CreatePlayerMenu;
-  
-  GUI_Label lPName;
-  GUI_TextEdit ePName;
-  GUI_Label lSkin;
-  GUI_TextEdit eSkin;
-  GUI_SkinCtrl SkinCtrl;
-  
-  GUI_Input iUp;
-  GUI_Input iDown;
-  GUI_Input iLeft;
-  GUI_Input iRight;
-  GUI_Input iFire;
-  GUI_Input iWarp;
-  GUI_Input iShield;
-
-  GUI_Input iWeapon1;
-  GUI_Input iWeapon2;
-  GUI_Input iWeapon3;
-  GUI_Input iWeapon4;
-  GUI_Input iWeapon5;
-  
-  GUI_Label lUp;
-  GUI_Label lDown;
-  GUI_Label lLeft;
-  GUI_Label lRight;
-  GUI_Label lFire;
-  GUI_Label lWarp;
-  GUI_Label lShield;
-  
-  GUI_Label lWeapon1;
-  GUI_Label lWeapon2;
-  GUI_Label lWeapon3;
-  GUI_Label lWeapon4;
-  GUI_Label lWeapon5;
-
-  GUI_ButtonSmall bOK;
-  GUI_ButtonSmall bCancel;
-  
-  void Show();
-  void Hide();
-  void Default();
-  void Return();
-  
-  bool eventButtonClick(int id, SDLWidget* widget);
-  bool eventNextInput(int id, SDLWidget* widget);
-  bool eventMessage(MSG_MESSAGE* msg);
-
-  void NextBox();
-};
 
 void GUI_CreatePlayerMenu::Return()
 {
@@ -3316,15 +2485,6 @@ void GUI_CreatePlayerMenu::Return()
 
   GUI_BaseMenu::Return();
 }
-
-
-#define CP_INPUT_X1 (CP_PX + 5)
-#define CP_INPUT_Y1 (CP_PY + 90)
-
-#define CP_INPUT_X2 (CP_PX + 170)
-#define CP_INPUT_Y2 (CP_PY + 90)
-
-#define CCSX 60
 
 GUI_CreatePlayerMenu::GUI_CreatePlayerMenu(int id, int inum):
 GUI_BaseMenu(id, mkrect(CP_PX,CP_PY,CP_VX,CP_VY)),
@@ -3970,43 +3130,6 @@ void GUI_CreatePlayerMenu::Hide()
 /////////////////////////////////////////////////////////////////////////////
 // Sound menu widgets
 /////////////////////////////////////////////////////////////////////////////
-#define SM_PX 140
-#define SM_PY 110
-#define SM_VX 360
-#define SM_VY 255
-
-
-class GUI_SoundMenu : public GUI_BaseMenu {
-public:
-  GUI_SoundMenu();
-  
-  GUI_Board Board1;
-  GUI_Label SoundMenu;
-  GUI_Label lRange;
-  
-  GUI_Label lMusicVolume;
-  GUI_NumEdit eMusicVolume;
-  GUI_Label lSoundVolume;
-  GUI_NumEdit eSoundVolume;
-
-  GUI_CheckBox cSwap;
-  GUI_ButtonSmall b3ds;
-  
-  GUI_Label l3dDist;
-  GUI_FloatEdit e3dDist;
-  GUI_Label l3dRoll;
-  GUI_FloatEdit e3dRoll;
-
-  GUI_ButtonSmall bSet;
-  GUI_ButtonSmall bCancel;
-  
-  void Show();
-  void Hide();
-  void Default();
-  void Return();
-  
-  bool eventButtonClick(int id, SDLWidget* widget);
-};
 
 void GUI_SoundMenu::Return()
 {
@@ -4203,39 +3326,6 @@ void GUI_SoundMenu::Hide()
 /////////////////////////////////////////////////////////////////////////////
 // Results menu widgets
 /////////////////////////////////////////////////////////////////////////////
-#define RM_PX 280
-#define RM_PY 20
-#define RM_VX 280
-#define RM_VY 250
-
-#define RM_MAX_NAMES 20
-
-class GUI_ResultsMenu : public GUI_BaseMenu {
-public:
-  int index;
-
-  int px, py;
-
-  GUI_ResultsMenu();
-  
-  GUI_Board Board1;
-  GUI_Label lResultsMenu;
-  GUI_Label lLabel1;
-
-  GUI_ResultLine lNamex;
-  GUI_ResultLine lFragsx;
-  GUI_ResultLine lPointsx;
-  
-  GUI_ResultLine lName[RM_MAX_NAMES];
-  GUI_ResultLine lPoints[RM_MAX_NAMES];
-  GUI_ResultLine lFrags[RM_MAX_NAMES];
-  
-  void Show();
-  void Hide();
-  void Default();
-};
-
-#define RM_BASE 65
 
 GUI_ResultsMenu::GUI_ResultsMenu():
 GUI_BaseMenu(GUI_RESULTS, mkrect(RM_PX,RM_PY,RM_VX,RM_VY)),
@@ -4409,114 +3499,6 @@ void GUI_ResultsMenu::Hide()
 /////////////////////////////////////////////////////////////////////////////
 // Help1 menu widgets
 /////////////////////////////////////////////////////////////////////////////
-#define HM1_PX 114
-#define HM1_PY 60
-#define HM1_VX 412
-#define HM1_VY 357
-
-
-class GUI_Help1Menu : public GUI_BaseMenu {
-public:
-  GUI_Help1Menu();
-  
-  GUI_Board Board1;
-  GUI_Bitmap mBack1;
-  GUI_LabelC Help1Menu;
-  
-  GUI_LabelC lLine1a;
-  GUI_LabelC lLine1b;
-  GUI_LabelC lLine1c;
-
-  GUI_LabelC lLine2a;
-  GUI_LabelC lLine2b;
-  GUI_LabelC lLine2c;
-
-  GUI_LabelC lLine3a;
-  GUI_LabelC lLine3b;
-  GUI_LabelC lLine3c;
-  
-  GUI_LabelC lLine4a;
-  GUI_LabelC lLine4b;
-  GUI_LabelC lLine4c;
-
-  GUI_LabelC lLine5a;
-  GUI_LabelC lLine5b;
-  GUI_LabelC lLine5c;
-
-  GUI_ButtonSmall bReturn;
-  GUI_ButtonSmall bNext;
-  GUI_ButtonSmall bPrev;
-
-  GUI_LabelC lI1a;
-  GUI_LabelC lI1b;
-  GUI_LabelC lI2a;
-  GUI_LabelC lI2b;
-  GUI_LabelC lI3a;
-  GUI_LabelC lI3b;
-  GUI_LabelC lI4a;
-  GUI_LabelC lI4b;
-  GUI_LabelC lI5a;
-  GUI_LabelC lI5b;
-  GUI_LabelC lI6a;
-  GUI_LabelC lI6b;
-  
-
-  void Show();
-  void Hide();
-  void Default();
-  
-  bool eventButtonClick(int id, SDLWidget* widget);
-};
-
-#define HM1_LY1 12
-
-#define HM1_G1_PX (HM1_PX+76)
-#define HM1_G1_PY (HM1_PY+48)
-#define HM1_G1_VX (210)
-
-#define HM1_G2_PX (HM1_PX+76)
-#define HM1_G2_PY (HM1_PY+101)
-#define HM1_G2_VX (210)
-
-#define HM1_G3_PX (HM1_PX+76)
-#define HM1_G3_PY (HM1_PY+154)
-#define HM1_G3_VX (210)
-
-#define HM1_G4_PX (HM1_PX+76)
-#define HM1_G4_PY (HM1_PY+207)
-#define HM1_G4_VX (210)
-
-#define HM1_G5_PX (HM1_PX+76)
-#define HM1_G5_PY (HM1_PY+259)
-#define HM1_G5_VX (210)
-
-
-#define HM1_LY2 12
-
-#define HM1_I1_PX (HM1_PX+338)
-#define HM1_I1_PY (HM1_PY+47)
-#define HM1_I1_VX (70)
-
-#define HM1_I2_PX (HM1_PX+338)
-#define HM1_I2_PY (HM1_PY+94)
-#define HM1_I2_VX (70)
-
-#define HM1_I3_PX (HM1_PX+338)
-#define HM1_I3_PY (HM1_PY+139)
-#define HM1_I3_VX (70)
-
-#define HM1_I4_PX (HM1_PX+338)
-#define HM1_I4_PY (HM1_PY+185)
-#define HM1_I4_VX (70)
-
-#define HM1_I5_PX (HM1_PX+338)
-#define HM1_I5_PY (HM1_PY+231)
-#define HM1_I5_VX (70)
-
-#define HM1_I6_PX (HM1_PX+338)
-#define HM1_I6_PY (HM1_PY+278)
-#define HM1_I6_VX (70)
-
 
 GUI_Help1Menu::GUI_Help1Menu():
 GUI_BaseMenu(GUI_HELP1, mkrect(HM1_PX,HM1_PY,HM1_VX,HM1_VY)),
@@ -4714,168 +3696,6 @@ void GUI_Help1Menu::Hide()
 /////////////////////////////////////////////////////////////////////////////
 // Help2 menu widgets
 /////////////////////////////////////////////////////////////////////////////
-#define HM2_PX 110
-#define HM2_PY 45
-#define HM2_VX 422
-#define HM2_VY 392
-
-
-class GUI_Help2Menu : public GUI_BaseMenu {
-public:
-  GUI_Help2Menu();
-  
-  GUI_Board Board1;
-  GUI_Bitmap mBack1;
-  GUI_LabelC Help2Menu;
-  
-  GUI_ButtonSmall bReturn;
-  GUI_ButtonSmall bNext;
-  GUI_ButtonSmall bPrev;
-
-  GUI_LabelC lI1a;
-  GUI_LabelC lI1b;
-  GUI_LabelC lI2a;
-  GUI_LabelC lI2b;
-  GUI_LabelC lI3a;
-  GUI_LabelC lI3b;
-  GUI_LabelC lI4a;
-  GUI_LabelC lI4b;
-  GUI_LabelC lI5a;
-  GUI_LabelC lI5b;
-  GUI_LabelC lI6a;
-  GUI_LabelC lI6b;
-  GUI_LabelC lI7a;
-  GUI_LabelC lI7b;
-
-  GUI_LabelC lJ1a;
-  GUI_LabelC lJ1b;
-  GUI_LabelC lJ2a;
-  GUI_LabelC lJ2b;
-  GUI_LabelC lJ3a;
-  GUI_LabelC lJ3b;
-  GUI_LabelC lJ4a;
-  GUI_LabelC lJ4b;
-  GUI_LabelC lJ5a;
-  GUI_LabelC lJ5b;
-  GUI_LabelC lJ6a;
-  GUI_LabelC lJ6b;
-  GUI_LabelC lJ7a;
-  GUI_LabelC lJ7b;
-
-  GUI_LabelC lK1a;
-  GUI_LabelC lK1b;
-  GUI_LabelC lK2a;
-  GUI_LabelC lK2b;
-  GUI_LabelC lK3a;
-  GUI_LabelC lK3b;
-  GUI_LabelC lK4a;
-  GUI_LabelC lK4b;
-  GUI_LabelC lK5a;
-  GUI_LabelC lK5b;
-  GUI_LabelC lK6a;
-  GUI_LabelC lK6b;
-  GUI_LabelC lK7a;
-  GUI_LabelC lK7b;
-  
-
-  void Show();
-  void Hide();
-  void Default();
-  
-  bool eventButtonClick(int id, SDLWidget* widget);
-};
-
-#define HM2_LY1 12
-
-#define HM2_I1_PX (HM2_PX+52)
-#define HM2_I1_PY (HM2_PY+45)
-#define HM2_I1_VX (100)
-
-#define HM2_I2_PX (HM2_PX+52)
-#define HM2_I2_PY (HM2_PY+90)
-#define HM2_I2_VX (100)
-
-#define HM2_I3_PX (HM2_PX+52)
-#define HM2_I3_PY (HM2_PY+136)
-#define HM2_I3_VX (100)
-
-#define HM2_I4_PX (HM2_PX+52)
-#define HM2_I4_PY (HM2_PY+182)
-#define HM2_I4_VX (100)
-
-#define HM2_I5_PX (HM2_PX+52)
-#define HM2_I5_PY (HM2_PY+229)
-#define HM2_I5_VX (100)
-
-#define HM2_I6_PX (HM2_PX+52)
-#define HM2_I6_PY (HM2_PY+274)
-#define HM2_I6_VX (100)
-
-#define HM2_I7_PX (HM2_PX+52)
-#define HM2_I7_PY (HM2_PY+320)
-#define HM2_I7_VX (100)
-
-
-#define HM2_LY2 12
-
-#define HM2_J1_PX (HM2_PX+194)
-#define HM2_J1_PY (HM2_PY+45)
-#define HM2_J1_VX (100)
-
-#define HM2_J2_PX (HM2_PX+194)
-#define HM2_J2_PY (HM2_PY+90)
-#define HM2_J2_VX (100)
-
-#define HM2_J3_PX (HM2_PX+194)
-#define HM2_J3_PY (HM2_PY+136)
-#define HM2_J3_VX (100)
-
-#define HM2_J4_PX (HM2_PX+194)
-#define HM2_J4_PY (HM2_PY+182)
-#define HM2_J4_VX (100)
-
-#define HM2_J5_PX (HM2_PX+194)
-#define HM2_J5_PY (HM2_PY+229)
-#define HM2_J5_VX (100)
-
-#define HM2_J6_PX (HM2_PX+194)
-#define HM2_J6_PY (HM2_PY+274)
-#define HM2_J6_VX (100)
-
-#define HM2_J7_PX (HM2_PX+194)
-#define HM2_J7_PY (HM2_PY+320)
-#define HM2_J7_VX (100)
-
-#define HM2_LY3 12
-
-#define HM2_K1_PX (HM2_PX+335)
-#define HM2_K1_PY (HM2_PY+45)
-#define HM2_K1_VX (100)
-
-#define HM2_K2_PX (HM2_PX+335)
-#define HM2_K2_PY (HM2_PY+90)
-#define HM2_K2_VX (100)
-
-#define HM2_K3_PX (HM2_PX+335)
-#define HM2_K3_PY (HM2_PY+136)
-#define HM2_K3_VX (100)
-
-#define HM2_K4_PX (HM2_PX+335)
-#define HM2_K4_PY (HM2_PY+182)
-#define HM2_K4_VX (100)
-
-#define HM2_K5_PX (HM2_PX+335)
-#define HM2_K5_PY (HM2_PY+229)
-#define HM2_K5_VX (100)
-
-#define HM2_K6_PX (HM2_PX+335)
-#define HM2_K6_PY (HM2_PY+274)
-#define HM2_K6_VX (100)
-
-#define HM2_K7_PX (HM2_PX+335)
-#define HM2_K7_PY (HM2_PY+320)
-#define HM2_K7_VX (100)
-
 
 GUI_Help2Menu::GUI_Help2Menu():
 GUI_BaseMenu(GUI_HELP2, mkrect(HM2_PX,HM2_PY,HM2_VX,HM2_VY)),
@@ -5127,32 +3947,6 @@ void GUI_Help2Menu::Hide()
 /////////////////////////////////////////////////////////////////////////////
 // DeletePlayer menu widgets
 /////////////////////////////////////////////////////////////////////////////
-#define DPM_PX 140
-#define DPM_PY 165
-#define DPM_VX 360
-#define DPM_VY 150
-
-class GUI_DeletePlayerMenu : public GUI_BaseMenu {
-public:
-  GUI_DeletePlayerMenu();
-  
-  GUI_Board Board1;
-  GUI_Label DeletePlayerMenu;
-  GUI_ButtonSmall bDelete;
-  GUI_ButtonSmall bCancel;
-  GUI_Label lChoose;
-  GUI_Board Board2;
-  GUI_WidgetList WidgetList;
-  
-  void Show();
-  void Hide();
-  void Default();
-  void Return();
-  
-  bool eventButtonClick(int id, SDLWidget* widget);
-
-  GUI_LabelL* selected1;
-};
 
 void GUI_DeletePlayerMenu::Return()
 {
@@ -5267,42 +4061,6 @@ void GUI_DeletePlayerMenu::Hide()
 /////////////////////////////////////////////////////////////////////////////
 // Video menu widgets
 /////////////////////////////////////////////////////////////////////////////
-#define VM_PX 140
-#define VM_PY 110
-#define VM_VX 360
-#define VM_VY 270
-
-
-class GUI_VideoMenu : public GUI_BaseMenu {
-public:
-  GUI_VideoMenu();
-  
-  GUI_Board Board1;
-  GUI_Label VideoMenu;
-  GUI_Label lEffect;
-
-  GUI_CheckBox cFullscreen;
-  GUI_CheckBox cDB;
-  GUI_CheckBox cGLBlit;
-  GUI_CheckBox cAlphaMenu;
-
-  GUI_Label lGamma_r;
-  GUI_FloatEdit eGamma_r;
-  GUI_Label lGamma_g;
-  GUI_FloatEdit eGamma_g;
-  GUI_Label lGamma_b;
-  GUI_FloatEdit eGamma_b;
-  
-  GUI_ButtonSmall bSet;
-  GUI_ButtonSmall bCancel;
-  
-  void Show();
-  void Hide();
-  void Default();
-  void Return();
-  
-  bool eventButtonClick(int id, SDLWidget* widget);
-};
 
 void GUI_VideoMenu::Return()
 {
@@ -5492,45 +4250,6 @@ void GUI_VideoMenu::Hide()
 /////////////////////////////////////////////////////////////////////////////
 // Server menu widgets
 /////////////////////////////////////////////////////////////////////////////
-#define SMS_PX 140
-#define SMS_PY 105
-#define SMS_VX 360
-#define SMS_VY 270
-
-
-class GUI_ServerMenu : public GUI_BaseMenu {
-public:
-  GUI_ServerMenu();
-  
-  GUI_Board Board1;
-  GUI_Label ServerMenu;
-  
-  GUI_Label lServerName;
-  GUI_TextEdit eServerName;
-  GUI_Label lWelcomeMsg;
-  GUI_TextEdit eWelcomeMsg;
-  GUI_Label lMaxClients;
-  GUI_NumEdit eMaxClients;
-
-  GUI_Label lTimelimit;
-  GUI_NumEdit eTimelimit;
-
-  GUI_CheckBox cDelTmps;
-  GUI_CheckBox cRDRqs;
-  GUI_CheckBox cRURqs;
-
-  GUI_ButtonSmall bSet;
-  GUI_ButtonSmall bCancel;
-
-  GUI_Label lEffect;
-
-  void Show();
-  void Hide();
-  void Default();
-  void Return();
-  
-  bool eventButtonClick(int id, SDLWidget* widget);
-};
 
 void GUI_ServerMenu::Return()
 {
@@ -5720,40 +4439,6 @@ void GUI_ServerMenu::Hide()
 /////////////////////////////////////////////////////////////////////////////
 // Client menu widgets
 /////////////////////////////////////////////////////////////////////////////
-#define CMS_PX 140
-#define CMS_PY 130
-#define CMS_VX 360
-#define CMS_VY 220
-
-
-class GUI_ClientMenu : public GUI_BaseMenu {
-public:
-  GUI_ClientMenu();
-  
-  GUI_Board Board1;
-  GUI_Label ClientMenu;
-  
-  GUI_Label lClientName;
-  GUI_TextEdit eClientName;
-  GUI_Label lClientDesc;
-  GUI_TextEdit eClientDesc;
-
-  GUI_CheckBox cDelTmps;
-  GUI_CheckBox cDRqs;
-  GUI_CheckBox cURqs;
-
-  GUI_Label lEffect;
-
-  GUI_ButtonSmall bSet;
-  GUI_ButtonSmall bCancel;
-  
-  void Show();
-  void Hide();
-  void Default();
-  void Return();
-  
-  bool eventButtonClick(int id, SDLWidget* widget);
-};
 
 void GUI_ClientMenu::Return()
 {

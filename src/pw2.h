@@ -7,7 +7,7 @@
 #include <math.h>
 #include <time.h>
 
-#include "SDL.h"
+#include "protocol.h"
 
 #include "cvar.h"
 
@@ -30,7 +30,20 @@ extern DECLSPEC cvar_t	glblit;
 
 extern DECLSPEC cvar_t	alphamenu;
 
+extern SDL_Surface *credits;
+extern SDL_Surface *help1;
+extern SDL_Surface *help2;
 
+extern char auto_playername[4][PWP_MAX_PLAYER_NAME];
+extern Uint32 time_playername;
+extern char auto_skinname[4][MAX_SPRITE_NAME];
+extern char auto_skinplayername[4][PWP_MAX_PLAYER_NAME];
+extern Uint32 time_skinname;
+extern char auto_chasename[4][PWP_MAX_PLAYER_NAME];
+extern Uint32 time_chasename;
+
+extern cvar_t sound_volume;
+extern bool inloop;
 
 extern DECLSPEC int LoadConfig(char* cfgname);
 extern DECLSPEC int SaveConfig(char* cfgname);
@@ -47,5 +60,6 @@ extern DECLSPEC void RenderResults(SDL_Surface *screen);
 extern DECLSPEC void GUI_Refresh();
 extern DECLSPEC void ResetGamma();
 
+void SetKeybindings(int kbindex, int set);
 
 #endif

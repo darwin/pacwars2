@@ -1,7 +1,7 @@
 
-SUBDIRS = console seer
+SUBDIRS = console seer gui
 
-INCLUDES = $(PARAGUI_CFLAGS) -I./console -I./seer -DDISABLE_BASS
+INCLUDES = $(PARAGUI_CFLAGS) -I./console -I./seer -I./gui -DDISABLE_BASS
 
 bin_PROGRAMS = pw2
 
@@ -9,6 +9,7 @@ pw2dir = $(prefix)
 
 pw2_LDADD = $(PARAGUI_LIBS) \
 	-lconsole -lseer -L./console -L./seer \
+	-lgui -L./gui \
 	-lSDL_net -lSDL_image -lSDL_mixer
 
 pw2_SOURCES = \
@@ -57,7 +58,6 @@ EXTRA_DIST = \
 	pac_shot.h \
 	scripting.h \
 	bldnum.h \
-	gui.h \
 	net.h \
 	pac_extra.h \
 	pac_sound.h \

@@ -104,6 +104,7 @@ Makefile
 src/Makefile
 src/console/Makefile
 src/seer/Makefile
+src/gui/Makefile
 bin/Makefile
 bin/gfx/Makefile
 bin/gfx/game/Makefile

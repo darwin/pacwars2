@@ -20,6 +20,7 @@
 #include "sprite.h"
 #include "sampleman.h"
 #include "gmath.h"
+#include "map.h"
 
 typedef bool ObjColCB(GObj* obj);
 typedef bool MapColCB(BLKSTR* blk, int mx, int my);

@@ -22,8 +22,6 @@
 #undef DrawText
 #undef SendMessage
 
-#include "paragui.h"
-
 #include <sdlwidget.h>
 #include <sdlapplication.h>
 #include <sdlbutton.h>
@@ -50,9 +48,6 @@
 //## Dependent includes
 //###########################################################################
 
-#include "SDL.h"
-#include "SDL_image.h"
-//#include "SDL_lowvideo.h"
 #include "pw2.h"
 
 #include "sampleman.h"
