@@ -673,7 +673,7 @@ public:
 
   GUI_ButtonSmall bReturn;
   GUI_ButtonSmall bNext;
-  GUI_ButtonSmall bPrev;
+  //GUI_ButtonSmall bPrev;
 
   GUI_LabelC lI1a;
   GUI_LabelC lI1b;
@@ -764,7 +764,7 @@ public:
   GUI_LabelC Help2Menu;
   
   GUI_ButtonSmall bReturn;
-  GUI_ButtonSmall bNext;
+  //GUI_ButtonSmall bNext;
   GUI_ButtonSmall bPrev;
 
   GUI_LabelC lI1a;

@@ -1356,7 +1356,7 @@ lI5a(NULL, SDLWidget::mkrect(HM1_I5_PX,HM1_I5_PY, HM1_I5_VX-2, 20), "DRINK", fal
 lI5b(NULL, SDLWidget::mkrect(HM1_I5_PX,HM1_I5_PY+HM1_LY2, HM1_I5_VX-2, 20), "11 points", false),
 lI6a(NULL, SDLWidget::mkrect(HM1_I6_PX,HM1_I6_PY, HM1_I6_VX-2, 20), "DRINK", false),
 lI6b(NULL, SDLWidget::mkrect(HM1_I6_PX,HM1_I6_PY+HM1_LY2, HM1_I6_VX-2, 20), "13 points", false),
-bPrev(NULL, 2, SDLWidget::mkrect(HM1_PX+5,HM1_PY+330,70,20), "PREV"),
+//bPrev(NULL, 2, SDLWidget::mkrect(HM1_PX+5,HM1_PY+330,70,20), "PREV"),
 bReturn(NULL, 1, SDLWidget::mkrect(HM1_PX+(HM1_VX-100)/2,HM1_PY+330,100,20), "RETURN"),
 bNext(NULL, 3, SDLWidget::mkrect(HM1_PX+HM1_VX-5-70,HM1_PY+330,70,20), "NEXT")
 {
@@ -1365,7 +1365,6 @@ bNext(NULL, 3, SDLWidget::mkrect(HM1_PX+HM1_VX-5-70,HM1_PY+330,70,20), "NEXT")
   Help1Menu.SetAlignment(SDL_TA_CENTER); 
   Help1Menu.SetFont(MainFont);
   
-  AddChild(&mBack1);
   AddChild(&Help1Menu);
 
   AddChild(&lLine1a);
@@ -1403,8 +1402,9 @@ bNext(NULL, 3, SDLWidget::mkrect(HM1_PX+HM1_VX-5-70,HM1_PY+330,70,20), "NEXT")
   
   AddChild(&bReturn);
   AddChild(&bNext);
-  AddChild(&bPrev);
+  //AddChild(&bPrev);
 
+  AddChild(&mBack1);
   AddChild(&Board1);
 }
 
@@ -1469,7 +1469,7 @@ void GUI_Help1Menu::Show()
   
   bReturn.Show();  
   bNext.Show();  
-//  bPrev.Show();  
+  //bPrev.Hide();
 }
 
 void GUI_Help1Menu::Hide()
@@ -1568,15 +1568,14 @@ lK6b(NULL, SDLWidget::mkrect(HM2_K6_PX,HM2_K6_PY+HM2_LY3, HM2_K6_VX-2, 20), "kil
 lK7a(NULL, SDLWidget::mkrect(HM2_K7_PX,HM2_K7_PY, HM2_K7_VX-2, 20), " ", false),
 lK7b(NULL, SDLWidget::mkrect(HM2_K7_PX,HM2_K7_PY+HM2_LY3, HM2_K7_VX-2, 20), " ", false),
 bPrev(NULL, 2, SDLWidget::mkrect(HM2_PX+5,HM2_PY+365,70,20), "PREV"),
-bReturn(NULL, 1, SDLWidget::mkrect(HM2_PX+(HM2_VX-100)/2,HM2_PY+365,100,20), "RETURN"),
-bNext(NULL, 3, SDLWidget::mkrect(HM2_PX+HM2_VX-5-70,HM2_PY+365,70,20), "NEXT")
+bReturn(NULL, 1, SDLWidget::mkrect(HM2_PX+(HM2_VX-100)/2,HM2_PY+365,100,20), "RETURN")
+//bNext(NULL, 3, SDLWidget::mkrect(HM2_PX+HM2_VX-5-70,HM2_PY+365,70,20), "NEXT")
 {
   Default();
   
   Help2Menu.SetAlignment(SDL_TA_CENTER); 
   Help2Menu.SetFont(MainFont);
   
-  AddChild(&mBack1);
   AddChild(&Help2Menu);
   
   AddChild(&lI1a);
@@ -1625,9 +1624,10 @@ bNext(NULL, 3, SDLWidget::mkrect(HM2_PX+HM2_VX-5-70,HM2_PY+365,70,20), "NEXT")
   AddChild(&lK7b);
   
   AddChild(&bReturn);
-  AddChild(&bNext);
+ // AddChild(&bNext);
   AddChild(&bPrev);
 
+  AddChild(&mBack1);
   AddChild(&Board1);
 }
 
@@ -1703,7 +1703,7 @@ void GUI_Help2Menu::Show()
   lK7b.Show();
   
   bReturn.Show();  
-//  bNext.Show();  
+  //bNext.Hide();
   bPrev.Show();  
 }
 
