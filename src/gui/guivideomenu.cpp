@@ -24,14 +24,10 @@ GUI_VideoMenu::GUI_VideoMenu() : GUI_BaseMenu(GUI_VIDEO, mkrect(VM_PX,VM_PY,VM_V
 
 	VideoMenu->SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
 	VideoMenu->SetFont(MainFont);
-	VideoMenu->bgmode = 2;
 
 	lGamma_r->SetAlignment(SDL_TA_RIGHT);
-	lGamma_r->shiftx = -4;
 	lGamma_g->SetAlignment(SDL_TA_RIGHT);
-	lGamma_g->shiftx = -4;
 	lGamma_b->SetAlignment(SDL_TA_RIGHT);
-	lGamma_b->shiftx = -4;
 
 	LoadThemeStyle("GUI_Board");
 }

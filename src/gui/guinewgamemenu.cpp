@@ -46,38 +46,17 @@ GUI_NewGameMenu::GUI_NewGameMenu(): GUI_BaseMenu(GUI_NEWGAME, mkrect(NG_PX,NG_PY
 	NewGameMenu->SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
 	NewGameMenu->SetFont(MainFont);
 
-	lIP->bgmode = 2;
-	lHost->bgmode = 2;
-	NewGameMenu->bgmode = 2;
-
 	lWelcomeMsg->SetAlignment(SDL_TA_RIGHT);
-	lWelcomeMsg->shiftx = -4;
 	lMaxClients->SetAlignment(SDL_TA_RIGHT);
-	lMaxClients->shiftx = -4;
 	lServerName->SetAlignment(SDL_TA_RIGHT);
-	lServerName->shiftx = -4;
 
-	lChoose1->bgmode = 2;
 	lChoose1->SetAlignment(SDL_TA_LEFT);
-	lChoose2->bgmode = 2;
 	lChoose2->SetAlignment(SDL_TA_LEFT);
 
-	lDesc1->bgmode = 2;
-	lDesc1->shiftx = 10;
-	lDesc1->shifty = -3;
 	lDesc1->SetAlignment(SDL_TA_LEFT);
-	lDesc2->bgmode = 2;
 	lDesc2->SetAlignment(SDL_TA_LEFT);
-	lDesc2->shiftx = 10;
-	lDesc2->shifty = -3;
-	lDesc3->bgmode = 2;
 	lDesc3->SetAlignment(SDL_TA_LEFT);
-	lDesc3->shiftx = 10;
-	lDesc3->shifty = -3;
-	lAuthFile->bgmode = 2;
 	lAuthFile->SetAlignment(SDL_TA_LEFT);
-	lAuthFile->shiftx = 10;
-	lAuthFile->shifty = -3;
 
 	IPaddress serverIP;
 	SDLNet_ResolveHost(&serverIP, "localhost", PWP_MSG_SPORT);
@@ -114,15 +93,10 @@ void GUI_NewGameMenu::Return()
 
 void scriptchCB(GUI_LabelL* l)
 {
-	//NGMenu->Board3->Redraw();
-
-	if(l == NULL) {
-		return;
-	}
-
+	if(l == NULL) return;
 	if (l->msi)   {
 		NGMenu->lAuthFile->SetTextFormat(" File: %s.msc, Author: %s", NGMenu->selected2->msi->name, NGMenu->selected2->msi->author);
-		NGMenu->lDesc1->SetTextFormat(NGMenu->selected2->msi->desc[0]);
+		NGMenu->lDesc1->SetTextFormat(" %s", NGMenu->selected2->msi->desc[0]);
 		NGMenu->lDesc2->SetTextFormat(" %s", NGMenu->selected2->msi->desc[1]);
 		NGMenu->lDesc3->SetTextFormat(" %s", NGMenu->selected2->msi->desc[2]);
 	}
@@ -139,14 +113,17 @@ void mapchCB(GUI_LabelL* l)
 void GUI_NewGameMenu::GenerateScriptSelection()
 {
   WidgetList2->DeleteAll();
-  CSMapInfo* a;
   SMapMan.Scan(script_dir.string, smap_ext.string);
-  a = SMapMan.Scripts;
+  CSMapInfo* a = SMapMan.Scripts;
   int i=0;
   while (a) {
     i++;
-    if (selected1 && strcmp(selected1->GetText(), a->map)==0)
-      WidgetList2->AddWidget(new GUI_LabelL(NULL, SDLWidget::mkrect(0,0,150-14,12), a->sname, &selected2, a, GUI_UnselectedItem, GUI_SelectedItem, scriptchCB));
+    if (selected1 && strcmp(selected1->GetText()+1, a->map)==0)  // +1 because, we add one space before na when inserting label into widgetlist
+    {
+      char s[200];
+      sprintf(s, " %s", a->sname);
+      WidgetList2->AddWidget(new GUI_LabelL(NULL, SDLWidget::mkrect(0,0,150-14,12), s, &selected2, a, GUI_UnselectedItem, GUI_SelectedItem, scriptchCB));
+    }
     a = a->next;
   }
 
@@ -155,7 +132,6 @@ void GUI_NewGameMenu::GenerateScriptSelection()
   else
     selected2 = NULL;
 
-	//Board2->Redraw();
 	WidgetList2->Redraw();
 	scriptchCB(selected2);
 }
@@ -168,12 +144,13 @@ void GUI_NewGameMenu::Default()
 
   WidgetList1->DeleteAll();
   MapMan.Scan(map_dir.string, map_ext.string);
-  CMapInfo* a;
-  a = MapMan.Maps;
+  CMapInfo* a = MapMan.Maps;
   int i=0;
   while (a) {
     i++;
-		WidgetList1->AddWidget(new GUI_LabelL(NULL, SDLWidget::mkrect(0,0,150-14,12), a->name, &selected1, 0, GUI_UnselectedItem, GUI_SelectedItem, mapchCB));
+    char s[200];
+    sprintf(s, " %s", a->name);
+		WidgetList1->AddWidget(new GUI_LabelL(NULL, SDLWidget::mkrect(0,0,150-14,12), s, &selected1, 0, GUI_UnselectedItem, GUI_SelectedItem, mapchCB));
     a = a->next;
   }
 
@@ -206,8 +183,8 @@ bool GUI_NewGameMenu::eventButtonClick(int id, SDLWidget* widget)
       CommandExecute("s_maxclients %s", eMaxClients->GetText());
       ConOut("ss");
       CommandExecute("ss");
-      ConOut("s_next_map %s", selected1->GetText());
-      CommandExecute("s_next_map %s", selected1->GetText());
+      ConOut("s_next_map%s", selected1->GetText());
+      CommandExecute("s_next_map%s", selected1->GetText());
       ConOut("s_next_script %s", selected2->msi->name);
       CommandExecute("s_next_script %s", selected2->msi->name);
       ConOut("rs");
@@ -221,7 +198,6 @@ bool GUI_NewGameMenu::eventButtonClick(int id, SDLWidget* widget)
         JGMenu->Default();
         GUI_Return();
         SendMessage(JGMenu, MSG_BUTTONCLICK, 1, 0);
-	//JGMenu->eventButtonClick(1, NULL);
         GUI_OpenMenu(GUI_MAINMENU);
         GUI_OpenMenu(GUI_CREATEPLAYER);
       }

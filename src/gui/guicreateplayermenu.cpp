@@ -46,13 +46,8 @@ GUI_CreatePlayerMenu::GUI_CreatePlayerMenu(int id, int inum) : GUI_BaseMenu(id, 
 	CreatePlayerMenu->SetFont(MainFont);
 	CreatePlayerMenu->SetTextFormat("CREATE PLAYER%d", num);
 
-	CreatePlayerMenu->bgmode = 2;
-	lPName->bgmode = 2;
 	lPName->SetAlignment(SDL_TA_LEFT);
-	lPName->shiftx = 4;
-	lSkin->bgmode = 2;
 	lSkin->SetAlignment(SDL_TA_LEFT);
-	lSkin->shiftx = 4;
 
 	SkinCtrl->SkinPic->lName = eSkin;
 	switch (num) {

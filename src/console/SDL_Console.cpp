@@ -48,7 +48,7 @@ void ConsoleEvents(SDL_Event * event)
 		switch (event->key.keysym.sym) {
 		case SDLK_PAGEUP:
 			if (ConsoleScrollBack < TotalConsoleLines
-				&& ConsoleScrollBack < Line_Buffer) {
+				&& (ConsoleScrollBack+OutputScreen->h / 2 / FontHeight(FontNumber)+1) < Line_Buffer) {
 				ConsoleScrollBack++;
 				UpdateConsole();
 			}

@@ -11,18 +11,31 @@ extern GUI_OKDialog2 *OKD2;
 // Sound menu widgets
 /////////////////////////////////////////////////////////////////////////////
 
+PARAGUI_CALLBACK(handler_slider_music) {
+  GUI_Slider* s = (GUI_Slider*)clientdata;
+  CommandExecute("music_volume %i", s->GetPosition());
+	return true;
+}
+
+PARAGUI_CALLBACK(handler_slider_sound) {
+  GUI_Slider* s = (GUI_Slider*)clientdata;
+  CommandExecute("sound_volume %i", s->GetPosition());
+  smPlayVoice(SM_MESSENGER, 100, 11);
+	return true;
+}
+
 void GUI_SoundMenu::Return() {
 	GUI_BaseMenu::Return();
 }
 
 GUI_SoundMenu::GUI_SoundMenu() : GUI_BaseMenu(GUI_SOUND, mkrect(SM_PX,SM_PY,SM_VX,SM_VY)) {
 
-	lRange = new GUI_Label(this, SDLWidget::mkrect(1,30,SM_VX-2,20), "Enter volume in range [0-64].", false);
 	SoundMenu = new GUI_Label(this, SDLWidget::mkrect(1,4,SM_VX-2,25), "SOUND OPTIONS", false);
+	lRange = new GUI_Label(this, SDLWidget::mkrect(1,30,SM_VX-2,20), "Edit sound properties", false);
 	lMusicVolume = new GUI_Label(this, SDLWidget::mkrect(1,65, 119,20), "Music volume:", false);
-	eMusicVolume = new SDLSlider(this, 4, SDLWidget::mkrect(120,65,215,20),  false);
+	eMusicVolume = new GUI_Slider(this, 4, SDLWidget::mkrect(120,65,215,20),  false);
 	lSoundVolume = new GUI_Label(this, SDLWidget::mkrect(1,90, 119,20), "Sound volume:", false);
-	eSoundVolume = new SDLSlider(this, 5, SDLWidget::mkrect(120,90,215,20), 0);
+	eSoundVolume = new GUI_Slider(this, 5, SDLWidget::mkrect(120,90,215,20), 0);
 	b3ds = new GUI_ButtonSmall(this, 3, SDLWidget::mkrect(25,120,310,25), "ENABLE/DISABLE 3D sound engine");
 	cSwap = new GUI_CheckBox(this, SDLWidget::mkrect(25,147,310,CB_SIZEY), "swap left/right sound channel", true, GUI_Gray64);
 	l3dDist = new GUI_Label(this, SDLWidget::mkrect(1,170, 119,20), "3D distance step:", false);
@@ -37,17 +50,15 @@ GUI_SoundMenu::GUI_SoundMenu() : GUI_BaseMenu(GUI_SOUND, mkrect(SM_PX,SM_PY,SM_V
 	SoundMenu->SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
 	SoundMenu->SetFont(MainFont);
 
-	SoundMenu->bgmode = 2;
+  eMusicVolume->SetEventCallback(MSG_SLIDE, handler_slider_music, eMusicVolume);
+  eSoundVolume->SetEventCallback(MSG_SLIDE, handler_slider_sound, eSoundVolume);
+  eMusicVolume->SetEventCallback(MSG_SCROLLPOS, handler_slider_music, eMusicVolume);
+  eSoundVolume->SetEventCallback(MSG_SCROLLPOS, handler_slider_sound, eSoundVolume);
 
-	lRange->bgmode = 2;
-	lMusicVolume->SetAlignment(SDL_TA_RIGHT);
-	lMusicVolume->shiftx = -4;
+  lMusicVolume->SetAlignment(SDL_TA_RIGHT);
 	l3dDist->SetAlignment(SDL_TA_RIGHT);
-	l3dDist->shiftx = -4;
 	l3dRoll->SetAlignment(SDL_TA_RIGHT);
-	l3dRoll->shiftx = -4;
 	lSoundVolume->SetAlignment(SDL_TA_RIGHT);
-	lSoundVolume->shiftx = -4;
 
 	LoadThemeStyle("GUI_Board");
 }
@@ -79,9 +90,7 @@ bool GUI_SoundMenu::eventButtonClick(int id, SDLWidget* widget)
     ConOut("> Sound menu sequence <");
 
     ConOut("sound_volume %i", eSoundVolume->GetPosition());
-    CommandExecute("sound_volume %i", eSoundVolume->GetPosition());
     ConOut("music_volume %i", eMusicVolume->GetPosition());
-    CommandExecute("music_volume %i", eMusicVolume->GetPosition());
 
     ConOut("snd_dist %s", e3dDist->GetText());
     CommandExecute("snd_dist %s", e3dDist->GetText());

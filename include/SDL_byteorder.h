@@ -1,6 +1,6 @@
 /*
     SDL - Simple DirectMedia Layer
-    Copyright (C) 1997, 1998, 1999, 2000  Sam Lantinga
+    Copyright (C) 1997, 1998, 1999, 2000, 2001  Sam Lantinga
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -22,7 +22,7 @@
 
 #ifdef SAVE_RCSID
 static char rcsid =
- "@(#) $Id: SDL_byteorder.h,v 1.1 2001/01/04 21:00:23 pipelka Exp $";
+ "@(#) $Id: SDL_byteorder.h,v 1.2 2001/02/15 14:53:12 woid Exp $";
 #endif
 
 /* Macros for determining the byte-order of this platform */
@@ -40,7 +40,8 @@ static char rcsid =
    be to dynamically generate this file on install, but that's alot of work.
  */
 #if defined(__i386__) || defined(WIN32) || \
-    defined(__alpha__) || defined(__arm__)
+    defined(__alpha__) || defined(__arm__) || \
+    (defined(__mips__) && defined(__MIPSEL__))
 #define SDL_BYTEORDER	SDL_LIL_ENDIAN
 #else
 #define SDL_BYTEORDER	SDL_BIG_ENDIAN

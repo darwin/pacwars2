@@ -2,8 +2,8 @@
 #define GUISOUNDMENU_H
 
 #include "guibasemenu.h"
-#include "sdlslider.h"
 
+class GUI_Slider;
 class GUI_Board;
 class GUI_Label;
 class GUI_NumEdit;
@@ -29,9 +29,9 @@ public:
   GUI_Label* lRange;
 
   GUI_Label* lMusicVolume;
-  SDLSlider* eMusicVolume;
+  GUI_Slider* eMusicVolume;
   GUI_Label* lSoundVolume;
-  SDLSlider* eSoundVolume;
+  GUI_Slider* eSoundVolume;
 
   GUI_CheckBox* cSwap;
   GUI_ButtonSmall* b3ds;

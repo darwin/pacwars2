@@ -32,10 +32,7 @@ void GUI_BaseMenu::Return()
   blocked_inputs = 0;
   HideMouse();
   //SDL_FillRect(SDLApplication::GetScreen(), &my_rectDisplay, 0);
-  if (parentmid!=-1)
-  {
-    GUI_Show(parentmid);
-  }
+  if (parentmid!=-1) GUI_Show(parentmid);
 
   smPlaySample(SM_MENU3, menu_volume);
 }

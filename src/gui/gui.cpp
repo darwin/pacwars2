@@ -197,9 +197,6 @@ SDLLabel(parent,r,text,storebackground)
   SetFont(TextFont);
 //  SetColor(GUI_LabelColor, GUI_LabelColor);
   c = GUI_Gray64;
-  shifty = 2;
-  shiftx = 0;
-  bgmode = 2;
   SetAlignment(SDL_TA_CENTER); 
 }
 
@@ -215,9 +212,6 @@ SDLLabel(parent,r,text,storebackground)
   SetFont(TextFont);
 //  SetColor(GUI_LabelColor, GUI_LabelColor);
   c = GUI_Blue100;
-  shifty = 0;
-  shiftx = 0;
-  bgmode = 0;
   SetAlignment(SDL_TA_LEFT); 
 }
 
@@ -232,9 +226,6 @@ SDLLabel(parent,r,text,false)
   SetFont(TextFont);
   c1 = ic1;
   c2 = ic2;
-  shifty = 4;
-  shiftx = 5;
-  bgmode = 2;
   selected = iselected;
   msi = si;
   callback = cb;
@@ -273,9 +264,6 @@ GUI_Label(NULL, SDLWidget::mkrect(0,0,1,1), "x", false)
   SetFont(BtnFont);
 //  SetColor(GUI_ResultLineColor, GUI_ResultLineColor);
   c = GUI_Red100;
-  shifty = 2;
-  shiftx = 0;
-  bgmode = 2;
   SetAlignment(SDL_TA_LEFT); 
 }
 
@@ -295,7 +283,6 @@ SDLButton(parent,btnid,r,text)
   SetBorderSize(0,0,0);
   SetTextColor(GUI_BtnTextColor);
   c = GUI_Red100;
-  shifty = 0;//2;
   drawbackground = false;
 }
 
@@ -521,6 +508,67 @@ void GUI_WidgetList::AddWidget(SDLWidget* w) {
 	SDLWidgetList::AddWidget(w);
 }
 
+/////////////////////////////////////////////////////////////////////////////
+// Slider
+/////////////////////////////////////////////////////////////////////////////
+
+GUI_Slider::GUI_Slider(SDLWidget* parent, int id, SDL_Rect& r, int direction):
+GUI_ScrollBar(parent, id, r, direction)
+{
+	if(direction == SDL_SB_VERTICAL) {
+		position[3].h = r.w;
+	}
+	else {
+		position[3].w = r.h;
+	}
+  
+  LoadThemeStyle("GUI_Slider");
+
+  dragbutton->SizeWindow(16, 16);
+  dragbutton->SetTickMode(true);
+  
+	position[0].w = 0;
+  position[0].h = 0;
+  position[1].w = 0;
+  position[1].h = 0;
+   
+  position[2].x = 0;
+  position[2].y = 0;
+  position[2].w = r.w;
+  position[2].h = r.h;
+    
+  delete scrollbutton[0];
+  scrollbutton[0] = NULL;
+    
+  delete scrollbutton[1];
+  scrollbutton[1] = NULL;
+    
+  SetPosition(scroll_min);
+}
+
+void GUI_Slider::LoadThemeStyle(const char* widgettype) {
+
+	if(sb_direction == SDL_SB_VERTICAL) {
+		scrollbutton[0]->LoadThemeStyle(widgettype, "SliderUp");
+		scrollbutton[1]->LoadThemeStyle(widgettype, "SliderDown");
+	}
+	else {
+		scrollbutton[0]->LoadThemeStyle(widgettype, "SliderLeft");
+		scrollbutton[1]->LoadThemeStyle(widgettype, "SliderRight");
+	}
+
+	dragbutton->LoadThemeStyle(widgettype, "SliderDrag");
+
+	if(sb_direction == SDL_SB_VERTICAL) {
+		SDLGradientWidget::LoadThemeStyle(widgettype, "SliderV");
+	}
+	else {
+		SDLGradientWidget::LoadThemeStyle(widgettype, "SliderH");
+	}
+
+	SDLScrollBar::LoadThemeStyle(widgettype);
+}
+
 	
 /////////////////////////////////////////////////////////////////////////////
 // OK dialog widgets
@@ -545,10 +593,7 @@ GUI_OKDialog1::GUI_OKDialog1(char* title, char* line1, char* line2) : GUI_BaseMe
 	OKDialog1->SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
 	OKDialog1->SetFont(MainFont);
   
-	OKDialog1->bgmode = 2;
-  
 	lPrompt1->SetAlignment(SDL_TA_CENTER);
-	lPrompt1->bgmode = 2;
 }
 
 void GUI_OKDialog1::Default()
@@ -575,37 +620,27 @@ bool GUI_OKDialog1::eventButtonClick(int id, SDLWidget* widget)
 
 void GUI_OKDialog2::Reset(char* title, char* line1, char* line2)
 {
-  OKDialog2.SetText(title);
-  lPrompt1.SetText(line1);
-  lPrompt2.SetText(line2);
+  OKDialog2->SetText(title);
+  lPrompt1->SetText(line1);
+  lPrompt2->SetText(line2);
 }
 
 GUI_OKDialog2::GUI_OKDialog2(char* title, char* line1, char* line2):
-GUI_BaseMenu(GUI_OKDIALOG2, mkrect(OKD2_PX,OKD2_PY,OKD2_VX,OKD2_VY)),
-Board1(NULL, SDLWidget::mkrect(OKD2_PX,OKD2_PY,OKD2_VX,120), false),
-OKDialog2(NULL, SDLWidget::mkrect(OKD2_PX+1,OKD2_PY+4,OKD2_VX-2,25), title, false),
-lPrompt1(NULL, SDLWidget::mkrect(OKD2_PX+1,OKD2_PY+35, OKD2_VX-2,20), line1, false),
-lPrompt2(NULL, SDLWidget::mkrect(OKD2_PX+1,OKD2_PY+55, OKD2_VX-2,20), line2, false),
-bOK(NULL, 1, SDLWidget::mkrect(OKD2_PX+105,OKD2_PY+90,150,25), "OK")
-{
+GUI_BaseMenu(GUI_OKDIALOG2, mkrect(OKD2_PX,OKD2_PY,OKD2_VX,OKD2_VY)) {
+
+  Board1 = new GUI_Board(this, SDLWidget::mkrect(0,0,OKD2_VX,120), false);
+  OKDialog2 = new GUI_Label(this, SDLWidget::mkrect(1,4,OKD2_VX-2,25), title, false);
+  lPrompt1 = new GUI_Label(this, SDLWidget::mkrect(1,35, OKD2_VX-2,20), line1, false);
+  lPrompt2 = new GUI_Label(this, SDLWidget::mkrect(1,55, OKD2_VX-2,20), line2, false);
+  bOK = new GUI_ButtonSmall(this, 1, SDLWidget::mkrect(105,90,150,25), "OK");
+
   Default();
   
-  OKDialog2.SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
-  OKDialog2.SetFont(MainFont);
+  OKDialog2->SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
+  OKDialog2->SetFont(MainFont);
   
-  OKDialog2.bgmode = 2;
-  
-  lPrompt1.SetAlignment(SDL_TA_CENTER); 
-  lPrompt1.bgmode = 2;
-  lPrompt2.SetAlignment(SDL_TA_CENTER); 
-  lPrompt2.bgmode = 2;
-  
-  AddChild(&OKDialog2);
-  AddChild(&lPrompt1);
-  AddChild(&lPrompt2);
-  AddChild(&bOK);
-
-  AddChild(&Board1);
+  lPrompt1->SetAlignment(SDL_TA_CENTER); 
+  lPrompt2->SetAlignment(SDL_TA_CENTER); 
 }
 
 void GUI_OKDialog2::Default()
@@ -651,10 +686,7 @@ GUI_YNDialog::GUI_YNDialog() : GUI_BaseMenu(GUI_YNDIALOG, mkrect(YN_PX,YN_PY,YN_
 	YNDialog->SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
 	YNDialog->SetFont(MainFont);
   
-	YNDialog->bgmode = 2;
-  
 	lPrompt1->SetAlignment(SDL_TA_CENTER);
-	lPrompt1->bgmode = 2;
 
 	LoadThemeStyle("GUI_Board");
 }
@@ -728,12 +760,8 @@ bCancel(NULL, 2, SDLWidget::mkrect(DG_PX+25+150+10,DG_PY+90,150,25), "BACK")
   DisconnectMenu.SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
   DisconnectMenu.SetFont(MainFont);
   
-  DisconnectMenu.bgmode = 2;
-  
   lPrompt1.SetAlignment(SDL_TA_CENTER); 
-  lPrompt1.bgmode = 2;
   lPrompt2.SetAlignment(SDL_TA_CENTER); 
-  lPrompt2.bgmode = 2;
   
   AddChild(&DisconnectMenu);
   AddChild(&lPrompt1);
@@ -1201,22 +1229,16 @@ lLabel1(NULL, SDLWidget::mkrect(RM_PX+1,RM_PY+30,RM_VX-2,20), "Press SPACE to co
   lResultsMenu.SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
   lResultsMenu.SetFont(MainFont);
   
-  lLabel1.bgmode = 2;
-  lResultsMenu.bgmode = 2;
-
   AddChild(&lResultsMenu);
   AddChild(&lLabel1);
 
   px = RM_PX;
   py = RM_PY+59;
  
-  lNamex.bgmode = 1;
   lNamex.MoveWindow(px, py);
   lNamex.SizeWindow(RM_VX/2 + 20, 20);
-  lFragsx.bgmode = 1;
   lFragsx.MoveWindow(px + 20 + RM_VX/2, py);
   lFragsx.SizeWindow(60, 20);
-  lPointsx.bgmode = 1;
   lPointsx.MoveWindow(px + 20+60 + RM_VX/2, py);
   lPointsx.SizeWindow(RM_VX/2-60 - 20, 20);
   AddChild(&lNamex);
@@ -1227,13 +1249,10 @@ lLabel1(NULL, SDLWidget::mkrect(RM_PX+1,RM_PY+30,RM_VX-2,20), "Press SPACE to co
   py = RM_PY+59+19;
   for (int i=0; i<RM_MAX_NAMES; i++)
   {
-    lName[i].bgmode = 1;
     lName[i].MoveWindow(px, py + i*19);
     lName[i].SizeWindow(RM_VX/2 + 20, 20);
-    lFrags[i].bgmode = 1;
     lFrags[i].MoveWindow(px + 20 + RM_VX/2, py + i*19);
     lFrags[i].SizeWindow(60, 20);
-    lPoints[i].bgmode = 1;
     lPoints[i].MoveWindow(px + 20 + 60 + RM_VX/2, py + i*19);
     lPoints[i].SizeWindow(RM_VX/2 - 60 - 20, 20);
 
@@ -1404,8 +1423,6 @@ bNext(NULL, 3, SDLWidget::mkrect(HM1_PX+HM1_VX-5-70,HM1_PY+330,70,20), "NEXT")
   
   Help1Menu.SetAlignment(SDL_TA_CENTER); 
   Help1Menu.SetFont(MainFont);
-  
-  Help1Menu.bgmode = 0;
   
   AddChild(&mBack1);
   AddChild(&Help1Menu);
@@ -1617,8 +1634,6 @@ bNext(NULL, 3, SDLWidget::mkrect(HM2_PX+HM2_VX-5-70,HM2_PY+365,70,20), "NEXT")
   
   Help2Menu.SetAlignment(SDL_TA_CENTER); 
   Help2Menu.SetFont(MainFont);
-  
-  Help2Menu.bgmode = 0;
   
   AddChild(&mBack1);
   AddChild(&Help2Menu);
@@ -1833,11 +1848,6 @@ bCancel(NULL, 2, SDLWidget::mkrect(DPM_PX+25+150+10,DPM_PY+120,150,25), "BACK")
   
   DeletePlayerMenu.SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
   DeletePlayerMenu.SetFont(MainFont);
-  
-  DeletePlayerMenu.bgmode = 2;
-
-  lChoose.bgmode = 2;
-
   
   AddChild(&DeletePlayerMenu);
   AddChild(&bDelete);

@@ -1,6 +1,6 @@
 /*
     SDL - Simple DirectMedia Layer
-    Copyright (C) 1997, 1998, 1999, 2000  Sam Lantinga
+    Copyright (C) 1997, 1998, 1999, 2000, 2001  Sam Lantinga
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -22,7 +22,7 @@
 
 #ifdef SAVE_RCSID
 static char rcsid =
- "@(#) $Id: SDL_events.h,v 1.1 2001/01/04 21:00:23 pipelka Exp $";
+ "@(#) $Id: SDL_events.h,v 1.2 2001/02/15 14:53:12 woid Exp $";
 #endif
 
 /* Include file for SDL event handling */
@@ -298,6 +298,12 @@ typedef int (*SDL_EventFilter)(const SDL_Event *event);
 extern DECLSPEC void SDL_SetEventFilter(SDL_EventFilter filter);
 
 /*
+  Return the current event filter - can be used to "chain" filters.
+  If there is no event filter set, this function returns NULL.
+*/
+extern DECLSPEC SDL_EventFilter SDL_GetEventFilter(void);
+
+/*
   This function allows you to set the state of processing certain events.
   If 'state' is set to SDL_IGNORE, that event will be automatically dropped
   from the event queue and will not event be filtered.
@@ -307,6 +313,7 @@ extern DECLSPEC void SDL_SetEventFilter(SDL_EventFilter filter);
 */
 #define SDL_QUERY	-1
 #define SDL_IGNORE	 0
+#define SDL_DISABLE	 0
 #define SDL_ENABLE	 1
 extern DECLSPEC Uint8 SDL_EventState(Uint8 type, int state);
 

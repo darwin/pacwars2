@@ -38,12 +38,8 @@ GUI_CreditsMenu::GUI_CreditsMenu() : GUI_BaseMenu(GUI_CREDITS, mkrect(CM_PX,CM_P
 	CreditsMenu->SetAlignment(SDL_TA_CENTER);
 	//  CreditsMenu.SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
 	CreditsMenu->SetFont(MainFont);
-	CreditsMenu->bgmode = 0;
 
-	for(int i=0; i<20; i++) {
-		lLine[i]->SetAlignment(SDL_TA_LEFT);
-		lLine[i]->bgmode = 0;
-	}
+	for(int i=0; i<20; i++) lLine[i]->SetAlignment(SDL_TA_LEFT);
 
 	lLine[14]->SetAlignment(SDL_TA_CENTER);
 	lLine[14]->SetFont(MainFont);

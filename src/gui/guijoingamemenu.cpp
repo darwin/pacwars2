@@ -24,14 +24,10 @@ GUI_JoinGameMenu::GUI_JoinGameMenu() : GUI_BaseMenu(GUI_JOINGAME, mkrect(JG_PX,J
 
 	JoinGameMenu->SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
 	JoinGameMenu->SetFont(MainFont);
-	JoinGameMenu->bgmode = 2;
 
 	lServerAddress->SetAlignment(SDL_TA_RIGHT);
-	lServerAddress->shiftx = -4;
 	lClientName->SetAlignment(SDL_TA_RIGHT);
-	lClientName->shiftx = -4;
 	lClientDesc->SetAlignment(SDL_TA_RIGHT);
-	lClientDesc->shiftx = -4;
 
 	LoadThemeStyle("GUI_Board");
 }

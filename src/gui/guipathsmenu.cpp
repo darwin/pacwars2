@@ -30,23 +30,13 @@ GUI_PathsMenu::GUI_PathsMenu() : GUI_BaseMenu(GUI_PATHS, mkrect(PM_PX,PM_PY,PM_V
 	lPathsMenu->SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
 	lPathsMenu->SetFont(MainFont);
 
-	lEffect->bgmode = 2;
-	lPathsMenu->bgmode = 2;
-
 	lScriptDir->SetAlignment(SDL_TA_RIGHT);
-	lScriptDir->shiftx = -4;
 	lMapDir->SetAlignment(SDL_TA_RIGHT);
-	lMapDir->shiftx = -4;
 	lSkinDir->SetAlignment(SDL_TA_RIGHT);
-	lSkinDir->shiftx = -4;
 	lSpriteDir->SetAlignment(SDL_TA_RIGHT);
-	lSpriteDir->shiftx = -4;
 	lGfxDir->SetAlignment(SDL_TA_RIGHT);
-	lGfxDir->shiftx = -4;
 	lGuiDir->SetAlignment(SDL_TA_RIGHT);
-	lGuiDir->shiftx = -4;
 	lSndDir->SetAlignment(SDL_TA_RIGHT);
-	lSndDir->shiftx = -4;
 
 	LoadThemeStyle("GUI_Board");
 }

@@ -10,6 +10,7 @@
 #include "protocol.h"
 
 #include "cvar.h"
+#include "gui.h"
 
 extern DECLSPEC Uint32 firsttick;
 extern DECLSPEC Uint32 ticktime;
@@ -55,9 +56,9 @@ extern DECLSPEC void Play_Music(char*);
 extern DECLSPEC void Volume_Music(char*);
 extern DECLSPEC void Volume_Sound(char*);
 
-extern DECLSPEC void RenderResults(SDL_Surface *screen);
+//extern DECLSPEC void RenderResults(SDL_Surface *screen);
 
-extern DECLSPEC void GUI_Refresh();
+//extern DECLSPEC void GUI_Refresh();
 extern DECLSPEC void ResetGamma();
 
 void SetKeybindings(int kbindex, int set);

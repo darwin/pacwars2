@@ -29,16 +29,11 @@ GUI_ServerMenu::GUI_ServerMenu() : GUI_BaseMenu(GUI_SERVER, mkrect(SMS_PX,SMS_PY
 
 	ServerMenu->SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
 	ServerMenu->SetFont(MainFont);
-	ServerMenu->bgmode = 2;
 
 	lTimelimit->SetAlignment(SDL_TA_RIGHT);
-	lTimelimit->shiftx = -4;
 	lWelcomeMsg->SetAlignment(SDL_TA_RIGHT);
-	lWelcomeMsg->shiftx = -4;
 	lMaxClients->SetAlignment(SDL_TA_RIGHT);
-	lMaxClients->shiftx = -4;
 	lServerName->SetAlignment(SDL_TA_RIGHT);
-	lServerName->shiftx = -4;
 
 	LoadThemeStyle("GUI_Board");
 }

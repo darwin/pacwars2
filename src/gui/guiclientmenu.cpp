@@ -20,12 +20,9 @@ GUI_ClientMenu::GUI_ClientMenu() : GUI_BaseMenu(GUI_CLIENT, mkrect(CMS_PX,CMS_PY
 
 	ClientMenu->SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
 	ClientMenu->SetFont(MainFont);
-	ClientMenu->bgmode = 2;
 
 	lClientName->SetAlignment(SDL_TA_RIGHT);
-	lClientName->shiftx = -4;
 	lClientDesc->SetAlignment(SDL_TA_RIGHT);
-	lClientDesc->shiftx = -4;
 
 	LoadThemeStyle("GUI_Board");
 }

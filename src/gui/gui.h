@@ -15,6 +15,7 @@
 #include "sdlcheckbutton.h"
 #include "sdlscrollbar.h"
 #include "sdlwidgetlist.h"
+#include "sdlslider.h"
 
 #include "guibasemenu.h"
 #include "guisoundmenu.h"
@@ -135,9 +136,6 @@ public:
   void SetColor(SDL_Color c1, SDL_Color c2);
   
   SDL_Color c;
-  int shifty;
-  int shiftx;
-  int bgmode;
 };
 
 class GUI_LabelC : public SDLLabel {
@@ -146,9 +144,6 @@ public:
 //  void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
   
   SDL_Color c;
-  int shifty;
-  int shiftx;
-  int bgmode;
 };
 
 
@@ -166,10 +161,6 @@ public:
   CSMapInfo* msi;
   SDL_Color c1;
   SDL_Color c2;
-  int shifty;
-  int shiftx;
-  int bgmode;
-
   void (*callback)(GUI_LabelL*);
   
   GUI_LabelL** selected;
@@ -197,7 +188,6 @@ public:
 //  void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
   
   SDL_Color c;
-  int shifty;
   bool drawbackground;
 };
 
@@ -295,6 +285,15 @@ public:
   void AddWidget(SDLWidget* w);
 };
 
+/////////////////////////////////////////////////////////////////////////////
+// Slider
+/////////////////////////////////////////////////////////////////////////////
+
+class GUI_Slider : public GUI_ScrollBar {
+public:
+  GUI_Slider(SDLWidget* parent, int id, SDL_Rect& r, int direction = SDL_SB_VERTICAL);
+  void LoadThemeStyle(const char* widgettype);
+};
 	
 /////////////////////////////////////////////////////////////////////////////
 // OK dialog widgets
@@ -338,12 +337,12 @@ public:
 
   void Reset(char* title, char* line1="", char* line2="");
   
-  GUI_Label OKDialog2;
-  GUI_Label lPrompt1;
-  GUI_Label lPrompt2;
-  GUI_ButtonSmall bOK;
+  GUI_Label* OKDialog2;
+  GUI_Label* lPrompt1;
+  GUI_Label* lPrompt2;
+  GUI_ButtonSmall* bOK;
 
-  GUI_Board Board1;
+  GUI_Board* Board1;
 
   void Default();
   
