@@ -127,6 +127,7 @@ void ExportPlayer(GPlayer * gp, SCPLAYER * sp)
 //  sp->last_fire_time = gp->last_fire_time;
 //  sp->mines_ammo = gp->mines_ammo;
 	sp->player_name = PString(gp->player_name);
+	sp->bot_brain_type = gp->bot_brain_type;
 }
 
 void ImportPlayer(GPlayer * gp, SCPLAYER * sp)
@@ -145,6 +146,7 @@ void ImportPlayer(GPlayer * gp, SCPLAYER * sp)
 //  gp->last_fire_time = sp->last_fire_time;
 //  gp->mines_ammo = sp->mines_ammo;
 	gp->player_name = sp->player_name;
+	gp->bot_brain_type = sp->bot_brain_type; //Sets the type of bot
 }
 
 void ExportExtra(GExtra * ge, SCEXTRA * se)
