@@ -27,11 +27,11 @@ int HeuristicsWrap(PED* PE, MapNode* A, MapNode* B)
 
 static int WrapNearestDistance(int x1, int x2, int wrapsize)
 {
-  while(x1<0) x1+=wrapsize;
-  while(x1>=wrapsize) x1-=wrapsize;
-  while(x2<0) x2+=wrapsize;
-  while(x2>=wrapsize) x2-=wrapsize;
-
+  x1 = x1 % wrapsize ;
+  if(x1<0) x1+=wrapsize;
+  x2 = x2 % wrapsize ;
+  if(x2<0) x2+=wrapsize;
+  
   if (x1<x2)
   {
     int pd = x2 - x1;
