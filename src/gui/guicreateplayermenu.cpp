@@ -40,7 +40,6 @@ GUI_CreatePlayerMenu::GUI_CreatePlayerMenu(int id, int inum) : GUI_BaseMenu(id, 
 
 	num=inum;
 	Default();
-	char sx[100];
 
 	CreatePlayerMenu->SetFont(MainFont);
 	CreatePlayerMenu->SetTextFormat("CREATE PLAYER%d", num);
@@ -276,9 +275,7 @@ bool GUI_CreatePlayerMenu::SetPlayerVals(
 }
 
 bool GUI_CreatePlayerMenu::eventButtonClick(int id, SDLWidget* widget) {
-	GPlayer* p;
 	CGame& g = client_info.game;
-	GAME_MAXOBJS_TYPE i;
 
 	switch (id) {
 	case 1:
