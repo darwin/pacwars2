@@ -48,14 +48,14 @@ static int WrapNearestDistance(int x1, int x2, int wrapsize)
   }
 }
 
-static int Map2PE(CIRect* r, PED* pe, CMapState* map)
+static int Map2PE(CIRect* r, PED* pe, CMapState* pmap)
 {
   // assume r is normalized
   for (int y=(int)r->A.y; y<(int)r->B.y; y++)
   { 
     for (int x=(int)r->A.x; x<(int)r->B.x; x++)
     {
-      BLKSTR* b = map->GetBlock(x,y);
+      BLKSTR* b = pmap->GetBlock(x,y);
       MapNode* n = peMapXY(pe,x,y);
       if (b->tl1) // wall
       {  
@@ -66,32 +66,32 @@ static int Map2PE(CIRect* r, PED* pe, CMapState* map)
       // pacman's size is 2x2 map tiles
 
       // test left x right
-      BLKSTR* nl = map->GetBlock(x-1,y);
-      BLKSTR* nr = map->GetBlock(x+1,y);
+      BLKSTR* nl = pmap->GetBlock(x-1,y);
+      BLKSTR* nr = pmap->GetBlock(x+1,y);
       if (nl->tl1 && nr->tl1) 
       {  
         n->TC = pe->MAXTC;
         continue;
       }
       // test top x bottom
-      BLKSTR* nt = map->GetBlock(x,y-1);
-      BLKSTR* nb = map->GetBlock(x,y+1);
+      BLKSTR* nt = pmap->GetBlock(x,y-1);
+      BLKSTR* nb = pmap->GetBlock(x,y+1);
       if (nt->tl1 && nb->tl1) 
       {  
         n->TC = pe->MAXTC;
         continue;
       }
       // test topleft x bottomright
-      BLKSTR* ntl = map->GetBlock(x-1,y-1);
-      BLKSTR* nbr = map->GetBlock(x+1,y+1);
+      BLKSTR* ntl = pmap->GetBlock(x-1,y-1);
+      BLKSTR* nbr = pmap->GetBlock(x+1,y+1);
       if (ntl->tl1 && nbr->tl1) 
       {  
         n->TC = pe->MAXTC;
         continue;
       }
       // test topright x bottomleft
-      BLKSTR* ntr = map->GetBlock(x+1,y-1);
-      BLKSTR* nbl = map->GetBlock(x-1,y+1);
+      BLKSTR* ntr = pmap->GetBlock(x+1,y-1);
+      BLKSTR* nbl = pmap->GetBlock(x-1,y+1);
       if (ntr->tl1 && nbl->tl1) 
       {  
         n->TC = pe->MAXTC;

@@ -131,13 +131,6 @@ bool InfoDown = false;
 int SmallFont;
 int net_font;
 
-class GUI_OKDialog1;
-class GUI_OKDialog2;
-class GUI_YNDialog;
-GUI_OKDialog1 *OKD1;
-GUI_OKDialog2 *OKD2;
-GUI_YNDialog *YND;
-
 // timing
 Uint32 firsttick;
 Uint32 ticktime;
@@ -3613,55 +3606,6 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
   fprintf(stderr, "initing gui system\n");
   if (!GUI_Init(screen))
     return 2;
-  GUI_OKDialog1 OKDialog1("");
-  OKD1 = &OKDialog1;
-  GUI_System = &OKDialog1;
-  GUI_OKDialog2 OKDialog2("");
-  OKDialog1.next = &OKDialog2;
-  OKD2 = &OKDialog2;
-  GUI_YNDialog YNDialog;
-  OKDialog2.next = &YNDialog;
-  YND = &YNDialog;
-  GUI_MainMenu MainMenu;
-  YNDialog.next = &MainMenu;
-  GUI_NewGameMenu NewGameMenu;
-  MainMenu.next = &NewGameMenu;
-  GUI_JoinGameMenu JoinGameMenu;
-  NewGameMenu.next = &JoinGameMenu;
-  GUI_OptionsMenu OptionsMenu;
-  JoinGameMenu.next = &OptionsMenu;
-  GUI_PathsMenu PathsMenu;
-  OptionsMenu.next = &PathsMenu;
-  GUI_CreatePlayerSelMenu CreatePlayerMenu;
-  PathsMenu.next = &CreatePlayerMenu;
-  GUI_CreatePlayerMenu CreatePlayerMenu1(GUI_CREATEPLAYER1, 1);
-  CreatePlayerMenu.next = &CreatePlayerMenu1;
-  GUI_CreatePlayerMenu CreatePlayerMenu2(GUI_CREATEPLAYER2, 2);
-  CreatePlayerMenu1.next = &CreatePlayerMenu2;
-  GUI_CreatePlayerMenu CreatePlayerMenu3(GUI_CREATEPLAYER3, 3);
-  CreatePlayerMenu2.next = &CreatePlayerMenu3;
-  GUI_CreatePlayerMenu CreatePlayerMenu4(GUI_CREATEPLAYER4, 4);
-  CreatePlayerMenu3.next = &CreatePlayerMenu4;
-  GUI_CreditsMenu CreditsMenu;
-  CreatePlayerMenu4.next = &CreditsMenu;
-  GUI_SoundMenu SoundMenu;
-  CreditsMenu.next = &SoundMenu;
-  GUI_ResultsMenu ResultsMenu;
-  SoundMenu.next = &ResultsMenu;
-  GUI_Help1Menu Help1Menu;
-  ResultsMenu.next = &Help1Menu;
-  GUI_Help2Menu Help2Menu;
-  Help1Menu.next = &Help2Menu;
-  GUI_DeletePlayerMenu DeletePlayerMenu;
-  Help2Menu.next = &DeletePlayerMenu;
-  GUI_ServerMenu ServerMenu;
-  DeletePlayerMenu.next = &ServerMenu;
-  GUI_VideoMenu VideoMenu;
-  ServerMenu.next = &VideoMenu;
-  GUI_ClientMenu ClientMenu;
-  VideoMenu.next = &ClientMenu;
-  GUI_RedefineKeysMenu RedefineKeysMenu;
-  ClientMenu.next = &RedefineKeysMenu;
   
   ConOut("GUI initialized.");
   UpdateSplash(screen, 90);
@@ -3865,7 +3809,8 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
       SDL_SetColorKey(app.GetScreen(), SDL_SRCCOLORKEY, 0x0);
 
 		  // will change that again -- Alex
-      if (GUI_id != GUI_MAINMENU) {
+      if (GUI_id != GUI_MAINMENU) 
+      {
         GUI_menu->DrawHLine(0, 0, GUI_menu->w-1, 255, 255, 255);
         GUI_menu->DrawHLine(0, GUI_menu->h-1, GUI_menu->w, 255, 255, 255);
         GUI_menu->DrawVLine(0, 0, GUI_menu->h-1, 255, 255, 255);
@@ -3901,7 +3846,7 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
 
   MapFreeMem();
 
-//  GUI_Done();
+  GUI_Done();
   
   SDL_FreeSurface(app.GetScreen());
   app.SetScreen(screen);
