@@ -1,8 +1,13 @@
 //noexit
+//bomberman
+//Map with one room where is no exit.
+//Possible play of more players on one computer.
+//Just mad bombing allowed !
+//woid@centrum.cz
 
 /////////////////////////////////////////////////////////////////////////////
 //###########################################################################
-//## desc.:   map1.sc
+//## desc.:   noexit00.sc
 //## author:  Antonin Hildebrand
 //## 
 //## started: 16.11.2000
@@ -100,19 +105,8 @@ int ssInit()
   extra.data = 40;
   extra.life = 10;
   soSetExtra(slot, extra);
-
-  Cvar_Set("player_sa_witems", "8");  // bombs only
-  Cvar_Set("player_sa_bombs", "200");  // 200 bombs for start
-  Cvar_Set("player_sa_power", "6");  
-  Cvar_Set("player_sa_weapon", "3");  // set bombs as a starting weapon
-
-  // other items set to 0
-  Cvar_Set("player_sa_pistolka", "0");  
-  Cvar_Set("player_sa_railgun", "0");  
-  Cvar_Set("player_sa_becheromet", "0");  
-  Cvar_Set("player_sa_grenades", "0");  
-  Cvar_Set("player_sa_shields", "0");  
-  Cvar_Set("player_sa_warps", "5");  
+ 
+  Mod_Bombing("6");
 
   return 0;
 }
@@ -173,7 +167,7 @@ int csInit()
   MSCRW=480;
   MSCRH=448;
 
-  cvPlayMusic("paccore.xm");
+  cvPlayMusic("laidbck4.mod");
 //  cvVolumeMusic("40");
   return 0;
 }

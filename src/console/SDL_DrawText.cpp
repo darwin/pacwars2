@@ -76,7 +76,7 @@ int LoadFont(const char *BitmapName, int flags)
 
 	}
 	
-	ConOut( "Loaded font \"%s\". Width:%d, Height:%d\n", BitmapName, (*CurrentFont)->CharWidth, (*CurrentFont)->CharHeight );
+	ConOut("Loaded font \"%s\". Width:%d, Height:%d", BitmapName, (*CurrentFont)->CharWidth, (*CurrentFont)->CharHeight );
 	return FontNumber;
 }
 

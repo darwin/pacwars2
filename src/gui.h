@@ -69,6 +69,8 @@ SDL_Color GUI_Green120;
 SDL_Color GUI_InputActive;
 SDL_Color GUI_InputInactive;
 SDL_Color GUI_SmBtColor;
+SDL_Color GUI_UnselectedItem;
+SDL_Color GUI_SelectedItem;
 
 void GUI_InitColors(SDL_Surface* screen)
 {
@@ -120,7 +122,7 @@ void GUI_InitColors(SDL_Surface* screen)
   GUI_Green80.r=0;
   GUI_Green80.g=60;
   GUI_Green80.b=0;
-  
+
   GUI_Green100.r=0;
   GUI_Green100.g=100;
   GUI_Green100.b=0;
@@ -149,13 +151,21 @@ void GUI_InitColors(SDL_Surface* screen)
   GUI_SmBtColor.g=10;
   GUI_SmBtColor.b=0;
 
-  GUI_InputActive.r = 196;
-  GUI_InputActive.g = 0;
-  GUI_InputActive.b = 0;
+  GUI_InputActive.r = 255;
+  GUI_InputActive.g = 255;
+  GUI_InputActive.b = 128;
 
-  GUI_InputInactive.r = 60;
-  GUI_InputInactive.g = 0;
-  GUI_InputInactive.b = 0;
+  GUI_InputInactive.r = 255;
+  GUI_InputInactive.g = 255;
+  GUI_InputInactive.b = 255;
+
+  GUI_UnselectedItem.r=255;
+  GUI_UnselectedItem.g=255;
+  GUI_UnselectedItem.b=255;
+
+  GUI_SelectedItem.r=255;
+  GUI_SelectedItem.g=255;
+  GUI_SelectedItem.b=128;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -164,17 +174,20 @@ void GUI_InitColors(SDL_Surface* screen)
 
 class GUI_Board : public SDLGradientWidget {
 public:
-  GUI_Board(SDLWidget* parent, SDL_Rect& r, bool storebackground = false);
+  GUI_Board(SDLWidget* parent, SDL_Rect& r, bool storebackground = false, char* theme=NULL);
 //  void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
   
   bool drawbackground;
 };
 
-GUI_Board::GUI_Board(SDLWidget* parent, SDL_Rect& r,  bool storebackground):
+GUI_Board::GUI_Board(SDLWidget* parent, SDL_Rect& r,  bool storebackground, char* theme):
 SDLGradientWidget(parent,r)
 {
 //  drawbackground = true;
-  LoadThemeStyle("GUI_Board","GradientWidget");
+  if (!theme)
+    LoadThemeStyle("GUI_Board","GradientWidget");
+  else
+    LoadThemeStyle(theme,"GradientWidget");
 }
 
 /*
@@ -392,12 +405,12 @@ void GUI_LabelC::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
 
 class GUI_LabelL : public SDLLabel {
 public:
-  GUI_LabelL(SDLWidget* parent, SDL_Rect& r, char* text, GUI_LabelL** iselected, int id, SDL_Color ic1, SDL_Color ic2, void (*cb)(GUI_LabelL*)=NULL);
-//  void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
+  GUI_LabelL(SDLWidget* parent, SDL_Rect& r, char* text, GUI_LabelL** iselected, CSMapInfo* si, SDL_Color ic1, SDL_Color ic2, void (*cb)(GUI_LabelL*)=NULL);
+  void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
   bool eventMouseButtonDown(const SDL_MouseButtonEvent* button);
 
 
-  int lID;
+  CSMapInfo* msi;
   SDL_Color c1;
   SDL_Color c2;
   int shifty;
@@ -410,17 +423,17 @@ public:
 };
 
 
-GUI_LabelL::GUI_LabelL(SDLWidget* parent, SDL_Rect& r, char* text, GUI_LabelL** iselected, int id, SDL_Color ic1, SDL_Color ic2, void (*cb)(GUI_LabelL*)):
+GUI_LabelL::GUI_LabelL(SDLWidget* parent, SDL_Rect& r, char* text, GUI_LabelL** iselected, CSMapInfo* si, SDL_Color ic1, SDL_Color ic2, void (*cb)(GUI_LabelL*)):
 SDLLabel(parent,r,text,false)
 {
   SetFont(TextFont);
   c1 = ic1;
   c2 = ic2;
-  shifty = 2;
+  shifty = 4;
   shiftx = 5;
   bgmode = 2;
   selected = iselected;
-  lID = id;
+  msi = si;
   callback = cb;
   SetAlignment(SDL_TA_LEFT); 
 //  SetColor(GUI_LabelColor, GUI_LabelColor);
@@ -438,63 +451,14 @@ bool GUI_LabelL::eventMouseButtonDown(const SDL_MouseButtonEvent* button)
   }
   return true;
 }
-/*
+
 void GUI_LabelL::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
 {
   SDL_Color c;
-  if (*selected==this) c=c2; else c=c1;
-  
-  if (bgmode) {
-    if (bgmode>=1 && bgmode<=2)
-    {
-      SDL_FillRect(surface, rect, SDL_MapRGB(surface->format, c.r, c.g, c.b));
-      if (bgmode==1)
-      {
-        SDLWidget::DrawBorder(surface, rect, 1, false);
-      }
-    }
-    else
-    {
-      SDL_FillRect(surface, rect, 0);
-    }
-  }
-  
-	SDL_Rect srcrect;
-
-  my_srfText = TTF_RenderText_Blended(GetFont(), my_textLabel, GetTextColor());
-  if (my_srfText)
-  {
-		switch (my_alignment) {
-			case SDL_TA_LEFT:
-			my_rectLabel.x = rect->x;
-			my_rectLabel.y = rect->y + (rect->h - my_srfText->h) / 2;
-			break;
-
-			case SDL_TA_RIGHT:
-			my_rectLabel.x = rect->x + (rect->w - my_srfText->w);
-			my_rectLabel.y = rect->y + (rect->h - my_srfText->h) / 2;
-			break;
-
-			case SDL_TA_CENTER:
-			my_rectLabel.x = rect->x + (rect->w - my_srfText->w) / 2;
-			my_rectLabel.y = rect->y + (rect->h - my_srfText->h) / 2;
-			break;
-		}
-
-		srcrect.x = 0;
-		srcrect.y = 0;
-		srcrect.w = my_srfText->w;
-		srcrect.h = my_srfText->h;
-
-		my_rectLabel.h = my_srfText->h;
-		my_rectLabel.w = my_srfText->w;
-
-		SDL_BlitSurface(my_srfText, &srcrect, surface, &my_rectLabel);
-		SDL_FreeSurface(my_srfText);
-    my_srfText = false;
-  }
+  if (*selected==this) SetTextColor(c2); else SetTextColor(c1);
+  SDLLabel::eventDraw(surface, rect);  
 }
-*/
+
 bool eventMouseButtonDown(const SDL_MouseButtonEvent* button);
 
 
@@ -1679,9 +1643,9 @@ void GUI_JoinGameMenu::Hide()
 // NewGame menu widgets
 /////////////////////////////////////////////////////////////////////////////
 #define NG_PX 140
-#define NG_PY 70
+#define NG_PY 40
 #define NG_VX 360
-#define NG_VY 330
+#define NG_VY 400
 
 class GUI_NewGameMenu : public GUI_BaseMenu {
 public:
@@ -1705,6 +1669,12 @@ public:
 
   GUI_Board Board1;
   GUI_Board Board2;
+  GUI_Board Board3;
+
+  GUI_Label lAuthFile;
+  GUI_Label lDesc1;
+  GUI_Label lDesc2;
+  GUI_Label lDesc3;
 
   GUI_CheckBox cJoin;
 
@@ -1755,15 +1725,19 @@ lChoose2(NULL, SDLWidget::mkrect(NG_PX+25+150+10,NG_PY+179, 150,20), "Choose scr
 Board2(NULL, SDLWidget::mkrect(NG_PX+25+150+10, NG_PY+200, 150, 66), false),
 WidgetList2(NULL, SDLWidget::mkrect(NG_PX+26+150+10, NG_PY+201, 148, 64)),
 
-cJoin(NULL, SDLWidget::mkrect(NG_PX+25,NG_PY+273,NG_VX-50, CB_SIZEY), "join the game after starting server", true, GUI_Gray64),
+Board3(NULL, SDLWidget::mkrect(NG_PX+25, NG_PY+273, NG_VX-50, 54), false, "GUI_MapInfoBoard"),
+lAuthFile(NULL, SDLWidget::mkrect(NG_PX+25,NG_PY+275, NG_VX-50-8,12), "file", false),
+lDesc1(NULL, SDLWidget::mkrect(NG_PX+25,NG_PY+287, NG_VX-50-20,12), "d1", false),
+lDesc2(NULL, SDLWidget::mkrect(NG_PX+25,NG_PY+299, NG_VX-50-20,12), "d2", false),
+lDesc3(NULL, SDLWidget::mkrect(NG_PX+25,NG_PY+311, NG_VX-50-20,12), "d3", false),
 
-bStartIt(NULL, 1, SDLWidget::mkrect(NG_PX+25,NG_PY+300,150,25), "START SERVER"),
-bCancel(NULL, 2, SDLWidget::mkrect(NG_PX+25+150+10,NG_PY+300,150,25), "BACK")
+cJoin(NULL, SDLWidget::mkrect(NG_PX+25,NG_PY+333,NG_VX-50, CB_SIZEY), "join the game after starting server", true, GUI_Gray64),
+
+bStartIt(NULL, 1, SDLWidget::mkrect(NG_PX+25,NG_PY+360,150,25), "START SERVER"),
+bCancel(NULL, 2, SDLWidget::mkrect(NG_PX+25+150+10,NG_PY+360,150,25), "BACK")
 {
   NGMenu = this;
 
-  Default();
-  
   NewGameMenu.SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
   NewGameMenu.SetFont(MainFont);
   
@@ -1784,6 +1758,23 @@ bCancel(NULL, 2, SDLWidget::mkrect(NG_PX+25+150+10,NG_PY+300,150,25), "BACK")
   lChoose1.SetAlignment(SDL_TA_LEFT);
   lChoose2.bgmode = 2;
   lChoose2.SetAlignment(SDL_TA_LEFT);
+
+  lDesc1.bgmode = 2;
+  lDesc1.shiftx = 10;
+  lDesc1.shifty = -3;  
+  lDesc1.SetAlignment(SDL_TA_LEFT);
+  lDesc2.bgmode = 2;
+  lDesc2.SetAlignment(SDL_TA_LEFT);
+  lDesc2.shiftx = 10;
+  lDesc2.shifty = -3;  
+  lDesc3.bgmode = 2;
+  lDesc3.SetAlignment(SDL_TA_LEFT);
+  lDesc3.shiftx = 10;
+  lDesc3.shifty = -3;  
+  lAuthFile.bgmode = 2;
+  lAuthFile.SetAlignment(SDL_TA_LEFT);
+  lAuthFile.shiftx = 10;
+  lAuthFile.shifty = -3;  
   
   IPaddress serverIP;
   SDLNet_ResolveHost(&serverIP, "localhost", PWP_MSG_SPORT);
@@ -1830,10 +1821,38 @@ bCancel(NULL, 2, SDLWidget::mkrect(NG_PX+25+150+10,NG_PY+300,150,25), "BACK")
   AddChild(&lChoose2);
   AddChild(&Board2);
   AddChild(&WidgetList2);
+  AddChild(&Board3);
+  AddChild(&lAuthFile);
+  AddChild(&lDesc1);
+  AddChild(&lDesc2);
+  AddChild(&lDesc3);
   AddChild(&cJoin);
   AddChild(&bStartIt);
   AddChild(&bCancel);
+
+  Default();
 }
+
+void scriptchCB(GUI_LabelL* l)
+{
+//  NGMenu->Board3.Hide();
+//  NGMenu->Board3.Show();
+//  NGMenu->Board3.Show();
+  NGMenu->Board3.Redraw();
+  if (l->msi)
+  {
+    char a[300];
+    sprintf(a, " File: %s.msc, Author: %s", NGMenu->selected2->msi->name, NGMenu->selected2->msi->author);
+    NGMenu->lAuthFile.SetText(a);
+    sprintf(a, " %s", NGMenu->selected2->msi->desc[0]);
+    NGMenu->lDesc1.SetText(a);
+    sprintf(a, " %s", NGMenu->selected2->msi->desc[1]);
+    NGMenu->lDesc2.SetText(a);
+    sprintf(a, " %s", NGMenu->selected2->msi->desc[2]);
+    NGMenu->lDesc3.SetText(a);
+  }
+}
+
 
 void mapchCB(GUI_LabelL* l)
 {
@@ -1852,7 +1871,7 @@ void GUI_NewGameMenu::GenerateScriptSelection()
   while (a) {
     i++;
     if (selected1 && strcmp(selected1->GetText(), a->map)==0)
-      WidgetList2.AddWidget(new GUI_LabelL(NULL, SDLWidget::mkrect(0,0,150-14,16), a->name, &selected2, i, GUI_Green80, GUI_Green120));
+      WidgetList2.AddWidget(new GUI_LabelL(NULL, SDLWidget::mkrect(0,0,150-14,12), a->sname, &selected2, a, GUI_UnselectedItem, GUI_SelectedItem, scriptchCB));
     a = a->next;
   }
 
@@ -1860,9 +1879,10 @@ void GUI_NewGameMenu::GenerateScriptSelection()
     selected2 = (GUI_LabelL*)WidgetList2.FindWidget(0);
   else
     selected2 = NULL;
-
+  
   Board2.Redraw();
   WidgetList2.Redraw();
+  scriptchCB(selected2);
 }
 
 void GUI_NewGameMenu::Default()
@@ -1878,7 +1898,7 @@ void GUI_NewGameMenu::Default()
   int i=0;
   while (a) {
     i++;
-		WidgetList1.AddWidget(new GUI_LabelL(NULL, SDLWidget::mkrect(0,0,150-14,16), a->name, &selected1, i, GUI_Green80, GUI_Green120, mapchCB));
+		WidgetList1.AddWidget(new GUI_LabelL(NULL, SDLWidget::mkrect(0,0,150-14,12), a->name, &selected1, 0, GUI_UnselectedItem, GUI_SelectedItem, mapchCB));
     a = a->next;
   }
 
@@ -1913,8 +1933,8 @@ bool GUI_NewGameMenu::eventButtonClick(int id, SDLWidget* widget)
       CommandExecute("ss");
       ConOut("s_next_map %s", selected1->GetText());
       CommandExecute("s_next_map %s", selected1->GetText());
-      ConOut("s_next_script %s", selected2->GetText());
-      CommandExecute("s_next_script %s", selected2->GetText());
+      ConOut("s_next_script %s", selected2->msi->name);
+      CommandExecute("s_next_script %s", selected2->msi->name);
       ConOut("rs");
       CommandExecute("rs");
       ConOut("> end of sequence <");
@@ -1942,7 +1962,7 @@ bool GUI_NewGameMenu::eventButtonClick(int id, SDLWidget* widget)
 
       if (!selected2)
       {
-        OKD1->Reset("SCRIPT REQUIRED", "Scritp name must be selected !");
+        OKD1->Reset("SCRIPT REQUIRED", "Script name must be selected !");
         GUI_OpenMenu(GUI_OKDIALOG1);
         return false;
       }
@@ -1979,6 +1999,11 @@ void GUI_NewGameMenu::Show()
   WidgetList2.Show();
   NewGameMenu.Show();
   cJoin.Show();
+  Board3.Show();
+  lAuthFile.Show();
+  lDesc1.Show();
+  lDesc2.Show();
+  lDesc3.Show();
 }
 
 void GUI_NewGameMenu::Hide()
@@ -2002,6 +2027,11 @@ void GUI_NewGameMenu::Hide()
   WidgetList2.Hide();
   NewGameMenu.Hide();
   cJoin.Hide();
+  Board3.Hide();
+  lAuthFile.Hide();
+  lDesc1.Hide();
+  lDesc2.Hide();
+  lDesc3.Hide();
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -2195,7 +2225,7 @@ lLine11(NULL, SDLWidget::mkrect(CM_G2_PX,CM_G2_PY+255, CM_G2_VX-2,20), "ParaGUI 
 lLine12(NULL, SDLWidget::mkrect(CM_G2_PX,CM_G2_PY+275, CM_G2_VX-2,20), "ImageMagick library by ImageMagick Studio", false),
 lLine13(NULL, SDLWidget::mkrect(CM_G2_PX,CM_G2_PY+295, CM_G2_VX-2,20), "SDL: net, console, ttf, mixer and image libs", false),
 lLine14(NULL, SDLWidget::mkrect(CM_G2_PX,CM_G2_PY+315, CM_G2_VX-2,20), "zlib, libpng, libjpeg, UPX packer", false),
-lLine16(NULL, SDLWidget::mkrect(CM_PX+4,CM_PY+235, CM_VX-2,20), "Thanks to Mem, Lada, Tessien, Dusty, Farey, Kerim, Garett Banuk, Nula, ...", false),
+lLine16(NULL, SDLWidget::mkrect(CM_PX+4,CM_PY+235, CM_VX-2,20), "Thanks to SLiK, Mem, Lada, Tessien, Dusty, Farey, Kerim, Garett Banuk, Nula, ...", false),
 lLine17(NULL, SDLWidget::mkrect(CM_PX+4,CM_PY+255, CM_VX-8,20), "See credits.txt for full list.", false),
 lLine18(NULL, SDLWidget::mkrect(CM_PX+4,CM_PY+315, CM_VX-2,25), "visit pacComunity at", false),
 lLine19(NULL, SDLWidget::mkrect(CM_PX+4,CM_PY+345, CM_VX-2,25), "http://pw2.tsx.org", false),
@@ -3100,13 +3130,11 @@ GUI_Input::~GUI_Input(){
 
 
 void GUI_Input::eventDraw(SDL_Surface* surface, SDL_Rect* rect){
-//www
-/*
 	if (waiting)
-    color = GUI_InputActive;    
+    textcolor = GUI_InputActive;    
   else
-    color = GUI_InputInactive;    
-*/
+    textcolor = GUI_InputInactive;    
+
   SDLGradientWidget::eventDraw(surface, rect);
 
 	DrawText(surface, rect);
@@ -5163,7 +5191,7 @@ void GUI_DeletePlayerMenu::Default()
       if (p->brain_owner==client_info.client_num)
       {
         id++;
-		    WidgetList.AddWidget(new GUI_LabelL(NULL, SDLWidget::mkrect(0,0,150-14,16), p->player_name.GetValRef()->chars, &selected1, id, GUI_Green80, GUI_Green120));
+		    WidgetList.AddWidget(new GUI_LabelL(NULL, SDLWidget::mkrect(0,0,150-14,16), p->player_name.GetValRef()->chars, &selected1, 0, GUI_UnselectedItem, GUI_SelectedItem));
       }
     }
   }

@@ -413,6 +413,18 @@
     </widget>
 
     <widget>
+	<type value="GUI_MapInfoBoard"/>
+	<object>
+	    <type value="GradientWidget"/>
+	    <name value="GradientWidget"/>
+	    <filename name="background" value="menu/lb_back.bmp"/>
+	    <property name="backmode" value="TILE"/>
+	    <property name="blend" value="0"/>
+	    <property name="bordersize" value="1"/>
+	</object>
+    </widget>
+
+    <widget>
 	<type value="GUI_Input"/>
 	<object>
 	    <type value="GradientWidget"/>

@@ -34,3 +34,4 @@ typedef signed int	Sint32;
 #include "scripts/smapi.h"
 #include "scripts/soapi.h"
 #include "scripts/svapi.h"
+#include "scripts/mods.h"

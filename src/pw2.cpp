@@ -595,7 +595,6 @@ void Help(char *string)
 /////////////////////////////////////////////////////////////////////////////
 void KillProgram(char *String)
 {
-  ConOut("%s", String);
   App_Quit();
 }
 
@@ -2818,6 +2817,7 @@ void DoneMap()
 main(int argc, char *argv[])
 {
 
+/*
 #ifdef _DEBUG
 	{
 		// Get current flag
@@ -2830,7 +2830,7 @@ main(int argc, char *argv[])
 		_CrtSetDbgFlag( tmpFlag );
 	}
 #endif
-
+*/
   char fname[_MAX_PATH];
 
   srand( (unsigned)time( NULL ) );
@@ -2842,7 +2842,9 @@ main(int argc, char *argv[])
   sprintf(fname, "PARAGUIDIR=%s", gui_dir.string);
   putenv(fname);
   SDLApplication app;
-  app.SetApplicationPath(gui_dir.string);
+  strcpy(fname, gui_dir.string);
+  if (fname[strlen(fname)-1]=='/') fname[strlen(fname)-1]=0;
+  app.SetApplicationPath(fname);
   app.LoadTheme("default.theme", true, gui_dir.string);
   
   Uint32 videoflags;
@@ -2877,8 +2879,12 @@ main(int argc, char *argv[])
   strcpy(date, "");
   strcpy(time, "");
 
-  //strdate(date);
-  //strtime(time);
+#ifdef WIN32
+  _strdate(date);
+  _strtime(time);
+#else
+
+#endif
 
   fprintf(stderr, "+-----------------------------------------+\n");
   fprintf(stderr, "| PacWars2 log file                       |\n");
@@ -2954,7 +2960,7 @@ main(int argc, char *argv[])
     exit(2);
   }
 
-  SDL_WM_SetCaption("PacWars2 - Becherovka game",NULL);
+  SDL_WM_SetCaption("PacWars2",NULL);
   FileNameConversion(gfx_dir.string, "icon", "bmp", tmptxt);
   SDL_WM_SetIcon(SDL_LoadBMP(tmptxt), NULL);
   // Set video mode
@@ -2964,24 +2970,22 @@ main(int argc, char *argv[])
   }
   SDL_ShowCursor(false);
 
-  SDL_Surface* screen = app.GetScreen();
+  screen = app.GetScreen();
 
   if (alphamenu.value) 
   {
-    screen = SDL_CreateRGBSurface(SDL_HWSURFACE|SDL_SRCCOLORKEY|SDL_SRCALPHA, 640, 480, video_bpp, 0, 0, 0, 0);
-    app.SetScreen(screen);
-
-    SDL_FillRect(screen, NULL, 0);
-    SDL_SetColorKey(screen, SDL_SRCCOLORKEY, 0);
-    SDL_SetAlpha(screen, SDL_SRCALPHA, MENUALPHA);
+    SDL_Surface* fake_screen = SDL_CreateRGBSurface(SDL_HWSURFACE|SDL_SRCCOLORKEY|SDL_SRCALPHA, 640, 480, video_bpp, 0, 0, 0, 0);
+    SDL_FillRect(fake_screen, NULL, 0);
+    SDL_SetColorKey(fake_screen, SDL_SRCCOLORKEY, 0);
+    SDL_SetAlpha(fake_screen, SDL_SRCALPHA, MENUALPHA);
+    app.SetScreen(fake_screen);
   }
   else
   {
-    screen = SDL_CreateRGBSurface(SDL_SWSURFACE|SDL_SRCCOLORKEY, 640, 480, video_bpp, 0, 0, 0, 0);
-    app.SetScreen(screen);
-
-    SDL_FillRect(screen, NULL, 0x0);
-    SDL_SetColorKey(screen, SDL_SRCCOLORKEY, 0);
+    SDL_Surface* fake_screen = SDL_CreateRGBSurface(SDL_HWSURFACE|SDL_SRCCOLORKEY, 640, 480, video_bpp, 0, 0, 0, 0);
+    SDL_FillRect(fake_screen, NULL, 0x0);
+    SDL_SetColorKey(fake_screen, SDL_SRCCOLORKEY, 0);
+    app.SetScreen(fake_screen);
   }
 
   ResetGamma();
@@ -2993,7 +2997,7 @@ main(int argc, char *argv[])
   {
     int flags = 0;
     if (sound_3d_enabled) flags|=BASS_DEVICE_3D;
-    if (!BASS_Init(-1,44100,flags, 0 /*ReturnSDLHWND())*/)
+    if (!BASS_Init(-1,44100,flags, GetForegroundWindow()))
     {
         // couldn't initialize device, so use no sound
         BASS_Init(-2,44100,flags,GetForegroundWindow());
@@ -3005,9 +3009,9 @@ main(int argc, char *argv[])
       printf("Opened audio at 44100\n");
       audio_open = 1;
       if (sound_3d_enabled) 
-        printf("3D sound enabled");
+        printf("3D sound enabled\n");
       else
-        printf("3D sound disabled");
+        printf("3D sound disabled\n");
     }
   }
 #else
@@ -3029,7 +3033,7 @@ main(int argc, char *argv[])
 #endif
 #endif
   
-  ConOut("PacWars2 - Becherovka game - version %d.%02d", VERSION_MAJOR, VERSION_MINOR);
+  ConOut("PacWars2 - version %d.%02d", VERSION_MAJOR, VERSION_MINOR);
   ConOut("");
   // Inform about previous initializations
 #ifdef PW_AUDIO
@@ -3193,7 +3197,6 @@ main(int argc, char *argv[])
   ConOut("%d scripts(s) found", SMapMan.Scan(script_dir.string, smap_ext.string));
   UpdateSplash(screen, 85);
 
-    
   // Init GUI system
   if (!GUI_Init(screen)) return 2;
   GUI_OKDialog1 OKDialog1(""); OKD1=&OKDialog1;
@@ -3408,17 +3411,6 @@ main(int argc, char *argv[])
     ProcessEvents();
     if (MainProgram) Renderscreen(screen);
     
-/*    // print ping
-    if (net_server_status==NS_CONNECTED)
-    {
-      if (ticks-oldPINGticks>=PING_MEASURE)
-      {
-        CL_Ping();
-        oldPINGticks = ticks;
-        sprintf(pingstr, "ping %d ms", ping);
-      }
-    }  
-*/
     if (InfoDown) 
     {
       // print the framerate
@@ -3437,24 +3429,24 @@ main(int argc, char *argv[])
       else
         DrawText("Client view", screen, 1, screen->w-160, 0*13); 
       
-      DrawText(framerate, screen, 1, screen->w-160, 13); // consolefont should be 0
+      DrawText(framerate, screen, 1, screen->w-160, 13); 
       sprintf(genstr, "time %d", ticktime);
-      DrawText(genstr, screen, 1, screen->w-160, 2*13); // consolefont should be 0
+      DrawText(genstr, screen, 1, screen->w-160, 2*13); 
       
-      DrawText(pingstr, screen, 1, screen->w-160, 3*13); // consolefont should be 0
+      DrawText(pingstr, screen, 1, screen->w-160, 3*13); 
       sprintf(genstr, "server ticks %d", server_info.game.tick);
-      DrawText(genstr, screen, 1, screen->w-160, 4*13); // consolefont should be 0
+      DrawText(genstr, screen, 1, screen->w-160, 4*13); 
       sprintf(genstr, "client ticks %d", client_info.game.tick);
-      DrawText(genstr, screen, 1, screen->w-160, 5*13); // consolefont should be 0
+      DrawText(genstr, screen, 1, screen->w-160, 5*13); 
 
       sprintf(genstr, "transfer %d / %d", server.zs.total_in, server.zs.total_out);
-      DrawText(genstr, screen, 1, screen->w-160, 8*13); // consolefont should be 0
+      DrawText(genstr, screen, 1, screen->w-160, 8*13); 
     }
     
     if (MapLoaded!=2)
     {
       sprintf(genstr, "PW2 v%d.%02d build %04d", VERSION_MAJOR, VERSION_MINOR, build_number);
-      DrawText(genstr, screen, 1, 480-6*strlen(genstr), screen->h-1*13); // consolefont should be 0
+      DrawText(genstr, screen, 1, 480-6*strlen(genstr), screen->h-1*13); 
     }
     
     if (NetStatsDown) 
@@ -3474,8 +3466,8 @@ main(int argc, char *argv[])
         SDL_SetAlpha(app.GetScreen(), SDL_SRCALPHA, MENUALPHA);
       else
         SDL_SetAlpha(app.GetScreen(), 0, 0);
-      SDL_BlitSurface(app.GetScreen(), &r2, screen, &r2);
-//      SDL_BlitSurface(app.GetScreen(), NULL, screen, NULL);
+//      SDL_BlitSurface(app.GetScreen(), &r2, screen, &r2);
+      SDL_BlitSurface(app.GetScreen(), NULL, screen, NULL);
       if (GUI_id!=GUI_MAINMENU)
       {
         GUI_menu->DrawHLine(r2.x - 1, r2.y - 1, r2.w+1, 255, 255, 255, screen);
@@ -3487,7 +3479,7 @@ main(int argc, char *argv[])
     else
     {  
       if (MapLoaded!=2)
-        DrawText("Press ESCAPE to open menu", screen, 1, 200, screen->h-1*13); // consolefont should be 0
+        DrawText("Press ESCAPE to open menu", screen, 1, 200, screen->h-1*13); 
     }
     
     if (ConsoleDown) 
@@ -3496,7 +3488,7 @@ main(int argc, char *argv[])
     {  
       if (MapLoaded!=2)
       {
-        DrawText("Press ` to drop down the console", screen, 1, 0, screen->h-1*13); // consolefont should be 0
+        DrawText("Press ` to drop down the console", screen, 1, 0, screen->h-1*13); 
         DrawMessenger(screen);
       }
       DrawMessenger(screen);
@@ -3508,7 +3500,7 @@ main(int argc, char *argv[])
   }
   inloop = false;
   
-  SDL_Delay(1000); // for byebye
+  SDL_Delay(1000); // wait for byebye sound
   MapFreeMem();
 
   GUI_Done();
@@ -3550,41 +3542,4 @@ main(int argc, char *argv[])
   //exit(0);
   return 0; // hack due to warning message generation
 }
-
-/**************************************************************************************
-/*
-double sprumer = -1;
-
-  if ((snum)!=0)
-		sprumer = stime / snum;
-    
-      double cprumer = -1;
-      
-        if ((cnum)!=0)
-        cprumer = cxtime / cnum;
-        
-          double sodchylka = -1; 
-          if ((snum-1)!=0)
-          sodchylka = sqrt(((ssum-sprumer*stime)/(snum-1)));
-          
-            double codchylka = -1; 
-            if ((cnum-1)!=0)
-            codchylka = sqrt(((csum-cprumer*cxtime)/(cnum-1)));
             
-              sprintf(tempstr, "s: %d, %d, %d, %g, %g", snum, stime, ssum, sprumer, sodchylka);
-              DrawText(tempstr, screen, 1, 0, screen->h-2*13); // consolefont should be 0
-              sprintf(tempstr, "c: %d, %d, %d, %g, %g", cnum, cxtime, csum, cprumer, codchylka);
-              DrawText(tempstr, screen, 1, 0, screen->h-3*13); // consolefont should be 0
-              */
-              /*
-              sprintf(genstr, "server %d", server_info.game.objs[0]->temp);
-              DrawText(genstr, screen, 1, screen->w-160, 3*13); // consolefont should be 0
-              
-                sprintf(genstr, "client_mir[0] %d", client[0].game.objs[0]->temp);
-                DrawText(genstr, screen, 1, screen->w-160, 4*13); // consolefont should be 0
-                sprintf(genstr, "client_mir[1] %d", client[1].game.objs[0]->temp);
-                DrawText(genstr, screen, 1, screen->w-160, 5*13); // consolefont should be 0
-                
-                  sprintf(genstr, "client[0] %d", client_info.game.objs[0]->temp);
-                  DrawText(genstr, screen, 1, screen->w-160, 6*13); // consolefont should be 0*/
-                  

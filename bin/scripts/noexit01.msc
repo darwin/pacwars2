@@ -1,18 +1,23 @@
-//madlab
+//noexit
+//base
+//Map with one room where is no exit.
+//Possible play of more players on one computer.
+//
+//woid@centrum.cz
 
 /////////////////////////////////////////////////////////////////////////////
 //###########################################################################
-//## desc.:   MadLab2:becherwar
-//## author:  Raist
+//## desc.:   noexit01.sc
+//## author:  Antonin Hildebrand
 //## 
-//## started: 29.11.2000
+//## started: 16.11.2000
 //## revised: ???
 //## 
 //## 
 //###########################################################################
 //                        ## SEER - C-Scripting engine - Przemyslaw Podsiadly
-#title "MadLab"
-#author "Raist"
+#title "small"
+#author "Woid"
 
 // !!! don't do this - there is a bug #include "scripts/scStdlib.h"     // we use rand() function
 import int rand();
@@ -52,54 +57,53 @@ int ssInit()
   int slot;
 
   SCEXTRA extra;
- 
-  int i;
 
-  for (i=0; i<8; i++)
-  {
-	  slot = soBornExtra(extra);
-	  extra.entity.xpos = 100;
-	  extra.entity.ypos = 100;
-	  extra.type = EX_WEP_BECHER;
-	  extra.modifier = EX_FLAG_FIXED|EX_FLAG_RESPAWN|EX_FLAG_RANDOMPLACE;
-	  extra.data = 20;
-	  extra.life = 25;
-	  soSetExtra(slot, extra);
-  }
-  for (i=0; i<10; i++)
-  {
-	  slot = soBornExtra(extra);
-	  extra.entity.xpos = 100;
-	  extra.entity.ypos = 100;
-	  extra.type = EX_AMM_BECHER;;
-	  extra.modifier = EX_FLAG_FIXED|EX_FLAG_RESPAWN|EX_FLAG_RANDOMPLACE;
-	  extra.data = 20;
-	  extra.life = 15;
-	  soSetExtra(slot, extra);
-  }
-  for (i=0; i<2; i++)
-  {
-	  slot = soBornExtra(extra);
-	  extra.entity.xpos = 100;
-	  extra.entity.ypos = 100;
-	  extra.type = 0;
-	  extra.modifier = EX_FLAG_FIXED|EX_FLAG_RESPAWN|EX_FLAG_RANDOM_POS|EX_FLAG_RANDOMPLACE;
-	  extra.data = 30;
-	  extra.life = 10;
-	  soSetExtra(slot, extra);
-  }
-  for (i=0; i<3; i++)
-  {
-	  slot = soBornExtra(extra);
-	  extra.entity.xpos = 100;
-	  extra.entity.ypos = 100;
-	  extra.type = 0;
-	  extra.modifier = EX_FLAG_FIXED|EX_FLAG_RESPAWN|EX_FLAG_RANDOM_NEG|EX_FLAG_RANDOMPLACE;
-	  extra.data = 8;
-	  extra.life = 15;
-	  soSetExtra(slot, extra);
-  }
-  Cvar_Set("becheromet_reload_time", "5");
+  // fixed items
+  slot = soBornExtra(extra);
+  extra.entity.xpos = 1*16;
+  extra.entity.ypos = 1*16;
+  extra.type = EX_WEP_RAILGUN;
+  extra.modifier = EX_FLAG_FIXED|EX_FLAG_RESPAWN|EX_FLAG_RANDOMPLACE;
+  extra.data = 30;
+  extra.life = 15;
+  soSetExtra(slot, extra);
+
+  slot = soBornExtra(extra);
+  extra.entity.xpos = 1*16;
+  extra.entity.ypos = 1*16;
+  extra.type = EX_WEP_BOMB;
+  extra.modifier = EX_FLAG_FIXED|EX_FLAG_RESPAWN|EX_FLAG_RANDOMPLACE;
+  extra.data = 30;
+  extra.life = 17;
+  soSetExtra(slot, extra);
+  
+  slot = soBornExtra(extra);
+  extra.entity.xpos = 1*16;
+  extra.entity.ypos = 1*16;
+  extra.type = EX_WEP_BECHER;
+  extra.modifier = EX_FLAG_FIXED|EX_FLAG_RESPAWN|EX_FLAG_RANDOMPLACE;
+  extra.data = 21;
+  extra.life = 12;
+  soSetExtra(slot, extra);
+
+
+  slot = soBornExtra(extra);
+  extra.entity.xpos = 16;
+  extra.entity.ypos = 16;
+  extra.type = 0;
+  extra.modifier = EX_FLAG_FIXED|EX_FLAG_RESPAWN|EX_FLAG_RANDOM_POS|EX_FLAG_RANDOMPLACE;
+  extra.data = 70;
+  extra.life = 10;
+  soSetExtra(slot, extra);
+
+  slot = soBornExtra(extra);
+  extra.entity.xpos = 16;
+  extra.entity.ypos = 16;
+  extra.type = 0;
+  extra.modifier = EX_FLAG_FIXED|EX_FLAG_RESPAWN|EX_FLAG_RANDOM_AMM|EX_FLAG_RANDOMPLACE;
+  extra.data = 10;
+  extra.life = 10;
+  soSetExtra(slot, extra);
 
   return 0;
 }
@@ -107,13 +111,13 @@ int ssInit()
 
 // called from objects reborning code, to retrieve new born position
 // type = 0 is PacPlayer
-#define MAX_BORN_POS 4
-int born_x[MAX_BORN_POS] = {13, 17, 40, 50};
-int born_y[MAX_BORN_POS] = {13, 11, 13, 14};
+#define MAX_BORN_POS 8
+int born_x[MAX_BORN_POS] = {1, 27, 27, 1, 17, 13, 16, 6};
+int born_y[MAX_BORN_POS] = {1, 1,  25, 25, 29, 25, 17, 9};
 
-#define MAX_WARP_POS 4
-int warp_x[MAX_WARP_POS] = { 1,  4, 40, 52};
-int warp_y[MAX_WARP_POS] = { 3, 24,  2, 20};
+#define MAX_WARP_POS 8
+int warp_x[MAX_BORN_POS] = {1, 27, 27, 1, 17, 13, 16, 6};
+int warp_y[MAX_BORN_POS] = {1, 1,  25, 25, 29, 25, 17, 9};
 
 int ssGeneratePos(int type, int* px, int* py)
 {
@@ -160,7 +164,7 @@ int csInit()
   MSCRW=480;
   MSCRH=448;
 
-  cvPlayMusic("paccore.xm");
+  cvPlayMusic("laidbck4.mod");
 //  cvVolumeMusic("40");
   return 0;
 }
@@ -179,28 +183,12 @@ int csTick()
 int csCamera()
 {
   SCVAR vars;
-  SCPLAYER player;
   
   cvGetVars(vars);
-
-  if (vars.chasing!=-1)
-  {
-    coGetPlayer(vars.chasing, player);
-    
-    vars.zonex = player.entity.xpos / (16*30);
-    vars.zoney = player.entity.ypos / (16*28);
-    vars.camx = vars.zonex * (16*30);
-    vars.camy = vars.zoney * (16*28);
-  }
-  else
-  {
-    vars.zonex = 0;
-    vars.zoney = 0;
-    vars.camx = 0;
-    vars.camy = 0;
-  }
-  
-  
+  vars.zonex = 0;
+  vars.zoney = 0;
+  vars.camx = 0;
+  vars.camy = 0;
   cvSetVars(vars);
       
   return 0;

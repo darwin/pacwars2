@@ -1,18 +1,23 @@
-//store
+//pacwars
+//ultra railing
+//Map is ported from old PacWars
+//Ultra fast railguns only
+//Original map by Iain Syme.
+//woid@centrum.cz
 
 /////////////////////////////////////////////////////////////////////////////
 //###########################################################################
-//## desc.:   stote.msc
+//## desc.:   pacwars01.sc
 //## author:  Antonin Hildebrand
 //## 
-//## started: 28.11.2000
+//## started: 26.11.2000
 //## revised: ???
 //## 
-//## store map control script
+//## old pacwars map control script [pacwars.FMP]
 //## 
 //###########################################################################
 //                        ## SEER - C-Scripting engine - Przemyslaw Podsiadly
-#title "store"
+#title "pacwars"
 #author "Woid"
 
 // !!! don't do this - there is a bug #include "scripts/scStdlib.h"     // we use rand() function
@@ -48,7 +53,7 @@ export csTick;
 int ssInit()
 {
   MSCRW=480;
-  MSCRH=448;
+  MSCRH=400;
 
   int slot;
 
@@ -56,63 +61,64 @@ int ssInit()
 
   // fixed items
   slot = soBornExtra(extra);
-  extra.entity.xpos = 28*16;
-  extra.entity.ypos = 38*16;
-  extra.type = EX_WEP_BECHER;
+  extra.entity.xpos = 2*16;
+  extra.entity.ypos = 5*16;
+  extra.type = EX_WEP_RAILGUN;
   extra.modifier = EX_FLAG_FIXED;
-  soSetExtra(slot, extra);
-  slot = soBornExtra(extra);
-  extra.entity.xpos = 88*16;
-  extra.entity.ypos = 4*16;
-  extra.type = EX_WEP_BECHER;
-  extra.modifier = EX_FLAG_FIXED;
+  
   soSetExtra(slot, extra);
 
   slot = soBornExtra(extra);
-  extra.entity.xpos = 72*16;
-  extra.entity.ypos = 54*16;
+  extra.entity.xpos = 16*16;
+  extra.entity.ypos = 73*16;
   extra.type = EX_WEP_RAILGUN;
   extra.modifier = EX_FLAG_FIXED;
-  soSetExtra(slot, extra);
-  slot = soBornExtra(extra);
-  extra.entity.xpos = 62*16;
-  extra.entity.ypos = 30*16;
-  extra.type = EX_WEP_RAILGUN;
-  extra.modifier = EX_FLAG_FIXED;
-  soSetExtra(slot, extra);
-
-  slot = soBornExtra(extra);
-  extra.entity.xpos = 24*16;
-  extra.entity.ypos = 71*16;
-  extra.type = EX_WEP_BOMB;
-  extra.modifier = EX_FLAG_FIXED;
-  soSetExtra(slot, extra);
-  slot = soBornExtra(extra);
-  extra.entity.xpos = 9*16;
-  extra.entity.ypos = 7*16;
-  extra.type = EX_WEP_BOMB;
-  extra.modifier = EX_FLAG_FIXED;
+  
   soSetExtra(slot, extra);
   
-  // grenade
+  slot = soBornExtra(extra);
+  extra.entity.xpos = 57*16;
+  extra.entity.ypos = 62*16;
+  extra.type = EX_WEP_RAILGUN;
+  extra.modifier = EX_FLAG_FIXED;
+
+  soSetExtra(slot, extra);
+
+  slot = soBornExtra(extra);
+  extra.entity.xpos = 62*16;
+  extra.entity.ypos = 62*16;
+  extra.type = EX_WEP_RAILGUN;
+  extra.modifier = EX_FLAG_FIXED;
+
+  soSetExtra(slot, extra);
+
   slot = soBornExtra(extra);
   extra.entity.xpos = 32*16;
-  extra.entity.ypos = 24*16;
-  extra.type = EX_WEP_GRENADE;
+  extra.entity.ypos = 27*16;
+  extra.type = EX_WEP_RAILGUN;
   extra.modifier = EX_FLAG_FIXED;
+
   soSetExtra(slot, extra);
 
-  // becher
   slot = soBornExtra(extra);
-  extra.entity.xpos = 2*16;
-  extra.entity.ypos = 2*16;
+  extra.entity.xpos = 62*16;
+  extra.entity.ypos = 7*16;
   extra.type = EX_SUP_BECHER;
   extra.modifier = EX_FLAG_FIXED|EX_FLAG_RESPAWN|EX_FLAG_RANDOMPLACE;
-  extra.data = 130;
+  extra.data = 140;
+  
   soSetExtra(slot, extra);
 
+  slot = soBornExtra(extra);
+  extra.entity.xpos = 12*16;
+  extra.entity.ypos = 8*16;
+  extra.type = 0;
+  extra.modifier = EX_FLAG_FIXED|EX_FLAG_RESPAWN|EX_FLAG_RANDOM_WEP|EX_FLAG_RANDOMPLACE;
+  extra.data = 100;
+  extra.life = 50;
+
   int i;
-  for (i=0; i<2; i++)
+  for (i=0; i<3; i++)
   {
 	  slot = soBornExtra(extra);
 	  extra.entity.xpos = 100;
@@ -123,7 +129,7 @@ int ssInit()
 	  extra.life = 20;
 	  soSetExtra(slot, extra);
   }
-  for (i=0; i<2; i++)
+  for (i=0; i<3; i++)
   {
 	  slot = soBornExtra(extra);
 	  extra.entity.xpos = 100;
@@ -145,7 +151,7 @@ int ssInit()
 	  extra.life = 15;
 	  soSetExtra(slot, extra);
   }
-  for (i=0; i<2; i++)
+  for (i=0; i<6; i++)
   {
 	  slot = soBornExtra(extra);
 	  extra.entity.xpos = 100;
@@ -156,18 +162,21 @@ int ssInit()
 	  extra.life = 20;
 	  soSetExtra(slot, extra);
   }
+
+  Mod_UltraRailing();
+
   return 0;
 }
 
 // called from objects reborning code, to retrieve new born position
 // type = 0 is PacPlayer
 #define MAX_BORN_POS 15
-int born_x[MAX_BORN_POS] = {2, 57, 64, 83, 46, 69, 87, 57, 66, 63, 31, 27, 10,  15, 34};
-int born_y[MAX_BORN_POS] = {1, 1, 10, 25, 17, 32, 53, 29, 59,  79, 57, 67, 81,  51, 33};
+int born_x[MAX_BORN_POS] = {72, 86, 61, 66, 87, 61, 32, 56, 44, 57, 33, 12,  1, 27,  4};
+int born_y[MAX_BORN_POS] = {13, 21, 26, 47, 72, 56, 65, 61, 32,  4, 11,  5, 26, 55, 72};
 
 #define MAX_WARP_POS 15
-int warp_x[MAX_BORN_POS] = {2, 57, 64, 83, 46, 69, 87, 57, 66, 63, 31, 27, 10,  15, 34};
-int warp_y[MAX_BORN_POS] = {1, 1, 10, 25, 17, 32, 53, 29, 59,  79, 57, 67, 81,  51, 33};
+int warp_x[MAX_WARP_POS] = {72, 86, 61, 66, 87, 61, 32, 56, 44, 57, 33, 12,  1, 27,  4};
+int warp_y[MAX_WARP_POS] = {13, 21, 26, 47, 72, 56, 65, 61, 32,  4, 11,  5, 26, 55, 72};
 
 int ssGeneratePos(int type, int* px, int* py)
 {
@@ -212,7 +221,7 @@ int ssDone()
 int csInit()
 {
   MSCRW=480;
-  MSCRH=448;
+  MSCRH=400;
 
   cvPlayMusic("paccore.xm");
 //  cvVolumeMusic("40");
@@ -242,9 +251,9 @@ int csCamera()
     coGetPlayer(vars.chasing, player);
     
     vars.zonex = player.entity.xpos / (16*30);
-    vars.zoney = player.entity.ypos / (16*28);
+    vars.zoney = player.entity.ypos / (16*25);
     vars.camx = vars.zonex * (16*30);
-    vars.camy = vars.zoney * (16*28);
+    vars.camy = vars.zoney * (16*25);
   }
   
   cvSetVars(vars);

@@ -1,8 +1,13 @@
 //madlab
+//western
+//This is the lab of mad Dr.Evil
+//Pistols only
+//
+//raist@email.cz
 
 /////////////////////////////////////////////////////////////////////////////
 //###########################################################################
-//## desc.:   MadLab
+//## desc.:   madlab02.msc
 //## author:  Raist
 //## 
 //## started: 29.11.2000
@@ -78,15 +83,7 @@ int ssInit()
 	  soSetExtra(slot, extra);
   }
 
-
-  Cvar_Set("pistolka_reload_time", "40");
-  Cvar_Set("player_sa_bombs", "0");  
-  Cvar_Set("player_sa_pistolka", "230");  
-  Cvar_Set("player_sa_railgun", "0");  
-  Cvar_Set("player_sa_becheromet", "0");  
-  Cvar_Set("player_sa_grenades", "0");  
-  Cvar_Set("player_sa_shields", "6");  
-  Cvar_Set("player_sa_warps", "2");  
+  Mod_Western();
 
   return 0;
 }
