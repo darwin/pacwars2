@@ -23,7 +23,7 @@
 
 BASS_3DVECTOR v = { 0, 0, 1};
 #else
-#include "SDL_mixer.h"
+#include "SDL_mixer.h" 
 #endif
 
 #include "sampleman.h"

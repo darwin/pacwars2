@@ -97,11 +97,11 @@ void GUI_ResultsMenu::Default()
   {
     if (slots[0]!=-1 && ((GPlayer*)g->objs[slots[0]])->brain_owner == client_info.client_num)
     {
-      smPlayVoice(SM_WIN1+ rand()%3, 100, 250);
+      //smPlayVoice(SM_WIN1+ rand()%3, 100, 250);
     }
     else
     {
-      smPlayVoice(SM_END1+ rand()%10, 100, 250);
+      //smPlayVoice(SM_END1+ rand()%10, 100, 250);
     }
   }
 }
