@@ -154,12 +154,12 @@ double callfunc_d(void *func,void *params,int count)
     {//pop edi,esi,ebx, fld laduje - fsv
    __asm {
         call func
-                fst retd
-                ;pop ebx
-        ;pop esi
-        ;pop edi
-        ;leave
-        ;ret
+        fst retd
+        pop ebx
+        pop esi
+        pop edi
+        leave
+        ret
      }
     }
     else
@@ -185,15 +185,15 @@ double callfunc_d(void *func,void *params,int count)
         call func
         add esp,count
         fst retd
-        ;pop ebx
-        ;pop esi
-        ;pop edi
-        ;leave
-        ;ret
+        pop ebx
+        pop esi
+        pop edi
+        leave
+        ret
         }
    }
 
-  return retd;//ret was earlier, it's only to disable a warning
+//woid  return retd;//ret was earlier, it's only to disable a warning
 }
 
 double callmember_d(void *func,void *params,int count)
