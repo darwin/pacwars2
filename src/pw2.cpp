@@ -2895,7 +2895,7 @@ main(int argc, char *argv[])
   
   // parse and process program's arguments
   // disabled fullscreen for debugging (alex)
-  videoflags = SDL_HWSURFACE|SDL_DOUBLEBUF; //|SDL_FULLSCREEN; //|SDL_ASYNCBLIT|SDL_OPENGLBLIT;
+  videoflags = SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_FULLSCREEN; //|SDL_ASYNCBLIT|SDL_OPENGLBLIT;
   if (!fullscreen.value) videoflags &= ~SDL_FULLSCREEN;
   if (glblit.value) 
   {
