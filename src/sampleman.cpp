@@ -21,6 +21,8 @@
 #include "map.h"
 
 #include "bass.h"
+#else
+#include "SDL_mixer.h"
 #endif
 
 #include "sampleman.h"
@@ -73,20 +75,33 @@ cvar_t	snd_dopp = {"snd_dopp", "1.0", true, false, CHsound_settings};
 cvar_t	snd_3don = {"snd_3don", "1.0", true, false, CHsound_3dnotify};
 
 
+#ifdef PW_BASS
+
 #define LOAD_SAMPLE(id, fname, flags) \
-FileNameConversion(snd_dir.string, fname, "wav", tmptxt); \
-if (!(sm_samples[id] = BASS_SampleLoad(FALSE,tmptxt,0,0,3,flags))) \
-  ConErr("SampleManager: Coudn't load sample %s", tmptxt); 
+	FileNameConversion(snd_dir.string, fname, "wav", tmptxt); \
+	if (!(sm_samples[id] = BASS_SampleLoad(FALSE,tmptxt,0,0,3,flags))) \
+		ConErr("SampleManager: Coudn't load sample %s", tmptxt);
+
+#else
+
+#define LOAD_SAMPLE(id, fname, flags) \
+	FileNameConversion(snd_dir.string, fname, "wav", tmptxt); \
+	if (!(sm_samples[id] = Mix_LoadWAV(tmptxt))) \
+		ConErr("SampleManager: Coudn't load sample %s", tmptxt);
+
+#endif
 
 #ifdef PW_BASS
 HSAMPLE sm_samples[SM_MAX_SAMPLES];
+#else
+Mix_Chunk* sm_samples[SM_MAX_SAMPLES];
 #endif
 
 void smLoadSamples()
 {
-#ifdef PW_BASS
-
   char tmptxt[_MAX_PATH];
+
+#ifdef PW_BASS
   unsigned int varBASS_SAMPLE_3D;
   if (snd_3don.value) 
   {
@@ -98,6 +113,7 @@ void smLoadSamples()
     varBASS_SAMPLE_3D = BASS_SAMPLE_OVER_POS;
     loaded3dsounds = false;
   }
+#endif
 
   LOAD_SAMPLE(SM_RAIL_F1,   "railf1"  ,varBASS_SAMPLE_3D);
 //  LOAD_SAMPLE(SM_SHOT_F1,   "shotf1"  ,varBASS_SAMPLE_3D);
@@ -188,13 +204,13 @@ void smLoadSamples()
 
   LOAD_SAMPLE(SM_UPSSS  , "upsss", BASS_SAMPLE_OVER_POS);
 
-
+#ifdef PW_BASS
   BASS_Set3DFactors(snd_dist.value, snd_roll.value, snd_dopp.value);
   BASS_Apply3D(); // apply the change 
-  
+#endif
+
   int i;
   CHsound_lr(&snd_swap, &i);
-#endif
 }
 
 bool smPlaySample3D(Uint8 id, Sint16 x, Sint16 y, Uint8 volume)
@@ -248,15 +264,15 @@ bool smPlaySample3D(Uint8 id, Sint16 x, Sint16 y, Uint8 volume)
 
 bool smPlaySample(Uint8 id, Uint8 volume)
 {
+	if (sm_samples[id]) {
 #ifdef PW_BASS
-
-  if (sm_samples[id])
-  {
-    BASS_SamplePlayEx(sm_samples[id], 0, -1, volume, -101, -1);
-    return true;
-  }
+		BASS_SamplePlayEx(sm_samples[id], 0, -1, volume, -101, -1);
+#else
+		Mix_PlayChannel(-1, sm_samples[id], 0);
 #endif
-  return false;
+		return true;
+	}
+	return false;
 }
 
 bool smPlayVoice(Uint8 id, Uint8 volume, Uint8 priority)
@@ -282,6 +298,13 @@ bool smPlayVoice(Uint8 id, Uint8 volume, Uint8 priority)
 
     return true;
   }
+
+#else
+
+	if (sm_samples[id]) {
+		Mix_PlayChannel(-1, sm_samples[id], 0);
+	}
+
 #endif
 
   return false;
@@ -289,14 +312,16 @@ bool smPlayVoice(Uint8 id, Uint8 volume, Uint8 priority)
 
 void smFreeSamples()
 {
-#ifdef PW_BASS
   for (int i=0; i<SM_MAX_SAMPLES; i++)
     if (sm_samples[i])
     {
+#ifdef PW_BASS
       BASS_SampleFree(sm_samples[i]);
+#else
+		Mix_FreeChunk(sm_samples[i]);
+#endif
       sm_samples[i] = 0;
     }
-#endif
 }
 
 void smSetPosition(Uint16 x, Uint16 y, int direction)
