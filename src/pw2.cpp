@@ -3795,18 +3795,16 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
       }
       
       SDL_SetColorKey(app.GetScreen(), SDL_SRCCOLORKEY, 0x0);
-     PG_BlitSurface(app.GetScreen(), *GUI_menu, screen, *GUI_menu);
 
 		// will change that again -- Alex
-      /*if (GUI_id != GUI_MAINMENU) {
-        GUI_menu->DrawHLine(1, 1, r2.w + 1, 255, 255, 255, screen);
-        GUI_menu->DrawHLine(r2.x - 1, r2.y + r2.h, r2.w + 2, 255,
-          255, 255, screen);
-        GUI_menu->DrawVLine(r2.x - 1, r2.y - 1, r2.h + 1, 255, 255,
-          255, screen);
-        GUI_menu->DrawVLine(r2.x + r2.w, r2.y - 1, r2.h + 1, 255,
-          255, 255, screen);
-      }*/
+      if (GUI_id != GUI_MAINMENU) {
+        GUI_menu->DrawHLine(0, 0, GUI_menu->w-1, 255, 255, 255);
+        GUI_menu->DrawHLine(0, GUI_menu->h-1, GUI_menu->w, 255, 255, 255);
+        GUI_menu->DrawVLine(0, 0, GUI_menu->h-1, 255, 255, 255);
+        GUI_menu->DrawVLine(GUI_menu->w-1, 0, GUI_menu->h-1, 255, 255, 255);
+      }
+     PG_BlitSurface(app.GetScreen(), *GUI_menu, screen, *GUI_menu);
+
     } else {
       if (MapLoaded != 2)
         DrawText("Press ESCAPE to open menu", screen, SmallFont, 200,
