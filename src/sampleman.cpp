@@ -258,7 +258,6 @@ bool smPlaySample3D(Uint8 id, Sint16 x, Sint16 y, Uint8 volume)
     }
   }
 #else
-	sm_samples[id]->volume = volume*2;
 	Mix_PlayChannel(-1, sm_samples[id], 0);
 #endif
   return false;
@@ -270,7 +269,6 @@ bool smPlaySample(Uint8 id, Uint8 volume)
 #ifdef PW_BASS
 		BASS_SamplePlayEx(sm_samples[id], 0, -1, volume, -101, -1);
 #else
-		sm_samples[id]->volume = volume*2;
 		Mix_PlayChannel(-1, sm_samples[id], 0);
 #endif
 		return true;
@@ -305,7 +303,6 @@ bool smPlayVoice(Uint8 id, Uint8 volume, Uint8 priority)
 #else
 
 	if (sm_samples[id]) {
-		sm_samples[id]->volume = volume*2;
 		Mix_PlayChannel(-1, sm_samples[id], 0);
 	}
 

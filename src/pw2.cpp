@@ -910,7 +910,7 @@ void Volume_Sound(char *string)
 	BASS_SetGlobalVolumes((int) music_volume.value,
 						  (int) (sound_volume.value * (100.0 / 64)), 0);
 #else
-	//Mix_VolumeSound(param);
+	Mix_Volume(-1, param);
 #endif
 	ConOut("Sound: volume = %d", param);
 }
