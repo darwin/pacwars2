@@ -11,6 +11,7 @@ Desc:creates and operates on instance of a script
 #include "seer.h"
 #include "internal.h"
 #include "code.h"
+#include <string.h>
 
 #define ToINT(ch) ((int*)(ch))
 #define ReadINT(ptr,x) memcpy(&(x),ptr,4)
@@ -283,7 +284,7 @@ int scCall_Instance(scInstance* inst,int address,...)
 {
  va_list va;
  va_start(va,address);
- return scVCall_Instance(inst,address,-1,&(va_arg(va,int)));
+ return scVCall_Instance(inst,address,-1,(int*)&(va_arg(va,int)));
 }
 
 
@@ -456,7 +457,7 @@ int scLaunch_Instance(scInstance* inst,int spd,int address,...)
 {
  va_list va;
  va_start(va,address);
- return scVLaunch_Instance(inst,spd,address,-1,&(va_arg(va,int)));
+ return scVLaunch_Instance(inst,spd,address, -1, (int*)&(va_arg(va,int)));
 }
 
 //the scheduler
