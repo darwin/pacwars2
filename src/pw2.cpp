@@ -2894,7 +2894,7 @@ main(int argc, char *argv[])
   fprintf(stderr, "executed: %s on %s, %s\n\n", argv[0], time, date);
   
   // parse and process program's arguments
-  videoflags = SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_FULLSCREEN; //|SDL_ASYNCBLIT|SDL_OPENGLBLIT; 
+  videoflags = SDL_HWSURFACE|SDL_DOUBLEBUF; //|SDL_FULLSCREEN; //|SDL_ASYNCBLIT|SDL_OPENGLBLIT;
   if (!fullscreen.value) videoflags &= ~SDL_FULLSCREEN;
   if (glblit.value) 
   {
@@ -2942,11 +2942,11 @@ main(int argc, char *argv[])
   // Initialize SDL
   if ( SDL_Init(
     SDL_INIT_VIDEO
-#ifdef PW_AUDIO  
-#ifndef PW_BASS
+//#ifdef PW_AUDIO
+//#ifndef PW_BASS
     | SDL_INIT_AUDIO
-#endif
-#endif
+//#endif
+//#endif
     | SDL_INIT_NOPARACHUTE
     ) < 0 ) {
     fprintf(stderr, "Couldn't initialize SDL: %s\n",SDL_GetError());

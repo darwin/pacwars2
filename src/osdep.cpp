@@ -47,7 +47,46 @@ int pacFindClose(fhandle_t handle)
 //## UNIX (GNU) implementation
 //###########################################################################
 
-#warning "implement pacFindFirst"
+#include <dirent.h>
+
+static int count;
+static int file_index;
+
+static int find_dummy (const struct dirent *unused) {
+  return 1;
+}
+
+fhandle_t pacFindFirst(char *filespec, fileinfo_t *fileinfo) {
+	struct dirent **eps;
+	fhandle_t h;
+
+	count = scandir (filespec, &eps, find_dummy, alphasort);
+	h.handle = (long)eps;
+	file_index = 0;
+
+	if(count <= 0) {
+		h.handle = 0;
+	}
+
+	strcpy(fileinfo->name, eps[file_index++]->d_name);
+
+	return h;
+}
+
+int pacFindNext(fhandle_t handle, fileinfo_t *fileinfo) {
+	struct dirent **eps = (struct dirent **)handle.handle;
+
+	if(file_index < count) {
+		strcpy(fileinfo->name, eps[file_index++]->d_name);
+		return 1;
+	}
+
+	return -1;
+}
+
+int pacFindClose(fhandle_t handle) {
+	free( (struct dirent **) (handle.handle));
+}
 
 #endif
 
