@@ -442,7 +442,7 @@ public:
 };
 
 
-class GUI_Input : public PG_GradientWidget{
+class GUI_Input : public PG_StaticFrame{
 public:
 	GUI_Input(PG_Widget* parent, const PG_Rect& r, int iid);
 	~GUI_Input();
@@ -454,12 +454,12 @@ public:
 
   SDL_Color c_color;
 
-	void eventDraw(SDL_Surface* surface, const PG_Rect& rect);
+	void eventBlit(SDL_Surface* surface, const PG_Rect& src, const PG_Rect& dst);
 	bool eventKeyDown(const SDL_KeyboardEvent* key);
 	bool eventMouseButtonDown(const SDL_MouseButtonEvent* button);
 	void eventInputFocusLost(PG_MessageObject* newfocus);
 
-	void DrawText(SDL_Surface* surface, const PG_Rect* rect);
+	void DrawText();
 	char* GetDrawText();
 
   Uint16 GetSym() { return sym; }

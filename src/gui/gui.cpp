@@ -652,7 +652,7 @@ bool GUI_SkinCtrl::eventButtonClick(int id, PG_Widget* widget)
 }
 
 
-GUI_Input::GUI_Input(PG_Widget* parent, const PG_Rect& r, int iid) : PG_GradientWidget(parent,r) {
+GUI_Input::GUI_Input(PG_Widget* parent, const PG_Rect& r, int iid) : PG_StaticFrame(parent,r) {
 	text[0] = 0;
 	offset_x = 0;
 
@@ -670,7 +670,7 @@ GUI_Input::~GUI_Input(){
 }
 
 
-void GUI_Input::eventDraw(SDL_Surface* surface, const PG_Rect& rect) {
+void GUI_Input::eventBlit(SDL_Surface* surface, const PG_Rect& src, const PG_Rect& dst) {
 	if (waiting) {
 		textcolor = GUI_InputActive;
 	}
@@ -678,10 +678,10 @@ void GUI_Input::eventDraw(SDL_Surface* surface, const PG_Rect& rect) {
 		textcolor = GUI_InputInactive;
 	}
 
-	PG_GradientWidget::eventDraw(surface, rect);
+	PG_StaticFrame::eventBlit(surface, src, dst);
 
-	DrawText(surface, &rect);
-	DrawBorder(rect, 1, false);
+	DrawText();
+	DrawBorder(PG_Rect(0,0,my_width,my_height), 1, false);
 }
 
 char* my_strupr(char* text) {
@@ -692,13 +692,13 @@ char* my_strupr(char* text) {
 	return text;
 }
 
-void GUI_Input::DrawText(SDL_Surface* surface, const PG_Rect* rect) {
+void GUI_Input::DrawText() {
 	int h;
 	int x,y;
 
-	x = rect->x + 3;
+	x = 3;
 	h = TTF_FontHeight(GetFont());
-	y = (rect->h - h)/2;
+	y = (my_height - h)/2;
 
 	// draw text
 	char DrawText[10];
@@ -718,12 +718,12 @@ void GUI_Input::InputBegin(){
 	SetInputFocus();
 	waiting = true;
 
-	Redraw();
+	Update();
 }
 
 void GUI_Input::InputEnd(){
 	waiting = false;
-	Redraw();
+	Update();
 	ReleaseInputFocus();
 }
 
@@ -773,7 +773,7 @@ char* GUI_Input::GetText(){
 
 void GUI_Input::SetText(char* new_text){
 	strcpy(text, new_text);
-	Redraw();
+	Update();
 }
 
 
