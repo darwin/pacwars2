@@ -52,8 +52,10 @@ GUI_SoundMenu::GUI_SoundMenu() : GUI_BaseMenu(GUI_SOUND, mkrect(SM_PX,SM_PY,SM_V
 
   eMusicVolume->SetEventCallback(MSG_SLIDE, handler_slider_music, eMusicVolume);
   eSoundVolume->SetEventCallback(MSG_SLIDE, handler_slider_sound, eSoundVolume);
-  eMusicVolume->SetEventCallback(MSG_SCROLLPOS, handler_slider_music, eMusicVolume);
-  eSoundVolume->SetEventCallback(MSG_SCROLLPOS, handler_slider_sound, eSoundVolume);
+
+// MSG_SCROLLPOS dont gets called for SDLSlider - Alex
+//  eMusicVolume->SetEventCallback(MSG_SCROLLPOS, handler_slider_music, eMusicVolume);
+//  eSoundVolume->SetEventCallback(MSG_SCROLLPOS, handler_slider_sound, eSoundVolume);
 
   lMusicVolume->SetAlignment(SDL_TA_RIGHT);
 	l3dDist->SetAlignment(SDL_TA_RIGHT);
