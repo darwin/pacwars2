@@ -21,6 +21,7 @@
 #include "guinewgamemenu.h"
 #include "guiservermenu.h"
 #include "guiclientmenu.h"
+#include "guivideomenu.h"
 
 #include "smapman.h"
 #include "sprite.h"
@@ -1160,38 +1161,6 @@ public:
 #define VM_PY 110
 #define VM_VX 360
 #define VM_VY 270
-
-
-class GUI_VideoMenu : public GUI_BaseMenu {
-public:
-  GUI_VideoMenu();
-  
-  GUI_Board Board1;
-  GUI_Label VideoMenu;
-  GUI_Label lEffect;
-
-  GUI_CheckBox cFullscreen;
-  GUI_CheckBox cDB;
-  GUI_CheckBox cGLBlit;
-  GUI_CheckBox cAlphaMenu;
-
-  GUI_Label lGamma_r;
-  GUI_FloatEdit eGamma_r;
-  GUI_Label lGamma_g;
-  GUI_FloatEdit eGamma_g;
-  GUI_Label lGamma_b;
-  GUI_FloatEdit eGamma_b;
-  
-  GUI_ButtonSmall bSet;
-  GUI_ButtonSmall bCancel;
-  
-  void Show();
-  void Hide();
-  void Default();
-  void Return();
-  
-  bool eventButtonClick(int id, SDLWidget* widget);
-};
 
 
 /////////////////////////////////////////////////////////////////////////////
