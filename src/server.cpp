@@ -6,7 +6,7 @@
 //## author:  Antonin Hildebrand
 //##         
 //## started: 1.4.2000
-//## revised: ???
+//## revised: 2.3.2001
 //## 
 //###########################################################################
 
@@ -47,12 +47,12 @@ void CHs_maxclients(cvar_t* var, int* changed)
 {
   if (var->value>PWP_TOTALMAX_CLIENTS)
   {
-    ConOut("Server: sv_maxclients(%d) is greater than PWP_TOTALMAX_CLIENTS(%d).", (int)var->value, PWP_TOTALMAX_CLIENTS);
-    ConOut("You will need to recompile game with greater PWP_TOTALMAX_CLIENTS, but see SDLNET_MAX_UDPCHANNELS value in SDL_net.h for updating too.");
+    ConOutEx(SERVER_FONT, "Server: sv_maxclients(%d) is greater than PWP_TOTALMAX_CLIENTS(%d).", (int)var->value, PWP_TOTALMAX_CLIENTS);
+    ConOutEx(SERVER_FONT, "You will need to recompile game with greater PWP_TOTALMAX_CLIENTS, but see SDLNET_MAX_UDPCHANNELS value in SDL_net.h for updating too.");
     (*changed) = false;
     return;
   }
-  ConOut("This will take effect after starting new server.");
+  ConOutEx(SERVER_FONT, "This will take effect after starting new server.");
 }
 
 void CHs_name(cvar_t* var, int* changed)
@@ -75,6 +75,7 @@ cvar_t	s_deletetmps = {"s_deltmps","1",true};
 cvar_t	s_downloading = {"s_downloading", "0", true, true};
 cvar_t	s_uploading = {"s_uploading", "0", true, true};
 cvar_t	s_remote = {"s_remote","0",true, true};
+cvar_t	s_acpass = {"s_acpass","pacrulez",true};
 
 //###########################################################################
 //## Server part
@@ -115,7 +116,7 @@ int SV_ClearFileTransfer(int i, int how)
     TempName(client[i].local_fn, tmp);
     if (rename(tmp, client[i].local_fn))
     {
-      ConOut("Server: error renaming received file !");
+      ConOutEx(SERVER_FONT, "Server: error renaming received file !");
     }
     break;
   case FT_FINISHED:
@@ -137,7 +138,7 @@ int SV_ClearFileTransfer(int i, int how)
         TempName(client[i].local_fn, tmp);
         if (remove(tmp)!=0)
         {
-          ConOut("Server: error removing broken tmp file !");
+          ConOutEx(SERVER_FONT, "Server: error removing broken tmp file !");
         }
       }
     }
@@ -205,7 +206,7 @@ int PrepareClientForNewGame(int cnum)
       client[cnum].pingreturned = true;
       client[cnum].pingsent = 0;
       ClearPool(&client[cnum].game_pool);
-//      ScriptMan->RunScript(map_script_num, "csInit");
+      ScriptMan->RunScript(map_script_num, "csInit");
       return 0;
   }
   else 
@@ -240,8 +241,8 @@ int SV_Start()
   server_info.maxclients = (int) s_maxclients.value;
   if (server_info.maxclients>=SDLNET_MAX_UDPCHANNELS)
   {
-    ConOut("Server: sv_maxclients(%d) is equal or greater than SDLNET_MAX_UDPCHANNELS(%d).", server_info.maxclients, SDLNET_MAX_UDPCHANNELS);
-    ConOut("You will need to recompile game with greater SDLNET_MAX_UDPCHANNELS value in SDL_net.h");
+    ConOutEx(SERVER_FONT, "Server: sv_maxclients(%d) is equal or greater than SDLNET_MAX_UDPCHANNELS(%d).", server_info.maxclients, SDLNET_MAX_UDPCHANNELS);
+    ConOutEx(SERVER_FONT, "You will need to recompile game with greater SDLNET_MAX_UDPCHANNELS value in SDL_net.h");
     SDLNet_SetError("");
     return 1;
   }
@@ -470,7 +471,7 @@ void SV_BroadcastPrintf(char *fmt, ...)
   SV_BroadcastMsg(MSG, msg_ssock, RESEND_CHAT);
 
   if (!client_info.active)
-    ConOut(string);
+    ConOutEx(SERVER_FONT, string);
 }
 
 // Sends sound to all active clients
@@ -522,7 +523,7 @@ void UploadRequest(int cnum, char* file, Uint16 port)
     client[cnum].file_sock = SDLNet_TCP_Open(&nIP);
     if (client[cnum].file_sock==NULL) 
     {
-      ConOut("Server: File transfer connection failed !");
+      ConOutEx(SERVER_FONT, "Server: File transfer connection failed !");
       SV_ClearFileTransfer(cnum, FT_ABANDONED);
       return;
     } 
@@ -534,7 +535,7 @@ void UploadRequest(int cnum, char* file, Uint16 port)
       client[cnum].file = fopen(file , "rb");
       if (client[cnum].file)
       {
-        ConOut("Server: remote file exists");
+        ConOutEx(SERVER_FONT, "Server: remote file exists");
         SV_ClientPrintf(cnum, "Server: file exists on server");
         SV_ClearFileTransfer(cnum, FT_ABANDONED);
         return;
@@ -545,7 +546,7 @@ void UploadRequest(int cnum, char* file, Uint16 port)
       client[cnum].file = fopen(tmp, "wb");
       if (!client[cnum].file)
       {
-        ConOut("Server: couldn't open remote file for writing");
+        ConOutEx(SERVER_FONT, "Server: couldn't open remote file for writing");
         SV_ClearFileTransfer(cnum, FT_ABANDONED);
         return;
       }
@@ -555,7 +556,7 @@ void UploadRequest(int cnum, char* file, Uint16 port)
       
       int err = inflateInit(&client[cnum].zs);
       if (err!=Z_OK) {
-        ConOut("stream initialization failed (client): %d", err);
+        ConOutEx(SERVER_FONT, "stream initialization failed (client): %d", err);
         SV_ClearFileTransfer(cnum, FT_ABANDONED);
         return;
       }
@@ -581,7 +582,7 @@ void DownloadRequest(int cnum, char* file, Uint16 port)
     client[cnum].file_sock = SDLNet_TCP_Open(&nIP);
     if (client[cnum].file_sock==NULL) 
     {
-      ConOut("Server: File transfer connection failed !");
+      ConOutEx(SERVER_FONT, "Server: File transfer connection failed !");
       SV_ClearFileTransfer(cnum, FT_ABANDONED);
       return;
     } 
@@ -593,7 +594,7 @@ void DownloadRequest(int cnum, char* file, Uint16 port)
       client[cnum].file = fopen(file, "rb");
       if (!client[cnum].file)
       {
-        ConOut("Server: requested file doesn't exist");
+        ConOutEx(SERVER_FONT, "Server: requested file doesn't exist");
         SV_ClientPrintf(cnum, "Server: requested file doesn't exist on server");
         SV_ClearFileTransfer(cnum, FT_ABANDONED);
         return;
@@ -605,7 +606,7 @@ void DownloadRequest(int cnum, char* file, Uint16 port)
       
       int err = deflateInit(&client[cnum].zs, PWP_DOWNLOAD_COMPRESSION);
       if (err!=Z_OK) {
-        ConOut("stream initialization failed (server): %d", err);
+        ConOutEx(SERVER_FONT, "stream initialization failed (server): %d", err);
         SV_ClearFileTransfer(cnum, FT_ABANDONED);
         return;
       }
@@ -697,7 +698,7 @@ int HandleServerMessage()
       case MSGID_CNAME: 
         strcpy(buf, aclient->name);
         memcpy(aclient->name, &MSG.buf[POS_MSG_CNAME], LEN_MSG_CNAME);
-        ConOut("%s changed to %s", buf, aclient->name);
+        ConOutEx(SERVER_FONT, "%s changed to %s", buf, aclient->name);
         break;
       case MSGID_CHASEPLAYERRQ:
         SV_ChasePlayer(&MSG, cnum);
@@ -722,24 +723,42 @@ int HandleServerMessage()
         else
         {
           SV_ClientPrintf(cnum, "Server: remote console is disabled");
-          ConOut("Server: Client %d tried to exeute remote command: %s", cnum, (char*)&MSG.buf[POS_MSG_CMD]);
+          ConOutEx(SERVER_FONT, "Server: Client %d tried to execute remote command: %s", cnum, (char*)&MSG.buf[POS_MSG_CMD]);
         }
         break;
         
       case MSGID_ATTACHCON:
-        aclient->con_attach = 1;
-        ConOut("%s attached server console", aclient->name);
+        if (s_remote.value && strncmp(s_acpass.string, (char*)&MSG.buf[POS_MSG_ACPASS], LEN_MSG_ACPASS)==0)
+        {
+          aclient->con_attach = 1;
+          ConOutEx(SERVER_FONT, "%s attached server console", aclient->name);
+          MSG2 << MSGID_ATTACHDONE;
+          MSG2.Send(&aclient->msg_pool, &aclient->stats, msg_ssock, cnum, true, RESEND_SYSTEM);
+        }
+        else
+        {
+          if (!s_remote.value)
+          {
+            ConOutEx(SERVER_FONT, "%s tried attach server console, feature disabled by \"s_remote\" cvar", aclient->name);
+            SV_ClientPrintf(cnum, "Server has disabled remote console access");
+          }
+          else
+          {
+            ConOutEx(SERVER_FONT, "%s tried attach server console with bad password", aclient->name);
+            SV_ClientPrintf(cnum, "Password is incorrect");
+          }
+        }
         break;
         
       case MSGID_DETACHCON:
         aclient->con_attach = 0;
-        ConOut("%s detached server console", aclient->name);
+        ConOutEx(SERVER_FONT, "%s detached server console", aclient->name);
         break;
         
       case MSGID_DOWNLOAD:
         if (!s_downloading.value)
         {
-          ConOut("Server: received download request, but downloading is not enabled, set \"s_downloading\" variable to 1");
+          ConOutEx(SERVER_FONT, "Server: received download request, but downloading is not enabled, set \"s_downloading\" variable to 1");
         }
         else
           if (!CheckFileName((char*)&MSG.buf[POS_MSG_FN]))
@@ -750,14 +769,14 @@ int HandleServerMessage()
           {
             DLIDtoFileName(MSG.buf[POS_MSG_DLID], (char*)&MSG.buf[POS_MSG_FN], fname);
             DownloadRequest(cnum, fname, SDLNet_Read16((Uint8*)&MSG.buf[POS_MSG_FPORT]));
-            ConOut("[%s] requested download: %s", aclient->name, fname);
+            ConOutEx(SERVER_FONT, "[%s] requested download: %s", aclient->name, fname);
           }
         break;
         
       case MSGID_UPLOAD:
         if (!s_uploading.value)
         {
-          ConOut("Server: received upload request, but uploading is not enabled, set \"s_uploading\" variable to 1");
+          ConOutEx(SERVER_FONT, "Server: received upload request, but uploading is not enabled, set \"s_uploading\" variable to 1");
         }
         else
           if (!CheckFileName((char*)&MSG.buf[POS_MSG_FN]))
@@ -768,7 +787,7 @@ int HandleServerMessage()
           {
             DLIDtoFileName(MSG.buf[POS_MSG_DLID], (char*)&MSG.buf[POS_MSG_FN], fname);
             UploadRequest(cnum, fname, SDLNet_Read16((Uint8*)&MSG.buf[POS_MSG_FPORT]));
-            ConOut("[%s] requested upload: %s", aclient->name, fname);
+            ConOutEx(SERVER_FONT, "[%s] requested upload: %s", aclient->name, fname);
           }
         break;
         
@@ -961,7 +980,7 @@ int SV_SetMap(char* mapname, char* scriptname)
   MapLoad(mapname, scriptname);
   if (MapLoaded==0)
   {
-    ConOut("Server: Map %s loading error !", mapname);
+    ConOutEx(SERVER_FONT, "Server: Map %s loading error !", mapname);
     SV_Shutdown(SD_SHUTDOWN);
     return 1;
   }
@@ -977,7 +996,7 @@ int SV_SetMap(char* mapname, char* scriptname)
   
   for (int i=0; i<server_info.maxclients; i++) PrepareClientForNewGame(i);
   
-  ConOut("Server: Map changed to %s with script %s", mapname, scriptname);
+  ConOutEx(SERVER_FONT, "Server: Map changed to %s with script %s", mapname, scriptname);
   strcpy(ScriptName, scriptname);
   
   // BETTER: flush received packets from old game 
@@ -1061,7 +1080,7 @@ int SV_Poll()
                 transfered = SDLNet_TCP_Send(client[i].file_sock, (char*)client[i].quantum, count);
                 if (transfered<count)
                 {
-                  ConOut("File sending - connection lost (server)");
+                  ConOutEx(SERVER_FONT, "File sending - connection lost (server)");
                   client[i].file_status = FS_ENDED;
                 }
                 server_sent+=transfered;
@@ -1070,7 +1089,7 @@ int SV_Poll()
               if ((client[i].file_status==FS_ENDED) || (client[i].file_status==FS_COMPLETED))
               {
                 if (client[i].file_status==FS_COMPLETED)
-                  ConOut("Server: File transfer done (%d/%d)", client[i].zs.total_out, client[i].zs.total_in);
+                  ConOutEx(SERVER_FONT, "Server: File transfer done (%d/%d)", client[i].zs.total_out, client[i].zs.total_in);
                 
                 // clean up
                 deflateEnd(&client[i].zs);
@@ -1084,7 +1103,7 @@ int SV_Poll()
                 count = SDLNet_TCP_Recv(client[i].file_sock, (char*)client[i].quantum, client[i].qsize);
                 if (count<=0)
                 {
-                  ConOut("File receiving - connection lost (client)");
+                  ConOutEx(SERVER_FONT, "File receiving - connection lost (client)");
                   client[i].file_status = FS_ENDED;
                 }
                 else
@@ -1099,7 +1118,7 @@ int SV_Poll()
               // check for timeouts
               if ((SDL_GetTicks() - client[i].lrec_time) >= net_file_timeout.value)
               {
-                ConOut("Server: File transfer timed out (client %d)!", i);
+                ConOutEx(SERVER_FONT, "Server: File transfer timed out (client %d)!", i);
                 SV_ClearFileTransfer(i, FT_ABANDONED);
               }
               
@@ -1107,7 +1126,7 @@ int SV_Poll()
               if ((client[i].file_status==FS_ENDED) || (client[i].file_status==FS_COMPLETED))
               {
                 if (client[i].file_status==FS_COMPLETED)
-                  ConOut("Server: File transfer done (%d/%d)", client[i].zs.total_in, client[i].zs.total_out);
+                  ConOutEx(SERVER_FONT, "Server: File transfer done (%d/%d)", client[i].zs.total_in, client[i].zs.total_out);
                 
                 // clean up
                 inflateEnd(&client[i].zs);
@@ -1144,7 +1163,7 @@ void SV_RemoteViewer(Uint8 type, char* text)
 int SV_DropClient(int cnum)
 {
   // inform other clients
-  SV_BroadcastPrintf("System: %s was dropped.", client[cnum].name);
+  SV_BroadcastPrintf("System: %s was kicked.", client[cnum].name);
   
   // send drop message to client (do not wait for confirmation)
   Uint8 sendbuf[LEN_MSG_ID];
@@ -1183,7 +1202,7 @@ char SV_ParseReplication(net_msg * msg, TICK_TYPE time, int cnum)
         player = (GPlayer*)obj;
         mv = player->DecodeMV(msg, time);
         // do move in global game state
-        //if (rand()%2==0) { ConOut("lost"); continue;}   // lost simulation
+        //if (rand()%2==0) { ConOutEx(SERVER_FONT, "lost"); continue;}   // lost simulation
 
         if (mv.tick>=last_move_tick)
         {

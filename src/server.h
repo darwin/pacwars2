@@ -107,6 +107,7 @@ extern DECLSPEC cvar_t	s_deletetmps;
 extern DECLSPEC cvar_t	s_downloading;
 extern DECLSPEC cvar_t	s_uploading;
 extern DECLSPEC cvar_t	s_remote;
+extern DECLSPEC cvar_t	s_acpass;
 
 extern DECLSPEC cvar_t	s_maxclients;
 extern DECLSPEC cvar_t	s_name;
@@ -117,6 +118,7 @@ extern DECLSPEC cvar_t	s_next_script;
 extern DECLSPEC cvar_t	s_next_gt;
 extern DECLSPEC cvar_t	s_timelimit;
 extern DECLSPEC cvar_t	s_fraglimit;
+
 
 extern DECLSPEC SDLNet_SocketSet ssocket_set; // docasne
 

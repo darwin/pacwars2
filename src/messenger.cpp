@@ -72,5 +72,5 @@ void SetMessenger(const char *str, ...)
 	va_end(marker);
 
 	messenger_last_time[i] = SDL_GetTicks();
-	smPlaySample(SM_MESSENGER);
+//	smPlaySample(SM_MESSENGER);
 }

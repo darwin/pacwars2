@@ -6,7 +6,7 @@
 //## author:  Antonin Hildebrand
 //## 
 //## started: 17.11.2000
-//## revised: ???
+//## revised: 2.3.2001
 //## 
 //###########################################################################
 #include "const.h"
@@ -19,8 +19,9 @@
 #ifdef PW_BASS
 #include "gmath.h"
 #include "map.h"
-
 #include "bass.h"
+
+BASS_3DVECTOR v = { 0, 0, 1};
 #else
 #include "SDL_mixer.h"
 #endif
@@ -28,16 +29,15 @@
 #include "sampleman.h"
 #include "SDL_Console.h"
 
+//###########################################################################
+//# Constants
+//###########################################################################
+
 #define SM_MAX_SAMPLES 100
+#define MAX_AUDIBLEDESTINATION (40*16)   // only non 3d mode
 
 short int frontz = 1;
-
 bool loaded3dsounds = true;
-#ifdef PW_BASS
-BASS_3DVECTOR v = { 0, 0, 1};
-#endif
-
-#define MAX_AUDIBLEDESTINATION (40*16)   // only non 3d mode
 
 void CHsound_lr(cvar_t* var, int* changed)
 {
@@ -66,7 +66,9 @@ void CHsound_3dnotify(cvar_t* var, int* changed)
     ConOut("3D sound is OFF, action will take effect after restarting program.");
 }
 
-// cvars
+//###########################################################################
+//# Cvars
+//###########################################################################
 cvar_t	snd_swap = {"snd_swap", "0", true, false, CHsound_lr};
 
 cvar_t	snd_dist = {"snd_dist", "0.05", true, false, CHsound_settings};
@@ -115,94 +117,68 @@ void smLoadSamples()
   }
 #endif
 
-  LOAD_SAMPLE(SM_RAIL_F1,   "railf1"  ,varBASS_SAMPLE_3D);
-//  LOAD_SAMPLE(SM_SHOT_F1,   "shotf1"  ,varBASS_SAMPLE_3D);
-//  LOAD_SAMPLE(SM_SHOT_R1,   "shotr1"  ,varBASS_SAMPLE_3D);
-  LOAD_SAMPLE(SM_10_0   ,   "10_0"    ,BASS_SAMPLE_OVER_POS);
-  LOAD_SAMPLE(SM_BOMBPUT,   "bombput" ,varBASS_SAMPLE_3D);
-//  LOAD_SAMPLE(SM_BORN,      "born"    ,varBASS_SAMPLE_3D);
-  LOAD_SAMPLE(SM_MESSENGER, "cink"   ,BASS_SAMPLE_OVER_POS);
-  LOAD_SAMPLE(SM_MENU1,     "menu1"   ,BASS_SAMPLE_OVER_POS);
-  LOAD_SAMPLE(SM_MENU2,     "menu2"   ,BASS_SAMPLE_OVER_POS);
-  LOAD_SAMPLE(SM_MENU3,     "menu3"   ,BASS_SAMPLE_OVER_POS);
-
-  LOAD_SAMPLE(SM_XPLO1  ,   "xplo1"   ,varBASS_SAMPLE_3D);
-  LOAD_SAMPLE(SM_XPLO2  ,   "xplo2"   ,varBASS_SAMPLE_3D);
-
-  LOAD_SAMPLE(SM_GRANATF1  , "granatf1",varBASS_SAMPLE_3D);
-
-  LOAD_SAMPLE(SM_NARAZ    , "naraz",varBASS_SAMPLE_3D);
-  LOAD_SAMPLE(SM_BECHERF1  , "becherf1",varBASS_SAMPLE_3D);
-  LOAD_SAMPLE(SM_WARP    , "warp",varBASS_SAMPLE_3D);
-
-  LOAD_SAMPLE(SM_GPREMIE    , "getpremie",varBASS_SAMPLE_3D);
-  LOAD_SAMPLE(SM_GAMMO    , "getammo",varBASS_SAMPLE_3D);
-
-  LOAD_SAMPLE(SM_PISTOLKAF1  , "pistolkaf1",varBASS_SAMPLE_3D);
-  LOAD_SAMPLE(SM_RSHOT    , "rshot",varBASS_SAMPLE_3D);
-
-
-  LOAD_SAMPLE(SM_BECHERC1  , "bc1", BASS_SAMPLE_OVER_POS);
-  LOAD_SAMPLE(SM_BECHERA1  , "bd1", BASS_SAMPLE_OVER_POS);
-
-  LOAD_SAMPLE(SM_BERSERK  , "berserk1", BASS_SAMPLE_OVER_POS);
-
-  LOAD_SAMPLE(SM_LEADER1    , "leader1", BASS_SAMPLE_OVER_POS);
-  LOAD_SAMPLE(SM_DOMINATION1  , "dom1", BASS_SAMPLE_OVER_POS);
-  LOAD_SAMPLE(SM_KMACHINE1  , "km1", BASS_SAMPLE_OVER_POS);
-
-
-  LOAD_SAMPLE(SM_ACCURACY1  , "acu1", BASS_SAMPLE_OVER_POS);
-  LOAD_SAMPLE(SM_EXCELENT1  , "excelent1", BASS_SAMPLE_OVER_POS);
-  LOAD_SAMPLE(SM_GOTCHA     , "gotcha", BASS_SAMPLE_OVER_POS);
-  LOAD_SAMPLE(SM_IMPRESIVE  , "imp1", BASS_SAMPLE_OVER_POS);
-  LOAD_SAMPLE(SM_PERFECT1   , "perfect1", BASS_SAMPLE_OVER_POS);
-  LOAD_SAMPLE(SM_PERFECT2   , "perfect2", BASS_SAMPLE_OVER_POS);
-
-  LOAD_SAMPLE(SM_FIGHT1     , "fight1", BASS_SAMPLE_OVER_POS);
-  LOAD_SAMPLE(SM_FIGHT2     , "fight2", BASS_SAMPLE_OVER_POS);
-
-  LOAD_SAMPLE(SM_LOSTLEAD   , "llead1", BASS_SAMPLE_OVER_POS);
-  LOAD_SAMPLE(SM_TAKENLEAD  , "tlead1", BASS_SAMPLE_OVER_POS);
-
-  LOAD_SAMPLE(SM_OHNO   , "ohno", varBASS_SAMPLE_3D);
-
-  LOAD_SAMPLE(SM_PREPARE  , "prepare1", BASS_SAMPLE_OVER_POS);
-
-  LOAD_SAMPLE(SM_DEATH1    , "d1", varBASS_SAMPLE_3D);
-  LOAD_SAMPLE(SM_DEATH2    , "d2", varBASS_SAMPLE_3D);
-  LOAD_SAMPLE(SM_DEATH3    , "d3", varBASS_SAMPLE_3D);
-  LOAD_SAMPLE(SM_DEATH4    , "d4", varBASS_SAMPLE_3D);
-  LOAD_SAMPLE(SM_DEATH5    , "d5", varBASS_SAMPLE_3D);
-
-  LOAD_SAMPLE(SM_BANZAI  , "banzai", varBASS_SAMPLE_3D);
-  LOAD_SAMPLE(SM_BYEBYE  , "byebye", BASS_SAMPLE_OVER_POS);
-
-  LOAD_SAMPLE(SM_END1    , "end1", BASS_SAMPLE_OVER_POS);
-  LOAD_SAMPLE(SM_END2    , "end2", BASS_SAMPLE_OVER_POS);
-  LOAD_SAMPLE(SM_END3    , "end3", BASS_SAMPLE_OVER_POS);
-  LOAD_SAMPLE(SM_END4    , "end4", BASS_SAMPLE_OVER_POS);
-  LOAD_SAMPLE(SM_END5    , "end5", BASS_SAMPLE_OVER_POS);
-  LOAD_SAMPLE(SM_END6    , "end6", BASS_SAMPLE_OVER_POS);
-  LOAD_SAMPLE(SM_END7    , "end7", BASS_SAMPLE_OVER_POS);
-  LOAD_SAMPLE(SM_END8    , "end8", BASS_SAMPLE_OVER_POS);
-  LOAD_SAMPLE(SM_END9    , "end9", BASS_SAMPLE_OVER_POS);
-  LOAD_SAMPLE(SM_END10   , "end10", BASS_SAMPLE_OVER_POS);
-
-
-  LOAD_SAMPLE(SM_WIN1    , "win1", BASS_SAMPLE_OVER_POS);
-  LOAD_SAMPLE(SM_WIN2    , "win2", BASS_SAMPLE_OVER_POS);
-  LOAD_SAMPLE(SM_WIN3    , "win3", BASS_SAMPLE_OVER_POS);
-
-  LOAD_SAMPLE(SM_LAMER    , "lamer", BASS_SAMPLE_OVER_POS);
-  LOAD_SAMPLE(SM_LOOSER1  , "looser1", BASS_SAMPLE_OVER_POS);
-  LOAD_SAMPLE(SM_LOOSER2  , "looser2", BASS_SAMPLE_OVER_POS);
-  LOAD_SAMPLE(SM_SMOKE    , "smoke", BASS_SAMPLE_OVER_POS);
-  LOAD_SAMPLE(SM_STUPID   , "stupid", BASS_SAMPLE_OVER_POS);
-
-  LOAD_SAMPLE(SM_OUTCH    , "outch", BASS_SAMPLE_OVER_POS);
-
-  LOAD_SAMPLE(SM_UPSSS  , "upsss", BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_RAIL_F1,   "railf1",   varBASS_SAMPLE_3D);
+  LOAD_SAMPLE(SM_10_0   ,   "10_0",     BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_BOMBPUT,   "bombput",  varBASS_SAMPLE_3D);
+  LOAD_SAMPLE(SM_MESSENGER, "cink",     BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_MENU1,     "menu1",    BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_MENU2,     "menu2",    BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_MENU3,     "menu3",    BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_XPLO1,     "xplo1",    varBASS_SAMPLE_3D);
+  LOAD_SAMPLE(SM_XPLO2,     "xplo2",    varBASS_SAMPLE_3D);
+  LOAD_SAMPLE(SM_GRANATF1,  "granatf1", varBASS_SAMPLE_3D);
+  LOAD_SAMPLE(SM_NARAZ,     "naraz",    varBASS_SAMPLE_3D);
+  LOAD_SAMPLE(SM_BECHERF1,  "becherf1", varBASS_SAMPLE_3D);
+  LOAD_SAMPLE(SM_WARP,      "warp",     varBASS_SAMPLE_3D);
+  LOAD_SAMPLE(SM_GPREMIE,   "getpremie",varBASS_SAMPLE_3D);
+  LOAD_SAMPLE(SM_GAMMO    , "getammo",  varBASS_SAMPLE_3D);
+  LOAD_SAMPLE(SM_PISTOLKAF1,"pistolkaf1",varBASS_SAMPLE_3D);
+  LOAD_SAMPLE(SM_RSHOT,     "rshot",    varBASS_SAMPLE_3D);
+  LOAD_SAMPLE(SM_BECHERC1,  "bc1",      BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_BECHERA1,  "bd1",      BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_BERSERK,   "berserk1", BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_LEADER1,   "leader1",  BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_DOMINATION1,"dom1",    BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_KMACHINE1, "km1",      BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_ACCURACY1, "acu1",     BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_EXCELENT1, "excelent1",BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_GOTCHA,    "gotcha",   BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_IMPRESIVE, "imp1",     BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_PERFECT1,  "perfect1", BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_PERFECT2,  "perfect2", BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_FIGHT1,    "fight1",   BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_FIGHT2,    "fight2",   BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_LOSTLEAD,  "llead1",   BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_TAKENLEAD, "tlead1",   BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_OHNO,      "ohno",     varBASS_SAMPLE_3D);
+  LOAD_SAMPLE(SM_PREPARE,   "prepare1", BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_DEATH1,    "d1",       varBASS_SAMPLE_3D);
+  LOAD_SAMPLE(SM_DEATH2,    "d2",       varBASS_SAMPLE_3D);
+  LOAD_SAMPLE(SM_DEATH3,    "d3",       varBASS_SAMPLE_3D);
+  LOAD_SAMPLE(SM_DEATH4,    "d4",       varBASS_SAMPLE_3D);
+  LOAD_SAMPLE(SM_DEATH5,    "d5",       varBASS_SAMPLE_3D);
+  LOAD_SAMPLE(SM_BANZAI,    "banzai",   varBASS_SAMPLE_3D);
+  LOAD_SAMPLE(SM_BYEBYE,    "byebye",   BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_END1,      "end1",     BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_END2,      "end2",     BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_END3,      "end3",     BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_END4,      "end4",     BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_END5,      "end5",     BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_END6,      "end6",     BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_END7,      "end7",     BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_END8,      "end8",     BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_END9,      "end9",     BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_END10,     "end10",    BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_WIN1,      "win1",     BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_WIN2,      "win2",     BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_WIN3,      "win3",     BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_LAMER,     "lamer",    BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_LOOSER1,   "looser1",  BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_LOOSER2,   "looser2",  BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_SMOKE,     "smoke",    BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_STUPID,    "stupid",   BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_OUTCH,     "outch",    BASS_SAMPLE_OVER_POS);
+  LOAD_SAMPLE(SM_UPSSS,     "upsss",    BASS_SAMPLE_OVER_POS);
 
 #ifdef PW_BASS
   BASS_Set3DFactors(snd_dist.value, snd_roll.value, snd_dopp.value);
@@ -253,7 +229,6 @@ bool smPlaySample3D(Uint8 id, Sint16 x, Sint16 y, Uint8 volume)
       m = MAX_AUDIBLEDESTINATION - m;
       
       BASS_SamplePlayEx(sm_samples[id], 0, -1, ((volume)*m)/MAX_AUDIBLEDESTINATION, -101, -1);
-      //ConOut("m=%d , v=%d", m, ((volume)*m)/MAX_AUDIBLEDESTINATION);
       return true;
     }
   }

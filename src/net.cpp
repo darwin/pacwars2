@@ -57,7 +57,7 @@ Uint16 CRC(void *buffer, int length)
 bool CheckFileName(char *fname)
 {
 	for (unsigned int i = 0; i < strlen(fname); i++) {
-		if (fname[i] == '/' || fname[i] == '\\')
+		if (fname[i] == '/' || fname[i] == '\\' || fname[i] == ':')
 			return false;
 	}
 	return true;
@@ -716,7 +716,7 @@ int LoadFileBuffer(z_streamp zs, Bytef * quantum, int qsize,
 		if (zs->avail_in) {
 			err = deflate(zs, Z_NO_FLUSH);
 			if (err != Z_OK) {
-				ConOut("Net: error deflating stream: %d", err);
+				ConOutEx(CMD_FONT, "Net: error deflating stream: %d", err);
 				*file_status = FS_ENDED;
 				return 0;
 			}
@@ -752,7 +752,7 @@ int StoreFileBuffer(z_streamp zs, Bytef * quantum, int qsize,
 				*file_status = FS_COMPLETED;
 				return 0;
 			} else {
-				ConOut("Net: error inflating stream: %d", err);
+				ConOutEx(CMD_FONT, "Net: error inflating stream: %d", err);
 				fwrite(buffer, 1, bsize - zs->avail_out, file);
 				*file_status = FS_ENDED;
 				return 1;

@@ -47,6 +47,7 @@
 #define PWP_MAX_PLAYER_NAME 14     // especially 14 chars for WIZard Raist
 #define PWP_MAX_FILE_NAME   128
 #define PWP_MAX_MAP_NAME    MAX_MAP_NAME
+#define PWP_MAX_PASSWORD    12
 
 #define PWP_MSG_CPORT    25971
 #define PWP_MSG_SPORT    25970
@@ -86,26 +87,27 @@ const Uint8 MSGID_SNAME          =8;  // change server name
 const Uint8 MSGID_CNAME          =9;  // change client name
 const Uint8 MSGID_CHATPOST      =10;
 const Uint8 MSGID_CHATWRITE     =11;
-const Uint8 MSGID_REMOTECMD     =12;  // remote command
-const Uint8 MSGID_REMOTECON     =13;  // remote console out
-const Uint8 MSGID_ATTACHCON     =14;  // remote console attach
-const Uint8 MSGID_DETACHCON     =15;  // remote console detach
-const Uint8 MSGID_DOWNLOAD      =16;  // download request
-const Uint8 MSGID_UPLOAD        =17;  // upload request
-const Uint8 MSGID_CHMAP         =18;  // server is going to change map 
-const Uint8 MSGID_CHMAPREADY    =19;  // client have chaged map and is ready to play
-const Uint8 MSGID_SERVEROFF     =20;  // server is not running
-const Uint8 MSGID_YWDROPPED     =21;  // "you were dropped"
+const Uint8 MSGID_REMOTECMD     =12;  // c->s remote command
+const Uint8 MSGID_REMOTECON     =13;  // c->s remote console out
+const Uint8 MSGID_ATTACHCON     =14;  // c->s remote console attach
+const Uint8 MSGID_DETACHCON     =15;  // c->s remote console detach
+const Uint8 MSGID_DOWNLOAD      =16;  // c->s download request
+const Uint8 MSGID_UPLOAD        =17;  // c->s upload request
+const Uint8 MSGID_CHMAP         =18;  // s->c server is going to change map 
+const Uint8 MSGID_CHMAPREADY    =19;  // c->s client have chaged map and is ready to play
+const Uint8 MSGID_SERVEROFF     =20;  // s->c server is not running
+const Uint8 MSGID_YWDROPPED     =21;  // s->c "you were dropped"
 const Uint8 MSGID_ENTERGAME     =22;  // s->c, after CHMAPREADY
 const Uint8 MSGID_CREATEPLAYER  =23;  // c->s, (after ENTERGAME)
 const Uint8 MSGID_DESTROYPLAYER =24;  // c->s
 const Uint8 MSGID_OWNERPLAYER   =25;  // c->s, (after ENTERGAME)
-const Uint8 MSGID_SKINPLAYER    =26;  // change player skin
-const Uint8 MSGID_KBNOTIFY      =27;  // notifies client to free keybindings
+const Uint8 MSGID_SKINPLAYER    =26;  // c->s change player skin
+const Uint8 MSGID_KBNOTIFY      =27;  // s->c notifies client to free keybindings
 const Uint8 MSGID_CHASEPLAYERRQ =28;  // c->s chase certain player
 const Uint8 MSGID_CHASEPLAYERCF =29;  // s->c of chasing player confirmation
 const Uint8 MSGID_SOUND         =30;  // s->c sound replaying
 const Uint8 MSGID_VOICE         =31;  // s->c sound replaying
+const Uint8 MSGID_ATTACHDONE    =32;  // s->c console attached
 
 
 #define MSG_SPOOL_SIZE      30
@@ -224,6 +226,10 @@ const Uint8 MSGID_VOICE         =31;  // s->c sound replaying
 #define DLID_SPRITE   2
 #define DLID_SOUND    3
 #define DLID_SCRIPT   4
+
+// MSGID_ATTACHCON
+#define POS_MSG_ACPASS  1
+#define LEN_MSG_ACPASS  PWP_MAX_PASSWORD
 
 //###########################################################################
 //## Replication

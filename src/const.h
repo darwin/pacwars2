@@ -6,7 +6,7 @@
 //## author:  Antonin Hildebrand
 //## 
 //## started: 2.3.2000
-//## revised: 12.3.2000
+//## revised: 2.3.2001
 //## 
 //###########################################################################
 
@@ -16,10 +16,6 @@
 #include "osdep.h"				// include OS dependent defines & rutines
 #include "SDL.h"
 #include "cvar.h"
-
-//#define malloc(a) malloc(a), fprintf(stderr, "alloc %s:%d = %d\n",__FILE__,__LINE__,a)
-//#define new x fprintf(stderr, "new %s:%d = %d\n",__FILE__,__LINE__,a),new a
-//#define free(a); free(a), fprintf(stderr,"free  %s:%s",__FILE__,__LINE__);
 
 // export declaration
 
@@ -80,8 +76,8 @@ const GAME_MAXOBJS_TYPE MAX_PACS_PER_STATION = 16;
 //## Constants
 //###########################################################################
 
-const Uint8 VERSION_MAJOR = 1;
-const Uint8 VERSION_MINOR = 0;
+const Uint8 VERSION_MAJOR = 01;
+const Uint8 VERSION_MINOR = 10;
 
 #define PW_CONFIG_FILE "config.cfg"
 
@@ -148,6 +144,16 @@ extern DECLSPEC cvar_t sprite_imp;
 // misc
 #define FPS_MEASURE 400			// in ticks (500 = each 0.5s update)
 #define PING_MEASURE 2000		// in ticks (each 2s update)
+
+#define INFO_BASEY (20*13)
+#define INFO_BASEX (6)
+
+#define CMD_FONT    1
+#define CHAT_FONT   2
+#define VAR_FONT    3
+#define SERVER_FONT 4
+#define MISC_FONT   5
+#define CLIENT_FONT 6
 
 // temp
 #define CSX 16

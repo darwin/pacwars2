@@ -105,6 +105,7 @@ const char FILETRANSFER_STATES_STR[][20] =
 #define SD_CHANGING_GAME 0
 #define SD_SHUTDOWN      1
 #define SD_OFFLINE       2
+#define SD_CHANGING_MAP  3
 
 const char SD_STATES_STR[][20] =
 {

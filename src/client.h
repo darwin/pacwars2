@@ -249,10 +249,11 @@ extern DECLSPEC int CL_End();
 extern DECLSPEC int CL_Clear();
 
 extern DECLSPEC int CL_Connect(char *server);
+extern DECLSPEC int CL_Reconnect();
 extern DECLSPEC int CL_Disconnect();
 extern DECLSPEC void CL_Ping();
 
-extern DECLSPEC int CL_Attach();
+extern DECLSPEC int CL_Attach(char* pass);
 extern DECLSPEC int CL_Detach();
 
 extern DECLSPEC int CL_Upload(Uint8 ft_id, char *fname);

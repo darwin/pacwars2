@@ -4,9 +4,10 @@
 //## 
 //## desc.:   OS dependent code
 //## author:  Antonin Hildebrand
+//##          Alexander Pipelka (UNIX implementation)
 //## 
 //## started: 9.4.2000
-//## revised: ???
+//## revised: 2.3.2001
 //## 
 //###########################################################################
 
