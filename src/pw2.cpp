@@ -2909,11 +2909,20 @@ main(int argc, char *argv[])
 	int looping = 0;
 	int interactive = 0;
 
+#ifdef PW_BASS
 	// Initialize audio variables 
 	audio_rate = 44050;
 	audio_format = AUDIO_S16;
 	audio_channels = 2;
 	audio_buffers = 8 * 4096;
+#else
+	// Initialize with SDL_mixer defaults
+	audio_rate = MIX_DEFAULT_FREQUENCY;
+	audio_format = MIX_DEFAULT_FORMAT;
+	audio_channels = 2;
+	audio_buffers = 512;
+#endif
+
 #endif
 
 	char date[20];
@@ -3063,8 +3072,6 @@ main(int argc, char *argv[])
 				 (audio_channels > 1) ? "stereo" : "mono", audio_buffers);
 			audio_open = 1;
 		}
-		int channels = Mix_ReserveChannels(4);
-		printf("SDL_mixer: reserved %i audio channels\n", channels);
 	}
 #endif
 #endif

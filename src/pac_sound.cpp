@@ -38,6 +38,7 @@ void GSound::ClientThink(Uint32 time)
   if (!next_restart || next_restart == curtime)
   {
     smPlaySample3D(sampleid, xpos, ypos, volume);
+
     if (loop==0)
     {
       state = 0;

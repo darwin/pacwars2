@@ -257,7 +257,8 @@ bool smPlaySample3D(Uint8 id, Sint16 x, Sint16 y, Uint8 volume)
       return true;
     }
   }
-
+#else
+	Mix_PlayChannel(-1, sm_samples[id], 0);
 #endif
   return false;
 }
@@ -268,6 +269,7 @@ bool smPlaySample(Uint8 id, Uint8 volume)
 #ifdef PW_BASS
 		BASS_SamplePlayEx(sm_samples[id], 0, -1, volume, -101, -1);
 #else
+		printf("SDL_mixer: play sample %i\n", id);
 		Mix_PlayChannel(-1, sm_samples[id], 0);
 #endif
 		return true;
