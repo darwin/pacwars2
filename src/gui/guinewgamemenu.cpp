@@ -100,6 +100,7 @@ void scriptchCB(GUI_LabelL* l)
 		  NGMenu->lDesc1->SetTextFormat(" %s", NGMenu->selected2->msi->desc0);
 		  NGMenu->lDesc2->SetTextFormat(" %s", NGMenu->selected2->msi->desc1);
 		  NGMenu->lDesc3->SetTextFormat(" %s", NGMenu->selected2->msi->desc2);
+		NGMenu->Update();
     }
 	}
 }

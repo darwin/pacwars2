@@ -163,7 +163,7 @@ GUI_Board::GUI_Board(PG_Widget* parent, const PG_Rect& r, char* theme) : PG_Grad
 // Bitmap
 /////////////////////////////////////////////////////////////////////////////
 
-GUI_Bitmap::GUI_Bitmap(PG_Widget* parent, const PG_Rect& r,  bool storebackground, SDL_Surface* s) : PG_Widget(parent,r,storebackground) {
+GUI_Bitmap::GUI_Bitmap(PG_Widget* parent, const PG_Rect& r, SDL_Surface* s) : PG_Widget(parent,r, true) {
 	bitmap = s;
 }
 
@@ -251,6 +251,7 @@ void GUI_ButtonBig::eventMouseLeave() {
 		SetTextColor(GUI_BtnTextColor);
 		Update();
 	}
+	GUI_Button::eventMouseLeave();
 }
 
 void GUI_ButtonBig::eventMouseEnter() {
@@ -260,6 +261,7 @@ void GUI_ButtonBig::eventMouseEnter() {
       SetTextColor(GUI_BtnATextColor);
       Update();
     }
+	GUI_Button::eventMouseEnter();
 }
 
 bool GUI_ButtonBig::eventMouseButtonDown(const SDL_MouseButtonEvent* button) {
@@ -300,12 +302,14 @@ void GUI_ButtonSmall::eventMouseLeave() {
 	/*SetFont(BtnFont);*/
 	SetTextColor(GUI_BtnTextColor);
 	Update();
+	GUI_Button::eventMouseLeave();
 }
 
 void GUI_ButtonSmall::eventMouseEnter() {
 	/*SetFont(BtnFont2);*/
 	SetTextColor(GUI_BtnATextColor);
 	Update();
+	GUI_Button::eventMouseEnter();
 }
 
 
@@ -320,18 +324,18 @@ GUI_CheckBox::GUI_CheckBox(PG_Widget* parent, const PG_Rect& r, char* text, bool
 
 	LoadThemeStyle("GUI_CheckButton");
 	my_widgetButton->LoadThemeStyle("GUI_CheckButton", "CheckWidget");
-	SetTransparency(0);
+	//SetTransparency(0);
 }
 
 GUI_CheckBox::~GUI_CheckBox() {
 }
 
 void GUI_CheckBox::eventMouseEnter() {
-	PG_GradientWidget::eventMouseEnter();
+	//PG_CheckButton::eventMouseEnter();
 }
 
 void GUI_CheckBox::eventMouseLeave() {
-	PG_GradientWidget::eventMouseLeave();
+	//PG_CheckButton::eventMouseLeave();
 }
 
 
@@ -486,7 +490,6 @@ void GUI_ButtonS::eventDraw(SDL_Surface* surface, const PG_Rect& rect)
 bool GUI_ButtonS::eventMouseButtonDown(const SDL_MouseButtonEvent* button){
 	SetCapture();
 
-	//Redraw();
 	Update();
 	return true;
 }
@@ -596,7 +599,7 @@ void GUI_SkinPic::SetSkin(char* ns)
   GetParent()->Redraw();
 }
 
-GUI_SkinCtrl::GUI_SkinCtrl(PG_Widget* parent, const PG_Rect& r,  bool storebackground) : PG_Widget(parent,r,storebackground) {
+GUI_SkinCtrl::GUI_SkinCtrl(PG_Widget* parent, const PG_Rect& r) : PG_Widget(parent, r, true) {
 	bNext = new PG_Button(this, 2, PG_Rect(17, 33, 16, 16));
 	bPrev = new PG_Button(this, 1, PG_Rect(1, 33, 16, 16));
 	SkinPic = new GUI_SkinPic(this, PG_Rect(1, 1, 32, 32));
@@ -782,7 +785,7 @@ void GUI_Input::SetText(char* new_text){
 GUI_Help1Menu::GUI_Help1Menu():
 GUI_BaseMenu(GUI_HELP1, PG_Rect(HM1_PX,HM1_PY,HM1_VX,HM1_VY)),
 Board1(NULL, PG_Rect(HM1_PX,HM1_PY,HM1_VX,HM1_VY)),
-mBack1(NULL, PG_Rect(HM1_PX+1, HM1_PY+1, help1->w, help1->h), false, help1),
+mBack1(NULL, PG_Rect(HM1_PX+1, HM1_PY+1, help1->w, help1->h), help1),
 Help1Menu(NULL, PG_Rect(HM1_PX+1,HM1_PY+4,HM1_VX-2,25), "Weapons & Bonuses", "GUI_Label"),
 lLine1a(NULL, PG_Rect(HM1_G1_PX,HM1_G1_PY, HM1_G1_VX-2, 20), "SMALL PISTOL", "GUI_LabelL"),
 lLine1b(NULL, PG_Rect(HM1_G1_PX,HM1_G1_PY+HM1_LY1, HM1_G1_VX-2, 20), "fires small slow projectiles", "GUI_LabelL"),
@@ -818,6 +821,9 @@ bNext(NULL, 3, PG_Rect(HM1_PX+HM1_VX-5-70,HM1_PY+330,70,20), "NEXT")
   Default();
 
   Help1Menu.SetFont(MainFont);
+
+  AddChild(&Board1);
+  AddChild(&mBack1);
 
   AddChild(&Help1Menu);
 
@@ -856,10 +862,6 @@ bNext(NULL, 3, PG_Rect(HM1_PX+HM1_VX-5-70,HM1_PY+330,70,20), "NEXT")
 
   AddChild(&bReturn);
   AddChild(&bNext);
-  //AddChild(&bPrev);
-
-  AddChild(&mBack1);
-  AddChild(&Board1);
 }
 
 void GUI_Help1Menu::Default()
@@ -977,7 +979,7 @@ void GUI_Help1Menu::Hide()
 GUI_Help2Menu::GUI_Help2Menu():
 GUI_BaseMenu(GUI_HELP2, PG_Rect(HM2_PX,HM2_PY,HM2_VX,HM2_VY)),
 Board1(NULL, PG_Rect(HM2_PX,HM2_PY,HM2_VX,HM2_VY)),
-mBack1(NULL, PG_Rect(HM2_PX+1, HM2_PY+1, help2->w, help2->h), false, help2),
+mBack1(NULL, PG_Rect(HM2_PX+1, HM2_PY+1, help2->w, help2->h), help2),
 Help2Menu(NULL, PG_Rect(HM2_PX+1,HM2_PY+4,HM2_VX-2,25), "Items & Ammo", "GUI_Label"),
 lI1a(NULL, PG_Rect(HM2_I1_PX,HM2_I1_PY, HM2_I1_VX-2, 20), "SPEED", "GUI_LabelL"),
 lI1b(NULL, PG_Rect(HM2_I1_PX,HM2_I1_PY+HM2_LY1, HM2_I1_VX-2, 20), "faster moving", "GUI_LabelL"),
@@ -1029,6 +1031,9 @@ bReturn(NULL, 1, PG_Rect(HM2_PX+(HM2_VX-100)/2,HM2_PY+365,100,20), "RETURN")
 
   Help2Menu.SetFont(MainFont);
   
+  AddChild(&Board1);
+  AddChild(&mBack1);
+
   AddChild(&Help2Menu);
   
   AddChild(&lI1a);
@@ -1077,11 +1082,7 @@ bReturn(NULL, 1, PG_Rect(HM2_PX+(HM2_VX-100)/2,HM2_PY+365,100,20), "RETURN")
   AddChild(&lK7b);
   
   AddChild(&bReturn);
- // AddChild(&bNext);
   AddChild(&bPrev);
-
-  AddChild(&mBack1);
-  AddChild(&Board1);
 }
 
 void GUI_Help2Menu::Default()

@@ -10,7 +10,7 @@ GUI_CreatePlayerMenu::GUI_CreatePlayerMenu(int id, int inum) : GUI_BaseMenu(id, 
 	ePName = new GUI_TextEdit(this, PG_Rect(10,60,180,20));
 	lSkin = new PG_Label(this, PG_Rect(1+220,40, 110,20), "Player skin:", "GUI_Label");
 	eSkin = new GUI_TextEdit(this, PG_Rect(10+220,+60,110,20));
-	SkinCtrl = new GUI_SkinCtrl(this, PG_Rect(CP_SK_X, CP_SK_Y, 34, 50), false);
+	SkinCtrl = new GUI_SkinCtrl(this, PG_Rect(CP_SK_X, CP_SK_Y, 34, 50));
 	lUp = new PG_Label(this, PG_Rect(CP_INPUT_X1    ,CP_INPUT_Y1    , CCSX,20), "key up:", "GUI_Label");
 	iUp = new GUI_Input(this, PG_Rect(CP_INPUT_X1+CCSX,CP_INPUT_Y1    , 100 ,20),1);
 	lDown = new PG_Label(this, PG_Rect(CP_INPUT_X1    ,CP_INPUT_Y1+20 , CCSX,20), "key down:", "GUI_Label");

@@ -114,6 +114,10 @@
     <widget>
 	<type value="RadioButton"/>
 	<object>
+	    <name value="RadioButton"/>
+	    <property name="transparency" value="0"/>
+	</object>
+	<object>
 	    <type value="Button"/>
 	    <name value="CheckButton"/>
 	    <filename name="background0" value="none"/>
@@ -278,6 +282,7 @@
 	    <property name="backmode" value="TILE"/>
 	    <property name="blend" value="0"/>
 	    <property name="bordersize" value="0"/>
+	    <property name="transparency" value="0"/>
 	</object>
     </widget>
 

@@ -8,9 +8,7 @@
 
 GUI_CreditsMenu::GUI_CreditsMenu() : GUI_BaseMenu(GUI_CREDITS, PG_Rect(CM_PX,CM_PY,CM_VX,CM_VY)) {
 
-	bOK = new GUI_ButtonSmall(this, 1, PG_Rect(155,390,150,25), "COOL");
-	
-	mBack1 = new GUI_Bitmap(this, PG_Rect(1, 1, credits->w, credits->h), false, credits),
+	mBack1 = new GUI_Bitmap(this, PG_Rect(1, 1, credits->w, credits->h), credits),
 	CreditsMenu = new PG_Label(mBack1, PG_Rect(1,4,CM_VX-2,25), "Credits", "GUI_Label");
 	lLine[0] = new PG_Label(mBack1, PG_Rect(CM_G1_PX,CM_G1_PY+35, CM_G1_VX-2,20), "Code by Antonin Hildebrand aka Woid", "GUI_LabelL");
 	lLine[1] = new PG_Label(mBack1, PG_Rect(CM_G1_PX,CM_G1_PY+55, CM_G1_VX-2,20), "Graphics by Petr Stastny aka Raist", "GUI_LabelL");
@@ -31,6 +29,7 @@ GUI_CreditsMenu::GUI_CreditsMenu() : GUI_BaseMenu(GUI_CREDITS, PG_Rect(CM_PX,CM_
 	lLine[17] = new PG_Label(mBack1, PG_Rect(4,315, CM_VX-2,25), "visit PW2 site at", "GUI_Label");
 	lLine[16] = new PG_Label(mBack1, PG_Rect(CM_G1_PX,CM_G1_PY+175, CM_G1_VX-2,20), "Iain Syme author of the orignal PacWars", "GUI_LabelL");
 	lLine[18] = new PG_Label(mBack1, PG_Rect(4,345, CM_VX-2,25), PW_WEBADDRESS, "GUI_Label");
+	bOK = new GUI_ButtonSmall(this, 1, PG_Rect(155,390,150,25), "COOL");
 
 	Default();
 

@@ -3282,9 +3282,9 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
   screen = app.GetScreen();
   
   SDL_Surface *fake_screen = SDL_CreateRGBSurface(SDL_SWSURFACE|SDL_SRCCOLORKEY|SDL_SRCALPHA, 640, 480, video_bpp, 0, 0, 0, 0);
-  SDL_FillRect(fake_screen, NULL, 0x0);
+ // SDL_FillRect(fake_screen, NULL, 0x0);
   app.SetScreen(fake_screen);
-  
+
   ResetGamma();
   
 #ifdef PW_AUDIO
@@ -3787,10 +3787,7 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
         Volume_Music(music_volume.string);
         enable_menu_music = 0;
       }
-      
-      PG_Rect r1, r2;
-      GUI_menu->GetClipRects(r1, r2);
-      
+
       if (alphamenu.value) {
         SDL_SetAlpha(app.GetScreen(), SDL_SRCALPHA, MENU_ALPHA);
       } else {
@@ -3798,7 +3795,7 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
       }
       
       SDL_SetColorKey(app.GetScreen(), SDL_SRCCOLORKEY, 0x0);
-      SDL_BlitSurface(app.GetScreen(), &r2, screen, &r2);
+     PG_BlitSurface(app.GetScreen(), *GUI_menu, screen, *GUI_menu);
 
 		// will change that again -- Alex
       /*if (GUI_id != GUI_MAINMENU) {

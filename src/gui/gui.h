@@ -119,29 +119,12 @@ public:
 
 class GUI_Bitmap : public PG_Widget {
 public:
-  GUI_Bitmap(PG_Widget* parent, const PG_Rect& r, bool storebackground = false, SDL_Surface* s=NULL);
+  GUI_Bitmap(PG_Widget* parent, const PG_Rect& r, SDL_Surface* s=NULL);
   void eventDraw(SDL_Surface* surface, const PG_Rect& rect);
   
   SDL_Surface *bitmap;
   bool drawbackground;
 };
-
-/////////////////////////////////////////////////////////////////////////////
-// Label
-/////////////////////////////////////////////////////////////////////////////
-
-/*
-class GUI_Label : public PG_Label {
-public:
-  GUI_Label(PG_Widget* parent, const PG_Rect& r, char* text, bool storebackground = false, char* style = "GUI_Label");
-};
-
-class GUI_LabelC : public PG_Label {
-public:
-  GUI_LabelC(PG_Widget* parent, const PG_Rect& r, char* text, bool storebackground = false);
-};
-*/
-
 
 /////////////////////////////////////////////////////////////////////////////
 // Label
@@ -428,7 +411,7 @@ public:
 
 class GUI_SkinCtrl : public PG_Widget {
 public:
-  GUI_SkinCtrl(PG_Widget* parent, const PG_Rect& r, bool storebackground = false);
+  GUI_SkinCtrl(PG_Widget* parent, const PG_Rect& r);
   
 //  void eventDraw(SDL_Surface* surface, const PG_Rect& rect);
   bool eventButtonClick(int id, PG_Widget* widget);
