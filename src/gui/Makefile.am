@@ -1,10 +1,14 @@
 
 INCLUDES = $(PARAGUI_CFLAGS) -I.. -I../console
 
-noinst_LIBRARIES = libgui.a
+noinst_LTLIBRARIES = libgui.la
 
-libgui_a_SOURCES = \
-	gui.cpp
+libgui_la_SOURCES = \
+	gui.cpp \
+	guibasemenu.cpp \
+	guisoundmenu.cpp
 
 EXTRA_DIST = \
-	gui.h
+	gui.h \
+	guibasemenu.h \
+	guisoundmenu.h

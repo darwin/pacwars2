@@ -16,6 +16,9 @@
 #include "sdlscrollbar.h"
 #include "sdlwidgetlist.h"
 
+#include "guibasemenu.h"
+#include "guisoundmenu.h"
+
 #include "smapman.h"
 #include "sprite.h"
 
@@ -284,28 +287,6 @@ public:
 
 	
 /////////////////////////////////////////////////////////////////////////////
-// Base menu widgets
-/////////////////////////////////////////////////////////////////////////////
-
-class GUI_BaseMenu : public SDLWidget {
-public:
-  int mid;
-  int parentmid;
-  GUI_BaseMenu *next;
-  
-  GUI_BaseMenu(int iid, SDL_Rect& rect): SDLWidget(NULL, rect) { mid = iid; next = NULL; }
-  
-  void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
-  void Clear();
-  
-  virtual void Default() { }
-  virtual void Execute() { }
-  virtual void Show()=0;
-  virtual void Hide()=0;
-  virtual void Return(); 
-};
-
-/////////////////////////////////////////////////////////////////////////////
 // OK dialog widgets
 /////////////////////////////////////////////////////////////////////////////
 #define OKD1_PX 140
@@ -320,15 +301,12 @@ public:
 
   void Reset(char* title, char* line1="");
   
-  GUI_Board Board1;
-  GUI_Label OKDialog1;
-  
-  GUI_Label lPrompt1;
-  
-  GUI_ButtonSmall bOK;
-  
-  void Show();
-  void Hide();
+  GUI_Label* OKDialog1;
+  GUI_Label* lPrompt1;
+  GUI_ButtonSmall* bOK;
+
+  GUI_Board* Board1;
+
   void Default();
   
   bool eventButtonClick(int id, SDLWidget* widget);
@@ -350,16 +328,13 @@ public:
 
   void Reset(char* title, char* line1="", char* line2="");
   
-  GUI_Board Board1;
   GUI_Label OKDialog2;
-  
   GUI_Label lPrompt1;
   GUI_Label lPrompt2;
-  
   GUI_ButtonSmall bOK;
-  
-  void Show();
-  void Hide();
+
+  GUI_Board Board1;
+
   void Default();
   
   bool eventButtonClick(int id, SDLWidget* widget);
@@ -381,19 +356,19 @@ public:
 
   void Reset(void (*cb)(int res), char* title, char* line1="", char* tla="YES", char* tlb="NO");
   
-  GUI_Board Board1;
-  GUI_Label YNDialog;
+  GUI_Label* YNDialog;
+  GUI_Label* lPrompt1;
   
-  GUI_Label lPrompt1;
-  
-  GUI_ButtonSmall bA;
-  GUI_ButtonSmall bB;
+  GUI_ButtonSmall* bA;
+  GUI_ButtonSmall* bB;
+
+  GUI_Board* Board1;
 
   int result;
   void (*callback)(int res);
 
-  void Show();
-  void Hide();
+  //void Show();
+  //void Hide();
   void Default();
   
   bool eventButtonClick(int id, SDLWidget* widget);
@@ -415,20 +390,20 @@ public:
 
 //  GUI_Bitmap mBack1;
   
-  GUI_ButtonBig lMainMenu;
-  GUI_ButtonBig bNewGame;
-  GUI_ButtonBig bEndGame;
-  GUI_ButtonBig bJoinDiscGame;
-  GUI_ButtonBig bCreatePlayer;
-  GUI_ButtonBig bDeletePlayer;
-  GUI_ButtonBig bOptions;
-  GUI_ButtonBig bHelp;
-  GUI_ButtonBig bCredits;
-  GUI_ButtonBig bQuit;
-  GUI_ButtonBig bGame;
+  GUI_ButtonBig* lMainMenu;
+  GUI_ButtonBig* bNewGame;
+  GUI_ButtonBig* bEndGame;
+  GUI_ButtonBig* bJoinDiscGame;
+  GUI_ButtonBig* bCreatePlayer;
+  GUI_ButtonBig* bDeletePlayer;
+  GUI_ButtonBig* bOptions;
+  GUI_ButtonBig* bHelp;
+  GUI_ButtonBig* bCredits;
+  GUI_ButtonBig* bQuit;
+  GUI_ButtonBig* bGame;
   
-  void Show();
-  void Hide();
+  void eventShow();
+  void eventHide();
   void Return();
   void Default();
   
@@ -449,7 +424,6 @@ class GUI_JoinGameMenu : public GUI_BaseMenu {
 public:
   GUI_JoinGameMenu();
   
-  GUI_Board Board1;
   GUI_Label JoinGameMenu;
   
   GUI_Label lServerAddress;
@@ -462,8 +436,8 @@ public:
   GUI_ButtonSmall bConnect;
   GUI_ButtonSmall bCancel;
   
-  void Show();
-  void Hide();
+  GUI_Board Board1;
+
   void Default();
   void Return();
   
@@ -888,48 +862,6 @@ public:
 #define CP_INPUT_Y2 (CP_PY + 90)
 
 #define CCSX 60
-
-
-/////////////////////////////////////////////////////////////////////////////
-// Sound menu widgets
-/////////////////////////////////////////////////////////////////////////////
-#define SM_PX 140
-#define SM_PY 110
-#define SM_VX 360
-#define SM_VY 255
-
-
-class GUI_SoundMenu : public GUI_BaseMenu {
-public:
-  GUI_SoundMenu();
-  
-  GUI_Board Board1;
-  GUI_Label SoundMenu;
-  GUI_Label lRange;
-  
-  GUI_Label lMusicVolume;
-  GUI_NumEdit eMusicVolume;
-  GUI_Label lSoundVolume;
-  GUI_NumEdit eSoundVolume;
-
-  GUI_CheckBox cSwap;
-  GUI_ButtonSmall b3ds;
-  
-  GUI_Label l3dDist;
-  GUI_FloatEdit e3dDist;
-  GUI_Label l3dRoll;
-  GUI_FloatEdit e3dRoll;
-
-  GUI_ButtonSmall bSet;
-  GUI_ButtonSmall bCancel;
-  
-  void Show();
-  void Hide();
-  void Default();
-  void Return();
-  
-  bool eventButtonClick(int id, SDLWidget* widget);
-};
 
 
 /////////////////////////////////////////////////////////////////////////////

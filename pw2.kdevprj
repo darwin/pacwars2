@@ -119,6 +119,11 @@ install_location=
 dist=true
 install=false
 type=HEADER
+[src/gui/guibasemenu.h]
+install_location=
+dist=true
+install=false
+type=HEADER
 [src/console/SDL_ConsoleCommands.h]
 install_location=
 dist=true
@@ -200,7 +205,7 @@ dist=true
 install=false
 type=HEADER
 [src/gui/Makefile.am]
-files=src/gui/gui.cpp,src/gui/gui.h,
+files=src/gui/gui.cpp,src/gui/gui.h,src/gui/guibasemenu.cpp,src/gui/guibasemenu.h,src/gui/guisoundmenu.cpp,src/gui/guisoundmenu.h,
 sub_dirs=
 type=static_library
 [src/pac_player.h]
@@ -330,6 +335,11 @@ install_location=
 dist=true
 install=false
 type=HEADER
+[src/gui/guibasemenu.cpp]
+install_location=
+dist=true
+install=false
+type=SOURCE
 [configure.in]
 install_location=
 dist=true
@@ -625,6 +635,11 @@ install_location=
 dist=true
 install=false
 type=SOURCE
+[src/gui/guisoundmenu.cpp]
+install_location=
+dist=true
+install=false
+type=SOURCE
 [Makefile.am]
 files=ChangeLog,AUTHORS,COPYING,INSTALL,autogen.sh,NEWS,README,TODO,config.guess,config.sub,configure.in,install-sh,ltconfig,ltmain.sh,missing,mkinstalldirs,aclocal.m4,stamp-h.in,config.h.in,configure,pw2.kdevprj,
 sub_dirs=src,
@@ -640,6 +655,11 @@ dist=true
 install=false
 type=SOURCE
 [src/seer/fixed.h]
+install_location=
+dist=true
+install=false
+type=HEADER
+[src/gui/guisoundmenu.h]
 install_location=
 dist=true
 install=false
