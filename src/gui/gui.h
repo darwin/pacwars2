@@ -32,6 +32,7 @@
 #include "guideleteplayermenu.h"
 #include "guiresultsmenu.h"
 #include "guicreateplayerselmenu.h"
+#include "guiredefinekeysmenu.h"
 
 #include "guiyndialog.h"
 
@@ -63,6 +64,7 @@
 #define GUI_SERVER        30
 #define GUI_VIDEO         31
 #define GUI_CLIENT        32
+#define GUI_REDEFINEKEYS  33
 
 #define GUI_RESULTS       200
 
@@ -108,10 +110,7 @@ extern SDL_Color GUI_SelectedItem;
 
 class GUI_Board : public PG_GradientWidget {
 public:
-  GUI_Board(PG_Widget* parent, const PG_Rect& r, bool storebackground = false, char* theme=NULL);
-//  void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
-  
-  bool drawbackground;
+  GUI_Board(PG_Widget* parent, const PG_Rect& r, char* theme=NULL);
 };
 
 /////////////////////////////////////////////////////////////////////////////
@@ -355,9 +354,9 @@ extern GUI_JoinGameMenu* JGMenu;
 // Options menu widgets
 /////////////////////////////////////////////////////////////////////////////
 #define OM_PX 180
-#define OM_PY 100
+#define OM_PY 80
 #define OM_VX 280
-#define OM_VY 280
+#define OM_VY 320
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -484,6 +483,24 @@ public:
 
 #define CCSX 60
 
+/////////////////////////////////////////////////////////////////////////////
+// Redefine Keys menu widgets
+/////////////////////////////////////////////////////////////////////////////
+#define RK_PX 140
+#define RK_PY 100
+#define RK_VX 360
+#define RK_VY 250
+
+#define RK_SK_X    (RK_VX-34-10)
+#define RK_SK_Y    (40)
+
+#define RK_INPUT_X1 (60)
+#define RK_INPUT_Y1 (60)
+
+#define RK_INPUT_X2 (170)
+#define RK_INPUT_Y2 (90)
+
+#define RKSX 80
 
 /////////////////////////////////////////////////////////////////////////////
 // Results menu widgets

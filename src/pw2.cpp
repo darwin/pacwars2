@@ -194,6 +194,36 @@ cvar_t theme = {"theme", DEFAULT_THEME, true };
 
 cvar_t autolog = { "autolog", "0", true };	// automaticke rozjeti serveru a vytvoreni hrace po spusteni
 
+// keyboard
+
+void KB_KeyChanged1(cvar_t * var, int *changed) { Cvar_Set("keyn_console", SDL_GetKeyName((SDLKey) atoi(var->string))); }
+cvar_t key_console = { "key_console", "", true, false, KB_KeyChanged1, STD_KEY_CONSOLE };
+cvar_t keyn_console = { "keyn_console", "", true };
+
+void KB_KeyChanged2(cvar_t * var, int *changed) { Cvar_Set("keyn_netstat", SDL_GetKeyName((SDLKey) atoi(var->string))); }
+cvar_t key_netstat = { "key_netstat", "", true, false, KB_KeyChanged2, STD_KEY_NETSTAT };
+cvar_t keyn_netstat = { "keyn_netstat", "", true };
+
+void KB_KeyChanged3(cvar_t * var, int *changed) { Cvar_Set("keyn_chat", SDL_GetKeyName((SDLKey) atoi(var->string))); }
+cvar_t key_chat = { "key_chat", "", true, false, KB_KeyChanged3, STD_KEY_CHAT };
+cvar_t keyn_chat = { "keyn_chat", "", true };
+
+void KB_KeyChanged4(cvar_t * var, int *changed) { Cvar_Set("keyn_menu", SDL_GetKeyName((SDLKey) atoi(var->string))); }
+cvar_t key_menu = { "key_menu", "", true, false, KB_KeyChanged4, STD_KEY_MENU };
+cvar_t keyn_menu = { "keyn_menu", "", true };
+
+void KB_KeyChanged5(cvar_t * var, int *changed) { Cvar_Set("keyn_info", SDL_GetKeyName((SDLKey) atoi(var->string))); }
+cvar_t key_info = { "key_info", "", true, false, KB_KeyChanged5, STD_KEY_INFO };
+cvar_t keyn_info = { "keyn_info", "", true };
+
+void KB_KeyChanged6(cvar_t * var, int *changed) { Cvar_Set("keyn_sview", SDL_GetKeyName((SDLKey) atoi(var->string))); }
+cvar_t key_sview = { "key_sview", "", true, false, KB_KeyChanged6, STD_KEY_SERVERVIEW };
+cvar_t keyn_sview = { "keyn_sview", "", true };
+
+void KB_KeyChanged7(cvar_t * var, int *changed) { Cvar_Set("keyn_quit", SDL_GetKeyName((SDLKey) atoi(var->string))); }
+cvar_t key_quit = { "key_quit", "", true, false, KB_KeyChanged7, STD_KEY_FASTQUIT };
+cvar_t keyn_quit = { "keyn_quit", "", true };
+
 void ResetGamma()
 {
   ConOut("Reseting gamma");
@@ -462,237 +492,237 @@ void Help(char *string)
   // detect input format & load values into string variables
   if (sscanf(string, "%s", param) < 1) {
     ConOut("Usage: help <command>");
-    ConOutEx(CHAT_FONT, "To list all commands available type \"list\"");
-    ConOutEx(CHAT_FONT, "<param> means param, which must be explicitly set");
-    ConOutEx(CHAT_FONT, "(param) means param, which needn't be explicitly set, help describes implicit value");
+    ConOutEx(HELP_FONT, "To list all commands available type \"list\"");
+    ConOutEx(HELP_FONT, "<param> means param, which must be explicitly set");
+    ConOutEx(HELP_FONT, "(param) means param, which needn't be explicitly set, help describes implicit value");
   } else {
     if (strcmp(param, "quit") == 0) {
       ConOut("Usage: quit");
-      ConOutEx(CHAT_FONT, "Desc: quits game immediatelly");
+      ConOutEx(HELP_FONT, "Desc: quits game immediatelly");
     } else if (strcmp(param, "list") == 0) {
       ConOut("Usage: list");
-      ConOutEx(CHAT_FONT, "Desc: outputs list of all commands available");
+      ConOutEx(HELP_FONT, "Desc: outputs list of all commands available");
     } else if (strcmp(param, "video") == 0) {
       ConOut("Usage: video");
-      ConOutEx(CHAT_FONT, "Desc: writes info about video hardware");
+      ConOutEx(HELP_FONT, "Desc: writes info about video hardware");
     } else if (strcmp(param, "map") == 0) {
       ConOut("Usage: map <map filename without extension> (script name without extension)");
-      ConOutEx(CHAT_FONT, "Desc: loads and inits new game map with given script, old map and script are released");
+      ConOutEx(HELP_FONT, "Desc: loads and inits new game map with given script, old map and script are released");
     } else if (strcmp(param, "mapinfo") == 0) {
       ConOut("Usage: mapinfo");
-      ConOutEx(CHAT_FONT, "Desc: writes info about currently loaded map");
+      ConOutEx(HELP_FONT, "Desc: writes info about currently loaded map");
     } else if (strcmp(param, "sprite_scan") == 0) {
       ConOut("Usage: sprite_scan");
-      ConOutEx(CHAT_FONT, "Desc: searches sprites directory for new sprites");
-      ConOutEx(CHAT_FONT, "      directory is stored in cvar \"sprite_dir\"");
+      ConOutEx(HELP_FONT, "Desc: searches sprites directory for new sprites");
+      ConOutEx(HELP_FONT, "      directory is stored in cvar \"sprite_dir\"");
     } else if (strcmp(param, "sprite_list") == 0) {
       ConOut("Usage: sprite_list");
-      ConOutEx(CHAT_FONT, "Desc: shows list of all sprites available");
+      ConOutEx(HELP_FONT, "Desc: shows list of all sprites available");
     } else if (strcmp(param, "sprite_load") == 0) {
       ConOut("Usage: sprite_load <name>");
-      ConOutEx(CHAT_FONT, "Desc: loads sprite <name> in memory");
+      ConOutEx(HELP_FONT, "Desc: loads sprite <name> in memory");
     } else if (strcmp(param, "sprite_scan") == 0) {
       ConOut("Usage: sprite_free <name>");
-      ConOutEx(CHAT_FONT, "Desc: free sprite <name> from memory");
+      ConOutEx(HELP_FONT, "Desc: free sprite <name> from memory");
     } else if (strcmp(param, "skin_scan") == 0) {
       ConOut("Usage: skin_scan");
-      ConOutEx(CHAT_FONT, "Desc: searches skins directory for new skins");
-      ConOutEx(CHAT_FONT, "      directory is stored in cvar \"skin_dir\"");
+      ConOutEx(HELP_FONT, "Desc: searches skins directory for new skins");
+      ConOutEx(HELP_FONT, "      directory is stored in cvar \"skin_dir\"");
     } else if (strcmp(param, "skin_list") == 0) {
       ConOut("Usage: skin_list");
-      ConOutEx(CHAT_FONT, "Desc: shows list of all skins available");
+      ConOutEx(HELP_FONT, "Desc: shows list of all skins available");
     } else if (strcmp(param, "sc") == 0) {
       ConOut("Usage: sc");
-      ConOutEx(CHAT_FONT, "Desc: inits game client");
+      ConOutEx(HELP_FONT, "Desc: inits game client");
     } else if (strcmp(param, "ec") == 0) {
       ConOut("Usage: ec");
-      ConOutEx(CHAT_FONT, "Desc: ends game client");
+      ConOutEx(HELP_FONT, "Desc: ends game client");
     } else if (strcmp(param, "ss") == 0) {
       ConOut("Usage: ss");
-      ConOutEx(CHAT_FONT, "Desc: inits game server");
+      ConOutEx(HELP_FONT, "Desc: inits game server");
     } else if (strcmp(param, "ec") == 0) {
       ConOut("Usage: es");
-      ConOutEx(CHAT_FONT, "Desc: ends game server");
+      ConOutEx(HELP_FONT, "Desc: ends game server");
     } else if (strcmp(param, "rs") == 0) {
       ConOut("Usage: rs");
-      ConOutEx(CHAT_FONT, "Desc: runs game server");
-      ConOutEx(CHAT_FONT, "      cvar \"s_next_map\" defines first map");
-      ConOutEx(CHAT_FONT, "      cvar \"s_next_script\" defines first script");
-      ConOutEx(CHAT_FONT, "      cvar \"s_next_gt\" defines first gametype");
+      ConOutEx(HELP_FONT, "Desc: runs game server");
+      ConOutEx(HELP_FONT, "      cvar \"s_next_map\" defines first map");
+      ConOutEx(HELP_FONT, "      cvar \"s_next_script\" defines first script");
+      ConOutEx(HELP_FONT, "      cvar \"s_next_gt\" defines first gametype");
     } else if (strcmp(param, "ds") == 0) {
       ConOut("Usage: ds");
-      ConOutEx(CHAT_FONT, "Desc: shutdowns game server");
+      ConOutEx(HELP_FONT, "Desc: shutdowns game server");
     } else if (strcmp(param, "connect") == 0) {
       ConOut("Usage: connect <IP> or connect <URL>");
-      ConOutEx(CHAT_FONT, "Desc: attempts to connect to the server at <IP> or <URL>");
-      ConOutEx(CHAT_FONT, "      before calling game client must be started via \"sc\"");
+      ConOutEx(HELP_FONT, "Desc: attempts to connect to the server at <IP> or <URL>");
+      ConOutEx(HELP_FONT, "      before calling game client must be started via \"sc\"");
     } else if (strcmp(param, "reconnect") == 0) {
       ConOut("Usage: reconnect");
-      ConOutEx(CHAT_FONT, "Desc: attempts to reconnect to the last server");
-      ConOutEx(CHAT_FONT, "      last server is stored in cvar \"last_server\"");
+      ConOutEx(HELP_FONT, "Desc: attempts to reconnect to the last server");
+      ConOutEx(HELP_FONT, "      last server is stored in cvar \"last_server\"");
     } else if (strcmp(param, "disconnect") == 0) {
       ConOut("Usage: disconnect");
-      ConOutEx(CHAT_FONT, "Desc: disconnects from server");
+      ConOutEx(HELP_FONT, "Desc: disconnects from server");
     } else if (strcmp(param, "attach") == 0) {
       ConOut("Usage: attach <pass>");
-      ConOutEx(CHAT_FONT, "Desc: tries to attach remote server console to the client's console");
-      ConOutEx(CHAT_FONT, "      <pass> is password chosen by the server admin");
-      ConOutEx(CHAT_FONT, "      if success, when you type \"!<command>\", command will be sent across net and executed in server console");
-      ConOutEx(CHAT_FONT, "      because of packet switching server output could be unordered");
+      ConOutEx(HELP_FONT, "Desc: tries to attach remote server console to the client's console");
+      ConOutEx(HELP_FONT, "      <pass> is password chosen by the server admin");
+      ConOutEx(HELP_FONT, "      if success, when you type \"!<command>\", command will be sent across net and executed in server console");
+      ConOutEx(HELP_FONT, "      because of packet switching server output could be unordered");
     } else if (strcmp(param, "detach") == 0) {
       ConOut("Usage: detach");
-      ConOutEx(CHAT_FONT, "Desc: detaches server console (previously attached by \"attach\" command");
+      ConOutEx(HELP_FONT, "Desc: detaches server console (previously attached by \"attach\" command");
     } else if (strcmp(param, "dlmap") == 0) {
       ConOut("Usage: dlmap <mapname>");
-      ConOutEx(CHAT_FONT, "Desc: sends download reqest for map <mapname>");
-      ConOutEx(CHAT_FONT, "      due to security only alphanumeric names are supported");
-      ConOutEx(CHAT_FONT, "      map will be downloaded into directory defined by cvar \"map_dir\"");
-      ConOutEx(CHAT_FONT, "      server must have downloading enabled");
+      ConOutEx(HELP_FONT, "Desc: sends download reqest for map <mapname>");
+      ConOutEx(HELP_FONT, "      due to security only alphanumeric names are supported");
+      ConOutEx(HELP_FONT, "      map will be downloaded into directory defined by cvar \"map_dir\"");
+      ConOutEx(HELP_FONT, "      server must have downloading enabled");
     } else if (strcmp(param, "dlsprite") == 0) {
       ConOut("Usage: dlsprite <spritename>");
-      ConOutEx(CHAT_FONT, "Desc: sends download reqest for sprite <spritename>");
-      ConOutEx(CHAT_FONT, "      due to security only alphanumeric names are supported");
-      ConOutEx(CHAT_FONT, "      sprite will be downloaded into directory defined by cvar \"sprite_dir\"");
-      ConOutEx(CHAT_FONT, "      server must have downloading enabled");
+      ConOutEx(HELP_FONT, "Desc: sends download reqest for sprite <spritename>");
+      ConOutEx(HELP_FONT, "      due to security only alphanumeric names are supported");
+      ConOutEx(HELP_FONT, "      sprite will be downloaded into directory defined by cvar \"sprite_dir\"");
+      ConOutEx(HELP_FONT, "      server must have downloading enabled");
     } else if (strcmp(param, "dlskin") == 0) {
       ConOut("Usage: dlskin <skinname>");
-      ConOutEx(CHAT_FONT, "Desc: sends download reqest for skin <skinname>");
-      ConOutEx(CHAT_FONT, "      due to security only alphanumeric names are supported");
-      ConOutEx(CHAT_FONT, "      skin will be downloaded into directory defined by cvar \"skin_dir\"");
-      ConOutEx(CHAT_FONT, "      server must have downloading enabled");
+      ConOutEx(HELP_FONT, "Desc: sends download reqest for skin <skinname>");
+      ConOutEx(HELP_FONT, "      due to security only alphanumeric names are supported");
+      ConOutEx(HELP_FONT, "      skin will be downloaded into directory defined by cvar \"skin_dir\"");
+      ConOutEx(HELP_FONT, "      server must have downloading enabled");
     } else if (strcmp(param, "dlsound") == 0) {
       ConOut("Usage: dlsound <soundname>");
-      ConOutEx(CHAT_FONT, "Desc: sends download reqest for sound <soundname>");
-      ConOutEx(CHAT_FONT, "      due to security only alphanumeric names are supported");
-      ConOutEx(CHAT_FONT, "      sound will be downloaded into directory defined by cvar \"snd_dir\"");
-      ConOutEx(CHAT_FONT, "      server must have downloading enabled");
+      ConOutEx(HELP_FONT, "Desc: sends download reqest for sound <soundname>");
+      ConOutEx(HELP_FONT, "      due to security only alphanumeric names are supported");
+      ConOutEx(HELP_FONT, "      sound will be downloaded into directory defined by cvar \"snd_dir\"");
+      ConOutEx(HELP_FONT, "      server must have downloading enabled");
     } else if (strcmp(param, "ulmap") == 0) {
       ConOut("Usage: ulmap <mapname>");
-      ConOutEx(CHAT_FONT, "Desc: sends upload reqest for map <mapname>");
-      ConOutEx(CHAT_FONT, "      due to security only alphanumeric names are supported");
-      ConOutEx(CHAT_FONT, "      map will be searched in directory defined by cvar \"map_dir\"");
-      ConOutEx(CHAT_FONT, "      server must have uploading enabled");
+      ConOutEx(HELP_FONT, "Desc: sends upload reqest for map <mapname>");
+      ConOutEx(HELP_FONT, "      due to security only alphanumeric names are supported");
+      ConOutEx(HELP_FONT, "      map will be searched in directory defined by cvar \"map_dir\"");
+      ConOutEx(HELP_FONT, "      server must have uploading enabled");
     } else if (strcmp(param, "ulsprite") == 0) {
       ConOut("Usage: ulsprite <spritename>");
-      ConOutEx(CHAT_FONT, "Desc: sends upload reqest for sprite <spritename>");
-      ConOutEx(CHAT_FONT, "      due to security only alphanumeric names are supported");
-      ConOutEx(CHAT_FONT, "      sprite will be searched in directory defined by cvar \"sprite_dir\"");
-      ConOutEx(CHAT_FONT, "      server must have uploading enabled");
+      ConOutEx(HELP_FONT, "Desc: sends upload reqest for sprite <spritename>");
+      ConOutEx(HELP_FONT, "      due to security only alphanumeric names are supported");
+      ConOutEx(HELP_FONT, "      sprite will be searched in directory defined by cvar \"sprite_dir\"");
+      ConOutEx(HELP_FONT, "      server must have uploading enabled");
     } else if (strcmp(param, "ulskin") == 0) {
       ConOut("Usage: ulskin <skinname>");
-      ConOutEx(CHAT_FONT, "Desc: sends upload reqest for skin <skinname>");
-      ConOutEx(CHAT_FONT, "      due to security only alphanumeric names are supported");
-      ConOutEx(CHAT_FONT, "      skin will be searched in directory defined by cvar \"skin_dir\"");
-      ConOutEx(CHAT_FONT, "      server must have uploading enabled");
+      ConOutEx(HELP_FONT, "Desc: sends upload reqest for skin <skinname>");
+      ConOutEx(HELP_FONT, "      due to security only alphanumeric names are supported");
+      ConOutEx(HELP_FONT, "      skin will be searched in directory defined by cvar \"skin_dir\"");
+      ConOutEx(HELP_FONT, "      server must have uploading enabled");
     } else if (strcmp(param, "ulsound") == 0) {
       ConOut("Usage: ulsound <soundname>");
-      ConOutEx(CHAT_FONT, "Desc: sends upload reqest for sound <soundname>");
-      ConOutEx(CHAT_FONT, "      due to security only alphanumeric names are supported");
-      ConOutEx(CHAT_FONT, "      sound will be searched in directory defined by cvar \"snd_dir\"");
-      ConOutEx(CHAT_FONT, "      server must have uploading enabled");
+      ConOutEx(HELP_FONT, "Desc: sends upload reqest for sound <soundname>");
+      ConOutEx(HELP_FONT, "      due to security only alphanumeric names are supported");
+      ConOutEx(HELP_FONT, "      sound will be searched in directory defined by cvar \"snd_dir\"");
+      ConOutEx(HELP_FONT, "      server must have uploading enabled");
     } else if (strcmp(param, "cp") == 0) {
       ConOut("Usage: cp <playername> (keybindingsnum)");
-      ConOutEx(CHAT_FONT, "Desc: creates player with name <playername>");
-      ConOutEx(CHAT_FONT, "      keybindingsnum is number 1-4 and says, which keyboard layout controls this player");
-      ConOutEx(CHAT_FONT, "      note: after creation, you can skin player with \"sp\" command");
-      ConOutEx(CHAT_FONT, "      one client could create more than one player");
+      ConOutEx(HELP_FONT, "Desc: creates player with name <playername>");
+      ConOutEx(HELP_FONT, "      keybindingsnum is number 1-4 and says, which keyboard layout controls this player");
+      ConOutEx(HELP_FONT, "      note: after creation, you can skin player with \"sp\" command");
+      ConOutEx(HELP_FONT, "      one client could create more than one player");
     } else if (strcmp(param, "dp") == 0) {
       ConOut("Usage: dp <playername>");
-      ConOutEx(CHAT_FONT, "Desc: deletes player with name <playername>");
-      ConOutEx(CHAT_FONT, "      <playername> must be player created by this client");
+      ConOutEx(HELP_FONT, "Desc: deletes player with name <playername>");
+      ConOutEx(HELP_FONT, "      <playername> must be player created by this client");
     } else if (strcmp(param, "sp") == 0) {
       ConOut("Usage: sp <playername> (skin)");
-      ConOutEx(CHAT_FONT, "Desc: skins player with name <playername> with given skin");
-      ConOutEx(CHAT_FONT, "      to list all skins use \"list_skins\"");
-      ConOutEx(CHAT_FONT, "      <playername> must be player created by this client");
+      ConOutEx(HELP_FONT, "Desc: skins player with name <playername> with given skin");
+      ConOutEx(HELP_FONT, "      to list all skins use \"list_skins\"");
+      ConOutEx(HELP_FONT, "      <playername> must be player created by this client");
     } else if (strcmp(param, "chase") == 0) {
       ConOut("Usage: chase <playername>");
-      ConOutEx(CHAT_FONT, "Desc: camera will be observing player <playername>");
+      ConOutEx(HELP_FONT, "Desc: camera will be observing player <playername>");
     } else if (strcmp(param, "kick") == 0) {
       ConOut("Usage: kick <clientname>");
-      ConOutEx(CHAT_FONT, "Desc: kicks client <clientname> from the server (admin)");
+      ConOutEx(HELP_FONT, "Desc: kicks client <clientname> from the server (admin)");
     } else if (strcmp(param, "skin_load") == 0) {
       ConOut("Usage: skin_load <name>");
-      ConOutEx(CHAT_FONT, "Desc: loads skin <name> in memory");
+      ConOutEx(HELP_FONT, "Desc: loads skin <name> in memory");
     } else if (strcmp(param, "skin_scan") == 0) {
       ConOut("Usage: skin_free <name>");
-      ConOutEx(CHAT_FONT, "Desc: free skin <name> from memory");
+      ConOutEx(HELP_FONT, "Desc: free skin <name> from memory");
     } else if (strcmp(param, "map_scan") == 0) {
       ConOut("Usage: map_scan");
-      ConOutEx(CHAT_FONT, "Desc: searches maps directory for new maps");
-      ConOutEx(CHAT_FONT, "      directory is stored in cvar \"map_dir\"");
+      ConOutEx(HELP_FONT, "Desc: searches maps directory for new maps");
+      ConOutEx(HELP_FONT, "      directory is stored in cvar \"map_dir\"");
     } else if (strcmp(param, "map_list") == 0) {
       ConOut("Usage: map_list");
-      ConOutEx(CHAT_FONT, "Desc: shows list of all maps available");
+      ConOutEx(HELP_FONT, "Desc: shows list of all maps available");
     } else if (strcmp(param, "script_scan") == 0) {
       ConOut("Usage: script_scan");
-      ConOutEx(CHAT_FONT, "Desc: searches scripts directory for new scripts");
-      ConOutEx(CHAT_FONT, "      directory is stored in cvar \"script_dir\"");
+      ConOutEx(HELP_FONT, "Desc: searches scripts directory for new scripts");
+      ConOutEx(HELP_FONT, "      directory is stored in cvar \"script_dir\"");
     } else if (strcmp(param, "script_list") == 0) {
       ConOut("Usage: script_list");
-      ConOutEx(CHAT_FONT, "Desc: shows list of all scripts available");
+      ConOutEx(HELP_FONT, "Desc: shows list of all scripts available");
     } else if (strcmp(param, "say") == 0) {
       ConOut("Usage: say <text>");
-      ConOutEx(CHAT_FONT, "Desc: displays message from admin");
+      ConOutEx(HELP_FONT, "Desc: displays message from admin");
     } else if (strcmp(param, "blitinfo") == 0) {
       ConOut("Usage: blitinfo (tilenum)");
-      ConOutEx(CHAT_FONT, "Desc: writes some map tile info (blitting) for tile tilenum, implicit value is 0");
+      ConOutEx(HELP_FONT, "Desc: writes some map tile info (blitting) for tile tilenum, implicit value is 0");
     } else
 #ifdef PW_MUSIC
       if (strcmp(param, "mus_play") == 0) {
         ConOut("Usage: mus_play (song filename with extension)");
-        ConOutEx(CHAT_FONT, "Desc: loads and starts to play requested song, ");
-        ConOutEx(CHAT_FONT, "      if none parameter is given, music is resumed if it was previously stopped.");
+        ConOutEx(HELP_FONT, "Desc: loads and starts to play requested song, ");
+        ConOutEx(HELP_FONT, "      if none parameter is given, music is resumed if it was previously stopped.");
       } else if (strcmp(param, "mus_stop") == 0) {
         ConOut("Usage: mus_stop");
-        ConOutEx(CHAT_FONT, "Desc: stops playing music");
+        ConOutEx(HELP_FONT, "Desc: stops playing music");
       } else if (strcmp(param, "mus_release") == 0) {
         ConOut("Usage: mus_release");
-        ConOutEx(CHAT_FONT, "Desc: stops playing and releases music from memory");
+        ConOutEx(HELP_FONT, "Desc: stops playing and releases music from memory");
       } else if (strcmp(param, "mus_volume") == 0) {
         ConOut("Usage: mus_volume <volume>");
-        ConOutEx(CHAT_FONT, "Desc: sets music volume in range 0-128");
+        ConOutEx(HELP_FONT, "Desc: sets music volume in range 0-128");
       } else
 #endif
     if (strcmp(param, "sc_list") == 0) {
       ConOut("Usage: sc_list");
-      ConOutEx(CHAT_FONT, "Desc: writes state of script manager, seleced script is pointed by arrow");
-      ConOutEx(CHAT_FONT, "      for understanding scripting, please read SeeR documentation (doc/seer)");
+      ConOutEx(HELP_FONT, "Desc: writes state of script manager, seleced script is pointed by arrow");
+      ConOutEx(HELP_FONT, "      for understanding scripting, please read SeeR documentation (doc/seer)");
     } else if (strcmp(param, "sc_sel") == 0) {
       ConOut("Usage: sc_sel <script>");
-      ConOutEx(CHAT_FONT, "Desc: selects script <script> as active script");
+      ConOutEx(HELP_FONT, "Desc: selects script <script> as active script");
     } else if (strcmp(param, "sc_add") == 0) {
       ConOut("Usage: sc_add <script filename without extension>");
-      ConOutEx(CHAT_FONT, "Desc: adds script to next unused slot in script manager");
-      ConOutEx(CHAT_FONT, "      note: before you run it, you must instance it");
+      ConOutEx(HELP_FONT, "Desc: adds script to next unused slot in script manager");
+      ConOutEx(HELP_FONT, "      note: before you run it, you must instance it");
     } else if (strcmp(param, "sc_instance") == 0) {
       ConOut("Usage: sc_instance (script)");
-      ConOutEx(CHAT_FONT, "Desc: instances script (script) or selected script");
+      ConOutEx(HELP_FONT, "Desc: instances script (script) or selected script");
     } else if (strcmp(param, "sc_run") == 0) {
       ConOut("Usage: sc_run (script) <funcname>");
-      ConOutEx(CHAT_FONT, "Desc: calls function in script (script) or in selected script");
+      ConOutEx(HELP_FONT, "Desc: calls function in script (script) or in selected script");
     } else if (strcmp(param, "sc_make") == 0) {
       ConOut("Usage: sc_make <script filename without extension>");
-      ConOutEx(CHAT_FONT, "Desc: adds and instances given script, See sc_add and sc_instance help.");
+      ConOutEx(HELP_FONT, "Desc: adds and instances given script, See sc_add and sc_instance help.");
     } else if (strcmp(param, "sc_delete") == 0) {
       ConOut("Usage: sc_delete (script)");
-      ConOutEx(CHAT_FONT, "Desc: frees instance and removes script from manager");
+      ConOutEx(HELP_FONT, "Desc: frees instance and removes script from manager");
     } else if (strcmp(param, "sc_delinst") == 0) {
       ConOut("Usage: sc_delinst (script)");
-      ConOutEx(CHAT_FONT, "Desc: frees instance of script");
+      ConOutEx(HELP_FONT, "Desc: frees instance of script");
     } else if (strcmp(param, "help") == 0) {
-      ConOutEx(CHAT_FONT, "Are you crazy ? Type \"help\" instead");
+      ConOutEx(HELP_FONT, "Are you crazy ? Type \"help\" instead");
     } else if (strcmp(param, "?") == 0) {
       ConOut("Usage: ? (script) <symbol_name> (type_id)");
-      ConOutEx(CHAT_FONT, "Desc: shows a value of given symbol interpreted as a type of type_id");
-      ConOutEx(CHAT_FONT, "      type_ids are extension to types in formating strings in printf or scanf functions");
-      ConOutEx(CHAT_FONT, "      please see ex_debug example script for more info");
+      ConOutEx(HELP_FONT, "Desc: shows a value of given symbol interpreted as a type of type_id");
+      ConOutEx(HELP_FONT, "      type_ids are extension to types in formating strings in printf or scanf functions");
+      ConOutEx(HELP_FONT, "      please see ex_debug example script for more info");
       ConOutEx(CMD_FONT,  "Warning: incorrect type_id could crash program !!!");
     } else if (strcmp(param, "=") == 0) {
       ConOut("Usage: ? (script) <symbol_name> <new_value> (type_id)");
-      ConOutEx(CHAT_FONT, "Desc: sets the value of given symbol interpreted as type of type_id");
-      ConOutEx(CHAT_FONT, "      type_ids are extension to types in formating strings in printf or scanf functions");
-      ConOutEx(CHAT_FONT, "      please see ex_debug example script for more info");
+      ConOutEx(HELP_FONT, "Desc: sets the value of given symbol interpreted as type of type_id");
+      ConOutEx(HELP_FONT, "      type_ids are extension to types in formating strings in printf or scanf functions");
+      ConOutEx(HELP_FONT, "      please see ex_debug example script for more info");
       ConOutEx(CMD_FONT,  "Warning: incorrect type_id could crash program !!!");
     } else {
       ConOut("Command %s has no help describtion", param);
@@ -2411,6 +2441,21 @@ void AddConsoleVars()
   Cvar_RegisterVariable(&g_results_x);
   Cvar_RegisterVariable(&g_results_y);
   Cvar_RegisterVariable(&g_results_time);
+
+  Cvar_RegisterVariable(&key_console);
+  Cvar_RegisterVariable(&keyn_console);
+  Cvar_RegisterVariable(&key_netstat);
+  Cvar_RegisterVariable(&keyn_netstat);
+  Cvar_RegisterVariable(&key_chat);
+  Cvar_RegisterVariable(&keyn_chat);
+  Cvar_RegisterVariable(&key_menu);
+  Cvar_RegisterVariable(&keyn_menu);
+  Cvar_RegisterVariable(&key_info);
+  Cvar_RegisterVariable(&keyn_info);
+  Cvar_RegisterVariable(&key_sview);
+  Cvar_RegisterVariable(&keyn_sview);
+  Cvar_RegisterVariable(&key_quit);
+  Cvar_RegisterVariable(&keyn_quit);
   
   // client
   Cvar_RegisterVariable(&c_deletetmps);
@@ -2756,7 +2801,8 @@ void ProcessEvents()
     blocked_inputs = 0;
   }
   
-  if (SDL_PollEvent(&event)) {
+  if (SDL_PollEvent(&event)) 
+  {
     switch (event.type) {
     case SDL_QUIT:
         App_Quit();
@@ -2780,8 +2826,33 @@ void ProcessEvents()
       }
       else
       {
-        switch (event.key.keysym.sym) {
-        case SDLK_BACKQUOTE:
+        if (event.key.keysym.sym==SDLK_SPACE)
+        {
+          if (net_client_status == NS_VIEWING_RESULTS)	// user wants shutdown results and proceed to next map
+          {
+            GUI_Return();
+            
+            // do clearing
+            client_info.active = false;
+            CL_Clear();
+            enable_menu_music = 0;
+            
+            
+            // now client is disconnected
+            
+            // reconnect sequence
+            CommandExecuteOut("connect %s", last_server.string);
+            waiting_connection = true;
+            
+            // recreate players
+            RecreatePlayers();
+            
+            // fight
+          }
+        }
+        
+        if (event.key.keysym.sym==key_console.value)
+        {
           if (ConsoleDown) {
             ConsoleDown = false;
             blocked_inputs = 0;
@@ -2790,31 +2861,39 @@ void ProcessEvents()
             blocked_inputs = 1;
           }
           return;
-			break;
-          //continue;
-        case SDLK_F1:
+        }
+        
+        
+        if (event.key.keysym.sym==key_netstat.value)
+        {
           if (!NetStatsDown) {
             NetStatsDown = true;
           } else {
             NetStatsDown = false;
           }
-          break;
-        case SDLK_F2:
+        }
+        
+        if (event.key.keysym.sym==key_sview.value)
+        {
           if (!ServerView) {
             if (net_server_status == NS_RUNNING)
               ServerView = true;
           } else {
             ServerView = false;
           }
-          break;
-        case SDLK_F3:
+        }
+        
+        if (event.key.keysym.sym==key_info.value)
+        {
           if (!InfoDown) {
             InfoDown = true;
           } else {
             InfoDown = false;
           }
-          break;
-        case SDLK_ESCAPE:
+        }
+        
+        if (event.key.keysym.sym==key_menu.value)
+        {
           if (!ConsoleDown)
           {
             if (!GUI_id) {
@@ -2824,39 +2903,23 @@ void ProcessEvents()
                 GUI_Return();
             }
           }
-          break;
-        case SDLK_SPACE:
-          if (net_client_status == NS_VIEWING_RESULTS)	// user wants shutdown results and proceed to next map
-          {
-            GUI_Return();
-          
-            // do clearing
-            client_info.active = false;
-            CL_Clear();
-            enable_menu_music = 0;
-          
-          
-            // now client is disconnected
-          
-            // reconnect sequence
-            CommandExecuteOut("connect %s", last_server.string);
-            waiting_connection = true;
-          
-            // recreate players
-            RecreatePlayers();
-          
-            // fight
-          }
-          break;
-        case SDLK_t:
+        }
+        
+        if (event.key.keysym.sym==key_chat.value)
+        {
           if (net_client_status == NS_CONNECTED) 
           {
             chat_on=true;
             blocked_inputs = 1;
           }
-          break;
+        }
+        
+        if (event.key.keysym.sym==key_quit.value)
+        {
+          App_Quit();
         }
       }
+      break;
     }
     
     
@@ -2895,10 +2958,8 @@ void ProcessEvents()
             (mapheight * mapblockheight) - MSCRH)
             server_info.game.vars.camy += CSY;
           break;
-        case SDLK_F12:
-          App_Quit();
-          break;
         }
+        break;
     }
   }
   while(SDL_PeepEvents(&event, 1, SDL_GETEVENT, SDL_KEYDOWNMASK | SDL_MOUSEMOTIONMASK | SDL_SYSWMEVENTMASK) > 0);
@@ -3518,6 +3579,8 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
   ServerMenu.next = &VideoMenu;
   GUI_ClientMenu ClientMenu;
   VideoMenu.next = &ClientMenu;
+  GUI_RedefineKeysMenu RedefineKeysMenu;
+  ClientMenu.next = &RedefineKeysMenu;
   
   ConOut("GUI initialized.");
   UpdateSplash(screen, 90);
@@ -3745,8 +3808,9 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
   inloop = false;
   
   SDL_Delay(1000);			// wait for byebye sound
-  MapFreeMem();
   
+  MapFreeMem();
+
   GUI_Done();
   
   DoneMouse();
@@ -3756,6 +3820,10 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
   DoneScripting();			// Done scripting engine
   
   SDL_FreeSurface(app.GetScreen());
+
+  SpriteMan.Destroy();
+  SkinMan.Destroy();
+  MapMan.Destroy();
   
 #ifdef PW_SOUND
   smFreeSamples();

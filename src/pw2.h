@@ -31,6 +31,21 @@ extern DECLSPEC cvar_t	glblit;
 
 extern DECLSPEC cvar_t	alphamenu;
 
+extern DECLSPEC cvar_t key_console;
+extern DECLSPEC cvar_t keyn_console;
+extern DECLSPEC cvar_t key_netstat;
+extern DECLSPEC cvar_t keyn_netstat;
+extern DECLSPEC cvar_t key_chat;
+extern DECLSPEC cvar_t keyn_chat;
+extern DECLSPEC cvar_t key_menu;
+extern DECLSPEC cvar_t keyn_menu;
+extern DECLSPEC cvar_t key_info;
+extern DECLSPEC cvar_t keyn_info;
+extern DECLSPEC cvar_t key_sview;
+extern DECLSPEC cvar_t keyn_sview;
+extern DECLSPEC cvar_t key_quit;
+extern DECLSPEC cvar_t keyn_quit;
+
 extern SDL_Surface *credits;
 extern SDL_Surface *help1;
 extern SDL_Surface *help2;

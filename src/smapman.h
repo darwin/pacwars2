@@ -27,7 +27,9 @@ public:
   char	          name[MAX_SCRIPT_NAME];
   char	          map[MAX_MAP_NAME];
   char	          sname[MAX_SSCRIPT_NAME];
-  char	          desc[3][MAX_DESC_NAME];
+  char	          desc0[MAX_DESC_NAME];
+  char	          desc1[MAX_DESC_NAME];
+  char	          desc2[MAX_DESC_NAME];
   char	          author[MAX_AUTHOR_NAME];
 
 

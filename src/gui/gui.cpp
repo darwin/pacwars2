@@ -149,7 +149,7 @@ void GUI_InitColors(SDL_Surface* screen)
 // Board
 /////////////////////////////////////////////////////////////////////////////
 
-GUI_Board::GUI_Board(PG_Widget* parent, const PG_Rect& r,  bool storebackground, char* theme) : PG_GradientWidget(parent,r) {
+GUI_Board::GUI_Board(PG_Widget* parent, const PG_Rect& r, char* theme) : PG_GradientWidget(parent,r) {
 	if (!theme) {
 		LoadThemeStyle("GUI_Board","GradientWidget");
 	}
@@ -203,19 +203,16 @@ bool GUI_LabelL::eventMouseButtonDown(const SDL_MouseButtonEvent* button) {
 		Redraw();
 		if (callback) (*callback)(last);
 	}
-
 	return true;
 }
 
 void GUI_LabelL::eventDraw(SDL_Surface* surface, const PG_Rect& rect) {
-
 	if (*selected==this) {
 		SetTextColor(c2);
 	}
 	else {
 		SetTextColor(c1);
 	}
-
 	PG_Label::eventDraw(surface, rect);
 }
 
@@ -529,7 +526,7 @@ void GUI_SkinPic::eventDraw(SDL_Surface* surface, const PG_Rect& rect)
   SDL_Rect sr;
   SDL_Rect dr;
 
-  SDL_FillRect(surface, NULL, 255);
+  //SDL_FillRect(surface, NULL, 255);
   if (sprite)
   {
     // locate rectangle of source sprite
@@ -698,7 +695,7 @@ void GUI_Input::DrawText(SDL_Surface* surface, const PG_Rect* rect) {
 	// draw text
 	char* DrawText = GetDrawText();
 	if(DrawText[0] != 0){
-		PG_DrawObject::DrawText(x+offset_x,y+2, DrawText, textcolor, GetFont());
+		PG_DrawObject::DrawText(x+offset_x,y+2, _strupr(DrawText), textcolor, GetFont());
 	}		
 }
 

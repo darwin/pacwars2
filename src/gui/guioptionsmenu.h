@@ -15,6 +15,7 @@ public:
   GUI_ButtonBig* bClient;
   GUI_ButtonBig* bVideo;
   GUI_ButtonBig* bSound;
+  GUI_ButtonBig* bKeyboard;
   GUI_ButtonBig* bPaths;
   GUI_ButtonBig* bBack;
 

@@ -77,7 +77,7 @@ const GAME_MAXOBJS_TYPE MAX_PACS_PER_STATION = 16;
 //###########################################################################
 
 const Uint8 VERSION_MAJOR = 01;
-const Uint8 VERSION_MINOR = 10;
+const Uint8 VERSION_MINOR = 20;
 
 #define PW_CONFIG_FILE "config.cfg"
 
@@ -134,6 +134,16 @@ extern DECLSPEC cvar_t sprite_imp;
 #define STD_KEY_WEAPON4 SDLK_4
 #define STD_KEY_WEAPON5 SDLK_5
 
+// std keyboard
+#define STD_KEY_CONSOLE       SDLK_BACKQUOTE
+#define STD_KEY_NETSTAT       SDLK_F1
+#define STD_KEY_CHAT          SDLK_t
+#define STD_KEY_MENU          SDLK_ESCAPE
+#define STD_KEY_INFO          SDLK_F3
+#define STD_KEY_SERVERVIEW    SDLK_F2
+#define STD_KEY_FASTQUIT      SDLK_F12
+
+
 // console
 #define MAX_WORD_INPUTED 100
 #define MAX_LINE_CHARS 110		// for line breaking in ConPar()
@@ -150,6 +160,7 @@ extern DECLSPEC cvar_t sprite_imp;
 
 #define CMD_FONT    1
 #define CHAT_FONT   2
+#define HELP_FONT   2
 #define VAR_FONT    3
 #define SERVER_FONT 4
 #define MISC_FONT   5
@@ -171,7 +182,7 @@ extern DECLSPEC cvar_t sprite_imp;
 #define MAX_WEAPONS     5
 
 #define MENU_ALPHA 200
-#define DEFAULT_THEME "default"
+#define DEFAULT_THEME "woid"
 
 
 #ifndef _MAX_PATH

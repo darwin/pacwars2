@@ -28,6 +28,10 @@ CSMapManager SMapMan;
 CSMapInfo::CSMapInfo() {
   name[0] = 0;
   map[0] = 0;
+  desc0[0] = 0;
+  desc1[0] = 0;
+  desc2[0] = 0;
+  author[0] = 0;
 }
 
 CSMapInfo::~CSMapInfo() {
@@ -64,20 +68,41 @@ void ReadScriptInfo(char* fname, CSMapInfo* si)
 	f=fopen(fname,"rt");
 
 	if (f) {
-		fgetc(f);fgetc(f);fgets(si->map, MAX_MAP_NAME, f);
+		fgetc(f);fgetc(f);fgets(si->map, MAX_MAP_NAME-1, f); si->map[MAX_MAP_NAME-1]=0;
 		if (si->map[strlen(si->map)-1]==10) si->map[strlen(si->map)-1]=0;
-		fgetc(f);fgetc(f);fgets(si->sname, MAX_SSCRIPT_NAME, f);
+		fgetc(f);fgetc(f);fgets(si->sname, MAX_SSCRIPT_NAME-1, f); si->sname[MAX_SSCRIPT_NAME-1]=0;
 		if (si->sname[strlen(si->sname)-1]==10) si->sname[strlen(si->sname)-1]=0;
-		fgetc(f);fgetc(f);fgets(si->desc[0], MAX_DESC_NAME, f);
-		if (si->desc[0][strlen(si->desc[0])-1]==10) si->desc[0][strlen(si->desc[0])-1]=0;
-		fgetc(f);fgetc(f);fgets(si->desc[1], MAX_DESC_NAME, f);
-		if (si->desc[1][strlen(si->desc[1])-1]==10) si->desc[1][strlen(si->desc[1])-1]=0;
-		fgetc(f);fgetc(f);fgets(si->desc[2], MAX_DESC_NAME, f);
-		if (si->desc[2][strlen(si->desc[2])-1]==10) si->desc[2][strlen(si->desc[2])-1]=0;
-		fgetc(f);fgetc(f);fgets(si->author, MAX_AUTHOR_NAME, f);
+		fgetc(f);fgetc(f);fgets(si->desc0, MAX_DESC_NAME-1, f); si->desc0[MAX_DESC_NAME-1]=0;
+		if (si->desc0[strlen(si->desc0)-1]==10) si->desc0[strlen(si->desc0)-1]=0;
+		fgetc(f);fgetc(f);fgets(si->desc1, MAX_DESC_NAME-1, f); si->desc1[MAX_DESC_NAME-1]=0;
+		if (si->desc1[strlen(si->desc1)-1]==10) si->desc1[strlen(si->desc1)-1]=0;
+		fgetc(f);fgetc(f);fgets(si->desc2, MAX_DESC_NAME-1, f); si->desc2[MAX_DESC_NAME-1]=0;
+		if (si->desc2[strlen(si->desc2)-1]==10) si->desc2[strlen(si->desc2)-1]=0;
+		fgetc(f);fgetc(f);fgets(si->author, MAX_AUTHOR_NAME-1, f); si->author[MAX_AUTHOR_NAME-1]=0;
 		if (si->author[strlen(si->author)-1]==10) si->author[strlen(si->author)-1]=0;
+/*
+    char fmt[256];
+    snprintf(fmt, 256, "//%%%ds\n", MAX_MAP_NAME-1);
+    fscanf(f, fmt, si->map); si->map[MAX_MAP_NAME-1]=0;
+    fgets(fmt, 1, f);
+    snprintf(fmt, 256, "//%%%ds\n", MAX_SSCRIPT_NAME-1);
+    fscanf(f, fmt, si->sname); si->sname[MAX_SSCRIPT_NAME-1]=0;
+    fgets(fmt, 1, f);
+    snprintf(fmt, 256, "//%%%ds\n", MAX_DESC_NAME-1);
+    fscanf(f, fmt, si->desc0); si->desc0[MAX_DESC_NAME-1]=0;
+    fgets(fmt, 1, f);
+    snprintf(fmt, 256, "//%%%ds\n", MAX_DESC_NAME-1);
+    fscanf(f, fmt, si->desc1); si->desc1[MAX_DESC_NAME-1]=0;
+    fgets(fmt, 1, f);
+    snprintf(fmt, 256, "//%%%ds\n", MAX_DESC_NAME-1);
+    fscanf(f, fmt, si->desc2); si->desc2[MAX_DESC_NAME-1]=0;
+    fgets(fmt, 1, f);
+    snprintf(fmt, 256, "//%%%ds\n", MAX_AUTHOR_NAME-1);
+    fscanf(f, fmt, si->author); si->author[MAX_AUTHOR_NAME-1]=0;
+*/
 		fclose(f);
 	}
+
 }
 
 // Adds new "fmp" filenames to manager (do not load them now)

@@ -150,8 +150,6 @@
 	    <property name="backmode" value="TILE"/>
 	    <property name="blend" value="0"/>
 	    <property name="bordersize" value="0"/>
-	    <color name="bordercolor0" value="0x00E0E0E0"/>
-	    <color name="bordercolor1" value="0x00404040"/>
 	</object>
     </widget>
  

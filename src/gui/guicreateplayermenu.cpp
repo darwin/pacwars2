@@ -115,6 +115,19 @@ void GUI_CreatePlayerMenu::SetPlayerDefaults(
 								cvar_t* p_key_weapon5
 								)
 {
+  if (!p_key_up->string[0]) Cvar_SetValue(p_key_up->name, STD_KEY_UP);
+  if (!p_key_down->string[0]) Cvar_SetValue(p_key_down->name, STD_KEY_DOWN);
+  if (!p_key_left->string[0]) Cvar_SetValue(p_key_left->name, STD_KEY_LEFT);
+  if (!p_key_right->string[0]) Cvar_SetValue(p_key_right->name, STD_KEY_RIGHT);
+  if (!p_key_fire->string[0]) Cvar_SetValue(p_key_fire->name, STD_KEY_FIRE);
+  if (!p_key_shield->string[0]) Cvar_SetValue(p_key_shield->name, STD_KEY_SHIELD);
+  if (!p_key_warp->string[0]) Cvar_SetValue(p_key_warp->name, STD_KEY_WARP);
+  if (!p_key_weapon1->string[0]) Cvar_SetValue(p_key_weapon1->name, STD_KEY_WEAPON1);
+  if (!p_key_weapon2->string[0]) Cvar_SetValue(p_key_weapon2->name, STD_KEY_WEAPON2);
+  if (!p_key_weapon3->string[0]) Cvar_SetValue(p_key_weapon3->name, STD_KEY_WEAPON3);
+  if (!p_key_weapon4->string[0]) Cvar_SetValue(p_key_weapon4->name, STD_KEY_WEAPON4);
+  if (!p_key_weapon5->string[0]) Cvar_SetValue(p_key_weapon5->name, STD_KEY_WEAPON5);
+
 	ePName->SetText(p_name->string);
 
 	iUp->SetText(SDL_GetKeyName((SDLKey)(Uint16)p_key_up->value));

@@ -32,7 +32,7 @@ GUI_NewGameMenu::GUI_NewGameMenu(): GUI_BaseMenu(GUI_NEWGAME, PG_Rect(NG_PX,NG_P
 	lChoose2 = new PG_Label(this, PG_Rect(25+150+10,179, 150,20), "Choose script:", "GUI_Label");
 	WidgetList2 = new PG_WidgetList(this, PG_Rect(26+150+10, 201, 148, 64), "GUI_WidgetList");
 
-	Board3 = new GUI_Board(this, PG_Rect(25, 273, NG_VX-50, 54), false, "GUI_MapInfoBoard");
+	Board3 = new GUI_Board(this, PG_Rect(25, 273, NG_VX-50, 54), "GUI_MapInfoBoard");
 	lAuthFile = new PG_Label(Board3, PG_Rect(2,2, NG_VX-50-8,12), "file", "GUI_Label");
 	lDesc1 = new PG_Label(Board3, PG_Rect(2,14, NG_VX-50-20,12), "d1", "GUI_Label");
 	lDesc2 = new PG_Label(Board3, PG_Rect(2,26, NG_VX-50-20,12), "d2", "GUI_Label");
@@ -57,7 +57,7 @@ GUI_NewGameMenu::GUI_NewGameMenu(): GUI_BaseMenu(GUI_NEWGAME, PG_Rect(NG_PX,NG_P
 	lDesc3->SetAlignment(PG_TA_LEFT);
 	lAuthFile->SetAlignment(PG_TA_LEFT);
 
-	IPaddress serverIP;
+  IPaddress serverIP;
 	SDLNet_ResolveHost(&serverIP, "localhost", PWP_MSG_SPORT);
 
 	if (serverIP.host != INADDR_NONE ) {
@@ -78,7 +78,6 @@ GUI_NewGameMenu::GUI_NewGameMenu(): GUI_BaseMenu(GUI_NEWGAME, PG_Rect(NG_PX,NG_P
 		lIP->SetText("Error resolving IP");
 		lHost->SetText("Unknown host name");
 	}
-
 	Default();
 	LoadThemeStyle("GUI_Board");
 }
@@ -95,10 +94,13 @@ void scriptchCB(GUI_LabelL* l)
 {
 	if(l == NULL) return;
 	if (l->msi)   {
-		NGMenu->lAuthFile->SetTextFormat(" File: %s.msc, Author: %s", NGMenu->selected2->msi->name, NGMenu->selected2->msi->author);
-		NGMenu->lDesc1->SetTextFormat(" %s", NGMenu->selected2->msi->desc[0]);
-		NGMenu->lDesc2->SetTextFormat(" %s", NGMenu->selected2->msi->desc[1]);
-		NGMenu->lDesc3->SetTextFormat(" %s", NGMenu->selected2->msi->desc[2]);
+		if (NGMenu->selected2)
+    {
+      NGMenu->lAuthFile->SetTextFormat(" File: %s.msc, Author: %s", NGMenu->selected2->msi->name, NGMenu->selected2->msi->author);
+		  NGMenu->lDesc1->SetTextFormat(" %s", NGMenu->selected2->msi->desc0);
+		  NGMenu->lDesc2->SetTextFormat(" %s", NGMenu->selected2->msi->desc1);
+		  NGMenu->lDesc3->SetTextFormat(" %s", NGMenu->selected2->msi->desc2);
+    }
 	}
 }
 
@@ -112,13 +114,15 @@ void mapchCB(GUI_LabelL* l)
 
 void GUI_NewGameMenu::GenerateScriptSelection()
 {
+
   WidgetList2->DeleteAll();
+
   SMapMan.Scan(script_dir.string, smap_ext.string);
   CSMapInfo* a = SMapMan.Scripts;
   int i=0;
   while (a) {
     i++;
-    if (selected1 && strcmp(selected1->GetText()+1, a->map)==0)  // +1 because, we add one space before na when inserting label into widgetlist
+    if (selected1 && selected1->GetText() && strlen(selected1->GetText()) && strcmp(selected1->GetText()+1, a->map)==0)  // +1 because, we add one space before na when inserting label into widgetlist
     {
       char s[200];
       sprintf(s, " %s", a->sname);
@@ -132,7 +136,7 @@ void GUI_NewGameMenu::GenerateScriptSelection()
   else
     selected2 = NULL;
 
-	WidgetList2->Update();
+	//WidgetList2->Update();
 	scriptchCB(selected2);
 }
 
@@ -150,7 +154,7 @@ void GUI_NewGameMenu::Default()
   while (a) {
     i++;
     char s[200];
-    sprintf(s, " %s", a->name);
+    snprintf(s, 200, " %s", a->name);
 		WidgetList1->AddWidget(new GUI_LabelL(NULL, PG_Rect(0,0,150-14,12), s, &selected1, 0, GUI_UnselectedItem, GUI_SelectedItem, mapchCB));
     a = a->next;
   }
@@ -160,7 +164,6 @@ void GUI_NewGameMenu::Default()
   else
     selected1 = NULL;
   GenerateScriptSelection();
-  
 }
 
 bool GUI_NewGameMenu::eventButtonClick(int id, PG_Widget* widget)
