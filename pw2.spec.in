@@ -1,6 +1,6 @@
 %define name @PACKAGE@
 %define version @VERSION@
-%define release beta2
+%define release 1
 
 Summary: PacWars2
 Name: %{name}
