@@ -1,0 +1,8 @@
++-----------------------------------------+
+| PacWars2 log file                       |
+|   version  1.00                         |
+|   build 3016                            |
++-----------------------------------------+
+executed: F:\NewPW2\root\pw2\bin\pw2d.exe on 13:42:34, 12/16/00
+
+multipacket replication

@@ -1,0 +1,18 @@
+1. scripts are not allowed to change non-script memory directly
+
+2. scripts are not allowed to allocate, free or reallocate memory used by game structs 
+   like blockstrs, animstrs, maparrays, players ... 
+
+   if script needs own static memory then it should declare own global static array or variables
+
+   script could dynamically allocate own memory by calling malloc & free,
+   but script is responsible for handling errors and freeing his memory !
+   
+   if script needs to dynamically add block structures or anim structures then 
+   place for them must be prepared in mapeditor (in form of unused blocks or anims)
+     ! anim structures have alocated array of 4-bytes long pointers to block structures
+       if you need to rescale animation length you need to prepare own animation with needed length in mapeditor
+
+   deleting of structures is not allowed, simply stop using them in map
+
+3. scripts should not search whole map via smGetMapBlock, instead use search functions

@@ -1,0 +1,6 @@
+Pridane a zmenene radky jsem vyrazne oznacil komentari typu
+/* ################################################### */
+aby ses mohl rychle podivat, co jsem zmenil a jestli jsem tak
+neohrozil stabilitu konzole :)
+Tato verze obsahuje v ConsoleInit volani fce SDL_EnableKeyRepeat,
+tudiz vyzaduje SDL 1.1.0

@@ -1,0 +1,17 @@
+0.05 
+- kratky help k prikazum z konzole
+- prikazy konzole mus_ pro ovladani hudby
+- zakladni API pro skripty pro pristup k mape
+- rip grafiky ze starych pacwars a namodelovano znovu pacwars1 bludiste
+- zakladni mapovej engine (prepsano Mappy od Robina Burrowse)
+- jednoduche ladeni skriptu
+- nejake sample skripty (hello, ex_debug, malloc, map, tileinfo)
+- chodi prikazy z konzole do skriptovaciho enginu, manager skriptu 
+- chodi skriptovaci engine (SeeR - Przemyslaw Podsiadly)
+- chodi prehravani hudby
+- chodi konzole
+- program chodi a je kompilovatelny jak pod win tak i pod linuxem
+- zakladni framework
+
+0.00
+- console example by Garrett Banuk (mongoose@wpi.edu)

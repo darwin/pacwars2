@@ -1,0 +1,254 @@
+//madlab
+
+/////////////////////////////////////////////////////////////////////////////
+//###########################################################################
+//## desc.:   MadLab
+//## author:  Raist
+//## 
+//## started: 29.11.2000
+//## revised: ???
+//## 
+//## 
+//###########################################################################
+//                        ## SEER - C-Scripting engine - Przemyslaw Podsiadly
+#title "MadLab"
+#author "Raist"
+
+// !!! don't do this - there is a bug #include "scripts/scStdlib.h"     // we use rand() function
+import int rand();
+
+#include "scripts/sapi.h" // include scripting api
+
+
+//###########################################################################
+//##
+//## SERVER SIDE CODE 
+//##
+//###########################################################################
+
+// here must be applicated map & object changes
+
+// here we tell, the master program can call these functions
+// we are sure these are called only when server is running
+export ssInit;
+export ssDone;
+export ssGeneratePos;
+export ssTick;
+
+// here we tell, the master program can call these functions
+// we are sure these are called only when client is connected
+export csInit;
+export csDone;
+export csCamera;
+export csTick;
+
+// this function is called after map is loaded and inited by server
+// modifies main gamestate
+int ssInit()
+{
+  MSCRW=480;
+  MSCRH=448;
+
+  int slot;
+
+  SCEXTRA extra;
+     
+  extra.entity.xpos = 62*16;
+  extra.entity.ypos = 8*16;
+  extra.type = 0;
+  extra.modifier = EX_FLAG_FIXED|EX_FLAG_RESPAWN|EX_FLAG_RANDOM_AMM;
+  extra.data = 10;
+  extra.life = 5;
+  soSetExtra(slot, extra);
+  
+  extra.entity.xpos = 62*16;
+  extra.entity.ypos = 12*16;
+  extra.type = 0;
+  extra.modifier = EX_FLAG_FIXED|EX_FLAG_RESPAWN|EX_FLAG_RANDOM_AMM;
+  extra.data = 11;
+  extra.life = 6;
+  soSetExtra(slot, extra);
+
+
+  extra.entity.xpos = 62*16;
+  extra.entity.ypos = 17*16;
+  extra.type = 0;
+  extra.modifier = EX_FLAG_FIXED|EX_FLAG_RESPAWN|EX_FLAG_RANDOM_AMM;
+  extra.data = 8;
+  extra.life = 7;
+  soSetExtra(slot, extra);
+
+  extra.entity.xpos = 84*16;
+  extra.entity.ypos = 7*16;
+  extra.type = 0;
+  extra.modifier = EX_FLAG_FIXED|EX_FLAG_RESPAWN|EX_FLAG_RANDOM_WEP;
+  extra.data = 11;
+  extra.life = 4;
+  soSetExtra(slot, extra);
+
+  extra.entity.xpos = 86*16;
+  extra.entity.ypos = 16*16;
+  extra.type = 0;
+  extra.modifier = EX_FLAG_FIXED|EX_FLAG_RESPAWN|EX_FLAG_RANDOM_WEP;
+  extra.data = 10;
+  extra.life = 5;
+  soSetExtra(slot, extra);
+
+  extra.entity.xpos = 87*16;
+  extra.entity.ypos = 12*16;
+  extra.type = 0;
+  extra.modifier = EX_FLAG_FIXED|EX_FLAG_RESPAWN|EX_FLAG_RANDOM_PTS;
+  extra.data = 31;
+  extra.life = 4;
+  soSetExtra(slot, extra);
+
+  int i;
+
+  for (i=0; i<1; i++)
+  {
+	  slot = soBornExtra(extra);
+	  extra.entity.xpos = 100;
+	  extra.entity.ypos = 100;
+	  extra.type = 0;
+	  extra.modifier = EX_FLAG_FIXED|EX_FLAG_RESPAWN|EX_FLAG_RANDOM_WEP|EX_FLAG_RANDOMPLACE;
+	  extra.data = 20;
+	  extra.life = 25;
+	  soSetExtra(slot, extra);
+  }
+  for (i=0; i<2; i++)
+  {
+	  slot = soBornExtra(extra);
+	  extra.entity.xpos = 100;
+	  extra.entity.ypos = 100;
+	  extra.type = 0;
+	  extra.modifier = EX_FLAG_FIXED|EX_FLAG_RESPAWN|EX_FLAG_RANDOM_AMM|EX_FLAG_RANDOMPLACE;
+	  extra.data = 20;
+	  extra.life = 15;
+	  soSetExtra(slot, extra);
+  }
+  for (i=0; i<1; i++)
+  {
+	  slot = soBornExtra(extra);
+	  extra.entity.xpos = 100;
+	  extra.entity.ypos = 100;
+	  extra.type = 0;
+	  extra.modifier = EX_FLAG_FIXED|EX_FLAG_RESPAWN|EX_FLAG_RANDOM_POS|EX_FLAG_RANDOMPLACE;
+	  extra.data = 30;
+	  extra.life = 10;
+	  soSetExtra(slot, extra);
+  }
+  for (i=0; i<1; i++)
+  {
+	  slot = soBornExtra(extra);
+	  extra.entity.xpos = 100;
+	  extra.entity.ypos = 100;
+	  extra.type = 0;
+	  extra.modifier = EX_FLAG_FIXED|EX_FLAG_RESPAWN|EX_FLAG_RANDOM_NEG|EX_FLAG_RANDOMPLACE;
+	  extra.data = 8;
+	  extra.life = 15;
+	  soSetExtra(slot, extra);
+  }
+
+  return 0;
+}
+
+
+// called from objects reborning code, to retrieve new born position
+// type = 0 is PacPlayer
+#define MAX_BORN_POS 4
+int born_x[MAX_BORN_POS] = {13, 17, 40, 50};
+int born_y[MAX_BORN_POS] = {13, 11, 13, 14};
+
+#define MAX_WARP_POS 4
+int warp_x[MAX_WARP_POS] = { 1,  4, 40, 52};
+int warp_y[MAX_WARP_POS] = { 3, 24,  2, 20};
+
+int ssGeneratePos(int type, int* px, int* py)
+{
+  int i;
+  switch (type) {
+  case PLAYER_BORNPOS:
+    i = rand();
+    i = i % MAX_BORN_POS; // we are called from server side - so we are allowed doing random actions
+    *px = (born_x[i]+1)*16;
+    *py = (born_y[i]+1)*16;
+    break;
+  case PLAYER_WARPPOS:
+    i = rand();
+    i = i % MAX_WARP_POS; // we are called from server side - so we are allowed doing random actions
+    *px = (warp_x[i]+1)*16;
+    *py = (warp_y[i]+1)*16;
+    break;
+  }
+  
+  return 0;
+}
+
+// called each gametick
+int ssTick()
+{
+  return 0;
+}
+
+int ssDone()
+{
+  return 0;
+}
+
+//###########################################################################
+//##
+//## CLIENT SIDE CODE 
+//##
+//###########################################################################
+
+// this function is called after map is loaded and inited by client
+// modifies main gamestate
+int csInit()
+{
+  MSCRW=480;
+  MSCRH=448;
+
+  cvPlayMusic("paccore.xm");
+//  cvVolumeMusic("40");
+  return 0;
+}
+
+int csDone()
+{
+  return 0;
+}
+
+// called each gametick
+int csTick()
+{
+  return 0;
+}
+
+int csCamera()
+{
+  SCVAR vars;
+  SCPLAYER player;
+  
+  cvGetVars(vars);
+
+  if (vars.chasing!=-1)
+  {
+    coGetPlayer(vars.chasing, player);
+    
+    vars.zonex = player.entity.xpos / (16*30);
+    vars.zoney = player.entity.ypos / (16*28);
+    vars.camx = vars.zonex * (16*30);
+    vars.camy = vars.zoney * (16*28);
+  }
+  else
+  {
+    vars.zonex = 0;
+    vars.zoney = 0;
+    vars.camx = 0;
+    vars.camy = 0;
+  }
+  
+  cvSetVars(vars);
+      
+  return 0;
+}

@@ -1,0 +1,270 @@
+//pacwars
+
+/////////////////////////////////////////////////////////////////////////////
+//###########################################################################
+//## desc.:   pacwars.sc
+//## author:  Antonin Hildebrand
+//## 
+//## started: 26.11.2000
+//## revised: ???
+//## 
+//## old pacwars map control script [pacwars.FMP]
+//## 
+//###########################################################################
+//                        ## SEER - C-Scripting engine - Przemyslaw Podsiadly
+#title "pacwars"
+#author "Woid"
+
+// !!! don't do this - there is a bug #include "scripts/scStdlib.h"     // we use rand() function
+import int rand();
+
+#include "scripts/sapi.h" // include scripting api
+
+
+//###########################################################################
+//##
+//## SERVER SIDE CODE 
+//##
+//###########################################################################
+
+// here must be applicated map & object changes
+
+// here we tell, the master program can call these functions
+// we are sure these are called only when server is running
+export ssInit;
+export ssDone;
+export ssGeneratePos;
+export ssTick;
+
+// here we tell, the master program can call these functions
+// we are sure these are called only when client is connected
+export csInit;
+export csDone;
+export csCamera;
+export csTick;
+
+// this function is called after map is loaded and inited by server
+// modifies main gamestate
+int ssInit()
+{
+  MSCRW=480;
+  MSCRH=400;
+
+  int slot;
+
+  SCEXTRA extra;
+
+  // fixed items
+  slot = soBornExtra(extra);
+  extra.entity.xpos = 2*16;
+  extra.entity.ypos = 5*16;
+  extra.type = EX_WEP_RAILGUN;
+  extra.modifier = EX_FLAG_FIXED;
+  
+  soSetExtra(slot, extra);
+
+  slot = soBornExtra(extra);
+  extra.entity.xpos = 16*16;
+  extra.entity.ypos = 73*16;
+  extra.type = EX_WEP_RAILGUN;
+  extra.modifier = EX_FLAG_FIXED;
+  
+  soSetExtra(slot, extra);
+  
+  slot = soBornExtra(extra);
+  extra.entity.xpos = 57*16;
+  extra.entity.ypos = 62*16;
+  extra.type = EX_WEP_RAILGUN;
+  extra.modifier = EX_FLAG_FIXED;
+
+  soSetExtra(slot, extra);
+
+  slot = soBornExtra(extra);
+  extra.entity.xpos = 62*16;
+  extra.entity.ypos = 62*16;
+  extra.type = EX_WEP_RAILGUN;
+  extra.modifier = EX_FLAG_FIXED;
+
+  soSetExtra(slot, extra);
+
+  slot = soBornExtra(extra);
+  extra.entity.xpos = 32*16;
+  extra.entity.ypos = 27*16;
+  extra.type = EX_WEP_RAILGUN;
+  extra.modifier = EX_FLAG_FIXED;
+
+  soSetExtra(slot, extra);
+
+  slot = soBornExtra(extra);
+  extra.entity.xpos = 62*16;
+  extra.entity.ypos = 7*16;
+  extra.type = EX_SUP_BECHER;
+  extra.modifier = EX_FLAG_FIXED|EX_FLAG_RESPAWN|EX_FLAG_RANDOMPLACE;
+  extra.data = 140;
+  
+  soSetExtra(slot, extra);
+
+  slot = soBornExtra(extra);
+  extra.entity.xpos = 12*16;
+  extra.entity.ypos = 8*16;
+  extra.type = 0;
+  extra.modifier = EX_FLAG_FIXED|EX_FLAG_RESPAWN|EX_FLAG_RANDOM_WEP|EX_FLAG_RANDOMPLACE;
+  extra.data = 100;
+  extra.life = 50;
+
+  int i;
+  for (i=0; i<3; i++)
+  {
+	  slot = soBornExtra(extra);
+	  extra.entity.xpos = 100;
+	  extra.entity.ypos = 100;
+	  extra.type = 0;
+	  extra.modifier = EX_FLAG_FIXED|EX_FLAG_RESPAWN|EX_FLAG_RANDOM_AMM|EX_FLAG_RANDOMPLACE;
+	  extra.data = 10;
+	  extra.life = 20;
+	  soSetExtra(slot, extra);
+  }
+  for (i=0; i<3; i++)
+  {
+	  slot = soBornExtra(extra);
+	  extra.entity.xpos = 100;
+	  extra.entity.ypos = 100;
+	  extra.type = 0;
+	  extra.modifier = EX_FLAG_FIXED|EX_FLAG_RESPAWN|EX_FLAG_RANDOM_POS|EX_FLAG_RANDOMPLACE;
+	  extra.data = 20;
+	  extra.life = 31;
+	  soSetExtra(slot, extra);
+  }
+  for (i=0; i<3; i++)
+  {
+	  slot = soBornExtra(extra);
+	  extra.entity.xpos = 100;
+	  extra.entity.ypos = 100;
+	  extra.type = 0;
+	  extra.modifier = EX_FLAG_FIXED|EX_FLAG_RESPAWN|EX_FLAG_RANDOM_NEG|EX_FLAG_RANDOMPLACE;
+	  extra.data = 18;
+	  extra.life = 15;
+	  soSetExtra(slot, extra);
+  }
+  for (i=0; i<6; i++)
+  {
+	  slot = soBornExtra(extra);
+	  extra.entity.xpos = 100;
+	  extra.entity.ypos = 100;
+	  extra.type = 0;
+	  extra.modifier = EX_FLAG_FIXED|EX_FLAG_RESPAWN|EX_FLAG_RANDOM_PTS|EX_FLAG_RANDOMPLACE;
+	  extra.data = 10;
+	  extra.life = 20;
+	  soSetExtra(slot, extra);
+  }
+
+
+//   Cvar_Set("player_sa_witems", "1");  // pistolka 
+//  Cvar_Set("player_sa_power", "6");  
+//  Cvar_Set("player_sa_weapon", "0");  // set bombs as a starting weapon
+
+  // other items set to 0
+  Cvar_Set("player_rail_delay", "4");  
+  Cvar_Set("player_sa_bombs", "0");  
+  Cvar_Set("player_sa_pistolka", "50");  
+  Cvar_Set("player_sa_railgun", "40");  
+  Cvar_Set("player_sa_becheromet", "0");  
+  Cvar_Set("player_sa_grenades", "0");  
+  Cvar_Set("player_sa_shields", "5");  
+  Cvar_Set("player_sa_warps", "2");  
+
+  return 0;
+}
+
+// called from objects reborning code, to retrieve new born position
+// type = 0 is PacPlayer
+#define MAX_BORN_POS 15
+int born_x[MAX_BORN_POS] = {72, 86, 61, 66, 87, 61, 32, 56, 44, 57, 33, 12,  1, 27,  4};
+int born_y[MAX_BORN_POS] = {13, 21, 26, 47, 72, 56, 65, 61, 32,  4, 11,  5, 26, 55, 72};
+
+#define MAX_WARP_POS 15
+int warp_x[MAX_WARP_POS] = {72, 86, 61, 66, 87, 61, 32, 56, 44, 57, 33, 12,  1, 27,  4};
+int warp_y[MAX_WARP_POS] = {13, 21, 26, 47, 72, 56, 65, 61, 32,  4, 11,  5, 26, 55, 72};
+
+int ssGeneratePos(int type, int* px, int* py)
+{
+  int i;
+  switch (type) {
+  case PLAYER_BORNPOS:
+    i = rand();
+    i = i % MAX_BORN_POS; // we are called from server side - so we are allowed doing random actions
+    *px = (born_x[i]+1)*16;
+    *py = (born_y[i]+1)*16;
+    break;
+  case PLAYER_WARPPOS:
+    i = rand();
+    i = i % MAX_WARP_POS; // we are called from server side - so we are allowed doing random actions
+    *px = (warp_x[i]+1)*16;
+    *py = (warp_y[i]+1)*16;
+    break;
+  }
+  
+  return 0;
+}
+
+// called each gametick
+int ssTick()
+{
+  return 0;
+}
+
+int ssDone()
+{
+  return 0;
+}
+
+//###########################################################################
+//##
+//## CLIENT SIDE CODE 
+//##
+//###########################################################################
+
+// this function is called after map is loaded and inited by client
+// modifies main gamestate
+int csInit()
+{
+  MSCRW=480;
+  MSCRH=400;
+
+  cvPlayMusic("paccore.xm");
+//  cvVolumeMusic("40");
+  return 0;
+}
+
+int csDone()
+{
+  return 0;
+}
+
+// called each gametick
+int csTick()
+{
+  return 0;
+}
+
+int csCamera()
+{
+  SCVAR vars;
+  SCPLAYER player;
+  
+  cvGetVars(vars);
+
+  if (vars.chasing!=-1)
+  {
+    coGetPlayer(vars.chasing, player);
+    
+    vars.zonex = player.entity.xpos / (16*30);
+    vars.zoney = player.entity.ypos / (16*25);
+    vars.camx = vars.zonex * (16*30);
+    vars.camy = vars.zoney * (16*25);
+  }
+  
+  cvSetVars(vars);
+      
+  return 0;
+}

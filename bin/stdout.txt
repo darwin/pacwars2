@@ -1,0 +1,110 @@
+Config loaded.
+Reseting gamma
+Opened audio at 44100
+3D sound enabledPacWars2 - Becherovka game - version 1.00
+
+BASS sound sytem initialized.
+Video hardware initialized.
+Network engine initialized.
+Music: music snd/pacwars2.it loaded, playing ...
+Music: volume = 40
+Sound: volume = 50
+Loaded font "gfx/game/consolefont.rst". Width:6, Height:13
+
+Console initialised.
+Loaded font "gfx/game/smallfont.rst". Width:6, Height:13
+
+Loaded font "gfx/game/mesfont.rst". Width:6, Height:13
+
+Loaded font "gfx/game/netfont.rst". Width:6, Height:13
+
+SeeR scripting engine was initialized.
+Mouse initialized.
+15 sprite(s) found
+58 skin(s) found
+4 map(s) found
+9 scripts(s) found
+GUI initialized.
+----------------------------------------------------
+At your service, my Lord ...
+
+
+> Sound menu sequence <
+sound_volume 30
+Sound: volume = 30
+music_volume 40
+Music: volume = 40
+snd_dist 0.05
+snd_roll 0.008
+snd_swap 0
+> end of sequence <
+
+
+> NewGame menu sequence <
+s_name Prototype PacWars2 server
+s_welcome_msg Becher golden edition
+s_maxclients 8
+This will take effect after starting new server.
+ss
+Net: server started
+s_next_map pacwars
+s_next_script pacwars
+rs
+Scripting: scripts/pacwars.msc loaded and compiled succesfully.
+Scripting: instance of pacwars created
+Server: Map changed to pacwars with script pacwars
+Net: server is running
+> end of sequence <
+
+
+> JoinGame menu sequence <
+c_name noname
+c_desc PacPerson
+last_server localhost
+sc
+Net: client started
+connect localhost
+Connecting to woid [127.0.0.1:25970]
+> end of sequence <
+
+Welcome to Prototype PacWars2 server
+Server version: 1.00
+Server message: Becher golden edition
+Music: music snd/paccore.xm loaded, playing ...
+Becher deployed
+Becher deployed
+System: noname connected.
+
+> CreatePlayer menu sequence <
+p1_name woid
+p1_skin pacsoldier
+p1_key_up 273
+p1_key_down 274
+p1_key_left 276
+p1_key_right 275
+p1_key_fire 305
+p1_key_shield 119
+p1_key_warp 101
+p1_key_weapon1 49
+p1_key_weapon2 50
+p1_key_weapon3 51
+p1_key_weapon4 52
+p1_key_weapon5 53
+> end of sequence <
+
+cp woid 1
+Creating player woid as player1
+System: Player "woid" has entered the game
+sp woid pacsoldier
+chase woid
+System: Player "woid" has changed skin to pacsoldier
+Chasing player "woid"
+woid grenaded himself
+woid collected Becher
+Becher deployed
+woid pistoled himself
+Net: client ended
+Net: server ended
+SeeR scripting done.
+PacWars2
+(c) 2000 Woid, Raist

@@ -1,0 +1,11 @@
+1. src\events\SDL_keyboard.c
+  numpad KP keynames changed from [?] to ?
+
+2. src\video\wincommon\SDL_sysevents.c
+added function:
+
+HWND ReturnSDLHWND()
+{
+  return SDL_Window;
+}
+
