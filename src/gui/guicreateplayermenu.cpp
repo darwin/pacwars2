@@ -85,18 +85,18 @@ void GUI_CreatePlayerMenu::Return() {
 		iWeapon1->waiting || iWeapon2->waiting || iWeapon3->waiting || iWeapon4->waiting || iWeapon5->waiting
 		|| iShield->waiting || iWarp->waiting || iFire->waiting) {
 		
-		iUp->ReleaseInputFocus();
-		iDown->ReleaseInputFocus();
-		iLeft->ReleaseInputFocus();
-		iRight->ReleaseInputFocus();
-		iFire->ReleaseInputFocus();
-		iWarp->ReleaseInputFocus();
-		iShield->ReleaseInputFocus();
-		iWeapon1->ReleaseInputFocus();
-		iWeapon2->ReleaseInputFocus();
-		iWeapon3->ReleaseInputFocus();
-		iWeapon4->ReleaseInputFocus();
-		iWeapon5->ReleaseInputFocus();
+		iUp->InputEnd();
+		iDown->InputEnd();
+		iLeft->InputEnd();
+		iRight->InputEnd();
+		iFire->InputEnd();
+		iWarp->InputEnd();
+		iShield->InputEnd();
+		iWeapon1->InputEnd();
+		iWeapon2->InputEnd();
+		iWeapon3->InputEnd();
+		iWeapon4->InputEnd();
+		iWeapon5->InputEnd();
 		return;
 	}
 
