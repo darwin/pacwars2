@@ -154,6 +154,9 @@ bin/gfx/Makefile
 bin/gfx/game/Makefile
 bin/gfx/gui/Makefile
 bin/gfx/gui/fonts/Makefile
+bin/gfx/gui/default/Makefile
+bin/gfx/gui/qnx/Makefile
+bin/gfx/gui/woid/Makefile
 bin/gfx/skins/Makefile
 bin/gfx/sprites/Makefile
 bin/maps/Makefile

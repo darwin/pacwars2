@@ -1,0 +1,13 @@
+#!/bin/sh
+
+DIR=`dirname $0`
+cd $DIR
+
+if [ -f ../src/pw2 ]; then
+    ../src/pw2 $1 $2
+    exit;
+fi
+
+if [ ./bin/pw2 ]; then
+    ./bin/pw2 $1 $2
+fi

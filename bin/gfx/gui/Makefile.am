@@ -1,5 +1,5 @@
 
-SUBDIRS = fonts
+SUBDIRS = fonts default qnx woid
 
 pw2gfxguidir = $(prefix)/gfx/gui
 
