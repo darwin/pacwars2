@@ -2839,8 +2839,8 @@ main(int argc, char *argv[])
   AddConsoleVars();
   LoadConfig(PW_CONFIG_FILE);
 
-  sprintf(fname, "PARAGUIDIR=%s", gui_dir.string);
-  putenv(fname);
+  //sprintf(fname, "PARAGUIDIR=%s", gui_dir.string);
+  //putenv(fname);
   SDLApplication app;
   strcpy(fname, gui_dir.string);
   if (fname[strlen(fname)-1]=='/') fname[strlen(fname)-1]=0;
@@ -2855,8 +2855,13 @@ main(int argc, char *argv[])
   char		genstr[60]="";
   char		tempstr[60]="";
 
+#ifdef DISABLE_BASS
+  int    sound_hw_enabled = 0;
+  int    sound_3d_enabled = 0;
+#else
   int    sound_hw_enabled = 1;
   int    sound_3d_enabled = 1;
+#endif			// for debugging (Alex)
 
 #ifdef PW_MUSIC
   int audio_rate;
@@ -2894,7 +2899,8 @@ main(int argc, char *argv[])
   fprintf(stderr, "executed: %s on %s, %s\n\n", argv[0], time, date);
   
   // parse and process program's arguments
-  videoflags = SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_FULLSCREEN; //|SDL_ASYNCBLIT|SDL_OPENGLBLIT;
+  // disabled fullscreen for debugging (alex)
+  videoflags = SDL_HWSURFACE|SDL_DOUBLEBUF; //|SDL_FULLSCREEN; //|SDL_ASYNCBLIT|SDL_OPENGLBLIT;
   if (!fullscreen.value) videoflags &= ~SDL_FULLSCREEN;
   if (glblit.value) 
   {
