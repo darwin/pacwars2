@@ -194,8 +194,8 @@ void GExtra::Take(GPlayer* p, TICK_TYPE time)
     if (type==EX_SUP_BECHERX)
     {
       p->points += points_superbecher;
-      SV_BroadcastPrintf("%s collected Becher", p->player_name.GetValRef()->chars);
-      SV_BroadcastVoice(SM_BECHERC1, 100, 120);
+      SV_BroadcastPrintf("%s collected diamond", p->player_name.GetValRef()->chars);
+      //SV_BroadcastVoice(SM_BECHERC1, 100, 120);
       type = EX_SUP_BECHER;
       SetAnim(type);
       ServerCHS(time);
@@ -205,8 +205,8 @@ void GExtra::Take(GPlayer* p, TICK_TYPE time)
       if (time>p->warpout_end)
       {
         p->warpout_end = time + warpout_time;
-        if (p->brain_type==bt_client)
-          SV_ClientVoice(p->brain_owner, SM_OHNO, 100, 80);
+        //if (p->brain_type==bt_client)
+          //SV_ClientVoice(p->brain_owner, SM_OHNO, 100, 80);
       }
     }
   }
@@ -379,8 +379,8 @@ void GExtra::ServerThink(Uint32 time)
     // respawn time
     if (type==EX_SUP_BECHER)
     {
-      SV_BroadcastVoice(SM_BECHERA1, 100, 120);
-      SV_BroadcastPrintf("Becher deployed");
+      //SV_BroadcastVoice(SM_BECHERA1, 100, 120);
+      SV_BroadcastPrintf("Diamond appeared");
     }
     state = state | OSTATE_VISIBLE;
     SetAnim(type+1);

@@ -457,7 +457,6 @@ void RenderMapScreen(CGame & game)
 {
   SDL_Rect view;
   
-  SDL_PumpEvents();    
   if (game.map.DrawBG(screen, game.vars.camx, game.vars.camy) == 1) {
     //    MapRestore();
   }
@@ -469,7 +468,6 @@ void RenderMapScreen(CGame & game)
   for (GAME_MAXOBJS_TYPE i = 0; i < GAME_MAX_OBJS; i++) {
     if (game.objs[i]->state & OSTATE_ACTIVE)
     {
-      SDL_PumpEvents();    
       game.objs[i]->Draw(screen, &view);
     }
   }
@@ -2828,7 +2826,7 @@ void ProcessEvents()
     blocked_inputs = 0;
   }
   
-  if (SDL_PollEvent(&event)) 
+  while (SDL_PollEvent(&event)) 
   {
     switch (event.type) {
     case SDL_QUIT:
@@ -2989,7 +2987,8 @@ void ProcessEvents()
         break;
     }
   }
-  while(SDL_PeepEvents(&event, 1, SDL_GETEVENT, SDL_KEYDOWNMASK | SDL_MOUSEMOTIONMASK | SDL_SYSWMEVENTMASK) > 0);
+  
+  //while(SDL_PeepEvents(&event, 1, SDL_GETEVENT, SDL_KEYDOWNMASK | SDL_MOUSEMOTIONMASK | SDL_SYSWMEVENTMASK) > 0);
 
 }
 
@@ -3094,13 +3093,6 @@ void Renderscreen(SDL_Surface * screen)
 void DoneMap()
 {
   MapFreeMem();
-}
-
-
-Uint32 EventTimerCB(Uint32 interval, void *param)
-{
-  SDL_PumpEvents();
-  return 1;
 }
 
 //###########################################################################
@@ -3666,26 +3658,21 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
     CommandExecuteOut("ss");
   }
  
-  SDL_TimerID event_timer_id = SDL_AddTimer(100, EventTimerCB, 0);
-
   fprintf(stderr, "entering main loop\n");
   GUI_OpenMenu(GUI_MAINMENU);
   inloop = true;
   while (MainProgram) {
     PollNet();
-    SDL_PumpEvents();    
     
     // ====== new tick ======
     ticktime = SDL_GetTicks();
     if (server_info.active) {
       SV_Move(ticktime);
-      SDL_PumpEvents();    
     }
     ticktime = SDL_GetTicks();
     if (client_info.active) {
       CL_Move(ticktime);
       client_info.game.UpdateGamebarSlots();
-      SDL_PumpEvents();    
     } 
     
     if (!GUI_menu && waiting_connection) {
@@ -3764,10 +3751,8 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
     }
     
     ProcessEvents();
-    SDL_PumpEvents();    
     if (MainProgram)
       Renderscreen(screen);
-    SDL_PumpEvents();    
     
     if (InfoDown) {
       // print the framerate
@@ -3802,7 +3787,6 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
 
     }
     
-    SDL_PumpEvents();    
     if (MapLoaded != 2) {
       sprintf(genstr, "PW2 v%d.%02d build %04d", VERSION_MAJOR,
         VERSION_MINOR, build_number);
@@ -3813,7 +3797,6 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
     if (NetStatsDown)
       DrawNetStats();
     
-    SDL_PumpEvents();    
     if (GUI_menu) {
       if (enable_menu_music) {
         Play_Music(menu_music_file.string);
@@ -3844,7 +3827,6 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
         screen->h - 1 * 13);
     }
     
-    SDL_PumpEvents();    
     if (ConsoleDown)
       DrawConsole();
     else {
@@ -3856,19 +3838,15 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
       DrawChat(screen);
     }
     
-    SDL_PumpEvents();    
     UpdateMouse();
     DrawMouse(screen);
     SDL_Flip(screen);
-    SDL_PumpEvents();    
     if (want_quit) App_Quit();
   }
   inloop = false;
   
   SDL_Delay(1000);			// wait for byebye sound
 
-  SDL_RemoveTimer(event_timer_id);
-  
   MapFreeMem();
 
   GUI_Done();
