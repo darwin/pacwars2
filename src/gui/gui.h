@@ -75,7 +75,6 @@ void GUI_InitColors(SDL_Surface* screen);
 class GUI_BaseMenu;
 
 // Menu fonts
-extern TTF_Font* TextFont;
 extern TTF_Font* MainFont;
 extern TTF_Font* MainFont2;
 extern TTF_Font* BtnFont;

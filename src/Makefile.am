@@ -92,5 +92,7 @@ EXTRA_DIST = \
 	pac_rail.h \
 	sampleman.h \
 	vapi.h \
-	chat.h
+	chat.h \
+	osdep_beos.cpp
+
 

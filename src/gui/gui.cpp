@@ -22,7 +22,6 @@ extern GUI_OKDialog1 *OKD1;
 extern GUI_OKDialog2 *OKD2;
 
 // Menu fonts
-TTF_Font* TextFont;
 TTF_Font* MainFont;
 TTF_Font* MainFont2;
 TTF_Font* BtnFont;
@@ -185,28 +184,7 @@ void GUI_Bitmap::eventDraw(SDL_Surface* surface, const PG_Rect& rect) {
 // Label
 /////////////////////////////////////////////////////////////////////////////
 
-
-/*
-GUI_Label::GUI_Label(PG_Widget* parent, const PG_Rect& r, char* text, bool storebackground, char* style) : PG_Label(parent,r,text) {
-	SetFont(TextFont);
-	SetAlignment(PG_TA_CENTER);
-	PG_Widget::LoadThemeStyle(style, "GUI_Label");
-}
-
-GUI_LabelC::GUI_LabelC(PG_Widget* parent, const PG_Rect& r, char* text, bool storebackground) : PG_Label(parent,r,text) {
-	SetFont(TextFont);
-	SetAlignment(PG_TA_LEFT);
-}
-*/
-
-
-/////////////////////////////////////////////////////////////////////////////
-// Label
-/////////////////////////////////////////////////////////////////////////////
-
 GUI_LabelL::GUI_LabelL(PG_Widget* parent, const PG_Rect& r, char* text, GUI_LabelL** iselected, CSMapInfo* si, SDL_Color ic1, SDL_Color ic2, void (*cb)(GUI_LabelL*)) : PG_Label(parent,r,text) {
-	SetFont(TextFont);
-
 	c1 = ic1;
 	c2 = ic2;
 	selected = iselected;
@@ -343,8 +321,6 @@ GUI_CheckBox::GUI_CheckBox(PG_Widget* parent, const PG_Rect& r, char* text, bool
 		SetPressed();
 	}
 
-	my_widgetLabel->SetFont(TextFont);
-
 	LoadThemeStyle("GUI_CheckButton");
 	my_widgetButton->LoadThemeStyle("GUI_CheckButton", "CheckWidget");
 	SetTransparency(0);
@@ -367,7 +343,6 @@ void GUI_CheckBox::eventMouseLeave() {
 /////////////////////////////////////////////////////////////////////////////
 
 GUI_TextEdit::GUI_TextEdit(PG_Widget* parent, const PG_Rect& r) : PG_LineEdit(parent, r) {
-	SetFont(TextFont);
 	LoadThemeStyle("GUI_TextEdit");
 }
 
@@ -376,7 +351,6 @@ GUI_TextEdit::GUI_TextEdit(PG_Widget* parent, const PG_Rect& r) : PG_LineEdit(pa
 /////////////////////////////////////////////////////////////////////////////
 
 GUI_NumEdit::GUI_NumEdit(PG_Widget* parent, const PG_Rect& r, int imin, int imax) : GUI_TextEdit(parent, r) {
-	SetFont(TextFont);
 	min = imin;
 	max = imax;
 	SetValidKeys("0123456789");
@@ -387,7 +361,6 @@ GUI_NumEdit::GUI_NumEdit(PG_Widget* parent, const PG_Rect& r, int imin, int imax
 /////////////////////////////////////////////////////////////////////////////
 
 GUI_FloatEdit::GUI_FloatEdit(PG_Widget* parent, const PG_Rect& r, float imin, float imax) : GUI_TextEdit(parent, r) {
-	SetFont(TextFont);
 	min = imin;
 	max = imax;
 	SetValidKeys("0123456789.-");
@@ -683,8 +656,6 @@ bool GUI_SkinCtrl::eventButtonClick(int id, PG_Widget* widget)
 
 
 GUI_Input::GUI_Input(PG_Widget* parent, const PG_Rect& r, int iid) : PG_GradientWidget(parent,r) {
-	SetFont(TextFont);
-
 	text[0] = 0;
 	offset_x = 0;
 
@@ -1327,12 +1298,6 @@ bool GUI_Init(SDL_Surface* s)
     fprintf(stderr, "GUI: Couldn't load font %s", PG_Application::GetRelativePath("fonts/futuraxk.ttf"));
     return false;
   }
-  TextFont = TTF_OpenFont(PG_Application::GetRelativePath("fonts/font2.ttf"), 10);
-  if (!TextFont)
-  {
-    fprintf(stderr, "GUI: Couldn't load font %s", PG_Application::GetRelativePath("fonts/font2.ttf"));
-    return false;
-  }
   BtnFont = TTF_OpenFont(PG_Application::GetRelativePath("fonts/futurab.ttf"), 12);
   if (!BtnFont)
   {
@@ -1353,7 +1318,6 @@ bool GUI_Done()
 {
   if (MainFont) TTF_CloseFont(MainFont);
   if (MainFont2) TTF_CloseFont(MainFont2);
-  if (TextFont) TTF_CloseFont(TextFont);
   if (BtnFont) TTF_CloseFont(BtnFont);
   if (BtnFont2) TTF_CloseFont(BtnFont2);
   return true;
