@@ -9,7 +9,7 @@ pw2dir = $(prefix)
 
 pw2_LDADD = $(PARAGUI_LIBS) \
 	-lconsole -lseer -L./console -L./seer \
-	./gui/libgui.la \
+	-lgui -L./gui \
 	-lSDL_net -lSDL_image -lSDL_mixer
 
 pw2_SOURCES = \
