@@ -1493,32 +1493,6 @@ void GUI_MainMenu::Return()
 #define JG_VX 360
 #define JG_VY 170
 
-
-class GUI_JoinGameMenu : public GUI_BaseMenu {
-public:
-  GUI_JoinGameMenu();
-  
-  GUI_Board Board1;
-  GUI_Label JoinGameMenu;
-  
-  GUI_Label lServerAddress;
-  GUI_TextEdit eServerAddress;
-  GUI_Label lClientName;
-  GUI_TextEdit eClientName;
-  GUI_Label lClientDesc;
-  GUI_TextEdit eClientDesc;
-  
-  GUI_ButtonSmall bConnect;
-  GUI_ButtonSmall bCancel;
-  
-  void Show();
-  void Hide();
-  void Default();
-  void Return();
-  
-  bool eventButtonClick(int id, SDLWidget* widget);
-};
-
 GUI_JoinGameMenu* JGMenu;
 
 void GUI_JoinGameMenu::Return()

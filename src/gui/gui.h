@@ -25,6 +25,7 @@
 #include "guipathsmenu.h"
 #include "guimainmenu.h"
 #include "guioptionsmenu.h"
+#include "guijoingamemenu.h"
 
 #include "smapman.h"
 #include "sprite.h"
@@ -396,31 +397,6 @@ public:
 #define JG_PY 165
 #define JG_VX 360
 #define JG_VY 170
-
-
-class GUI_JoinGameMenu : public GUI_BaseMenu {
-public:
-  GUI_JoinGameMenu();
-  
-  GUI_Label JoinGameMenu;
-  
-  GUI_Label lServerAddress;
-  GUI_TextEdit eServerAddress;
-  GUI_Label lClientName;
-  GUI_TextEdit eClientName;
-  GUI_Label lClientDesc;
-  GUI_TextEdit eClientDesc;
-  
-  GUI_ButtonSmall bConnect;
-  GUI_ButtonSmall bCancel;
-  
-  GUI_Board Board1;
-
-  void Default();
-  void Return();
-  
-  bool eventButtonClick(int id, SDLWidget* widget);
-};
 
 extern GUI_JoinGameMenu* JGMenu;
 

@@ -219,7 +219,9 @@ bool GUI_NewGameMenu::eventButtonClick(int id, SDLWidget* widget)
       {
         Cvar_Set("last_server", "localhost");
         JGMenu->Default();
-        JGMenu->eventButtonClick(1, NULL);
+        GUI_Return();
+        SendMessage(JGMenu, MSG_BUTTONCLICK, 1, 0);
+	//JGMenu->eventButtonClick(1, NULL);
         GUI_OpenMenu(GUI_MAINMENU);
         GUI_OpenMenu(GUI_CREATEPLAYER);
       }

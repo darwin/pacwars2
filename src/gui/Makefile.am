@@ -13,7 +13,8 @@ libgui_la_SOURCES = \
 	guivideomenu.cpp \
 	guipathsmenu.cpp \
 	guimainmenu.cpp \
-	guioptionsmenu.cpp
+	guioptionsmenu.cpp \
+	guijoingamemenu.cpp
 
 EXTRA_DIST = \
 	gui.h \
@@ -25,4 +26,5 @@ EXTRA_DIST = \
 	guivideomenu.h \
 	guipathsmenu.h \
 	guimainmenu.h \
-	guioptionsmenu.h
+	guioptionsmenu.h \
+	guijoingamemenu.h
