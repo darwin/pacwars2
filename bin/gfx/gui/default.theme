@@ -1,45 +1,117 @@
 <?xml version="1.0"?>
 
 <theme>
-    <title value="PW2 menu"/>
-    <description value="PW2 default theme"/>
-    <author value="Woid"/>
-    <email value="woid@centrum.cz"/>
+    <title value="default"/>
+    <description value="ParaGUI default theme"/>
+    <author value="Alexander Pipelka"/>
+    <email value="pipelka@teleweb.at"/>
 
-    <font name="default" value="fonts/font2.ttf" size="10"/>
-
+    <font name="default" value="default/font.ttf" size="14"/>
+    
     <widget>
 	<type value="GradientWidget"/>
 	<object>
-	    <type value="GradientWidget"/>
 	    <name value="GradientWidget"/>
-	    <filename name="background" value="menu/back.png"/>
+	    <filename name="background" value="default/back.bmp"/>
 	    <property name="backmode" value="TILE"/>
-	    <property name="blend" value="0"/>
-	    <property name="bordersize" value="0"/>
+	    <gradient name="gradient" color0="0x00B0B1B6" color1="0x0083838D" color2="0x007B7B83" color3="0x00585765"/>
+	    <property name="blend" value="200"/>
 	</object>
     </widget>
+
+    <widget>
+	<type value="Button"/>
+	<object>
+	    <name value="Button"/>
+	    <filename name="background0" value="none"/>
+	    <filename name="background1" value="none"/>
+	    <filename name="background2" value="none"/>
+	    <property name="backmode0" value="TILE"/>
+	    <property name="backmode1" value="TILE"/>
+	    <property name="backmode2" value="TILE"/>
+	    <gradient name="gradient0" color0="0x00E7E7E7" color1="0x00C9C9C9" color2="0x00CCCCCC" color3="0x00AEAEAE"/>
+	    <gradient name="gradient1" color0="0x00F5E1FF" color1="0x00DCC8FF" color2="0x00DCC8FF" color3="0x00C3AFFF"/>
+	    <gradient name="gradient2" color0="0x00CFAFFF" color1="0x00DCC8FF" color2="0x00DCC8FF" color3="0x00F5E1FF"/>
+	    <property name="blend0" value="0"/>
+	    <property name="blend1" value="0"/>
+	    <property name="blend2" value="0"/>
+	    <color name="bordercolor0" value="0x00E0E0E0"/>
+	    <color name="bordercolor1" value="0x00404040"/>
+	    <property name="bordersize0" value="1"/>
+	    <property name="bordersize1" value="1"/>
+	    <property name="bordersize2" value="1"/>
+	    <property name="transparency0" value="0"/>
+	    <property name="transparency1" value="0"/>
+	    <property name="transparency2" value="0"/>
+	    <filename name="iconup" value="none"/>
+		<filename name="icondown" value="none"/>
+	</object>
+    </widget>
+    
     <widget>
 	<type value="Scrollbar"/>
 	<object>
-	    <type value="GradientWidget"/>
 	    <name value="Scrollbar"/>
-	    <filename name="background" value="menu/lb_sb1.png"/>
+	    <filename name="background" value="none"/>
 	    <property name="backmode" value="TILE"/>
+	    <gradient name="gradient" color0="0x00B0B1B6" color1="0x0083838D" color2="0x007B7B83" color3="0x00585765"/>
 	    <property name="blend" value="0"/>
 	</object>
 	<object>
-	    <type value="GradientWidget"/>
 	    <name value="ScrollbarV"/>
-	    <property name="width" value="12"/>
+	    <property name="width" value="16"/>
 	</object>
 	<object>
-	    <type value="GradientWidget"/>
 	    <name value="ScrollbarH"/>
 	    <property name="height" value="16"/>
 	</object>
 	<object>
-	    <type value="Button"/>
+	    <name value="ScrollbarLeft"/>
+	    <filename name="background0" value="none"/>
+	    <filename name="background1" value="none"/>
+	    <filename name="background2" value="none"/>
+	    <property name="backmode0" value="TILE"/>
+	    <property name="backmode1" value="TILE"/>
+	    <property name="backmode2" value="TILE"/>
+	    <gradient name="gradient0" color0="0x00E7E7E7" color1="0x00C9C9C9" color2="0x00CCCCCC" color3="0x00AEAEAE"/>
+	    <gradient name="gradient1" color0="0x00F5E1FF" color1="0x00DCC8FF" color2="0x00DCC8FF" color3="0x00C3AFFF"/>
+	    <gradient name="gradient2" color0="0x00CFAFFF" color1="0x00DCC8FF" color2="0x00DCC8FF" color3="0x00F5E1FF"/>
+	    <property name="blend0" value="0"/>
+	    <property name="blend1" value="0"/>
+	    <property name="blend2" value="0"/>
+	    <property name="bordersize0" value="1"/>
+	    <property name="bordersize1" value="1"/>
+	    <property name="bordersize2" value="1"/>
+	    <property name="transparency0" value="0"/>
+	    <property name="transparency1" value="0"/>
+	    <property name="transparency2" value="0"/>
+	    <filename name="iconup" value="default/sb_left.bmp" colorkey="0x000000FF"/>
+	    <filename name="icondown" value="default/sb_left.bmp" colorkey="0x000000FF"/>
+	</object>
+	<object>
+	    <name value="ScrollbarRight"/>
+	    <filename name="background0" value="none"/>
+	    <filename name="background1" value="none"/>
+	    <filename name="background2" value="none"/>
+	    <property name="backmode0" value="TILE"/>
+	    <property name="backmode1" value="TILE"/>
+	    <property name="backmode2" value="TILE"/>
+	    <gradient name="gradient0" color0="0x00E7E7E7" color1="0x00C9C9C9" color2="0x00CCCCCC" color3="0x00AEAEAE"/>
+	    <gradient name="gradient1" color0="0x00F5E1FF" color1="0x00DCC8FF" color2="0x00DCC8FF" color3="0x00C3AFFF"/>
+	    <gradient name="gradient2" color0="0x00CFAFFF" color1="0x00DCC8FF" color2="0x00DCC8FF" color3="0x00F5E1FF"/>
+	    <property name="blend0" value="0"/>
+	    <property name="blend1" value="0"/>
+	    <property name="blend2" value="0"/>
+	    <property name="bordersize0" value="1"/>
+	    <property name="bordersize1" value="1"/>
+	    <property name="bordersize2" value="1"/>
+	    <property name="transparency0" value="0"/>
+	    <property name="transparency1" value="0"/>
+	    <property name="transparency2" value="0"/>
+	    <filename name="iconup" value="default/sb_right.bmp" colorkey="0x000000FF"/>
+	    <filename name="icondown" value="default/sb_right.bmp" colorkey="0x000000FF"/>
+	</object>
+	<object>
 	    <name value="ScrollbarUp"/>
 	    <filename name="background0" value="none"/>
 	    <filename name="background1" value="none"/>
@@ -59,11 +131,10 @@
 	    <property name="transparency0" value="0"/>
 	    <property name="transparency1" value="0"/>
 	    <property name="transparency2" value="0"/>
-	    <filename name="iconup" value="menu/aup.png"/>
-  	    <filename name="icondown" value="menu/aup.png" colorkey="0x000000FF"/>
+	    <filename name="iconup" value="default/sb_up.bmp" colorkey="0x000000FF"/>
+	    <filename name="icondown" value="default/sb_up.bmp" colorkey="0x000000FF"/>
 	</object>
 	<object>
-	    <type value="Button"/>
 	    <name value="ScrollbarDown"/>
 	    <filename name="background0" value="none"/>
 	    <filename name="background1" value="none"/>
@@ -83,11 +154,10 @@
 	    <property name="transparency0" value="0"/>
 	    <property name="transparency1" value="0"/>
 	    <property name="transparency2" value="0"/>
-	    <filename name="iconup" value="menu/adown.png" colorkey="0x000000FF"/>
-	    <filename name="icondown" value="menu/adown.png" colorkey="0x000000FF"/>
+	    <filename name="iconup" value="default/sb_down.bmp" colorkey="0x000000FF"/>
+	    <filename name="icondown" value="default/sb_down.bmp" colorkey="0x000000FF"/>
 	</object>
 	<object>
-	    <type value="Button"/>
 	    <name value="ScrollbarDrag"/>
 	    <filename name="background0" value="none"/>
 	    <filename name="background1" value="none"/>
@@ -107,14 +177,14 @@
 	    <property name="transparency0" value="0"/>
 	    <property name="transparency1" value="0"/>
 	    <property name="transparency2" value="0"/>
-	    <filename name="iconup" value="menu/aelec.png" colorkey="0x000000FF"/>
-	    <filename name="icondown" value="menu/aelec.png" colorkey="0x000000FF"/>
+	    <filename name="iconup" value="default/sb_drag.bmp" colorkey="0x000000FF"/>
+	    <filename name="icondown" value="default/sb_drag.bmp" colorkey="0x000000FF"/>
 	</object>
     </widget>
+
     <widget>
 	<type value="RadioButton"/>
 	<object>
-	    <type value="Button"/>
 	    <name value="CheckButton"/>
 	    <filename name="background0" value="none"/>
 	    <filename name="background1" value="none"/>
@@ -135,533 +205,99 @@
 	    <property name="transparency1" value="255"/>
 	    <property name="transparency2" value="255"/>
 	    <property name="shift" value="0"/>
-	    <filename name="iconup" value="default/rb_off.png" colorkey="0x000000FF"/>
-            <filename name="icondown" value="default/rb_on.png" colorkey="0x000000FF"/>
+	    <filename name="iconup" value="default/rb_off.bmp" colorkey="0x000000FF"/>
+	    <filename name="icondown" value="default/rb_on.bmp" colorkey="0x000000FF"/>
 	</object>
-    </widget>
-
-
-   <widget>
-	<type value="GUI_ResultLine"/>
 	<object>
-	    <type value="GUI_Label"/>
-	    <name value="GUI_Label"/>
-	    <filename name="background" value="menu/back.png"/>
-	    <property name="backmode" value="TILE"/>
-	    <property name="blend" value="0"/>
-	    <property name="bordersize" value="0"/>
-	    <color name="bordercolor0" value="0x00E0E0E0"/>
-	    <color name="bordercolor1" value="0x00404040"/>
-	</object>
-    </widget>
- 
-   <widget>
-	<type value="GUI_BaseMenu"/>
-	<object>
-	    <type value="GradientWidget"/>
-	    <name value="GradientWidget"/>
+	    <name value="RadioButton"/>
 	    <filename name="background" value="none"/>
 	    <property name="backmode" value="TILE"/>
-	    <gradient name="gradient" color0="0x00000000" color1="0x00000000" color2="0x00000000" color3="0x00000000"/>
-	    <property name="blend" value="255"/>
-	</object>
-    </widget>
-
-   <widget>
-	<type value="GUI_Board"/>
-	<object>
-	    <type value="GradientWidget"/>
-	    <name value="GradientWidget"/>
-	    <filename name="background" value="menu/back.png"/>
-	    <property name="backmode" value="TILE"/>
-	    <property name="blend" value="0"/>
-	</object>
-    </widget>
-
-   <widget>
-	<type value="GUI_Results"/>
-	<object>
-	    <type value="GradientWidget"/>
-	    <name value="GradientWidget"/>
-	    <filename name="background" value="menu/lineedit.png" colorkey="0x000000FF"/>
-	    <property name="backmode" value="TILE"/>
+	    <gradient name="gradient" color0="0x00B0B1B6" color1="0x0083838D" color2="0x007B7B83" color3="0x00585765"/>
+	    <property name="transparency" value="128"/>
 	    <property name="blend" value="0"/>
 	</object>
     </widget>
 
     <widget>
-	<type value="GUI_MenuTitle"/>
+	<type value="Window"/>
 	<object>
-	    <type value="Button"/>
-	    <name value="Button"/>
-	    <filename name="background0" value="menu/mb_title.png"/>
-	    <filename name="background1" value="menu/mb_title.png"/>
-	    <filename name="background2" value="menu/mb_title.png"/>
-	    <property name="backmode0" value="TILE"/>
-	    <property name="backmode1" value="TILE"/>
-	    <property name="backmode2" value="TILE"/>
-	    <property name="blend0" value="0"/>
-	    <property name="blend1" value="0"/>
-	    <property name="blend2" value="0"/>
-	    <property name="bordersize0" value="0"/>
-	    <property name="bordersize1" value="0"/>
-	    <property name="bordersize2" value="0"/>
-	    <property name="transparency0" value="0"/>
-	    <property name="transparency1" value="0"/>
-	    <property name="transparency2" value="0"/>
-	    <filename name="iconup" value="none"/>
- 	    <filename name="icondown" value="none"/>
+	    <name value="Window"/>
+	    <filename name="background" value="default/back.bmp"/>
+	    <property name="backmode" value="STRETCH"/>
+	    <property name="blend" value="100"/>
+	    <property name="bordersize" value="1"/>
 	</object>
-    </widget>
+	<object>
+	    <name value="TitleBar"/>
+	    <filename name="background" value="default/back.bmp"/>
+	    <property name="backmode" value="STRETCH"/>
+	    <property name="blend" value="100"/>
+	</object>
+	<object>
+	    <name value="CloseButton"/>
+	    <property name="shift" value="0"/>
+	    <gradient name="gradient0" color0="0x00E7E7E7" color1="0x00C9C9C9" color2="0x00CCCCCC" color3="0x00AEAEAE"/>
+	    <gradient name="gradient1" color0="0x00F5E1FF" color1="0x00DCC8FF" color2="0x00DCC8FF" color3="0x00C3AFFF"/>
+	    <gradient name="gradient2" color0="0x00CFAFFF" color1="0x00DCC8FF" color2="0x00DCC8FF" color3="0x00F5E1FF"/>
+	    <property name="blend0" value="255"/>
+	    <property name="blend1" value="255"/>
+	    <property name="blend2" value="255"/>
+	    <filename name="iconup" value="default/wnd_close.bmp" colorkey="0x000000FF"/>
+	    <filename name="icondown" value="default/wnd_close.bmp" colorkey="0x000000FF"/>
+	</object>
+    </widget>    
 
     <widget>
-	<type value="GUI_MenuButton"/>
+	<type value="CheckButton"/>
 	<object>
-	    <type value="Button"/>
-	    <name value="Button"/>
-	    <color name="textcolor" value="0x00FFFFFF"/>
-	    <filename name="background0" value="menu/mb_button1.png"/>
-	    <filename name="background1" value="menu/mb_button1.png"/>
-	    <filename name="background2" value="menu/mb_button1.png"/>
-	    <property name="backmode0" value="TILE"/>
-	    <property name="backmode1" value="TILE"/>
-	    <property name="backmode2" value="TILE"/>
-	    <property name="blend0" value="0"/>
-	    <property name="blend1" value="0"/>
-	    <property name="blend2" value="0"/>
-	    <property name="bordersize0" value="0"/>
-	    <property name="bordersize1" value="0"/>
-	    <property name="bordersize2" value="0"/>
-	    <property name="transparency0" value="0"/>
-	    <property name="transparency1" value="0"/>
-	    <property name="transparency2" value="0"/>
-	    <filename name="iconup" value="none"/>
- 	    <filename name="icondown" value="none"/>
-	</object>
-    </widget>
-
-    <widget>
-	<type value="GUI_NormalButton"/>
-	<object>
-	    <type value="Button"/>
-	    <name value="Button"/>
-	    <filename name="background0" value="menu/mb_button1.png"/>
-	    <filename name="background1" value="menu/mb_button1.png"/>
-	    <filename name="background2" value="menu/mb_button1.png"/>
-	    <property name="backmode0" value="TILE"/>
-	    <property name="backmode1" value="TILE"/>
-	    <property name="backmode2" value="TILE"/>
-	    <property name="blend0" value="0"/>
-	    <property name="blend1" value="0"/>
-	    <property name="blend2" value="0"/>
-	    <property name="bordersize0" value="0"/>
-	    <property name="bordersize1" value="0"/>
-	    <property name="bordersize2" value="0"/>
-	    <property name="transparency0" value="0"/>
-	    <property name="transparency1" value="0"/>
-	    <property name="transparency2" value="0"/>
-	    <filename name="iconup" value="none"/>
- 	    <filename name="icondown" value="none"/>
-	</object>
-    </widget>
-
-    <widget>
-	<type value="GUI_CheckButton"/>
-	<object>
-	    <type value="Button"/>
 	    <name value="CheckWidget"/>
 	    <property name="shift" value="0"/>
-	    <filename name="iconup" value="menu/choff.png" colorkey="0x000000FF"/>
-	    <filename name="icondown" value="menu/chon.png" colorkey="0x000000FF"/>
-	</object>
-	<object>
-	    <type value="GradientWidget"/>
-	    <name value="GradientWidget"/>
-	    <filename name="background" value="menu/ch_back.png"/>
-	    <property name="backmode" value="TILE"/>
-	    <property name="blend" value="0"/>
-	    <property name="bordersize" value="0"/>
+	    <filename name="iconup" value="default/rb_off.bmp" colorkey="0x000000FF"/>
+	    <filename name="icondown" value="default/rb_on.bmp" colorkey="0x000000FF"/>
 	</object>
     </widget>
 
     <widget>
-	<type value="GUI_LineEdit"/>
+        <type value="LineEdit"/>
 	<object>
-	    <type value="GradientWidget"/>
-	    <name value="GradientWidget"/>
-	    <filename name="background" value="menu/lineedit.png" colorkey="0x000000FF"/>
-	    <property name="backmode" value="TILE"/>
-	    <property name="blend" value="0"/>
-	</object>
-    </widget>
-
-    <widget>
-	<type value="GUI_WidgetList"/>
-	<object>
-	    <type value="GradientWidget"/>
-	    <name value="GradientWidget"/>
-	    <filename name="background" value="menu/lb_back.png"/>
-	    <property name="backmode" value="TILE"/>
-	    <property name="blend" value="0"/>
-	    <property name="bordersize" value="1"/>
-	</object>
-    </widget>
-
-    <widget>
-	<type value="GUI_MapInfoBoard"/>
-	<object>
-	    <type value="GradientWidget"/>
-	    <name value="GradientWidget"/>
-	    <filename name="background" value="menu/lb_back.png"/>
-	    <property name="backmode" value="TILE"/>
-	    <property name="blend" value="0"/>
-	    <property name="bordersize" value="1"/>
-	</object>
-    </widget>
-
-    <widget>
-	<type value="GUI_Input"/>
-	<object>
-	    <type value="GradientWidget"/>
-	    <name value="GradientWidget"/>
-	    <filename name="background" value="menu/input1.png"/>
-	    <property name="backmode" value="TILE"/>
-	    <property name="blend" value="0"/>
-	    <property name="bordersize" value="1"/>
-	</object>
-    </widget>
-    <widget>
-	<type value="GUI_Slider"/>
-	<object>
-	    <type value="Button"/>
-	    <name value="SliderLeft"/>
-	    <filename name="background0" value="none"/>
-	    <filename name="background1" value="none"/>
-	    <filename name="background2" value="none"/>
-	    <property name="backmode0" value="TILE"/>
-	    <property name="backmode1" value="TILE"/>
-	    <property name="backmode2" value="TILE"/>
-	    <gradient name="gradient0" color0="0x00E7E7E7" color1="0x00C9C9C9" color2="0x00CCCCCC" color3="0x00AEAEAE"/>
-	    <gradient name="gradient1" color0="0x00F5E1FF" color1="0x00DCC8FF" color2="0x00DCC8FF" color3="0x00C3AFFF"/>
-	    <gradient name="gradient2" color0="0x00CFAFFF" color1="0x00DCC8FF" color2="0x00DCC8FF" color3="0x00F5E1FF"/>
-	    <property name="blend0" value="0"/>
-	    <property name="blend1" value="0"/>
-	    <property name="blend2" value="0"/>
-	    <property name="bordersize0" value="1"/>
-	    <property name="bordersize1" value="1"/>
-	    <property name="bordersize2" value="1"/>
-	    <property name="transparency0" value="0"/>
-	    <property name="transparency1" value="0"/>
-	    <property name="transparency2" value="0"/>
-	</object>
-	<object>
-	    <type value="Button"/>
-	    <name value="SliderRight"/>
-	    <filename name="background0" value="none"/>
-	    <filename name="background1" value="none"/>
-	    <filename name="background2" value="none"/>
-	    <property name="backmode0" value="TILE"/>
-	    <property name="backmode1" value="TILE"/>
-	    <property name="backmode2" value="TILE"/>
-	    <gradient name="gradient0" color0="0x00E7E7E7" color1="0x00C9C9C9" color2="0x00CCCCCC" color3="0x00AEAEAE"/>
-	    <gradient name="gradient1" color0="0x00F5E1FF" color1="0x00DCC8FF" color2="0x00DCC8FF" color3="0x00C3AFFF"/>
-	    <gradient name="gradient2" color0="0x00CFAFFF" color1="0x00DCC8FF" color2="0x00DCC8FF" color3="0x00F5E1FF"/>
-	    <property name="blend0" value="0"/>
-	    <property name="blend1" value="0"/>
-	    <property name="blend2" value="0"/>
-	    <property name="bordersize0" value="1"/>
-	    <property name="bordersize1" value="1"/>
-	    <property name="bordersize2" value="1"/>
-	    <property name="transparency0" value="0"/>
-	    <property name="transparency1" value="0"/>
-	    <property name="transparency2" value="0"/>
-	</object>
-	<object>
-	    <type value="Button"/>
-	    <name value="SliderUp"/>
-	    <filename name="background0" value="none"/>
-	    <filename name="background1" value="none"/>
-	    <filename name="background2" value="none"/>
-	    <property name="backmode0" value="TILE"/>
-	    <property name="backmode1" value="TILE"/>
-	    <property name="backmode2" value="TILE"/>
-	    <gradient name="gradient0" color0="0x00E7E7E7" color1="0x00C9C9C9" color2="0x00CCCCCC" color3="0x00AEAEAE"/>
-	    <gradient name="gradient1" color0="0x00F5E1FF" color1="0x00DCC8FF" color2="0x00DCC8FF" color3="0x00C3AFFF"/>
-	    <gradient name="gradient2" color0="0x00CFAFFF" color1="0x00DCC8FF" color2="0x00DCC8FF" color3="0x00F5E1FF"/>
-	    <property name="blend0" value="0"/>
-	    <property name="blend1" value="0"/>
-	    <property name="blend2" value="0"/>
-	    <property name="bordersize0" value="1"/>
-	    <property name="bordersize1" value="1"/>
-	    <property name="bordersize2" value="1"/>
-	    <property name="transparency0" value="0"/>
-	    <property name="transparency1" value="0"/>
-	    <property name="transparency2" value="0"/>
-	    <filename name="iconup" value="menu/aup.png" colorkey="0x000000FF"/>
-  	    <filename name="icondown" value="menu/aup.png" colorkey="0x000000FF"/>
-	</object>
-	<object>
-	    <type value="Button"/>
-	    <name value="SliderDown"/>
-	    <filename name="background0" value="none"/>
-	    <filename name="background1" value="none"/>
-	    <filename name="background2" value="none"/>
-	    <property name="backmode0" value="TILE"/>
-	    <property name="backmode1" value="TILE"/>
-	    <property name="backmode2" value="TILE"/>
-	    <gradient name="gradient0" color0="0x00E7E7E7" color1="0x00C9C9C9" color2="0x00CCCCCC" color3="0x00AEAEAE"/>
-	    <gradient name="gradient1" color0="0x00F5E1FF" color1="0x00DCC8FF" color2="0x00DCC8FF" color3="0x00C3AFFF"/>
-	    <gradient name="gradient2" color0="0x00CFAFFF" color1="0x00DCC8FF" color2="0x00DCC8FF" color3="0x00F5E1FF"/>
-	    <property name="blend0" value="0"/>
-	    <property name="blend1" value="0"/>
-	    <property name="blend2" value="0"/>
-	    <property name="bordersize0" value="1"/>
-	    <property name="bordersize1" value="1"/>
-	    <property name="bordersize2" value="1"/>
-	    <property name="transparency0" value="0"/>
-	    <property name="transparency1" value="0"/>
-	    <property name="transparency2" value="0"/>
-	    <filename name="iconup" value="menu/adown.png" colorkey="0x000000FF"/>
-	    <filename name="icondown" value="menu/adown.png" colorkey="0x000000FF"/>
-	</object>
-	<object>
-	    <type value="Button"/>
-	    <name value="SliderDrag"/>
-	    <filename name="background0" value="none"/>
-	    <filename name="background1" value="none"/>
-	    <filename name="background2" value="none"/>
-	    <property name="backmode0" value="TILE"/>
-	    <property name="backmode1" value="TILE"/>
-	    <property name="backmode2" value="TILE"/>
-	    <gradient name="gradient0" color0="0x00E7E7E7" color1="0x00C9C9C9" color2="0x00CCCCCC" color3="0x00AEAEAE"/>
-	    <gradient name="gradient1" color0="0x00F5E1FF" color1="0x00DCC8FF" color2="0x00DCC8FF" color3="0x00C3AFFF"/>
-	    <gradient name="gradient2" color0="0x00CFAFFF" color1="0x00DCC8FF" color2="0x00DCC8FF" color3="0x00F5E1FF"/>
-	    <property name="blend0" value="0"/>
-	    <property name="blend1" value="0"/>
-	    <property name="blend2" value="0"/>
-	    <property name="bordersize0" value="1"/>
-	    <property name="bordersize1" value="1"/>
-	    <property name="bordersize2" value="1"/>
-	    <property name="transparency0" value="0"/>
-	    <property name="transparency1" value="0"/>
-	    <property name="transparency2" value="0"/>
-	    <property name="width" value="16"/>
-	    <property name="height" value="16"/>
-	    <filename name="iconup" value="menu/aelec.png" colorkey="0x000000FF"/>
-	    <filename name="icondown" value="menu/aelec.png" colorkey="0x000000FF"/>
-	</object>
-	<object>
-	    <type value="GradientWidget"/>
-	    <name value="SliderV"/>
-	    <property name="width" value="12"/>
-	</object>
-	<object>
-	    <type value="GradientWidget"/>
-	    <name value="SliderH"/>
-	    <property name="height" value="16"/>
-	</object>
-
-	<object>
-	    <type value="GradientWidget"/>
-	    <name value="Scrollbar"/>
-	    <filename name="background" value="menu/lb_sb1.png"/>
-	    <property name="backmode" value="TILE"/>
-	    <gradient name="gradient" color0="0x00B0B1B6" color1="0x0083838D" color2="0x007B7B83" color3="0x00585765"/>
-	    <property name="blend" value="0"/>
-	</object>
-	<object>
-	    <type value="GradientWidget"/>
-	    <name value="ScrollbarV"/>
-	    <property name="width" value="12"/>
-	</object>
-	<object>
-	    <type value="GradientWidget"/>
-	    <name value="ScrollbarH"/>
-	    <property name="height" value="16"/>
-	</object>
-	<object>
-	    <type value="Button"/>
-	    <name value="ScrollbarLeft"/>
-	    <filename name="background0" value="none"/>
-	    <filename name="background1" value="none"/>
-	    <filename name="background2" value="none"/>
-	    <property name="backmode0" value="TILE"/>
-	    <property name="backmode1" value="TILE"/>
-	    <property name="backmode2" value="TILE"/>
-	    <gradient name="gradient0" color0="0x00E7E7E7" color1="0x00C9C9C9" color2="0x00CCCCCC" color3="0x00AEAEAE"/>
-	    <gradient name="gradient1" color0="0x00F5E1FF" color1="0x00DCC8FF" color2="0x00DCC8FF" color3="0x00C3AFFF"/>
-	    <gradient name="gradient2" color0="0x00CFAFFF" color1="0x00DCC8FF" color2="0x00DCC8FF" color3="0x00F5E1FF"/>
-	    <property name="blend0" value="0"/>
-	    <property name="blend1" value="0"/>
-	    <property name="blend2" value="0"/>
-	    <property name="bordersize0" value="1"/>
-	    <property name="bordersize1" value="1"/>
-	    <property name="bordersize2" value="1"/>
-	    <property name="transparency0" value="0"/>
-	    <property name="transparency1" value="0"/>
-	    <property name="transparency2" value="0"/>
-	</object>
-	<object>
-	    <type value="Button"/>
-	    <name value="ScrollbarRight"/>
-	    <filename name="background0" value="none"/>
-	    <filename name="background1" value="none"/>
-	    <filename name="background2" value="none"/>
-	    <property name="backmode0" value="TILE"/>
-	    <property name="backmode1" value="TILE"/>
-	    <property name="backmode2" value="TILE"/>
-	    <gradient name="gradient0" color0="0x00E7E7E7" color1="0x00C9C9C9" color2="0x00CCCCCC" color3="0x00AEAEAE"/>
-	    <gradient name="gradient1" color0="0x00F5E1FF" color1="0x00DCC8FF" color2="0x00DCC8FF" color3="0x00C3AFFF"/>
-	    <gradient name="gradient2" color0="0x00CFAFFF" color1="0x00DCC8FF" color2="0x00DCC8FF" color3="0x00F5E1FF"/>
-	    <property name="blend0" value="0"/>
-	    <property name="blend1" value="0"/>
-	    <property name="blend2" value="0"/>
-	    <property name="bordersize0" value="1"/>
-	    <property name="bordersize1" value="1"/>
-	    <property name="bordersize2" value="1"/>
-	    <property name="transparency0" value="0"/>
-	    <property name="transparency1" value="0"/>
-	    <property name="transparency2" value="0"/>
-	</object>
-	<object>
-	    <type value="Button"/>
-	    <name value="ScrollbarUp"/>
-	    <filename name="background0" value="none"/>
-	    <filename name="background1" value="none"/>
-	    <filename name="background2" value="none"/>
-	    <property name="backmode0" value="TILE"/>
-	    <property name="backmode1" value="TILE"/>
-	    <property name="backmode2" value="TILE"/>
-	    <gradient name="gradient0" color0="0x00E7E7E7" color1="0x00C9C9C9" color2="0x00CCCCCC" color3="0x00AEAEAE"/>
-	    <gradient name="gradient1" color0="0x00F5E1FF" color1="0x00DCC8FF" color2="0x00DCC8FF" color3="0x00C3AFFF"/>
-	    <gradient name="gradient2" color0="0x00CFAFFF" color1="0x00DCC8FF" color2="0x00DCC8FF" color3="0x00F5E1FF"/>
-	    <property name="blend0" value="0"/>
-	    <property name="blend1" value="0"/>
-	    <property name="blend2" value="0"/>
-	    <property name="bordersize0" value="1"/>
-	    <property name="bordersize1" value="1"/>
-	    <property name="bordersize2" value="1"/>
-	    <property name="transparency0" value="0"/>
-	    <property name="transparency1" value="0"/>
-	    <property name="transparency2" value="0"/>
-	    <filename name="iconup" value="menu/aup.png" colorkey="0x000000FF"/>
-  	    <filename name="icondown" value="menu/aup.png" colorkey="0x000000FF"/>
-	</object>
-	<object>
-	    <type value="Button"/>
-	    <name value="ScrollbarDown"/>
-	    <filename name="background0" value="none"/>
-	    <filename name="background1" value="none"/>
-	    <filename name="background2" value="none"/>
-	    <property name="backmode0" value="TILE"/>
-	    <property name="backmode1" value="TILE"/>
-	    <property name="backmode2" value="TILE"/>
-	    <gradient name="gradient0" color0="0x00E7E7E7" color1="0x00C9C9C9" color2="0x00CCCCCC" color3="0x00AEAEAE"/>
-	    <gradient name="gradient1" color0="0x00F5E1FF" color1="0x00DCC8FF" color2="0x00DCC8FF" color3="0x00C3AFFF"/>
-	    <gradient name="gradient2" color0="0x00CFAFFF" color1="0x00DCC8FF" color2="0x00DCC8FF" color3="0x00F5E1FF"/>
-	    <property name="blend0" value="0"/>
-	    <property name="blend1" value="0"/>
-	    <property name="blend2" value="0"/>
-	    <property name="bordersize0" value="1"/>
-	    <property name="bordersize1" value="1"/>
-	    <property name="bordersize2" value="1"/>
-	    <property name="transparency0" value="0"/>
-	    <property name="transparency1" value="0"/>
-	    <property name="transparency2" value="0"/>
-	    <filename name="iconup" value="menu/adown.png" colorkey="0x000000FF"/>
-	    <filename name="icondown" value="menu/adown.png" colorkey="0x000000FF"/>
-	</object>
-	<object>
-	    <type value="Button"/>
-	    <name value="ScrollbarDrag"/>
-	    <filename name="background0" value="none"/>
-	    <filename name="background1" value="none"/>
-	    <filename name="background2" value="none"/>
-	    <property name="backmode0" value="TILE"/>
-	    <property name="backmode1" value="TILE"/>
-	    <property name="backmode2" value="TILE"/>
-	    <gradient name="gradient0" color0="0x00E7E7E7" color1="0x00C9C9C9" color2="0x00CCCCCC" color3="0x00AEAEAE"/>
-	    <gradient name="gradient1" color0="0x00F5E1FF" color1="0x00DCC8FF" color2="0x00DCC8FF" color3="0x00C3AFFF"/>
-	    <gradient name="gradient2" color0="0x00CFAFFF" color1="0x00DCC8FF" color2="0x00DCC8FF" color3="0x00F5E1FF"/>
-	    <property name="blend0" value="0"/>
-	    <property name="blend1" value="0"/>
-	    <property name="blend2" value="0"/>
-	    <property name="bordersize0" value="1"/>
-	    <property name="bordersize1" value="1"/>
-	    <property name="bordersize2" value="1"/>
-	    <property name="transparency0" value="0"/>
-	    <property name="transparency1" value="0"/>
-	    <property name="transparency2" value="0"/>
-	    <filename name="iconup" value="menu/aelec.png" colorkey="0x000000FF"/>
-	    <filename name="icondown" value="menu/aelec.png" colorkey="0x000000FF"/>
-	</object>
-    </widget>
-
-    <widget>
-        <type value="GUI_TextEdit"/>
-	<object>
-	    <type value="GradientWidget"/>
-	    <name value="GradientWidget"/>
-	    <filename name="background" value="menu/lineedit.png" colorkey="0x000000FF"/>
-	    <property name="backmode" value="TILE"/>
-	    <property name="blend" value="0"/>
-	    <property name="bordersize" value="1"/>
-	</object>
-	<object>
-	    <type value="LineEdit"/>
 	    <name value="LineEdit"/>
-	    <filename name="textcursor" value="menu/editcurs.png" colorkey="0x000000FF"/>
+	    <filename name="textcursor" value="default/editcurs.bmp" colorkey="0x000000FF"/>
 	</object>
     </widget>
-
-   <widget>
-	<type value="GUI_NextSkinButton"/>
+    
+    <widget>
+	<type value="ListBox"/>
 	<object>
-	    <type value="Button"/>
-	    <name value="Button"/>
-	    <filename name="background0" value=""/>
-	    <filename name="background1" value=""/>
-	    <filename name="background2" value=""/>
+	    <name value="ListBoxItem"/>
+	    <filename name="background0" value="none"/>
+	    <filename name="background1" value="none"/>
+	    <filename name="background2" value="none"/>
 	    <property name="backmode0" value="TILE"/>
 	    <property name="backmode1" value="TILE"/>
 	    <property name="backmode2" value="TILE"/>
+	    <gradient name="gradient0" color0="0x00E7E7E7" color1="0x00C9C9C9" color2="0x00CCCCCC" color3="0x00AEAEAE"/>
+	    <gradient name="gradient1" color0="0x00F5E1FF" color1="0x00DCC8FF" color2="0x00DCC8FF" color3="0x00C3AFFF"/>
+	    <gradient name="gradient2" color0="0x00CFAFFF" color1="0x00DCC8FF" color2="0x00DCC8FF" color3="0x00F5E1FF"/>
 	    <property name="blend0" value="0"/>
 	    <property name="blend1" value="0"/>
 	    <property name="blend2" value="0"/>
-	    <property name="bordersize0" value="0"/>
-	    <property name="bordersize1" value="0"/>
-	    <property name="bordersize2" value="0"/>
-	    <property name="transparency0" value="0"/>
-	    <property name="transparency1" value="0"/>
-	    <property name="transparency2" value="0"/>
-	    <filename name="iconup" value="menu/s1p.png"/>
- 	    <filename name="icondown" value="menu/s1p.png"/>
 	</object>
     </widget>
 
     <widget>
-	<type value="GUI_PrevSkinButton"/>
+	<type value="Slider"/>
 	<object>
-	    <type value="Button"/>
-	    <name value="Button"/>
-	    <filename name="background0" value=""/>
-	    <filename name="background1" value=""/>
-	    <filename name="background2" value=""/>
-	    <property name="backmode0" value="TILE"/>
-	    <property name="backmode1" value="TILE"/>
-	    <property name="backmode2" value="TILE"/>
-	    <property name="blend0" value="0"/>
-	    <property name="blend1" value="0"/>
-	    <property name="blend2" value="0"/>
-	    <property name="bordersize0" value="0"/>
-	    <property name="bordersize1" value="0"/>
-	    <property name="bordersize2" value="0"/>
-	    <property name="transparency0" value="0"/>
-	    <property name="transparency1" value="0"/>
-	    <property name="transparency2" value="0"/>
-	    <filename name="iconup" value="menu/s1l.png"/>
- 	    <filename name="icondown" value="menu/s1l.png"/>
+	    <name value="SliderDrag"/>
+	    <property name="width" value="30"/>
 	</object>
     </widget>
-      
+
+    <widget>
+	<type value="WidgetList"/>
+	<object>
+	    <name value="ScrollbarV"/>
+	    <property name="width" value="16"/>
+	</object>
+    </widget>
+    	    	
 </theme>
