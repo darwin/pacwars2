@@ -38,7 +38,7 @@ typedef __int64 int64;
 //**************************************************************************
 //GCC
 //__DJGPP__ || __LINUX__
-#define SC_GCC
+//#define SC_GCC
 #define SC_INTEL
 #include <strings.h>
 #include <values.h>

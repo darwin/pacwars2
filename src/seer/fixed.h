@@ -133,7 +133,19 @@ __INLINE__ int fixeddiv(int x, int y)
 
 #else
 
-#error Fixed operations not implemented for machine/compiler
+inline int fixedmul(int x,int y)
+{int64 d=x;
+ d*=y;
+ d>>=16;
+ return (int)d;
+}
+
+inline int fixeddiv(int x,int y)
+{int64 d=x;
+ d<<=16;
+ if (y) d/=y;
+ return (int)d;
+}
 
 #endif
 
