@@ -11,32 +11,11 @@ extern GUI_OKDialog2 *OKD2;
 // Sound menu widgets
 /////////////////////////////////////////////////////////////////////////////
 
-void GUI_SoundMenu::Return()
-{
-  //eMusicVolume->EditEnd();
-  //eSoundVolume->EditEnd();
-  GUI_BaseMenu::Return();
+void GUI_SoundMenu::Return() {
+	GUI_BaseMenu::Return();
 }
 
-GUI_SoundMenu::GUI_SoundMenu():
-GUI_BaseMenu(GUI_SOUND, mkrect(SM_PX,SM_PY,SM_VX,SM_VY)) /*,
-Board1(NULL, SDLWidget::mkrect(SM_PX,SM_PY,SM_VX, SM_VY), false),
-lRange(NULL, SDLWidget::mkrect(SM_PX+1,SM_PY+30,SM_VX-2,20), "Enter volume in range [0-64].", false),
-SoundMenu(NULL, SDLWidget::mkrect(SM_PX+1,SM_PY+4,SM_VX-2,25), "SOUND OPTIONS", false),
-lMusicVolume(NULL, SDLWidget::mkrect(SM_PX+1,SM_PY+65, 119,20), "Music volume:", false),
-eMusicVolume(NULL, SDLWidget::mkrect(SM_PX+120,SM_PY+65,215,20), 0, 64),
-lSoundVolume(NULL, SDLWidget::mkrect(SM_PX+1,SM_PY+90, 119,20), "Sound volume:", false),
-eSoundVolume(NULL, SDLWidget::mkrect(SM_PX+120,SM_PY+90,215,20), 0, 64),
-b3ds(NULL, 3, SDLWidget::mkrect(SM_PX+25,SM_PY+120,310,25), "ENABLE/DISABLE 3D sound engine"),
-cSwap(NULL, SDLWidget::mkrect(SM_PX+25,SM_PY+147,310,CB_SIZEY), "swap left/right sound channel", true, GUI_Gray64),
-l3dDist(NULL, SDLWidget::mkrect(SM_PX+1,SM_PY+170, 119,20), "3D distance step:", false),
-e3dDist(NULL, SDLWidget::mkrect(SM_PX+120,SM_PY+170,215,20), 0, 50),
-l3dRoll(NULL, SDLWidget::mkrect(SM_PX+1,SM_PY+195, 119,20), "3D sound rollover:", false),
-e3dRoll(NULL, SDLWidget::mkrect(SM_PX+120,SM_PY+195,215,20), 0, 50),
-bSet(NULL, 1, SDLWidget::mkrect(SM_PX+25,SM_PY+225,150, 25), "APPLY"),
-bCancel(NULL, 2, SDLWidget::mkrect(SM_PX+25+150+10,SM_PY+225,150,25), "BACK")
-*/
-{
+GUI_SoundMenu::GUI_SoundMenu() : GUI_BaseMenu(GUI_SOUND, mkrect(SM_PX,SM_PY,SM_VX,SM_VY)) {
 
 	lRange = new GUI_Label(this, SDLWidget::mkrect(1,30,SM_VX-2,20), "Enter volume in range [0-64].", false);
 	SoundMenu = new GUI_Label(this, SDLWidget::mkrect(1,4,SM_VX-2,25), "SOUND OPTIONS", false);
@@ -53,42 +32,24 @@ bCancel(NULL, 2, SDLWidget::mkrect(SM_PX+25+150+10,SM_PY+225,150,25), "BACK")
 	bSet = new GUI_ButtonSmall(this, 1, SDLWidget::mkrect(25,225,150, 25), "APPLY");
 	bCancel = new GUI_ButtonSmall(this, 2, SDLWidget::mkrect(25+150+10,225,150,25), "BACK");
 
-	Board1 = new GUI_Board(this, SDLWidget::mkrect(0,0,SM_VX, SM_VY), false);
+	Default();
 
-  Default();
+	SoundMenu->SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
+	SoundMenu->SetFont(MainFont);
 
-  SoundMenu->SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
-  SoundMenu->SetFont(MainFont);
+	SoundMenu->bgmode = 2;
 
-  SoundMenu->bgmode = 2;
+	lRange->bgmode = 2;
+	lMusicVolume->SetAlignment(SDL_TA_RIGHT);
+	lMusicVolume->shiftx = -4;
+	l3dDist->SetAlignment(SDL_TA_RIGHT);
+	l3dDist->shiftx = -4;
+	l3dRoll->SetAlignment(SDL_TA_RIGHT);
+	l3dRoll->shiftx = -4;
+	lSoundVolume->SetAlignment(SDL_TA_RIGHT);
+	lSoundVolume->shiftx = -4;
 
-  lRange->bgmode = 2;
-  lMusicVolume->SetAlignment(SDL_TA_RIGHT);
-  lMusicVolume->shiftx = -4;
-  l3dDist->SetAlignment(SDL_TA_RIGHT);
-  l3dDist->shiftx = -4;
-  l3dRoll->SetAlignment(SDL_TA_RIGHT);
-  l3dRoll->shiftx = -4;
-  lSoundVolume->SetAlignment(SDL_TA_RIGHT);
-  lSoundVolume->shiftx = -4;
-
-	/*
-  AddChild(&Board1);
-  AddChild(&SoundMenu);
-  AddChild(&lRange);
-  AddChild(&lMusicVolume);
-  AddChild(&eMusicVolume);
-  AddChild(&lSoundVolume);
-  AddChild(&eSoundVolume);
-  AddChild(&b3ds);
-  AddChild(&cSwap);
-  AddChild(&l3dDist);
-  AddChild(&e3dDist);
-  AddChild(&l3dRoll);
-  AddChild(&e3dRoll);
-  AddChild(&bSet);
-  AddChild(&bCancel);
-	*/
+	LoadThemeStyle("GUI_Board");
 }
 
 void GUI_SoundMenu::Default()
@@ -178,51 +139,10 @@ bool GUI_SoundMenu::eventButtonClick(int id, SDLWidget* widget)
   return true;
 }
 
-void GUI_SoundMenu::eventShow()
-{
-  Clear();
-
-/*
-  Board1.Show();
-  SoundMenu.Show();
-
-  eSoundVolume.Show();
-  lSoundVolume.Show();
-  eMusicVolume.Show();
-  lMusicVolume.Show();
-  lRange.Show();
-  b3ds.Show();
-  cSwap.Show();
-  e3dDist.Show();
-  l3dDist.Show();
-  e3dRoll.Show();
-  l3dRoll.Show();
-
-  bSet.Show();
-  bCancel.Show();
-*/
+void GUI_SoundMenu::eventShow() {
+	Clear();
 }
 
-void GUI_SoundMenu::eventHide()
-{
-/*
-  Board1.Hide();
-  SoundMenu.Hide();
-
-  eSoundVolume.Hide();
-  lSoundVolume.Hide();
-  eMusicVolume.Hide();
-  lMusicVolume.Hide();
-  lRange.Hide();
-
-  cSwap.Hide();
-  e3dDist.Hide();
-  l3dDist.Hide();
-  e3dRoll.Hide();
-  l3dRoll.Hide();
-  b3ds.Hide();
-  bSet.Hide();
-  bCancel.Hide();
-*/
+void GUI_SoundMenu::eventHide() {
 }
 

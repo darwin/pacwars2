@@ -1,13 +1,13 @@
 #ifndef GUIBASEMENU_H
 #define GUIBASEMENU_H
 
-#include "sdlwidget.h"
+#include "sdlgradientwidget.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // Base menu widgets
 /////////////////////////////////////////////////////////////////////////////
 
-class GUI_BaseMenu : public SDLWidget {
+class GUI_BaseMenu : public SDLGradientWidget {
 public:
   int mid;
   int parentmid;

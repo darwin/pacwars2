@@ -6,9 +6,11 @@ noinst_LTLIBRARIES = libgui.la
 libgui_la_SOURCES = \
 	gui.cpp \
 	guibasemenu.cpp \
-	guisoundmenu.cpp
+	guisoundmenu.cpp \
+	guinewgamemenu.cpp
 
 EXTRA_DIST = \
 	gui.h \
 	guibasemenu.h \
-	guisoundmenu.h
+	guisoundmenu.h \
+	guinewgamemenu.h

@@ -710,30 +710,22 @@ void GUI_YNDialog::Reset(void (*cb)(int res), char* title, char* line1, char* tl
 
 GUI_YNDialog::GUI_YNDialog() : GUI_BaseMenu(GUI_YNDIALOG, mkrect(YN_PX,YN_PY,YN_VX,YN_VY)) {
 
-  Default();
+	Default();
 
 	YNDialog = new GUI_Label(this, SDLWidget::mkrect(1,4,YN_VX-2,25), "", false);
 	lPrompt1 = new GUI_Label(this, SDLWidget::mkrect(1,35, YN_VX-2,20), "", false);
 	bA = new GUI_ButtonSmall(this, 1, SDLWidget::mkrect(25,65,150,25), "YES");
 	bB = new GUI_ButtonSmall(this, 2, SDLWidget::mkrect(25+150+10,65,150,25), "NO");
 
-	Board1 = new GUI_Board(this, SDLWidget::mkrect(0,0,YN_VX,100), false);
-
-  YNDialog->SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
-  YNDialog->SetFont(MainFont);
+	YNDialog->SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
+	YNDialog->SetFont(MainFont);
   
-  YNDialog->bgmode = 2;
+	YNDialog->bgmode = 2;
   
-  lPrompt1->SetAlignment(SDL_TA_CENTER);
-  lPrompt1->bgmode = 2;
+	lPrompt1->SetAlignment(SDL_TA_CENTER);
+	lPrompt1->bgmode = 2;
 
-	/*
-  AddChild(&Board1);
-  AddChild(&YNDialog);
-  AddChild(&lPrompt1);
-  AddChild(&bA);
-  AddChild(&bB);
-	*/
+	LoadThemeStyle("GUI_Board");
 }
 
 void GUI_YNDialog::Default()
@@ -756,31 +748,6 @@ bool GUI_YNDialog::eventButtonClick(int id, SDLWidget* widget)
   return true;
 }
 
-/*
-void GUI_YNDialog::Show()
-{
-  Clear();
-  
-  Board1.Show();  
-  YNDialog.Show();
-  
-  lPrompt1.Show();  
-  
-  bA.Show();  
-  bB.Show();  
-}
-
-void GUI_YNDialog::Hide()
-{
-  Board1.Hide();  
-  YNDialog.Hide();
-  
-  lPrompt1.Hide();  
-  
-  bA.Hide();  
-  bB.Hide();  
-}
-*/
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -801,23 +768,10 @@ GUI_MainMenu::GUI_MainMenu() : GUI_BaseMenu(GUI_MAINMENU, mkrect(MM_PX,MM_PY,MM_
 	bQuit = new GUI_ButtonBig(this, 8, SDLWidget::mkrect(0,320,MM_VX,40), "Quit");
 	bGame = new GUI_ButtonBig(this, 10, SDLWidget::mkrect(0,360,MM_VX,40), "Back To Game");
 
-  Default();
+	Default();
   
-  lMainMenu->enabled = false;
+	lMainMenu->enabled = false;
 	lMainMenu->LoadThemeStyle("GUI_MenuTitle", "Button");
-  
-/*  AddChild(&lMainMenu);
-  AddChild(&bNewGame);
-  AddChild(&bEndGame);
-  AddChild(&bJoinDiscGame);
-  AddChild(&bCreatePlayer);
-  AddChild(&bDeletePlayer);
-  AddChild(&bOptions);
-  AddChild(&bCredits);
-  AddChild(&bHelp);
-  AddChild(&bQuit);
-  AddChild(&bGame);
-*/
 }
 
 void GUI_MainMenu::Default()
@@ -1072,345 +1026,6 @@ bool GUI_JoinGameMenu::eventButtonClick(int id, SDLWidget* widget)
 }
 
 
-/////////////////////////////////////////////////////////////////////////////
-// NewGame menu widgets
-/////////////////////////////////////////////////////////////////////////////
-
-GUI_NewGameMenu* NGMenu;
-
-void GUI_NewGameMenu::Return()
-{
-  eServerName.EditEnd();
-  eWelcomeMsg.EditEnd();
-  eMaxClients.EditEnd();
-  GUI_BaseMenu::Return();
-}
-
-GUI_NewGameMenu::GUI_NewGameMenu():
-GUI_BaseMenu(GUI_NEWGAME, mkrect(NG_PX,NG_PY,NG_VX,NG_VY)),
-Board(NULL, SDLWidget::mkrect(NG_PX,NG_PY,NG_VX,NG_VY), false),
-NewGameMenu(NULL, SDLWidget::mkrect(NG_PX+1,NG_PY+4,NG_VX-2,25), "NEW GAME", false),
-lIP(NULL, SDLWidget::mkrect(NG_PX+1,NG_PY+30,NG_VX-2,20), "<HERE COMES IP ADDRESS>", false),
-lHost(NULL, SDLWidget::mkrect(NG_PX+1,NG_PY+51,NG_VX-2,20), "<HERE COMES HOST NAME>", false),
-lServerName(NULL, SDLWidget::mkrect(NG_PX+1,NG_PY+90, 119,20), "Server name:", false),
-eServerName(NULL, SDLWidget::mkrect(NG_PX+120,NG_PY+90,215,20)),
-lWelcomeMsg(NULL, SDLWidget::mkrect(NG_PX+1,NG_PY+120,119,20), "Welcome msg:", false),
-eWelcomeMsg(NULL, SDLWidget::mkrect(NG_PX+120,NG_PY+120,215,20)),
-lMaxClients(NULL, SDLWidget::mkrect(NG_PX+1,NG_PY+150,119,20), "Max clients:", false),
-eMaxClients(NULL, SDLWidget::mkrect(NG_PX+120,NG_PY+150,80,20), 1, PWP_TOTALMAX_CLIENTS),
-
-lChoose1(NULL, SDLWidget::mkrect(NG_PX+25,NG_PY+179, 150,20), "Choose map:", false),
-Board1(NULL, SDLWidget::mkrect(NG_PX+25, NG_PY+200, 150, 66), false),
-WidgetList1(NULL, SDLWidget::mkrect(NG_PX+26, NG_PY+201, 148, 64)),
-
-lChoose2(NULL, SDLWidget::mkrect(NG_PX+25+150+10,NG_PY+179, 150,20), "Choose script:", false),
-Board2(NULL, SDLWidget::mkrect(NG_PX+25+150+10, NG_PY+200, 150, 66), false),
-WidgetList2(NULL, SDLWidget::mkrect(NG_PX+26+150+10, NG_PY+201, 148, 64)),
-
-Board3(NULL, SDLWidget::mkrect(NG_PX+25, NG_PY+273, NG_VX-50, 54), false, "GUI_MapInfoBoard"),
-lAuthFile(NULL, SDLWidget::mkrect(NG_PX+25,NG_PY+275, NG_VX-50-8,12), "file", false),
-lDesc1(NULL, SDLWidget::mkrect(NG_PX+25,NG_PY+287, NG_VX-50-20,12), "d1", false),
-lDesc2(NULL, SDLWidget::mkrect(NG_PX+25,NG_PY+299, NG_VX-50-20,12), "d2", false),
-lDesc3(NULL, SDLWidget::mkrect(NG_PX+25,NG_PY+311, NG_VX-50-20,12), "d3", false),
-
-cJoin(NULL, SDLWidget::mkrect(NG_PX+25,NG_PY+333,NG_VX-50, CB_SIZEY), "join the game after starting server", true, GUI_Gray64),
-
-bStartIt(NULL, 1, SDLWidget::mkrect(NG_PX+25,NG_PY+360,150,25), "START SERVER"),
-bCancel(NULL, 2, SDLWidget::mkrect(NG_PX+25+150+10,NG_PY+360,150,25), "BACK")
-{
-  NGMenu = this;
-
-  NewGameMenu.SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
-  NewGameMenu.SetFont(MainFont);
-  
-  
-  lIP.bgmode = 2;
-  lHost.bgmode = 2;
-  NewGameMenu.bgmode = 2;
-
-  
-  lWelcomeMsg.SetAlignment(SDL_TA_RIGHT); 
-  lWelcomeMsg.shiftx = -4;
-  lMaxClients.SetAlignment(SDL_TA_RIGHT); 
-  lMaxClients.shiftx = -4;
-  lServerName.SetAlignment(SDL_TA_RIGHT);
-  lServerName.shiftx = -4;
-
-  lChoose1.bgmode = 2;
-  lChoose1.SetAlignment(SDL_TA_LEFT);
-  lChoose2.bgmode = 2;
-  lChoose2.SetAlignment(SDL_TA_LEFT);
-
-  lDesc1.bgmode = 2;
-  lDesc1.shiftx = 10;
-  lDesc1.shifty = -3;  
-  lDesc1.SetAlignment(SDL_TA_LEFT);
-  lDesc2.bgmode = 2;
-  lDesc2.SetAlignment(SDL_TA_LEFT);
-  lDesc2.shiftx = 10;
-  lDesc2.shifty = -3;  
-  lDesc3.bgmode = 2;
-  lDesc3.SetAlignment(SDL_TA_LEFT);
-  lDesc3.shiftx = 10;
-  lDesc3.shifty = -3;  
-  lAuthFile.bgmode = 2;
-  lAuthFile.SetAlignment(SDL_TA_LEFT);
-  lAuthFile.shiftx = 10;
-  lAuthFile.shifty = -3;  
-  
-  IPaddress serverIP;
-  SDLNet_ResolveHost(&serverIP, "localhost", PWP_MSG_SPORT);
-  
-  if (serverIP.host != INADDR_NONE ) 
-  {
-    lIP.SetTextFormat("IP %s", AddrToS(&serverIP));
-    
-    char * remote_host_name = SDLNet_ResolveIP(&serverIP);
-    if (remote_host_name)
-    {
-      // try to resolve found host - that because of localhost doesn't return full IP address
-      SDLNet_ResolveHost(&serverIP, remote_host_name, PWP_MSG_SPORT);
-      lIP.SetTextFormat("IP %s", AddrToS(&serverIP));
-      lHost.SetTextFormat("HOST NAME %s", /*_strlwr(*/remote_host_name/*)*/);
-    }
-    else
-      lHost.SetText("Unknown host name");
-  }
-  else
-  {
-    lIP.SetText("Error resolving IP");
-    lHost.SetText("Unknown host name");
-  }
-  
-  AddChild(&NewGameMenu);
-  AddChild(&lIP);
-  AddChild(&lHost);
-  AddChild(&lServerName);
-  AddChild(&eServerName);
-  AddChild(&lWelcomeMsg);
-  AddChild(&eWelcomeMsg);
-  AddChild(&lMaxClients);
-  AddChild(&eMaxClients);
-  AddChild(&lChoose1);
-  AddChild(&WidgetList1);
-  AddChild(&lChoose2);
-  AddChild(&WidgetList2);
-  AddChild(&lAuthFile);
-  AddChild(&lDesc1);
-  AddChild(&lDesc2);
-  AddChild(&lDesc3);
-  AddChild(&cJoin);
-  AddChild(&bStartIt);
-  AddChild(&bCancel);
-
-  AddChild(&Board3);
-  AddChild(&Board2);
-  AddChild(&Board1);
-  AddChild(&Board);
-
-  Default();
-}
-
-void scriptchCB(GUI_LabelL* l)
-{
-//  NGMenu->Board3.Hide();
-//  NGMenu->Board3.Show();
-//  NGMenu->Board3.Show();
-  NGMenu->Board3.Redraw();
-
-  if(l == NULL) {
-		return;
-  }
-
-  if (l->msi)
-  {
-    NGMenu->lAuthFile.SetTextFormat(" File: %s.msc, Author: %s", NGMenu->selected2->msi->name, NGMenu->selected2->msi->author);
-    NGMenu->lDesc1.SetTextFormat(NGMenu->selected2->msi->desc[0]);
-    NGMenu->lDesc2.SetTextFormat(" %s", NGMenu->selected2->msi->desc[1]);
-    NGMenu->lDesc3.SetTextFormat(" %s", NGMenu->selected2->msi->desc[2]);
-  }
-}
-
-
-void mapchCB(GUI_LabelL* l)
-{
-  NGMenu->GenerateScriptSelection();
-  NGMenu->WidgetList2.Hide();
-  NGMenu->WidgetList2.Show();
-}
-
-void GUI_NewGameMenu::GenerateScriptSelection()
-{
-  WidgetList2.DeleteAll();
-  CSMapInfo* a;
-  SMapMan.Scan(script_dir.string, smap_ext.string);
-  a = SMapMan.Scripts;
-  int i=0;
-  while (a) {
-    i++;
-    if (selected1 && strcmp(selected1->GetText(), a->map)==0)
-      WidgetList2.AddWidget(new GUI_LabelL(NULL, SDLWidget::mkrect(0,0,150-14,12), a->sname, &selected2, a, GUI_UnselectedItem, GUI_SelectedItem, scriptchCB));
-    a = a->next;
-  }
-
-  if (WidgetList2.GetWidgetCount())
-    selected2 = (GUI_LabelL*)WidgetList2.FindWidget(0);
-  else
-    selected2 = NULL;
-  
-  Board2.Redraw();
-  WidgetList2.Redraw();
-  scriptchCB(selected2);
-}
-
-void GUI_NewGameMenu::Default()
-{
-  eServerName.SetText(s_name.string);
-  eMaxClients.SetText(s_maxclients.string);
-  eWelcomeMsg.SetText(s_welcome_msg.string);
-
-  WidgetList1.DeleteAll();
-  MapMan.Scan(map_dir.string, map_ext.string);
-  CMapInfo* a;
-  a = MapMan.Maps;
-  int i=0;
-  while (a) {
-    i++;
-		WidgetList1.AddWidget(new GUI_LabelL(NULL, SDLWidget::mkrect(0,0,150-14,12), a->name, &selected1, 0, GUI_UnselectedItem, GUI_SelectedItem, mapchCB));
-    a = a->next;
-  }
-
-  if (WidgetList1.GetWidgetCount())
-    selected1 = (GUI_LabelL*)WidgetList1.FindWidget(0);
-  else
-    selected1 = NULL;
-  GenerateScriptSelection();
-}
-
-bool GUI_NewGameMenu::eventButtonClick(int id, SDLWidget* widget)
-{
-  switch (id) {
-  case 1:
-    if (selected1 && selected2)
-    {
-      ConOut("");
-      ConOut("> NewGame menu sequence <");
-      if (net_server_status)
-      {
-        ConOut("es");
-        CommandExecute("es");
-      }
-    
-      ConOut("s_name %s", eServerName.GetText());
-      CommandExecute("s_name %s", eServerName.GetText());
-      ConOut("s_welcome_msg %s", eWelcomeMsg.GetText());
-      CommandExecute("s_welcome_msg %s", eWelcomeMsg.GetText());
-      ConOut("s_maxclients %s", eMaxClients.GetText());
-      CommandExecute("s_maxclients %s", eMaxClients.GetText());
-      ConOut("ss");
-      CommandExecute("ss");
-      ConOut("s_next_map %s", selected1->GetText());
-      CommandExecute("s_next_map %s", selected1->GetText());
-      ConOut("s_next_script %s", selected2->msi->name);
-      CommandExecute("s_next_script %s", selected2->msi->name);
-      ConOut("rs");
-      CommandExecute("rs");
-      ConOut("> end of sequence <");
-      ConOut("");
-      
-      if (cJoin.GetPressed())
-      {
-        Cvar_Set("last_server", "localhost");
-        JGMenu->Default();
-        JGMenu->eventButtonClick(1, NULL);
-        GUI_OpenMenu(GUI_MAINMENU);
-        GUI_OpenMenu(GUI_CREATEPLAYER);
-      }
-      else
-        while (GUI_id!=GUI_MAINMENU) GUI_Return(); // return from all menus
-    }
-    else
-    {
-      if (!selected1)
-      {
-        OKD1->Reset("MAP REQUIRED", "Map name must be selected !");
-        GUI_OpenMenu(GUI_OKDIALOG1);
-        return false;
-      }
-
-      if (!selected2)
-      {
-        OKD1->Reset("SCRIPT REQUIRED", "Script name must be selected !");
-        GUI_OpenMenu(GUI_OKDIALOG1);
-        return false;
-      }
-    }
-
-    break;
-  case 2:
-    Return();
-    break;
-  }
-  return true;
-}
-
-void GUI_NewGameMenu::Show()
-{
-  Clear();
-  
-  Board.Show();  
-  bStartIt.Show();  
-  bCancel.Show();  
-  eServerName.Show();  
-  lServerName.Show();  
-  eWelcomeMsg.Show();  
-  lWelcomeMsg.Show();  
-  eMaxClients.Show();  
-  lMaxClients.Show();  
-  lIP.Show();  
-  lHost.Show();  
-  lChoose1.Show();
-  Board1.Show();
-  WidgetList1.Show();
-  lChoose2.Show();
-  Board2.Show();
-  WidgetList2.Show();
-  NewGameMenu.Show();
-  cJoin.Show();
-  Board3.Show();
-  lAuthFile.Show();
-  lDesc1.Show();
-  lDesc2.Show();
-  lDesc3.Show();
-}
-
-void GUI_NewGameMenu::Hide()
-{
-  Board.Hide();  
-  bStartIt.Hide();  
-  bCancel.Hide();  
-  eServerName.Hide();  
-  lServerName.Hide();  
-  eWelcomeMsg.Hide();  
-  lWelcomeMsg.Hide();  
-  eMaxClients.Hide();  
-  lMaxClients.Hide();  
-  lIP.Hide();  
-  lHost.Hide();  
-  lChoose1.Hide();
-  Board1.Hide();
-  WidgetList1.Hide();
-  lChoose2.Hide();
-  Board2.Hide();
-  WidgetList2.Hide();
-  NewGameMenu.Hide();
-  cJoin.Hide();
-  Board3.Hide();
-  lAuthFile.Hide();
-  lDesc1.Hide();
-  lDesc2.Hide();
-  lDesc3.Hide();
-}
 
 /////////////////////////////////////////////////////////////////////////////
 // Disconnect menu widgets

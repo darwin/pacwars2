@@ -9,13 +9,14 @@
 // Base menu widgets
 /////////////////////////////////////////////////////////////////////////////
 
-GUI_BaseMenu::GUI_BaseMenu(int iid, SDL_Rect& rect): SDLWidget(NULL, rect) {
+GUI_BaseMenu::GUI_BaseMenu(int iid, SDL_Rect& rect): SDLGradientWidget(NULL, rect) {
 	mid = iid;
 	next = NULL;
+	LoadThemeStyle("GUI_BaseMenu");
 }
 
-void GUI_BaseMenu::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
-{
+void GUI_BaseMenu::eventDraw(SDL_Surface* surface, SDL_Rect* rect) {
+	SDLGradientWidget::eventDraw(surface, rect);
 	//SDL_FillRect(surface, rect, 0);
 	//SDLWidget::DrawBorder(surface, rect, 1, false);
 }
@@ -30,7 +31,7 @@ void GUI_BaseMenu::Return()
   Hide();
   blocked_inputs = 0;
   HideMouse();
-  SDL_FillRect(SDLApplication::GetScreen(), &my_rectDisplay, 0);
+  //SDL_FillRect(SDLApplication::GetScreen(), &my_rectDisplay, 0);
   if (parentmid!=-1)
   {
     GUI_Show(parentmid);
