@@ -23,22 +23,7 @@
 #undef SendMessage
 
 #include <gui.h>
-/*
-#include <sdlwidget.h>
-#include <sdlapplication.h>
-#include <sdlbutton.h>
-#include <sdlbuttongroup.h>
-#include <sdlwidgetlist.h>
-#include <sdllabel.h>
-#include <sdlwindow.h>
-#include <sdllineedit.h>
-#include <sdlscrollbar.h>
-#include <sdlprogressbar.h>
-#include <sdlradiobutton.h>
-#include <sdlcheckbutton.h>
-*/
 
-//#include <crtdbg.h>
 #include "mapman.h"
 #include "smapman.h"
 
@@ -2766,7 +2751,11 @@ void WaitForKeypress()
 void ProcessEvents()
 {
   SDL_Event event;
-  if (net_client_status != NS_CONNECTED) ResetChat();
+  if (net_client_status != NS_CONNECTED) 
+  {
+    ResetChat();
+    blocked_inputs = 0;
+  }
   
   if (SDL_PollEvent(&event)) {
     switch (event.type) {
@@ -2792,6 +2781,7 @@ void ProcessEvents()
       }
       else
       {
+        blocked_inputs = 0;
         switch (event.key.keysym.sym) {
         case SDLK_BACKQUOTE:
           if (ConsoleDown) {
@@ -2801,6 +2791,7 @@ void ProcessEvents()
             ConsoleDown = true;
             blocked_inputs = 1;
           }
+          return;
 			break;
           //continue;
         case SDLK_F1:
@@ -2860,7 +2851,11 @@ void ProcessEvents()
           }
           break;
         case SDLK_t:
-          if (net_client_status == NS_CONNECTED) chat_on=true;
+          if (net_client_status == NS_CONNECTED) 
+          {
+            chat_on=true;
+            blocked_inputs = 1;
+          }
           break;
         }
       }
