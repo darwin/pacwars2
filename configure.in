@@ -27,6 +27,10 @@ AC_PROG_RANLIB
 AC_PROG_INSTALL
 AC_EXEEXT
 
+dnl set default prefix
+
+ac_default_prefix=/usr/local/games/pw2
+
 dnl Check for SDL
 
 AM_PATH_SDL($SDL_VERSION,
@@ -96,5 +100,15 @@ Makefile
 src/Makefile
 src/console/Makefile
 src/seer/Makefile
+bin/Makefile
+bin/gfx/Makefile
+bin/gfx/game/Makefile
+bin/gfx/gui/Makefile
+bin/gfx/skins/Makefile
+bin/gfx/sprites/Makefile
+bin/maps/Makefile
+bin/scripts/Makefile
+bin/snd/Makefile
+pw2.spec
 ])
 

@@ -1,6 +1,6 @@
 AUTOMAKE_OPTIONS = 1.4
 
-SUBDIRS = src
+SUBDIRS = src bin
 
 DIST_SUBDIRS = $(SUBDIRS)
 
@@ -8,7 +8,8 @@ EXTRA_DIST = \
 	COPYING \
 	INSTALL \
 	TODO \
-	autogen.sh
+	autogen.sh \
+	pw2.spec.in
 
 $(PACKAGE)-$(VERSION).tar.gz: dist
 

@@ -5,6 +5,8 @@ INCLUDES = $(PARAGUI_CFLAGS) -I./console -I./seer -DDISABLE_BASS
 
 bin_PROGRAMS = pw2
 
+pw2dir = $(prefix)
+
 pw2_LDADD = $(PARAGUI_LIBS) \
 	-lconsole -lseer -L./console -L./seer \
 	-lSDL_net -lSDL_image -lSDL_mixer
