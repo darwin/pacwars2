@@ -94,6 +94,10 @@ AM_PATH_PARAGUI($PARAGUI_VERSION,
 
 AM_CONFIG_HEADER(config.h)
 
+CXXFLAGS="$CFLAGS -frtti"
+
+AC_SUBST(CXXFLAGS)
+
 # Finally create all the generated files
 AC_OUTPUT([
 Makefile

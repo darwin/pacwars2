@@ -7,9 +7,9 @@ pw2_DATA = \
 	config.cfg \
 	file_id.diz \
 	licence.txt \
-	*.url \
+	PW2-site.url \
 	README-SDL.txt
 
-EXTRA_DIST = $(pw2_DATA)
+EXTRA_DIST = $(pw2_DATA) pw2.sh
 
 
