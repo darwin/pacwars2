@@ -30,6 +30,29 @@ AC_EXEEXT
 dnl set default prefix
 
 ac_default_prefix=/usr/local/games/pw2
+EX_LIBS=""
+
+case "$target" in
+    *-*-cygwin* | *-*-mingw32*)
+        AM_INIT_AUTOMAKE(xmingw32msvc-paragui, $PARAGUI_VERSION)
+        if test "$build" != "$target"; then # cross-compiling
+            # Default cross-compile location
+            ac_default_prefix=/usr/local/cross-tools/i386-mingw32msvc
+        else
+            # Look for the location of the tools and install there
+            ac_default_prefix=$BUILD_PREFIX
+        fi
+        ;;
+    alpha*-*-linux*)
+        CFLAGS="$CFLAGS -mcpu=ev4 -Wa,-mall"
+        ;;
+    *-*-beos*)
+        ac_default_prefix=/boot/home/pw2
+	EX_LIBS="-lz"
+        ;;
+esac 
+
+AC_SUBST(EX_LIBS)
 
 dnl Check for SDL
 

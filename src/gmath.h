@@ -21,8 +21,9 @@
 #define ROUND(x) ((int)((x)+0.5))
 #define CLAMP(x,min,max) ((x)<(min)?(min):((x)>(max)?(max):(x)))
 
+#ifndef PI
 #define PI (float)3.14159265
-
+#endif
 
 #define STEP (PI/8)
 #define STEP_HALF (STEP/2)

@@ -45,9 +45,9 @@ void GUI_VideoMenu::Default() {
 	if (alphamenu.value) cAlphaMenu->SetPressed(); else cAlphaMenu->SetUnpressed();
 	if (doublebuf.value) cDB->SetPressed(); else cDB->SetUnpressed();
 
-	eGamma_r->SetTextFormat("%.3g", gamma_r.value);
-	eGamma_g->SetTextFormat("%.3g", gamma_g.value);
-	eGamma_b->SetTextFormat("%.3g", gamma_b.value);
+	eGamma_r->SetTextFormat("%.3g", pw2_gamma_r.value);
+	eGamma_g->SetTextFormat("%.3g", pw2_gamma_g.value);
+	eGamma_b->SetTextFormat("%.3g", pw2_gamma_b.value);
 }
 
 bool GUI_VideoMenu::eventButtonClick(int id, SDLWidget* widget) {

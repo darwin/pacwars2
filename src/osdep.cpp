@@ -43,6 +43,11 @@ int pacFindClose(fhandle_t handle)
 }
 
 #else
+#ifdef __BEOS__
+
+#include "osdep_beos.cpp"
+
+#else
 
 //###########################################################################
 //## UNIX (GNU) implementation
@@ -66,7 +71,11 @@ fhandle_t pacFindFirst(char *filespec, fileinfo_t * fileinfo)
 	fhandle_t h;
 
 	strcpy(file_pattern, filespec);
+#ifdef __BEOS__
+        count = scandir(filespec, &eps, find_dummy, NULL); 
+#else
 	count = scandir(filespec, &eps, find_dummy, alphasort);
+#endif
 	h.handle = (long) eps;
 	file_index = 0;
 
@@ -96,7 +105,11 @@ fhandle_t pacFindFirst_new(char *dir, char *ext, fileinfo_t * fileinfo)
 		strcpy(file_pattern, "*");
 	}
 
+#ifdef __BEOS__
+        count = scandir(fileinfo->dir, &eps, find_dummy, NULL); 
+#else
 	count = scandir(fileinfo->dir, &eps, find_dummy, alphasort);
+#endif
 	h.handle = (long) eps;
 	file_index = 0;
 
@@ -141,6 +154,7 @@ int pacFindClose(fhandle_t handle)
 	free((struct dirent **) (handle.handle));
 }
 
+#endif
 #endif
 
 //###########################################################################

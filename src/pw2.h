@@ -23,9 +23,9 @@ extern DECLSPEC cvar_t	music_volume;
 extern DECLSPEC cvar_t	autolog;
 
 extern DECLSPEC cvar_t	fullscreen;
-extern DECLSPEC cvar_t	gamma_r;
-extern DECLSPEC cvar_t	gamma_b;
-extern DECLSPEC cvar_t	gamma_g;
+extern DECLSPEC cvar_t	pw2_gamma_r;
+extern DECLSPEC cvar_t	pw2_gamma_b;
+extern DECLSPEC cvar_t	pw2_gamma_g;
 extern DECLSPEC cvar_t	doublebuf;
 extern DECLSPEC cvar_t	glblit;
 

@@ -195,9 +195,9 @@ cvar_t sound_volume =
 { "sound_volume", "50", true, false, CHsound_volume };
 
 cvar_t fullscreen = { "fullscreen", "1", true };
-cvar_t gamma_r = { "gamma_r", "1", true, false, CHgamma };
-cvar_t gamma_b = { "gamma_b", "1", true, false, CHgamma };
-cvar_t gamma_g = { "gamma_g", "1", true, false, CHgamma };
+cvar_t pw2_gamma_r = { "gamma_r", "1", true, false, CHgamma };
+cvar_t pw2_gamma_b = { "gamma_b", "1", true, false, CHgamma };
+cvar_t pw2_gamma_g = { "gamma_g", "1", true, false, CHgamma };
 cvar_t doublebuf = { "doublebuf", "1", true };
 cvar_t glblit = { "glblit", "0", true };
 cvar_t alphamenu = { "alphamenu", "0", true };
@@ -209,7 +209,7 @@ cvar_t autolog = { "autolog", "0", true };	// automaticke rozjeti serveru a vytv
 void ResetGamma()
 {
   ConOut("Reseting gamma");
-  SDL_SetGamma(gamma_r.value, gamma_g.value, gamma_b.value);
+  SDL_SetGamma(pw2_gamma_r.value, pw2_gamma_g.value, pw2_gamma_b.value);
 }
 
 
@@ -2586,9 +2586,9 @@ void AddConsoleVars()
   Cvar_RegisterVariable(&fullscreen);
   Cvar_RegisterVariable(&doublebuf);
   Cvar_RegisterVariable(&glblit);
-  Cvar_RegisterVariable(&gamma_r);
-  Cvar_RegisterVariable(&gamma_g);
-  Cvar_RegisterVariable(&gamma_b);
+  Cvar_RegisterVariable(&pw2_gamma_r);
+  Cvar_RegisterVariable(&pw2_gamma_g);
+  Cvar_RegisterVariable(&pw2_gamma_b);
   Cvar_RegisterVariable(&alphamenu);
   Cvar_RegisterVariable(&autoserver);
   Cvar_RegisterVariable(&theme);
@@ -3103,7 +3103,11 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
   audio_rate = MIX_DEFAULT_FREQUENCY;
   audio_format = MIX_DEFAULT_FORMAT;
   audio_channels = 2;
+#ifdef __BEOS__
+  audio_buffers = 4 * 4096;
+#else
   audio_buffers = 1024;
+#endif
 #endif
   
 #endif

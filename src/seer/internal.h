@@ -22,7 +22,8 @@ extern "C" {
 #ifdef _MSC_VER
 #define SC_MSVC
 #define SC_INTEL
-//**************************************************************************//MS VISUAL C++
+//**************************************************************************
+//MS VISUAL C++
 #include <string.h>
 #define MAXINT 0x7fffffff
 #ifdef _DEBUG
@@ -30,11 +31,20 @@ extern "C" {
 #endif
 	typedef __int64 int64;
 #else
-//**************************************************************************//GCC//__DJGPP__ || __LINUX__//#define SC_GCC
+//**************************************************************************
+//GCC
+//__DJGPP__ || __LINUX__
+//#define SC_GCC
 #define SC_INTEL
 #include <strings.h>
+#ifndef __BEOS__
 #include <values.h>
+#endif
 	typedef long long int64;
+#endif
+
+#ifdef __BEOS__
+#define MAXINT INT_MAX 
 #endif
 
 //**************************************************************************
