@@ -201,6 +201,8 @@ cvar_t gamma_g = { "gamma_g", "1", true, false, CHgamma };
 cvar_t doublebuf = { "doublebuf", "1", true };
 cvar_t glblit = { "glblit", "0", true };
 cvar_t alphamenu = { "alphamenu", "0", true };
+cvar_t autoserver = {"autosever", "0", true };
+cvar_t theme = {"theme", DEFAULT_THEME, true };
 
 cvar_t autolog = { "autolog", "0", true };	// automaticke rozjeti serveru a vytvoreni hrace po spusteni
 
@@ -361,9 +363,10 @@ SDL_Surface *LoadPic(char *fname)
     return SDL_AllocSurface(SDL_SWSURFACE | SDL_SRCCOLORKEY, 10, 10,
       video_bpp, 0, 0, 0, 0);
   }
-  SDL_Surface *Converted = SDL_DisplayFormat(Temp);
-  SDL_FreeSurface(Temp);
-  return Converted;
+//  SDL_Surface *Converted = SDL_DisplayFormat(Temp);
+//  SDL_FreeSurface(Temp);
+//  return Converted;
+  return Temp;
 }
 
 void DrawGameBack(SDL_Surface * screen)
@@ -2587,6 +2590,8 @@ void AddConsoleVars()
   Cvar_RegisterVariable(&gamma_g);
   Cvar_RegisterVariable(&gamma_b);
   Cvar_RegisterVariable(&alphamenu);
+  Cvar_RegisterVariable(&autoserver);
+  Cvar_RegisterVariable(&theme);
 }
 
 void AddConsoleCommands()
@@ -2763,7 +2768,6 @@ void ProcessEvents()
   while (SDL_PollEvent(&event)) {
     switch (event.type) {
     case SDL_QUIT:
-      if (!GUI_id)
         App_Quit();
       break;
     case SDL_ACTIVEEVENT:
@@ -3058,14 +3062,19 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
   LoadConfig(PW_CONFIG_FILE);
 #endif
   
-  //sprintf(fname, "PARAGUIDIR=%s", gui_dir.string);
-  //putenv(fname);
   SDLApplication app;
   strcpy(fname, gui_dir.string);
   if (fname[strlen(fname) - 1] == '/')
     fname[strlen(fname) - 1] = 0;
   app.SetApplicationPath(fname);
-  app.LoadTheme("default.theme", true, gui_dir.string);
+  if (!app.LoadTheme(theme.string, true, fname))
+  {
+    fprintf(stderr, "Couldn't load menu theme %s from %s\nCheck config.cfg for \"gui_dir\" and \"theme\"\n", theme.string, gui_dir.string);
+    if (!app.LoadTheme(DEFAULT_THEME, true, fname)) {
+      fprintf(stderr, "Couldn't load default menu theme %s from %s\n", DEFAULT_THEME, gui_dir.string);
+      exit(2);
+    }
+  }
   
   Uint32 videoflags;
   
@@ -3166,13 +3175,7 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
     sound_3d_enabled = false;
   
   // Initialize SDL
-  if (SDL_Init(SDL_INIT_VIDEO
-    //#ifdef PW_AUDIO
-    //#ifndef PW_BASS
-    | SDL_INIT_AUDIO
-    //#endif
-    //#endif
-    | SDL_INIT_NOPARACHUTE) < 0) {
+  if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO|SDL_INIT_NOPARACHUTE) < 0) {
     fprintf(stderr, "Couldn't initialize SDL: %s\n", SDL_GetError());
     exit(1);
   }
@@ -3198,10 +3201,7 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
   
   screen = app.GetScreen();
   
-  SDL_Surface *fake_screen =
-    SDL_CreateRGBSurface(SDL_SWSURFACE | SDL_SRCCOLORKEY |
-    SDL_SRCALPHA, 640, 480, video_bpp, 0, 0, 0,
-    0);
+  SDL_Surface *fake_screen = SDL_CreateRGBSurface(SDL_SWSURFACE|SDL_SRCCOLORKEY|SDL_SRCALPHA, 640, 480, video_bpp, 0, 0, 0, 0);
   SDL_FillRect(fake_screen, NULL, 0x0);
   app.SetScreen(fake_screen);
   
@@ -3537,7 +3537,7 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
   WaitForKeypress();
   
   if (autolog.value) {
-    ConOutEx(MISC_FONT, "automatic starting command sequence:");
+    ConOutEx(MISC_FONT, "> automatic starting command sequence: <");
     CommandExecuteOut("ss");
     CommandExecuteOut("rs");
     CommandExecuteOut("sc");
@@ -3547,6 +3547,11 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
     CommandExecuteOut("p1_on 1");
     
     RecreatePlayers();
+  }
+  else
+  if (autoserver.value) {
+    ConOutEx(MISC_FONT, "> \"autoserver\" command sequence: <");
+    CommandExecuteOut("ss");
   }
   
   inloop = true;
@@ -3685,7 +3690,7 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
       GUI_menu->GetClipRects(r1, r2);
       
       if (alphamenu.value) {
-        SDL_SetAlpha(app.GetScreen(), SDL_SRCALPHA, MENUALPHA);
+        SDL_SetAlpha(app.GetScreen(), SDL_SRCALPHA, MENU_ALPHA);
       } else {
         SDL_SetAlpha(app.GetScreen(), 0, 0);
       }
@@ -3770,4 +3775,5 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
 
   printf("PacWars2 (c) 2000-2001 Woid, Raist, Gameover, Dusty, Braindead\n");
   printf("\n");
+  return 0;
 }

@@ -170,7 +170,8 @@ extern DECLSPEC cvar_t sprite_imp;
 #define MAX_ANIMATIONS  100
 #define MAX_WEAPONS     5
 
-#define MENUALPHA 200
+#define MENU_ALPHA 200
+#define DEFAULT_THEME "default"
 
 
 #ifndef _MAX_PATH

@@ -180,7 +180,7 @@ void ImportShot(GShot * gs, SCSHOT * ss)
 {
 	ImportEntity((GEntity *) gs, &ss->entity);
 
-	gs->bounced = ss->bounced;
+  gs->bounced = ss->bounced?true:false;
 	gs->dx = ss->dx;
 	gs->owner = ss->owner;
 }

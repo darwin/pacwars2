@@ -43,21 +43,11 @@ bool LoadMouse(SDL_RWops * src)
 	if (!temp)
 		return false;
 
-	s = SDL_DisplayFormat(temp);
-	SDL_FreeSurface(temp);
-
-	if (s->format->BitsPerPixel == 16) {
-		Uint16 *px = ((Uint16 *) s->pixels) + s->w - 1;
-		SDL_SetColorKey(s, SDL_SRCCOLORKEY | SDL_RLEACCEL, *px);
-	} else {
-		if (s->format->BitsPerPixel == 32) {
-			Uint32 *px = ((Uint32 *) s->pixels) + s->w - 1;
-			SDL_SetColorKey(s, SDL_SRCCOLORKEY | SDL_RLEACCEL, *px);
-		}
-	}
+//	s = SDL_DisplayFormat(temp);
+//	SDL_FreeSurface(temp);
 
 	DoneMouse();
-	mouse_surface = s;
+	mouse_surface = temp;
 	return true;
 }
 

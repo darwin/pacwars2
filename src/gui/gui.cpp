@@ -221,7 +221,6 @@ SDLLabel(parent,r,text)
   msi = si;
   callback = cb;
   SetAlignment(SDL_TA_LEFT); 
-//  SetColor(GUI_LabelColor, GUI_LabelColor);
 }
 
 bool GUI_LabelL::eventMouseButtonDown(const SDL_MouseButtonEvent* button)
@@ -239,7 +238,6 @@ bool GUI_LabelL::eventMouseButtonDown(const SDL_MouseButtonEvent* button)
 
 void GUI_LabelL::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
 {
-  SDL_Color c;
   if (*selected==this) SetTextColor(c2); else SetTextColor(c1);
   SDLLabel::eventDraw(surface, rect);  
 }
@@ -400,6 +398,7 @@ bool GUI_NumEdit::eventFilterKey(const SDL_KeyboardEvent* key)
 	  case SDLK_KP7:
 	  case SDLK_KP8:
 	  case SDLK_KP9:
+	  case SDLK_BACKSPACE:
 			return false;
       break;
       
@@ -451,6 +450,7 @@ bool GUI_FloatEdit::eventFilterKey(const SDL_KeyboardEvent* key)
 		case SDLK_PERIOD:
 		case SDLK_MINUS:
 	  case SDLK_KP_MINUS:
+	  case SDLK_BACKSPACE:
 		return false;
       break;
       
@@ -468,8 +468,7 @@ bool GUI_FloatEdit::eventFilterKey(const SDL_KeyboardEvent* key)
 GUI_ScrollBar::GUI_ScrollBar(SDLWidget* parent, int id, SDL_Rect& r, int direction) : SDLScrollBar(parent, id, r, direction) {
 }
 
-GUI_WidgetList::GUI_WidgetList(SDLWidget* parent, SDL_Rect& r) : SDLWidgetList(parent, r/*, true*/) {
-  LoadThemeStyle("GUI_WidgetList", "GradientWidget");
+GUI_WidgetList::GUI_WidgetList(SDLWidget* parent, SDL_Rect& r) : SDLWidgetList(parent, r, "GUI_WidgetList") {
 }
 
 GUI_WidgetList::~GUI_WidgetList() {
@@ -792,7 +791,7 @@ bool GUI_ButtonS::eventMouseButtonUp(const SDL_MouseButtonEvent* button){
 }
 
 bool GUI_ButtonS::SetBackground(const char* filename, int mode){
-  background = SDL_LoadBMP(SDLApplication::GetRelativePath((char*)filename));
+  background = IMG_Load(SDLApplication::GetRelativePath((char*)filename));
   return (background != NULL);
 }
 
@@ -894,8 +893,8 @@ GUI_SkinCtrl::GUI_SkinCtrl(SDLWidget* parent, SDL_Rect& r,  bool storebackground
 	c = GUI_Gray64;
 	drawbackground = true;
 
-	bPrev->SetIcon("./s1l.bmp", "./s1l.bmp");
-	bNext->SetIcon("./s1p.bmp", "./s1p.bmp");
+  bPrev->LoadThemeStyle("GUI_PrevSkinButton");
+  bNext->LoadThemeStyle("GUI_NextSkinButton");
 }
 
 void GUI_SkinCtrl::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
