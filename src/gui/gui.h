@@ -26,6 +26,7 @@
 #include "guimainmenu.h"
 #include "guioptionsmenu.h"
 #include "guijoingamemenu.h"
+#include "guicreditsmenu.h"
 
 #include "smapman.h"
 #include "sprite.h"
@@ -439,55 +440,16 @@ public:
 #define CM_VX 460
 #define CM_VY 420
 
-
-class GUI_CreditsMenu : public GUI_BaseMenu {
-public:
-  GUI_CreditsMenu();
-  
-  GUI_Board Board1;
-  GUI_Bitmap mBack1;
-  GUI_LabelC CreditsMenu;
-  
-  GUI_LabelC lLine1;
-  GUI_LabelC lLine2;
-  GUI_LabelC lLine3;
-  GUI_LabelC lLine4;
-  GUI_LabelC lLine5;
-  GUI_LabelC lLine6;
-  GUI_LabelC lLine7;
-  GUI_LabelC lLine8;
-  GUI_LabelC lLine9;
-  GUI_LabelC lLine10;
-  GUI_LabelC lLine11;
-  GUI_LabelC lLine12;
-  GUI_LabelC lLine13;
-  GUI_LabelC lLine14;
-  GUI_LabelC lLine15;
-  GUI_LabelC lLine16;
-  GUI_LabelC lLine17;
-  GUI_LabelC lLine18;
-  GUI_LabelC lLine19;
-  GUI_LabelC lLine20;
-
-  GUI_ButtonSmall bOK;
-  
-  void Show();
-  void Hide();
-  void Default();
-  
-  bool eventButtonClick(int id, SDLWidget* widget);
-};
-
-#define CM_G1_PX (CM_PX+8)
-#define CM_G1_PY (CM_PY)
+#define CM_G1_PX (8)
+#define CM_G1_PY (0)
 #define CM_G1_VX (CM_VX/2)
 
-#define CM_G1X_PX (CM_PX+52)
-#define CM_G1X_PY (CM_PY)
+#define CM_G1X_PX (52)
+#define CM_G1X_PY (0)
 
 
-#define CM_G2_PX (CM_PX+10+CM_VX/2+10)
-#define CM_G2_PY (CM_PY-120)
+#define CM_G2_PX (10+CM_VX/2+10)
+#define CM_G2_PY (-120)
 #define CM_G2_VX (CM_VX/2)
 
 
