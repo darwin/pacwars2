@@ -2694,8 +2694,13 @@ void AddConsoleVars()
   Cvar_RegisterVariable(&autoserver);
   Cvar_RegisterVariable(&theme);
 
-  //ai
+  // ai
   Cvar_RegisterVariable(&ai_level);
+
+  // debug
+  Cvar_RegisterVariable(&dbg_prediction);
+  Cvar_RegisterVariable(&dbg_timeshift);
+  Cvar_RegisterVariable(&dbg_playerpos);
 }
 
 void AddConsoleCommands()
@@ -3070,11 +3075,9 @@ void Renderscreen(SDL_Surface * screen)
       {
         if (!ServerView) {
           RenderMapScreen(client_info.game);
-          client_info.game.RenderStatusBar(screen, SmallFont, 0,
-            480 - 32);
+          client_info.game.RenderStatusBar(screen, SmallFont, 0, 480 - 32);
           client_info.game.RenderBecherBar(screen, 467, 448 + 4);
-          client_info.game.RenderGameBar(screen, SmallFont,
-            481 + 3, 4);
+          client_info.game.RenderGameBar(screen, SmallFont, 481 + 3, 4);
         } else {
           RenderMapScreen(server_info.game);
         }
@@ -3839,7 +3842,7 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
     if (MapLoaded != 2) {
       sprintf(genstr, "PW2 v%d.%02d, protocol v%d.%02d, build %04d", VERSION_MAJOR,
         VERSION_MINOR, PROTOCOL_VERSION_MAJOR, PROTOCOL_VERSION_MINOR, build_number);
-      DrawText(genstr, screen, SmallFont, 480 - 6 * strlen(genstr),
+      DrawText(genstr, screen, SmallFont, 640 - 6 * strlen(genstr),
         screen->h - 1 * 13);
     }
     

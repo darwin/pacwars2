@@ -75,6 +75,7 @@ const Uint8 PROTOCOL_VERSION_MINOR = 20;
 #define STD_INACTIVE_TIMEOUT "5000" // 5s
 #define STD_DROP_TIMEOUT "20000" // 20s
 #define STD_PING_TIMEOUT "20000" // 20s 
+#define STD_SLOWCMD_TIMEOUT "2000" // 2s 
 
 #define WAITING_CONNECTION_TIMEOUT 5000  // 5s
 
@@ -114,6 +115,7 @@ const Uint8 MSGID_ATTACHDONE    =32;  // s->c console attached
 const Uint8 MSGID_SERVERINFO    =40;  // c->s server info
 const Uint8 MSGID_PLAYERINFO    =41;  // c->s player info
 const Uint8 MSGID_RULEINFO      =42;  // c->s rule info
+const Uint8 MSGID_SLOWDOWN      =43;  // s->c slowdown command
 
 #define PW2_RESPONSE_SERVERINFO  0
 #define PW2_RESPONSE_PLAYERINFO  1  

@@ -288,7 +288,7 @@ void GPlayer::ClientThink(Uint32 time)
       game->replicator.Mark();
       
       MoveAutonomous(&mv, time);
-      // ConOut("cm - %d:[%d,%d]", time, *xpos.GetValRef(), *ypos.GetValRef());
+      if (dbg_prediction.value) ConOut("sending mv -> ctime=%d cpos=[%d,%d]", time, *xpos.GetValRef(), *ypos.GetValRef());
       predictor.Add(&mv);
     }
   }
@@ -1140,15 +1140,14 @@ void GPlayer::ServerThink(Uint32 time)
 void GPlayer::AdjustPosition(Uint16 nx, Uint16 ny, TICK_TYPE time)
 {
   // called from client side
-  //temp   ConOut("AP - %d:[%d,%d] (curtime=%d)", time, nx, ny, curtime);
+  if (dbg_prediction.value) ConOut("adjust position - stime=%d spos=[%d,%d] (ctime=%d)", time, nx, ny, curtime);
   SetPos(nx, ny);
   Uint8 sh = predictor.head;
   predictor.head = predictor.Find(time);
-//  ConOut("AP %d, %d", time, curtime);
   while (predictor.head != sh) 
   {
     MoveAutonomous(&predictor.p[predictor.head], predictor.p[predictor.head].tick);
-    //temp ConOut("   x %d:[%d,%d]", predictor.p[predictor.head].tick, *xpos.GetValRef(), *ypos.GetValRef(), time, curtime);
+    if (dbg_prediction.value) ConOut("           step - ctime=%d cpos=[%d,%d]", predictor.p[predictor.head].tick, *xpos.GetValRef(), *ypos.GetValRef(), time, curtime);
     predictor.FwHead();
   }
 }

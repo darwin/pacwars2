@@ -126,6 +126,9 @@ extern DECLSPEC cvar_t c_desc;
 extern DECLSPEC cvar_t c_downloading;
 extern DECLSPEC cvar_t c_uploading;
 
+extern DECLSPEC cvar_t dbg_playerpos;
+extern DECLSPEC cvar_t dbg_prediction;
+extern DECLSPEC cvar_t dbg_timeshift;
 
 extern DECLSPEC cvar_t p1_on;
 extern DECLSPEC cvar_t p1_name;
@@ -278,11 +281,5 @@ extern DECLSPEC int CL_DestroyPlayer(char *name);
 extern DECLSPEC int CL_SkinPlayer(char *name, char *spritename);
 extern DECLSPEC int CL_ChasePlayer(char *name);
 extern DECLSPEC int CL_ChasePlayerConf(int i);
-
-
-
-// Special callbacks
-//int CL_CB_changed_player_brain(GPlayer* player);
-
 
 #endif

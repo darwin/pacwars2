@@ -187,6 +187,8 @@ int ClearServerClient(int cnum)
     client[cnum].ping = 0;
     client[cnum].pingreturned = true;
     client[cnum].pingsent = 0;
+    client[cnum].slowcmdreturned = true;
+    client[cnum].slowcmdsent = 0;
     client[cnum].replicator.Reset();
     ClearPool(&client[cnum].msg_pool);
     ClearPool(&client[cnum].game_pool);
@@ -205,6 +207,8 @@ int PrepareClientForNewGame(int cnum)
       client[cnum].ping = 0;
       client[cnum].pingreturned = true;
       client[cnum].pingsent = 0;
+      client[cnum].slowcmdreturned = true;
+      client[cnum].slowcmdsent = 0;
       ClearPool(&client[cnum].game_pool);
       ScriptMan->RunScript(map_script_num, "csInit");
       return 0;
@@ -1346,8 +1350,23 @@ int HandleServerGame(Uint32 deltaticks)
       // now, GMP contains valid received GMP.buf
       // let's parse client's packet
       GMP>>incoming_tick;
-      // momentalne zahazuju zpravy "z budoucnosti" - teorie relativity tady selhava ;))
-      //if (server_info.ticks>=incoming_tick)
+      // NEPLATI! - momentalne zahazuju zpravy "z budoucnosti" - teorie relativity tady selhava ;))
+
+      if (server_info.ticks<incoming_tick)
+      {
+        // clients are not allowed to run before server
+        // (client has "future time"), so server must advance his time counter to client's level
+
+        // !!! DO !!! NOT !!! CALL !!! HERE !!! ANY !!! ConOuts !!! => very strange timing
+
+        // should not be done often (just at start of game)
+        //!NO! ConOut("dbg: server time adjusted +%d ticks", incoming_tick-server_info.ticks);
+        //!NO! ConOut("dbg: trying to slowdown  +%d ticks", incoming_tick-server_info.ticks);
+        SV_Slowdown(cnum);
+
+        //server_info.ticks=incoming_tick;
+      } 
+
       {
         if (!SV_ParseReplication(&GMP, incoming_tick, cnum))
         {
@@ -1363,7 +1382,7 @@ int HandleServerGame(Uint32 deltaticks)
 		if (server_info.game.objs[i]->GetType()==ot_player)
     {
       GPlayer* player = (GPlayer*)server_info.game.objs[i];
-      if (player->brain_owner!=250 && (player->xpos.IsDirty(cnum) || player->ypos.IsDirty(cnum)))
+      if (player->brain_owner!=250 && ((player->xpos.IsDirty(cnum) || player->ypos.IsDirty(cnum))))
       {
         client[cnum].replicator.SetLayer(1);
         // adjust position
@@ -1371,7 +1390,7 @@ int HandleServerGame(Uint32 deltaticks)
         client[player->brain_owner].replicator.Mark();
         player->xpos.MakeDirty(player->brain_owner, false);
         player->ypos.MakeDirty(player->brain_owner, false);
-        //temp ConOut("SS - %d:[%d,%d]", server_info.ticks, *player->xpos.GetValRef(), *player->ypos.GetValRef());
+        if (dbg_prediction.value) ConOut("SS - stime=%d spos=[%d,%d]", server_info.ticks, *player->xpos.GetValRef(), *player->ypos.GetValRef());
       }
 
     }
@@ -1627,6 +1646,14 @@ void SV_PingReturn(net_message *msg)
   }
 }
 
+void SV_SlowCmdReturn(net_message *msg)
+{
+  if (client[msg->tag].status!=CS_UNUSED)
+  {
+    client[msg->tag].slowcmdreturned = true;
+  }
+}
+
 // sends ping server-client[cnum]-server
 // pong is processed by callback function
 void SV_Ping(int cnum)
@@ -1642,4 +1669,18 @@ void SV_Ping(int cnum)
     client[cnum].pingreturned = false;
   }
   else ping=0;
+}
+
+void SV_Slowdown(int cnum)
+{
+  if (client[cnum].slowcmdreturned)
+  {
+    Uint8 buf[LEN_MSG_ID];
+    net_msg MSG(buf);
+    
+    MSG << MSGID_SLOWDOWN;
+    MSG.Send(&client[cnum].msg_pool, &client[cnum].stats, msg_ssock, cnum, true, RESEND_SYSTEM, SV_SlowCmdReturn, cnum);
+    client[cnum].slowcmdsent = SDL_GetTicks();
+    client[cnum].slowcmdreturned = false;
+  }
 }

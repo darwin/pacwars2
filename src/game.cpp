@@ -402,8 +402,13 @@ void CGame::RenderGameBar(SDL_Surface * screen, int font, int px, int py)
 			break;
 		if (objs[GBSlots[i]]->GetType() == ot_player
 			&& (objs[GBSlots[i]]->state & OSTATE_ACTIVE)) {
-			RenderPlayerBar((GPlayer *) objs[GBSlots[i]], screen, font, px,
-							py + 40 * i);
+			RenderPlayerBar((GPlayer *) objs[GBSlots[i]], screen, font, px,	py + 40 * i);
+      if (strcmp(dbg_playerpos.string, ((GPlayer*)objs[GBSlots[i]])->player_name.GetValRef()->chars)==0)
+      {
+        char genstr[500];
+        sprintf(genstr, "%s: [%d,%d]", dbg_playerpos.string, *((GPlayer *)objs[GBSlots[i]])->xpos.GetValRef(), *((GPlayer *)objs[GBSlots[i]])->ypos.GetValRef());
+        DrawText(genstr, screen, 1, screen->w - 150, 369);	// consolefont should be 0
+      }
 		}
 	}
 }

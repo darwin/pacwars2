@@ -45,6 +45,8 @@ Uint32 lcreCL_time;				// last time value when client received file data
 
 Uint32 entersent;
 
+bool slowdown = false;
+
 
 int CL_SetName(char *);
 
@@ -61,6 +63,9 @@ cvar_t c_deletetmps = { "c_deltmps", "1", true };
 cvar_t c_downloading = { "c_downloading", "0", true };
 cvar_t c_uploading = { "c_uploading", "0", true };
 
+cvar_t dbg_playerpos = { "dbg_playerpos", "#", true };
+cvar_t dbg_prediction = { "dbg_prediction", "0", true };
+cvar_t dbg_timeshift = { "dbg_timeshift", "0", true };
 
 // player1 settings
 
@@ -945,6 +950,10 @@ int HandleClientMessage()
         // ! empty
         // pong was sent by notification mechanism
         break;
+      case MSGID_SLOWDOWN:
+        slowdown = true;
+        // pong was sent by notification mechanism
+        break;
         // WRITE chat message  
       case MSGID_CHATWRITE:
         // diassemble CHATWRITE packet
@@ -1521,7 +1530,8 @@ void CL_EnterGame(Uint32 time)
   Uint32 atime = SDL_GetTicks();
   // -- woid, no delta works better, server is one step before all clients
   // seems there is a bug with client timer which runs before server's one -> causes unconsistent game state
-  Uint32 delta = 0; //(atime - entersent) / 2; 
+  // try return it back (18.6.2001)
+  Uint32 delta = (atime - entersent) / 2; 
   
   ClearPool(&server.game_pool);
   
@@ -1537,13 +1547,13 @@ void CL_EnterGame(Uint32 time)
     client_info.ticks++;
     client_info.game.map.UpdateAnims();
     ctime -= FRAMETICKS;
-    client_info.pticks--;
+    client_info.pticks--; 
     if (client_info.pticks == 0)
       client_info.pticks = PWP_TICKS_PER_PACKET_CLIENT;
   }
   
   // synchronize time with server
-  client_info.last_time = time + delta - ctime;
+  client_info.last_time = time + delta - ctime + dbg_timeshift.value;
 }
  
 int CL_ChangeMap(char *mapname, char *scriptname)
@@ -1594,6 +1604,7 @@ int CL_ChangeMap(char *mapname, char *scriptname)
   MSG << MSGID_CHMAPREADY;
   MSG.Send(&server.msg_pool, &server.stats, msg_csock, 0, true, RESEND_ENTERINGGAME);
   entersent = SDL_GetTicks();
+  slowdown = false;
   
   return 0;
 }
@@ -1617,6 +1628,15 @@ GOT_REPCODE_IN_REPLICATION_CYCLE:
     case REP_ADJUSTPOSITION:
       Uint16 x, y;
       (*msg) >> slot >> x >> y >> tick >> oid;
+
+      // if server is in future time, fwd time
+      if (client_info.ticks < tick) 
+      {
+        //ConOut("dbg: client time dif +%d ticks", tick-client_info.ticks);
+        /*
+        ConOut("dbg: client time adjusted +%d ticks", tick-client_info.ticks);
+        client_info.ticks = tick;*/
+      }
       
       obj = game.objs[slot];
       if (obj->GetType() != ot_player || oid != game.objs[slot]->oid)	// is the replication for new object ?
@@ -1727,57 +1747,67 @@ void CL_Move(Uint32 ticktime)
   if (pingreturned && ticktime - pingsent >= PING_MEASURE)
     CL_Ping();
   
-  while (delta > FRAMETICKS) {
-    SDLNet_CheckSockets(csocket_set, 0);
-    if (SDLNet_SocketReady(game_csock)) {
-      HandleClientGame(delta / FRAMETICKS);
+  while (delta > FRAMETICKS) 
+  {
+    if (slowdown)
+    {
+      slowdown = false;
+      delta -= FRAMETICKS;
+      ConOut("client: slowdown ...");
     }
-    // resend lost messages
-    ResendMsgs(&server.game_pool, game_csock);
+    else
+    {
+      SDLNet_CheckSockets(csocket_set, 0);
+      if (SDLNet_SocketReady(game_csock)) {
+        HandleClientGame(delta / FRAMETICKS);
+      }
+      // resend lost messages
+      ResendMsgs(&server.game_pool, game_csock);
     
-    client_info.ticks++;
-    // TODO: zpracuj gamestate a replication, ktere nalezi do tohoto ticku
-    // (kazda promenna ma u sebe tick, kdy byla naposledy replikovana)
-    // To bylo provedeno uz v HandleClientGame
+      client_info.ticks++;
+      // TODO: zpracuj gamestate a replication, ktere nalezi do tohoto ticku
+      // (kazda promenna ma u sebe tick, kdy byla naposledy replikovana)
+      // To bylo provedeno uz v HandleClientGame
     
-    // updatuj animaci
-    client_info.game.map.UpdateAnims();
+      // updatuj animaci
+      client_info.game.map.UpdateAnims();
     
-    // simuluj objekty (kazdy objekt ma u sebe tick, kdy byl naposledy simulovan)
-    // ovladani pacove replikuji svoje pohybove vektory
-    // (=zpracuj vstup od uzivatele / pust MOVEAUTONOMOUS na jeho postavicku)
-    for (int j = 0; j < THINKINGS_PER_TICK; j++) {
-      client_info.game.ClientThink(client_info.ticks);
-      ScriptMan->RunScript(map_script_num, "csTick");	// let script do gametick stuff
-    }
+      // simuluj objekty (kazdy objekt ma u sebe tick, kdy byl naposledy simulovan)
+      // ovladani pacove replikuji svoje pohybove vektory
+      // (=zpracuj vstup od uzivatele / pust MOVEAUTONOMOUS na jeho postavicku)
+      for (int j = 0; j < THINKINGS_PER_TICK; j++) {
+        client_info.game.ClientThink(client_info.ticks);
+        ScriptMan->RunScript(map_script_num, "csTick");	// let script do gametick stuff
+      }
     
-    // update camera position
-    ScriptMan->scripts[map_script_num].RunScript("csCamera");
+      // update camera position
+      ScriptMan->scripts[map_script_num].RunScript("csCamera");
     
-    delta -= FRAMETICKS;
+      delta -= FRAMETICKS;
     
-    client_info.pticks--;
-    if (client_info.pticks == 0) {
-      client_info.pticks = PWP_TICKS_PER_PACKET_CLIENT;
+      client_info.pticks--;
+      if (client_info.pticks == 0) {
+        client_info.pticks = PWP_TICKS_PER_PACKET_CLIENT;
       
-      // do replication process
-      // replicate servers's data according to server game state
-      client_info.game.ClientReplicate(client_info.ticks);
+        // do replication process
+        // replicate servers's data according to server game state
+        client_info.game.ClientReplicate(client_info.ticks);
       
-      if (client_info.game.replicator.dirty)	// does server need my update ?
-      {
-        // send game packets to server
-        Uint8 more = 1;
+        if (client_info.game.replicator.dirty)	// does server need my update ?
+        {
+          // send game packets to server
+          Uint8 more = 1;
         
-        while (more) {
-          GP.pos = 0;
-          GP << client_info.ticks;
-          more = client_info.game.replicator.AssembleMsg(&GP, MSG_MAX_BODY_SIZE - sizeof(client_info.ticks));
-          GP.Send(&server.game_pool, &server.stats, game_csock, 0, false);
+          while (more) {
+            GP.pos = 0;
+            GP << client_info.ticks;
+            more = client_info.game.replicator.AssembleMsg(&GP, MSG_MAX_BODY_SIZE - sizeof(client_info.ticks));
+            GP.Send(&server.game_pool, &server.stats, game_csock, 0, false);
+          }
+        
+          // reset replicator
+          client_info.game.replicator.Reset();
         }
-        
-        // reset replicator
-        client_info.game.replicator.Reset();
       }
     }
   }

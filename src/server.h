@@ -79,6 +79,11 @@ typedef struct {
   int ping;
   Uint32 pingsent;
   bool pingreturned;
+
+  //slowdown
+  Uint32 slowcmdsent;
+  bool slowcmdreturned;
+
 } net_client;
 
 //###########################################################################
@@ -155,6 +160,7 @@ extern DECLSPEC void SV_ClientSound(int c,Uint8 id, Uint8 volume = 100);
 extern DECLSPEC void SV_BroadcastVoice(Uint8 id, Uint8 volume = 100, Uint8 priority = 1);
 extern DECLSPEC void SV_ClientVoice(int c,Uint8 id, Uint8 volume = 100, Uint8 priority = 1);
 extern DECLSPEC void SV_Ping(int cnum);
+extern DECLSPEC void SV_Slowdown(int cnum);
 
 
 
