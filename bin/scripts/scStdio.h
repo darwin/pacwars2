@@ -4,26 +4,20 @@
 //## AH
 //###########################################################################
 
-/***
-*stdio.h - definitions/declarations for standard I/O routines
-*
-*       Copyright (c) 1985-1997, Microsoft Corporation. All rights reserved.
-*
-*Purpose:
-*       This file defines the structures, values, macros, and functions
-*       used by the level 2 I/O ("standard I/O") routines.
-*       [ANSI/System V]
-*
-*       [Public]
-*
-****/
+#ifndef __SCSTDIO_H__
+#define __SCSTDIO_H__
 
-#ifndef _INC_STDIO
-#define _INC_STDIO
-
-#ifdef  __cplusplus
-extern "C" {
-#endif
+#define _IOREAD         0x0001
+#define _IOWRT          0x0002
+#define _IOFBF          0x0000
+#define _IOLBF          0x0040
+#define _IONBF          0x0004
+#define _IOMYBUF        0x0008
+#define _IOEOF          0x0010
+#define _IOERR          0x0020
+#define _IOSTRG         0x0040
+#define _IORW           0x0080
+#define _IOAPPEND       0x0200
 
 #ifndef _SIZE_T_DEFINED
 typedef unsigned int size_t;
@@ -34,7 +28,6 @@ typedef unsigned int size_t;
 typedef unsigned short wchar_t;
 #define _WCHAR_T_DEFINED
 #endif
-
 
 #ifndef _WCTYPE_T_DEFINED
 typedef wchar_t wint_t;
@@ -47,114 +40,57 @@ typedef char *  va_list;
 #define _VA_LIST_DEFINED
 #endif
 
-
-/* Buffered I/O macros */
-
-#if     defined(_M_MPPC)
-#define BUFSIZ  4096
-#else  /* defined (_M_MPPC) */
-#define BUFSIZ  512
-#endif /* defined (_M_MPPC) */
-
-
-/*
- * Default number of supported streams. _NFILE is confusing and obsolete, but
- * supported anyway for backwards compatibility.
- */
-#define _NFILE      _NSTREAM_
-
-#define _NSTREAM_   512
-
-/*
- * Number of entries in _iob[] (declared below). Note that _NSTREAM_ must be
- * greater than or equal to _IOB_ENTRIES.
- */
-#define _IOB_ENTRIES 20
-
-#define EOF     (-1)
+#define BUFSIZ        512
+#define _NFILE        _NSTREAM_
+#define _NSTREAM_     512
+#define _IOB_ENTRIES  20
+#define EOF           (-1)
 
 #ifndef _FILE_DEFINED
 struct _iobuf {
-        char *_ptr;
-        int   _cnt;
-        char *_base;
-        int   _flag;
-        int   _file;
-        int   _charbuf;
-        int   _bufsiz;
-        char *_tmpfname;
-        };
+  char *_ptr;
+  int   _cnt;
+  char *_base;
+  int   _flag;
+  int   _file;
+  int   _charbuf;
+  int   _bufsiz;
+  char *_tmpfname;
+};
 typedef _iobuf FILE;
 #define _FILE_DEFINED
 #endif
 
-
-/* Directory where temporary files may be created. */
-
 #define _P_tmpdir   "/"
 #define _wP_tmpdir  L"/"
-
-/* L_tmpnam = size of P_tmpdir
- *            + 1 (in case P_tmpdir does not end in "/")
- *            + 12 (for the filename string)
- *            + 1 (for the null terminator)
- */
 #define L_tmpnam sizeof(_P_tmpdir)+12
 
 #define L_ctermid   9
 #define L_cuserid   32
 
-/* Seek method constants */
-
 #define SEEK_CUR    1
 #define SEEK_END    2
 #define SEEK_SET    0
-
 
 #define FILENAME_MAX    260
 #define FOPEN_MAX       20
 #define _SYS_OPEN       20
 #define TMP_MAX         32767
 
-/* Declare _iob[] array */
-
 #ifndef _STDIO_DEFINED
-// import FILE* _iob;
-#endif  /* _STDIO_DEFINED */
+import FILE* _iob;
+#endif  
 
-
-/* Define file position type */
 typedef struct fpos_t {
-        unsigned int lopart;
-        int          hipart;
-        } fpos_t;
+  unsigned int lopart;
+  int          hipart;
+} fpos_t;
 
-#ifdef _WIN32
 #define stdin  (&_iob[0])
 #define stdout (&_iob[1])
 #define stderr (&_iob[2])
-#else
-extern FILE *stdin;
-extern FILE *stdout;
-extern FILE* stderr;
-#endif
 
-#define _IOREAD         0x0001
-#define _IOWRT          0x0002
-
-#define _IOFBF          0x0000
-#define _IOLBF          0x0040
-#define _IONBF          0x0004
-
-#define _IOMYBUF        0x0008
-#define _IOEOF          0x0010
-#define _IOERR          0x0020
-#define _IOSTRG         0x0040
-#define _IORW           0x0080
-#define _IOAPPEND       0x0200
-
-
-/* Function prototypes */
+// functions
 
 #ifndef _STDIO_DEFINED
 
@@ -165,7 +101,7 @@ import FILE * _fsopen(const char *, const char *, int);
 
 import void clearerr(FILE *);
 import int fclose(FILE *);
-import int _fcloseall();
+import int _fcloseall(void);
 
 import FILE * _fdopen(int, const char *);
 
@@ -173,13 +109,13 @@ import int feof(FILE *);
 import int ferror(FILE *);
 import int fflush(FILE *);
 import int fgetc(FILE *);
-import int _fgetchar();
+import int _fgetchar(void);
 import int fgetpos(FILE *, fpos_t *);
 import char * fgets(char *, int, FILE *);
 
 import int _fileno(FILE *);
 
-import int _flushall();
+import int _flushall(void);
 import FILE * fopen(const char *, const char *);
 import int fprintf(FILE *, const char *, ...);
 import int fputc(int, FILE *);
@@ -193,8 +129,8 @@ import int fseek(FILE *, unsigned int, unsigned int); //!
 import unsigned int ftell(FILE *); //!
 import size_t fwrite(const void *, size_t, size_t, FILE *);
 import int getc(FILE *);
-import int getchar();
-import int _getmaxstdio();
+import int getchar(void);
+import int _getmaxstdio(void);
 import char * gets(char *);
 import int _getw(FILE *);
 import void perror(const char *);
@@ -208,7 +144,7 @@ import int _putw(int, FILE *);
 import int remove(const char *);
 import int rename(const char *, const char *);
 import void rewind(FILE *);
-import int _rmtmp();
+import int _rmtmp(void);
 import int scanf(const char *, ...);
 import void setbuf(FILE *, char *);
 import int _setmaxstdio(int);
@@ -217,7 +153,7 @@ import int _snprintf(char *, size_t, const char *, ...);
 import int sprintf(char *, const char *, ...);
 import int sscanf(const char *, const char *, ...);
 import char * _tempnam(const char *, const char *);
-import FILE * tmpfile();
+import FILE * tmpfile(void);
 import char * tmpnam(char *);
 import int ungetc(int, FILE *);
 import int _unlink(const char *);
@@ -226,8 +162,6 @@ import int vprintf(const char *, va_list);
 import int _vsnprintf(char *, size_t, const char *, va_list);
 import int vsprintf(char *, const char *, va_list);
 
-/* wide function prototypes, also declared in wchar.h  */
-
 #ifndef WEOF
 #define WEOF (wint_t)(0xFFFF)
 #endif
@@ -235,11 +169,11 @@ import int vsprintf(char *, const char *, va_list);
 import FILE * _wfsopen(const wchar_t *, const wchar_t *, int);
 
 import wint_t fgetwc(FILE *);
-import wint_t _fgetwchar();
+import wint_t _fgetwchar(void);
 import wint_t fputwc(wint_t, FILE *);
 import wint_t _fputwchar(wint_t);
 import wint_t getwc(FILE *);
-import wint_t getwchar();
+import wint_t getwchar(void);
 import wint_t putwc(wint_t, FILE *);
 import wint_t putwchar(wint_t);
 import wint_t ungetwc(wint_t, FILE *);
@@ -275,7 +209,7 @@ import int _wremove(const wchar_t *);
 import wchar_t * _wtempnam(const wchar_t *, const wchar_t *);
 import wchar_t * _wtmpnam(wchar_t *);
 
-/* Macro definitions */
+// macros
 
 #define feof(_stream)     ((_stream)->_flag & _IOEOF)
 #define ferror(_stream)   ((_stream)->_flag & _IOERR)
@@ -291,24 +225,20 @@ import wchar_t * _wtmpnam(wchar_t *);
 #define P_tmpdir  _P_tmpdir
 #define SYS_OPEN  _SYS_OPEN
 
-import int fcloseall();
+import int fcloseall(void);
 import FILE * fdopen(int, const char *);
-import int fgetchar();
+import int fgetchar(void);
 import int fileno(FILE *);
-import int flushall();
+import int flushall(void);
 import int fputchar(int);
 import int getw(FILE *);
 import int putw(int, FILE *);
-import int rmtmp();
+import int rmtmp(void);
 import char * tempnam(const char *, const char *);
 import int unlink(const char *);
 
-#endif  /* _STDIO_DEFINED */
+#endif  // _STDIO_DEFINED
 
-#ifdef  __cplusplus
-}
-#endif
-
-#endif  /* _INC_STDIO */
+#endif  // __SCSTDIO_H__
 
 

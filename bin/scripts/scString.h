@@ -4,26 +4,8 @@
 //## AH
 //###########################################################################
 
-/***
-*string.h - declarations for string manipulation functions
-*
-*       Copyright (c) 1985-1997, Microsoft Corporation. All rights reserved.
-*
-*Purpose:
-*       This file contains the function declarations for the string
-*       manipulation functions.
-*       [ANSI/System V]
-*
-*       [Public]
-*
-****/
-
-#ifndef _INC_STRING
-#define _INC_STRING
-
-#ifdef  __cplusplus
-extern "C" {
-#endif
+#ifndef __SCSTRING_H__
+#define __SCSTRING_H__
 
 #ifndef _SIZE_T_DEFINED
 typedef unsigned int size_t;
@@ -36,11 +18,11 @@ typedef unsigned short wchar_t;
 #endif
 
 #ifndef _NLSCMP_DEFINED
-#define _NLSCMPERROR    2147483647  /* currently == INT_MAX */
+#define _NLSCMPERROR    2147483647
 #define _NLSCMP_DEFINED
 #endif
 
-/* Function prototypes */
+// functions
 
 import void *  memcpy(void *, const void *, size_t);
 import int     memcmp(const void *, const void *, size_t);
@@ -82,7 +64,6 @@ import char *  strtok(char *, const char *);
 import char *  _strupr(char *);
 import size_t  strxfrm (char *, const char *, size_t);
 
-/* prototypes for oldnames.lib functions */
 import void * memccpy(void *, const void *, int, unsigned int);
 import int memicmp(const void *, const void *, unsigned int);
 import int strcmpi(const char *, const char *);
@@ -96,8 +77,6 @@ import char * strset(char *, int);
 import char * strupr(char *);
 
 #ifndef _WSTRING_DEFINED
-
-/* wide function prototypes, also declared in wchar.h  */
 
 import wchar_t * wcscat(wchar_t *, const wchar_t *);
 import wchar_t * wcschr(const wchar_t *, wchar_t);
@@ -129,10 +108,8 @@ import int _wcsicoll(const wchar_t *, const wchar_t *);
 import int _wcsncoll(const wchar_t *, const wchar_t *, size_t);
 import int _wcsnicoll(const wchar_t *, const wchar_t *, size_t);
 
-/* old names */
 #define wcswcs wcsstr
 
-/* prototypes for oldnames.lib functions */
 import wchar_t * wcsdup(const wchar_t *);
 import int wcsicmp(const wchar_t *, const wchar_t *);
 import int wcsnicmp(const wchar_t *, const wchar_t *, size_t);
@@ -146,8 +123,4 @@ import int wcsicoll(const wchar_t *, const wchar_t *);
 #define _WSTRING_DEFINED
 #endif
 
-#ifdef  __cplusplus
-}
-#endif
-
-#endif  /* _INC_STRING */
+#endif  // __SCSTRING_H__
