@@ -511,7 +511,7 @@ bool GUI_ButtonS::SetBackground(const char* filename, int mode){
 }
 
 GUI_SkinPic::GUI_SkinPic(PG_Widget* parent, const PG_Rect& r):
-PG_Widget(parent, r, false)
+PG_Widget(parent, r, true)
 {
   lName = NULL;
   sprite = NULL;
