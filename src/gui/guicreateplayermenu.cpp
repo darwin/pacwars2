@@ -42,7 +42,6 @@ GUI_CreatePlayerMenu::GUI_CreatePlayerMenu(int id, int inum) : GUI_BaseMenu(id, 
 	Default();
 	char sx[100];
 
-	CreatePlayerMenu->SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
 	CreatePlayerMenu->SetFont(MainFont);
 	CreatePlayerMenu->SetTextFormat("CREATE PLAYER%d", num);
 
@@ -235,34 +234,20 @@ bool GUI_CreatePlayerMenu::SetPlayerVals(
 {
 	GPlayer* p = NULL;
 	
-      ConOut("p%i_name %s", num, ePName->GetText());
-      CommandExecute("p%i_name %s", num, ePName->GetText());
-      ConOut("p%i_skin %s", num, eSkin->GetText());
-      CommandExecute("p%i_skin %s", num, eSkin->GetText());
-      ConOut("p%i_key_up %d", num, iUp->GetSym());
-      CommandExecute("p%i_key_up %d", num, iUp->GetSym());
-      ConOut("p%i_key_down %d", num, iDown->GetSym());
-      CommandExecute("p%i_key_down %d", num, iDown->GetSym());
-      ConOut("p%i_key_left %d", num, iLeft->GetSym());
-      CommandExecute("p%i_key_left %d", num, iLeft->GetSym());
-      ConOut("p%i_key_right %d", num, iRight->GetSym());
-      CommandExecute("p%i_key_right %d", num, iRight->GetSym());
-      ConOut("p%i_key_fire %d", num, iFire->GetSym());
-      CommandExecute("p%i_key_fire %d", num, iFire->GetSym());
-      ConOut("p%i_key_shield %d", num, iShield->GetSym());
-      CommandExecute("p%i_key_shield %d", num, iShield->GetSym());
-      ConOut("p%i_key_warp %d", num, iWarp->GetSym());
-      CommandExecute("p%i_key_warp %d", num, iWarp->GetSym());
-      ConOut("p%i_key_weapon1 %d", num, iWeapon1->GetSym());
-      CommandExecute("p%i_key_weapon1 %d", num, iWeapon1->GetSym());
-      ConOut("p%i_key_weapon2 %d", num, iWeapon2->GetSym());
-      CommandExecute("p%i_key_weapon2 %d", num, iWeapon2->GetSym());
-      ConOut("p%i_key_weapon3 %d", num, iWeapon3->GetSym());
-      CommandExecute("p%i_key_weapon3 %d", num, iWeapon3->GetSym());
-      ConOut("p%i_key_weapon4 %d", num, iWeapon4->GetSym());
-      CommandExecute("p%i_key_weapon4 %d", num, iWeapon4->GetSym());
-      ConOut("p%i_key_weapon5 %d", num, iWeapon5->GetSym());
-      CommandExecute("p%i_key_weapon5 %d", num, iWeapon5->GetSym());
+      CommandExecuteOut("p%i_name %s", num, ePName->GetText());
+      CommandExecuteOut("p%i_skin %s", num, eSkin->GetText());
+      CommandExecuteOut("p%i_key_up %d", num, iUp->GetSym());
+      CommandExecuteOut("p%i_key_down %d", num, iDown->GetSym());
+      CommandExecuteOut("p%i_key_left %d", num, iLeft->GetSym());
+      CommandExecuteOut("p%i_key_right %d", num, iRight->GetSym());
+      CommandExecuteOut("p%i_key_fire %d", num, iFire->GetSym());
+      CommandExecuteOut("p%i_key_shield %d", num, iShield->GetSym());
+      CommandExecuteOut("p%i_key_warp %d", num, iWarp->GetSym());
+      CommandExecuteOut("p%i_key_weapon1 %d", num, iWeapon1->GetSym());
+      CommandExecuteOut("p%i_key_weapon2 %d", num, iWeapon2->GetSym());
+      CommandExecuteOut("p%i_key_weapon3 %d", num, iWeapon3->GetSym());
+      CommandExecuteOut("p%i_key_weapon4 %d", num, iWeapon4->GetSym());
+      CommandExecuteOut("p%i_key_weapon5 %d", num, iWeapon5->GetSym());
 
       for (int i=0; i<GAME_MAX_OBJS; i++)
       {
@@ -273,10 +258,8 @@ bool GUI_CreatePlayerMenu::SetPlayerVals(
           {
             ConOut("Player %s found in game, reseting ...", p_name->string);
             SetKeybindings(p->kbindex, 0);
-            ConOut("sp %s %s", p_name->string, p_skin->string);
-            CommandExecute("sp %s %s", p_name->string, p_skin->string);
-            ConOut("chase %s", p_name->string);
-            CommandExecute("chase %s", p_name->string);
+            CommandExecuteOut("sp %s %s", p_name->string, p_skin->string);
+            CommandExecuteOut("chase %s", p_name->string);
             return true;
           }
         }
@@ -301,7 +284,7 @@ bool GUI_CreatePlayerMenu::eventButtonClick(int id, SDLWidget* widget) {
 	case 1:
 
 		ConOut("");
-		ConOut("> CreatePlayer menu sequence <");
+		ConOutEx(MISC_FONT, "> CreatePlayer menu sequence <");
 	
 		switch (num) {
 		case 1:
@@ -329,7 +312,7 @@ bool GUI_CreatePlayerMenu::eventButtonClick(int id, SDLWidget* widget) {
 			break;
 		}
 	
-		ConOut("> end of sequence <");
+		ConOutEx(MISC_FONT, "> end of sequence <");
 		ConOut("");
 
 		while (GUI_id) GUI_Return(); // return from all menus

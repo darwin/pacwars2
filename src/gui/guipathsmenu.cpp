@@ -27,7 +27,6 @@ GUI_PathsMenu::GUI_PathsMenu() : GUI_BaseMenu(GUI_PATHS, mkrect(PM_PX,PM_PY,PM_V
 
 	Default();
 
-	lPathsMenu->SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
 	lPathsMenu->SetFont(MainFont);
 
 	lScriptDir->SetAlignment(SDL_TA_RIGHT);
@@ -67,22 +66,15 @@ bool GUI_PathsMenu::eventButtonClick(int id, SDLWidget* widget) {
 	switch (id) {
 	case 1:
 		ConOut("");
-		ConOut("> Paths menu sequence <");
-		ConOut("script_dir %s", eScriptDir->GetText());
-		CommandExecute("script_dir %s", eScriptDir->GetText());
-		ConOut("map_dir %s", eMapDir->GetText());
-		CommandExecute("map_dir %s", eMapDir->GetText());
-		ConOut("skin_dir %s", eSkinDir->GetText());
-		CommandExecute("skin_dir %s", eSkinDir->GetText());
-		ConOut("sprite_dir %s", eSpriteDir->GetText());
-		CommandExecute("sprite_dir %s", eSpriteDir->GetText());
-		ConOut("gfx_dir %s", eGfxDir->GetText());
-		CommandExecute("gfx_dir %s", eGfxDir->GetText());
-		ConOut("gui_dir %s", eGuiDir->GetText());
-		CommandExecute("gui_dir %s", eGuiDir->GetText());
-		ConOut("snd_dir %s", eSndDir->GetText());
-		CommandExecute("snd_dir %s", eSndDir->GetText());
-		ConOut("> end of sequence <");
+		ConOutEx(MISC_FONT, "> Paths menu sequence <");
+		CommandExecuteOut("script_dir %s", eScriptDir->GetText());
+		CommandExecuteOut("map_dir %s", eMapDir->GetText());
+		CommandExecuteOut("skin_dir %s", eSkinDir->GetText());
+		CommandExecuteOut("sprite_dir %s", eSpriteDir->GetText());
+		CommandExecuteOut("gfx_dir %s", eGfxDir->GetText());
+		CommandExecuteOut("gui_dir %s", eGuiDir->GetText());
+		CommandExecuteOut("snd_dir %s", eSndDir->GetText());
+		ConOutEx(MISC_FONT, "> end of sequence <");
 		ConOut("");
 		break;
 		

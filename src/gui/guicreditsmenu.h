@@ -16,7 +16,7 @@ public:
   GUI_Bitmap* mBack1;
   GUI_LabelC* CreditsMenu;
 
-  GUI_LabelC* lLine[20];
+  GUI_LabelC* lLine[19];
 
   GUI_ButtonSmall* bOK;
 

@@ -22,7 +22,6 @@ GUI_JoinGameMenu::GUI_JoinGameMenu() : GUI_BaseMenu(GUI_JOINGAME, mkrect(JG_PX,J
 
 	Default();
 
-	JoinGameMenu->SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
 	JoinGameMenu->SetFont(MainFont);
 
 	lServerAddress->SetAlignment(SDL_TA_RIGHT);
@@ -51,25 +50,19 @@ bool GUI_JoinGameMenu::eventButtonClick(int id, SDLWidget* widget) {
 
 	case 1:
 		ConOut("");
-		ConOut("> JoinGame menu sequence <");
+		ConOutEx(MISC_FONT, "> JoinGame menu sequence <");
 		
 		if (net_client_status) {
-			ConOut("ec");
-			CommandExecute("ec");
+			CommandExecuteOut("ec");
 		}
 
-		ConOut("c_name %s", eClientName->GetText());
-		CommandExecute("c_name %s", eClientName->GetText());
-		ConOut("c_desc %s", eClientDesc->GetText());
-		CommandExecute("c_desc %s", eClientDesc->GetText());
-		ConOut("last_server %s", eServerAddress->GetText());
-		CommandExecute("last_server %s", eServerAddress->GetText());
+		CommandExecuteOut("c_name %s", eClientName->GetText());
+		CommandExecuteOut("c_desc %s", eClientDesc->GetText());
+		CommandExecuteOut("last_server %s", eServerAddress->GetText());
 
-		ConOut("sc");
-		CommandExecute("sc");
-		ConOut("connect %s", eServerAddress->GetText());
-		CommandExecute("connect %s", eServerAddress->GetText());
-		ConOut("> end of sequence <");
+		CommandExecuteOut("sc");
+		CommandExecuteOut("connect %s", eServerAddress->GetText());
+		ConOutEx(MISC_FONT, "> end of sequence <");
 		ConOut("");
 
 		while (GUI_id) {

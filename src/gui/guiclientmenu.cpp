@@ -18,7 +18,6 @@ GUI_ClientMenu::GUI_ClientMenu() : GUI_BaseMenu(GUI_CLIENT, mkrect(CMS_PX,CMS_PY
 
 	Default();
 
-	ClientMenu->SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
 	ClientMenu->SetFont(MainFont);
 
 	lClientName->SetAlignment(SDL_TA_RIGHT);
@@ -48,41 +47,16 @@ bool GUI_ClientMenu::eventButtonClick(int id, SDLWidget* widget) {
 	switch (id) {
 	case 1:
 		ConOut("");
-		ConOut("> Client menu sequence <");
+		ConOutEx(MISC_FONT, "> Client menu sequence <");
 
-		ConOut("c_name %s", eClientName->GetText());
-		CommandExecute("c_name %s", eClientName->GetText());
-		ConOut("c_desc %s", eClientDesc->GetText());
-		CommandExecute("c_desc %s", eClientDesc->GetText());
+		CommandExecuteOut("c_name %s", eClientName->GetText());
+		CommandExecuteOut("c_desc %s", eClientDesc->GetText());
 
-		if (cDelTmps->GetPressed()) {
-			ConOut("c_deltmps 1");
-			CommandExecute("c_deltmps 1");
-		}
-		else {
-			ConOut("c_deltmps 0");
-			CommandExecute("c_deltmps 0");
-		}
+		if (cDelTmps->GetPressed()) CommandExecuteOut("c_deltmps 1");	else CommandExecuteOut("c_deltmps 0");
+		if (cDRqs->GetPressed()) CommandExecuteOut("c_downloading 1"); else CommandExecuteOut("c_downloading 0");
+		if (cURqs->GetPressed()) CommandExecuteOut("c_uploading 1"); else CommandExecuteOut("c_uploading 0");
 
-		if (cDRqs->GetPressed()) {
-			ConOut("c_downloading 1");
-			CommandExecute("c_downloading 1");
-		}
-		else {
-			ConOut("c_downloading 0");
-			CommandExecute("c_downloading 0");
-		}
-
-		if (cURqs->GetPressed()) {
-			ConOut("c_uploading 1");
-			CommandExecute("c_uploading 1");
-		}
-		else {
-			ConOut("c_uploading 0");
-			CommandExecute("c_uploading 0");
-		}
-
-		ConOut("> end of sequence <");
+		ConOutEx(MISC_FONT, "> end of sequence <");
 		ConOut("");
 
 		GUI_Return();

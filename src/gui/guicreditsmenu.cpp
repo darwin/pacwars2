@@ -17,7 +17,6 @@ GUI_CreditsMenu::GUI_CreditsMenu() : GUI_BaseMenu(GUI_CREDITS, mkrect(CM_PX,CM_P
 	lLine[2] = new GUI_LabelC(mBack1, SDLWidget::mkrect(CM_G1_PX,CM_G1_PY+75, CM_G1_VX-2,20), "Music by Ondrej Broukal aka GameOver", false);
 	lLine[3] = new GUI_LabelC(mBack1, SDLWidget::mkrect(CM_G1X_PX,CM_G1_PY+95, CM_G1_VX-50,20), "Petr Stastny aka Raist", false);
 	lLine[4] = new GUI_LabelC(mBack1, SDLWidget::mkrect(CM_G1X_PX,CM_G1_PY+115, CM_G1_VX-50,20), "Pavel Mirejovsky aka Dusty", false);
-	lLine[19] = new GUI_LabelC(mBack1, SDLWidget::mkrect(CM_G1_PX,CM_G1_PY+155, CM_G1_VX-2,20), "Iain Syme author of the orignal PacWars", false);
 	lLine[6] = new GUI_LabelC(mBack1, SDLWidget::mkrect(CM_G2_PX,CM_G2_PY+155, CM_G2_VX-2,20), "SDL library by Sam Latinga", false);
 	lLine[7] = new GUI_LabelC(mBack1, SDLWidget::mkrect(CM_G2_PX,CM_G2_PY+175, CM_G2_VX-2,20), "SeeR scripting engine", false);
 	lLine[5] = new GUI_LabelC(mBack1, SDLWidget::mkrect(CM_G2_PX,CM_G2_PY+195, CM_G2_VX-2,20), "by Przemek Podsiadly aka Theur", false);
@@ -27,22 +26,19 @@ GUI_CreditsMenu::GUI_CreditsMenu() : GUI_BaseMenu(GUI_CREDITS, mkrect(CM_PX,CM_P
 	lLine[11] = new GUI_LabelC(mBack1, SDLWidget::mkrect(CM_G2_PX,CM_G2_PY+275, CM_G2_VX-2,20), "ImageMagick library by ImageMagick Studio", false);
 	lLine[12] = new GUI_LabelC(mBack1, SDLWidget::mkrect(CM_G2_PX,CM_G2_PY+295, CM_G2_VX-2,20), "SDL: net, console, ttf, mixer and image libs", false);
 	lLine[13] = new GUI_LabelC(mBack1, SDLWidget::mkrect(CM_G2_PX,CM_G2_PY+315, CM_G2_VX-2,20), "zlib, libpng, libjpeg, UPX packer", false);
-	lLine[15] = new GUI_LabelC(mBack1, SDLWidget::mkrect(4,235, CM_VX-2,20), "Thanks to SLiK, Mem, Lada, Tessien, Dusty, Farey, Kerim, Garett Banuk, Nula, ...", false);
-	lLine[16] = new GUI_LabelC(mBack1, SDLWidget::mkrect(4,255, CM_VX-8,20), "See credits.txt for full list.", false);
-	lLine[17] = new GUI_LabelC(mBack1, SDLWidget::mkrect(4,315, CM_VX-2,25), "visit pacComunity at", false);
+	lLine[14] = new GUI_LabelC(mBack1, SDLWidget::mkrect(CM_G1_PX,CM_G1_PY+135, CM_G1_VX-2,20), "Linux port by Alexander Pipelka aka Braindead", false);
+	lLine[15] = new GUI_LabelC(mBack1, SDLWidget::mkrect(4,235, CM_VX-2,20), "Thanks to SLiK, Mem, Lada, Tessien, Farey, Kerim, Garett Banuk, Nula, ...", false);
+	lLine[17] = new GUI_LabelC(mBack1, SDLWidget::mkrect(4,315, CM_VX-2,25), "visit PW2 site at", false);
+	lLine[16] = new GUI_LabelC(mBack1, SDLWidget::mkrect(CM_G1_PX,CM_G1_PY+175, CM_G1_VX-2,20), "Iain Syme author of the orignal PacWars", false);
 	lLine[18] = new GUI_LabelC(mBack1, SDLWidget::mkrect(4,345, CM_VX-2,25), "http://pw2.tsx.org", false);
-	lLine[14] = new GUI_LabelC(mBack1, SDLWidget::mkrect(4,285, CM_VX-4,25), "PacWars2 rulezzz !!!", false);
 
 	Default();
 
 	CreditsMenu->SetAlignment(SDL_TA_CENTER);
-	//  CreditsMenu.SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
 	CreditsMenu->SetFont(MainFont);
 
-	for(int i=0; i<20; i++) lLine[i]->SetAlignment(SDL_TA_LEFT);
+	for(int i=0; i<19; i++) lLine[i]->SetAlignment(SDL_TA_LEFT);
 
-	lLine[14]->SetAlignment(SDL_TA_CENTER);
-	lLine[14]->SetFont(MainFont);
 	lLine[17]->SetAlignment(SDL_TA_CENTER);
 	lLine[17]->SetFont(MainFont);
 	lLine[18]->SetFont(MainFont);

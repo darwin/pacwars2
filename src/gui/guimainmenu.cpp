@@ -4,8 +4,10 @@
 #include "server.h"
 
 extern GUI_YNDialog *YND;
+
 extern void QuitCB(int res);
 extern void ShutdownCB(int res);
+extern void DisconnectCB(int res);
 
 
 GUI_MainMenu::GUI_MainMenu() : GUI_BaseMenu(GUI_MAINMENU, mkrect(MM_PX,MM_PY,MM_VX,MM_VY)) {
@@ -41,8 +43,10 @@ bool GUI_MainMenu::eventButtonClick(int id, SDLWidget* widget) {
 		break;
 		
 	case 2:
-		if (net_client_status==NS_CONNECTED) {
-			GUI_OpenMenu(GUI_DISCONNECT);
+		if (net_client_status==NS_CONNECTED) 
+    {
+		  YND->Reset(DisconnectCB, "DISCONNECT", "Do you really want disconenct from the game ?");
+		  GUI_OpenMenu(GUI_YNDIALOG);
 		}
 		else {
 			GUI_OpenMenu(GUI_JOINGAME);

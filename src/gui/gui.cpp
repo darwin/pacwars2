@@ -191,27 +191,18 @@ void GUI_Bitmap::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
 /////////////////////////////////////////////////////////////////////////////
 
 
-GUI_Label::GUI_Label(SDLWidget* parent, SDL_Rect& r, char* text, bool storebackground):
+GUI_Label::GUI_Label(SDLWidget* parent, SDL_Rect& r, char* text, bool storebackground, char* style):
 SDLLabel(parent,r,text,storebackground)
 {
   SetFont(TextFont);
-//  SetColor(GUI_LabelColor, GUI_LabelColor);
-  c = GUI_Gray64;
   SetAlignment(SDL_TA_CENTER); 
+  LoadThemeStyle(style, "GUI_Label");
 }
-
-void GUI_Label::SetColor(SDL_Color c1, SDL_Color c2)
-{
-
-}
-
 
 GUI_LabelC::GUI_LabelC(SDLWidget* parent, SDL_Rect& r, char* text, bool storebackground):
 SDLLabel(parent,r,text,storebackground)
 {
   SetFont(TextFont);
-//  SetColor(GUI_LabelColor, GUI_LabelColor);
-  c = GUI_Blue100;
   SetAlignment(SDL_TA_LEFT); 
 }
 
@@ -252,26 +243,6 @@ void GUI_LabelL::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
   if (*selected==this) SetTextColor(c2); else SetTextColor(c1);
   SDLLabel::eventDraw(surface, rect);  
 }
-
-
-/////////////////////////////////////////////////////////////////////////////
-// ResultLine
-/////////////////////////////////////////////////////////////////////////////
-
-GUI_ResultLine::GUI_ResultLine():
-GUI_Label(NULL, SDLWidget::mkrect(0,0,1,1), "x", false)
-{
-  SetFont(BtnFont);
-//  SetColor(GUI_ResultLineColor, GUI_ResultLineColor);
-  c = GUI_Red100;
-  SetAlignment(SDL_TA_LEFT); 
-}
-
-void GUI_ResultLine::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
-{
-  GUI_Label::eventDraw(surface, rect);
-}
-
 
 /////////////////////////////////////////////////////////////////////////////
 // Buttons
@@ -389,7 +360,7 @@ GUI_TextEdit::GUI_TextEdit(SDLWidget* parent, SDL_Rect& r):
 SDLLineEdit(parent, r)
 {
 	SetFont(TextFont);
-	LoadThemeStyle("GUI_LineEdit", "GradientWidget");
+	LoadThemeStyle("GUI_TextEdit");
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -524,11 +495,8 @@ GUI_OKDialog1::GUI_OKDialog1(char* title, char* line1, char* line2) : GUI_BaseMe
 	lPrompt1 = new GUI_Label(this, SDLWidget::mkrect(1,35, OKD1_VX-2,20), line1, false);
 	bOK = new GUI_ButtonSmall(this, 1, SDLWidget::mkrect(105,65,150,25), "OK");
 
-	//Board1 = new GUI_Board(this, SDLWidget::mkrect(0,0,OKD1_VX,100), false);
-
 	Default();
   
-	OKDialog1->SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
 	OKDialog1->SetFont(MainFont);
   
 	lPrompt1->SetAlignment(SDL_TA_CENTER);
@@ -567,7 +535,6 @@ void GUI_OKDialog2::Reset(char* title, char* line1, char* line2)
 GUI_OKDialog2::GUI_OKDialog2(char* title, char* line1, char* line2):
 GUI_BaseMenu(GUI_OKDIALOG2, mkrect(OKD2_PX,OKD2_PY,OKD2_VX,OKD2_VY)) {
 
-  //Board1 = new GUI_Board(this, SDLWidget::mkrect(0,0,OKD2_VX,120), false);
   OKDialog2 = new GUI_Label(this, SDLWidget::mkrect(1,4,OKD2_VX-2,25), title, false);
   lPrompt1 = new GUI_Label(this, SDLWidget::mkrect(1,35, OKD2_VX-2,20), line1, false);
   lPrompt2 = new GUI_Label(this, SDLWidget::mkrect(1,55, OKD2_VX-2,20), line2, false);
@@ -575,7 +542,6 @@ GUI_BaseMenu(GUI_OKDIALOG2, mkrect(OKD2_PX,OKD2_PY,OKD2_VX,OKD2_VY)) {
 
   Default();
   
-  OKDialog2->SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
   OKDialog2->SetFont(MainFont);
   
   lPrompt1->SetAlignment(SDL_TA_CENTER); 
@@ -603,7 +569,7 @@ bool GUI_OKDialog2::eventButtonClick(int id, SDLWidget* widget)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// OK dialog widgets
+// YN dialog widgets
 /////////////////////////////////////////////////////////////////////////////
 
 void GUI_YNDialog::Reset(void (*cb)(int res), char* title, char* line1, char* tla, char* tlb)
@@ -624,7 +590,6 @@ GUI_YNDialog::GUI_YNDialog() : GUI_BaseMenu(GUI_YNDIALOG, mkrect(YN_PX,YN_PY,YN_
 	bA = new GUI_ButtonSmall(this, 1, SDLWidget::mkrect(25,65,150,25), "YES");
 	bB = new GUI_ButtonSmall(this, 2, SDLWidget::mkrect(25+150+10,65,150,25), "NO");
 
-	YNDialog->SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
 	YNDialog->SetFont(MainFont);
   
 	lPrompt1->SetAlignment(SDL_TA_CENTER);
@@ -641,18 +606,18 @@ bool GUI_YNDialog::eventButtonClick(int id, SDLWidget* widget)
   switch (id) {
   case 1:
     callback(1);
-//    Return(); 
     break;
   case 2:
     result = 0;
     callback(0);
-//    Return(); 
     break;
   }
   return true;
 }
 
-
+/////////////////////////////////////////////////////////////////////////////
+// YN Callbacks
+/////////////////////////////////////////////////////////////////////////////
 
 void QuitCB(int res)
 {
@@ -669,103 +634,36 @@ void ShutdownCB(int res)
 {
   if (res) 
   {
-    ConOut("es");
-    CommandExecute("es");
+    ConOut("");
+    ConOutEx(MISC_FONT, "> Shutdown sequence <");
+    CommandExecuteOut("es");
+    ConOutEx(MISC_FONT, "> end of sequence <");
+    ConOut("");
   }
   while (GUI_id) GUI_Return();
   GUI_OpenMenu(GUI_MAINMENU);
 }
+
+void DisconnectCB(int res)
+{
+  if (res && net_client_status) 
+  {
+    ConOut("");
+    ConOutEx(MISC_FONT, "> Disconnect sequence <");
+    CommandExecuteOut("disconnect");
+    ConOutEx(MISC_FONT, "> end of sequence <");
+    ConOut("");
+  }
+  while (GUI_id) GUI_Return();
+  GUI_OpenMenu(GUI_MAINMENU);
+}
+
 
 void EndGameCB(int res)
 {
   if (res) CEndServer("");
   GUI_Return();
 }
-
-
-/////////////////////////////////////////////////////////////////////////////
-// Disconnect menu widgets
-/////////////////////////////////////////////////////////////////////////////
-
-GUI_DisconnectMenu::GUI_DisconnectMenu():
-GUI_BaseMenu(GUI_DISCONNECT, mkrect(DG_PX,DG_PY,DG_VX,DG_VY)),
-Board1(NULL, SDLWidget::mkrect(DG_PX,DG_PY,DG_VX,125), false),
-DisconnectMenu(NULL, SDLWidget::mkrect(DG_PX+1,DG_PY+4,DG_VX-2,25), "DISCONNECT", false),
-lPrompt1(NULL, SDLWidget::mkrect(DG_PX+1,DG_PY+35, DG_VX-2,20), "Do you really want", false),
-lPrompt2(NULL, SDLWidget::mkrect(DG_PX+1,DG_PY+55, DG_VX-2,20), "disconnect from this game ?", false),
-bOK(NULL, 1, SDLWidget::mkrect(DG_PX+25,DG_PY+90,150,25), "OK"),
-bCancel(NULL, 2, SDLWidget::mkrect(DG_PX+25+150+10,DG_PY+90,150,25), "BACK")
-{
-  Default();
-  
-  DisconnectMenu.SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
-  DisconnectMenu.SetFont(MainFont);
-  
-  lPrompt1.SetAlignment(SDL_TA_CENTER); 
-  lPrompt2.SetAlignment(SDL_TA_CENTER); 
-  
-  AddChild(&DisconnectMenu);
-  AddChild(&lPrompt1);
-  AddChild(&lPrompt2);
-  AddChild(&bOK);
-  AddChild(&bCancel);
-
-  AddChild(&Board1);
-}
-
-void GUI_DisconnectMenu::Default()
-{
-}
-
-bool GUI_DisconnectMenu::eventButtonClick(int id, SDLWidget* widget)
-{
-  switch (id) {
-  case 1:
-    ConOut("");
-    ConOut("> Disconnect menu sequence <");
-    if (net_client_status)
-    {
-      ConOut("disconnect");
-      CommandExecute("disconnect");
-    }
-    ConOut("> end of sequence <");
-    ConOut("");
-    
-    while (GUI_id!=GUI_MAINMENU) GUI_Return(); // return from all menus
-    break;
-  case 2:
-    Return();
-    break;
-  }
-  return true;
-}
-
-void GUI_DisconnectMenu::Show()
-{
-  Clear();
-  
-  Board1.Show();  
-  DisconnectMenu.Show();
-  
-  lPrompt1.Show();  
-  lPrompt2.Show();  
-  
-  bOK.Show();  
-  bCancel.Show();  
-}
-
-void GUI_DisconnectMenu::Hide()
-{
-  Board1.Hide();  
-  DisconnectMenu.Hide();
-  
-  lPrompt1.Hide();  
-  lPrompt2.Hide();  
-  
-  bOK.Hide();  
-  bCancel.Hide();  
-}
-
 
 /////////////////////////////////////////////////////////////////////////////
 // CreatePlayers menu widgets
@@ -1153,172 +1051,6 @@ void GUI_Input::SetText(char* new_text){
 	Redraw();
 }
 
-
-
-/////////////////////////////////////////////////////////////////////////////
-// Results menu widgets
-/////////////////////////////////////////////////////////////////////////////
-
-GUI_ResultsMenu::GUI_ResultsMenu():
-GUI_BaseMenu(GUI_RESULTS, mkrect(RM_PX,RM_PY,RM_VX,RM_VY)),
-Board1(NULL, SDLWidget::mkrect(RM_PX,RM_PY,RM_VX,60), false),
-lResultsMenu(NULL, SDLWidget::mkrect(RM_PX+1,RM_PY+4,RM_VX-2,25), "RESULTS", false),
-lLabel1(NULL, SDLWidget::mkrect(RM_PX+1,RM_PY+30,RM_VX-2,20), "Press SPACE to continue.", false)
-{
-  Default();
-  
-  lResultsMenu.SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
-  lResultsMenu.SetFont(MainFont);
-  
-  AddChild(&lResultsMenu);
-  AddChild(&lLabel1);
-
-  px = RM_PX;
-  py = RM_PY+59;
- 
-  lNamex.MoveWindow(px, py);
-  lNamex.SizeWindow(RM_VX/2 + 20, 20);
-  lFragsx.MoveWindow(px + 20 + RM_VX/2, py);
-  lFragsx.SizeWindow(60, 20);
-  lPointsx.MoveWindow(px + 20+60 + RM_VX/2, py);
-  lPointsx.SizeWindow(RM_VX/2-60 - 20, 20);
-  AddChild(&lNamex);
-  AddChild(&lPointsx);
-  AddChild(&lFragsx);
-
-  px = RM_PX;
-  py = RM_PY+59+19;
-  for (int i=0; i<RM_MAX_NAMES; i++)
-  {
-    lName[i].MoveWindow(px, py + i*19);
-    lName[i].SizeWindow(RM_VX/2 + 20, 20);
-    lFrags[i].MoveWindow(px + 20 + RM_VX/2, py + i*19);
-    lFrags[i].SizeWindow(60, 20);
-    lPoints[i].MoveWindow(px + 20 + 60 + RM_VX/2, py + i*19);
-    lPoints[i].SizeWindow(RM_VX/2 - 60 - 20, 20);
-
-    AddChild(&lName[i]);
-    AddChild(&lPoints[i]);
-    AddChild(&lFrags[i]);
-  }
-
-  AddChild(&Board1);
-
-}
-
-void GUI_ResultsMenu::Default()
-{
-  CGame *g = &client_info.game;
-  index = 0;
-  int i=0;
-  int s[RM_MAX_NAMES]; int slots[RM_MAX_NAMES];
-  for (int f=0; f<RM_MAX_NAMES; f++) { s[f]=-100000; slots[f] = -1; }
-
-  for (i=0; i<MAX_GAMEBAR_PLAYERS; i++)
-  {
-    if (g->GBSlots[i]==GAME_MAX_OBJS) break;
-    if (g->objs[g->GBSlots[i]]->GetType()==ot_player)
-    {
-      GPlayer *p = (GPlayer*) g->objs[g->GBSlots[i]];
-      char line[100];
-      if (index<RM_MAX_NAMES)
-      {
-        sprintf(line, "  %-10s", p->player_name.GetValRef()->chars);
-        lName[index].SetText(line);
-        sprintf(line, "  %3d", (int)*p->frags.GetValRef());
-        lFrags[index].SetText(line);
-        sprintf(line, "  %4d", (int)*p->points.GetValRef());
-        lPoints[index].SetText(line);
-        s[index] = p->points;
-        slots[index] = i;
-        index++;
-      }
-    }
-  }
-
-  char str[100];
-  bool sorted = false;
-  while (!sorted)
-  {
-    sorted = true;
-    for (i=0; i<RM_MAX_NAMES-1; i++)
-    {
-      if (s[i]<s[i+1])
-      {
-        strcpy(str, lName[i+1].GetText());
-        lName[i+1].SetText(lName[i].GetText());
-        lName[i].SetText(str);
-        strcpy(str, lFrags[i+1].GetText());
-        lFrags[i+1].SetText(lFrags[i].GetText());
-        lFrags[i].SetText(str);
-        strcpy(str, lPoints[i+1].GetText());
-        lPoints[i+1].SetText(lPoints[i].GetText());
-        lPoints[i].SetText(str);
-        int x;
-        x = s[i+1];
-        s[i+1] = s[i];
-        s[i] = x;
-        x = slots[i+1];
-        slots[i+1] = slots[i];
-        slots[i] = x;
-        sorted = false;
-      }
-    }
-  }
-
-  if (inloop)
-  {
-    if (slots[0]!=-1 && ((GPlayer*)g->objs[slots[0]])->brain_owner == client_info.client_num)
-    {
-      smPlayVoice(SM_WIN1+ rand()%3, 100, 250);
-    }
-    else
-    {
-      smPlayVoice(SM_END1+ rand()%10, 100, 250);
-    }
-  }
-
-  lNamex.SetText("  NAME");
-  lPointsx.SetText("  POINTS");
-  lFragsx.SetText("  FRAGS");
-}
-
-void GUI_ResultsMenu::Show()
-{
-  Clear();
-  SizeWindow(RM_VX, 59+(1+index)*19+1);
-  
-  Board1.Show();
-  lResultsMenu.Show();
-  lLabel1.Show();
-
-  for (int i=0; i<index; i++)
-  {
-    lName[i].Show();
-    lPoints[i].Show();
-    lFrags[i].Show();
-  }
-  lNamex.Show();
-  lPointsx.Show();
-  lFragsx.Show();
-}
-
-void GUI_ResultsMenu::Hide()
-{
-  Board1.Hide();
-  lResultsMenu.Hide();
-  lLabel1.Hide();
- 
-  lNamex.Hide();
-  lPointsx.Hide();
-  lFragsx.Hide();
-  for (int i=0; i<index; i++)
-  {
-    lName[i].Hide();
-    lPoints[i].Hide();
-    lFrags[i].Hide();
-  }
-}
 
 /////////////////////////////////////////////////////////////////////////////
 // Help1 menu widgets
@@ -1763,118 +1495,6 @@ void GUI_Help2Menu::Hide()
 //  bNext.Hide();  
   bPrev.Hide();  
 }
-
-
-
-/////////////////////////////////////////////////////////////////////////////
-// DeletePlayer menu widgets
-/////////////////////////////////////////////////////////////////////////////
-
-void GUI_DeletePlayerMenu::Return()
-{
-  GUI_BaseMenu::Return();
-}
-
-GUI_DeletePlayerMenu::GUI_DeletePlayerMenu():
-GUI_BaseMenu(GUI_DELETEPLAYER, mkrect(DPM_PX,DPM_PY,DPM_VX,DPM_VY)),
-Board1(NULL, SDLWidget::mkrect(DPM_PX,DPM_PY,DPM_VX,DPM_VY), false),
-DeletePlayerMenu(NULL, SDLWidget::mkrect(DPM_PX+1,DPM_PY+4,DPM_VX-2,25), "DELETE PLAYER", false),
-lChoose(NULL, SDLWidget::mkrect(DPM_PX+25,DPM_PY+40, 159,20), "Choose player name to delete:", false),
-Board2(NULL, SDLWidget::mkrect(DPM_PX+25+150+10, DPM_PY+39, 150, 66), false),
-WidgetList(NULL, SDLWidget::mkrect(DPM_PX+26+150+10, DPM_PY+40, 148, 64)),
-bDelete(NULL, 1, SDLWidget::mkrect(DPM_PX+25,DPM_PY+120,150,25), "DELETE"),
-bCancel(NULL, 2, SDLWidget::mkrect(DPM_PX+25+150+10,DPM_PY+120,150,25), "BACK")
-{
-  Default();
-  
-  DeletePlayerMenu.SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
-  DeletePlayerMenu.SetFont(MainFont);
-  
-  AddChild(&DeletePlayerMenu);
-  AddChild(&bDelete);
-  AddChild(&bCancel);
-  AddChild(&lChoose);
-
-  AddChild(&Board2);
-  AddChild(&Board1);
-}
-
-void GUI_DeletePlayerMenu::Default()
-{
-  GPlayer* p;
-  CGame& g = client_info.game;
-  GAME_MAXOBJS_TYPE i;
-
-  WidgetList.DeleteAll();
-  int id = 0;
-  for (i=0; i<GAME_MAX_OBJS; i++) 
-  {
-    if ((g.objs[i]->state&OSTATE_ACTIVE) && (g.objs[i]->GetType()==ot_player))
-    {
-      p = (GPlayer*)g.objs[i]; 
-      if (p->brain_owner==client_info.client_num)
-      {
-        id++;
-		    WidgetList.AddWidget(new GUI_LabelL(NULL, SDLWidget::mkrect(0,0,150-14,16), p->player_name.GetValRef()->chars, &selected1, 0, GUI_UnselectedItem, GUI_SelectedItem));
-      }
-    }
-  }
-  if (WidgetList.GetWidgetCount())
-    selected1 = (GUI_LabelL*)WidgetList.FindWidget(0);
-  else
-    selected1 = NULL;
-}
-
-bool GUI_DeletePlayerMenu::eventButtonClick(int id, SDLWidget* widget)
-{
-  switch (id) {
-  case 1:
-    if (selected1)
-    {
-      ConOut("");
-      ConOut("> DeletePlayer menu sequence <");
-      ConOut("dp %s", selected1->GetText());
-      CommandExecute("dp %s", selected1->GetText());
-      ConOut("> end of sequence <");
-      ConOut("");
-      while (GUI_id!=GUI_MAINMENU) GUI_Return(); // return from all menus
-    }
-    else
-      Return();
-    break;
-  case 2:
-    Return();
-    break;
-  }
-  return true;
-}
-
-void GUI_DeletePlayerMenu::Show()
-{
-  Clear();
-  
-  Board1.Show();  
-  Board2.Show();  
-  bDelete.Show();  
-  bCancel.Show();  
-  DeletePlayerMenu.Show();
-  bCancel.Show();  
-  WidgetList.Show();
-  lChoose.Show();  
-}
- 
-
-void GUI_DeletePlayerMenu::Hide()
-{
-  Board1.Hide();  
-  Board2.Hide();  
-  bDelete.Hide();  
-  bCancel.Hide();  
-  DeletePlayerMenu.Hide();
-  WidgetList.Hide();
-  lChoose.Hide();  
-}
-
   
 /////////////////////////////////////////////////////////////////////////////
 // GUI wrappers

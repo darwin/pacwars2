@@ -29,6 +29,8 @@
 #include "guijoingamemenu.h"
 #include "guicreditsmenu.h"
 #include "guicreateplayermenu.h"
+#include "guideleteplayermenu.h"
+#include "guiresultsmenu.h"
 
 #include "smapman.h"
 #include "sprite.h"
@@ -40,7 +42,6 @@
 #define GUI_CREATEPLAYER  4
 #define GUI_DELETEPLAYER  5
 #define GUI_OPTIONS       6
-#define GUI_DISCONNECT    7
 #define GUI_PATHS         8
 #define GUI_SOUND         9
 #define GUI_QUIT          10
@@ -130,20 +131,12 @@ public:
 
 class GUI_Label : public SDLLabel {
 public:
-  GUI_Label(SDLWidget* parent, SDL_Rect& r, char* text, bool storebackground = false);
- // void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
-
-  void SetColor(SDL_Color c1, SDL_Color c2);
-  
-  SDL_Color c;
+  GUI_Label(SDLWidget* parent, SDL_Rect& r, char* text, bool storebackground = false, char* style = "GUI_Label");
 };
 
 class GUI_LabelC : public SDLLabel {
 public:
   GUI_LabelC(SDLWidget* parent, SDL_Rect& r, char* text, bool storebackground = false);
-//  void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
-  
-  SDL_Color c;
 };
 
 
@@ -166,18 +159,6 @@ public:
   GUI_LabelL** selected;
 };
 
-
-/////////////////////////////////////////////////////////////////////////////
-// ResultLine
-/////////////////////////////////////////////////////////////////////////////
-
-class GUI_ResultLine : public GUI_Label {
-public:
-  GUI_ResultLine();
-  void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
-};
-
-
 /////////////////////////////////////////////////////////////////////////////
 // Buttons
 /////////////////////////////////////////////////////////////////////////////
@@ -185,7 +166,6 @@ public:
 class GUI_Button : public SDLButton {
 public:
   GUI_Button(SDLWidget* parent, int btnid, SDL_Rect& r, char* text);
-//  void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
   
   SDL_Color c;
   bool drawbackground;
@@ -364,8 +344,6 @@ public:
   int result;
   void (*callback)(int res);
 
-  //void Show();
-  //void Hide();
   void Default();
   
   bool eventButtonClick(int id, SDLWidget* widget);
@@ -390,36 +368,6 @@ public:
 #define JG_VY 170
 
 extern GUI_JoinGameMenu* JGMenu;
-
-
-/////////////////////////////////////////////////////////////////////////////
-// Disconnect menu widgets
-/////////////////////////////////////////////////////////////////////////////
-#define DG_PX 140
-#define DG_PY 140
-#define DG_VX 360
-#define DG_VY 120
-
-
-class GUI_DisconnectMenu : public GUI_BaseMenu {
-public:
-  GUI_DisconnectMenu();
-  
-  GUI_Board Board1;
-  GUI_Label DisconnectMenu;
-  
-  GUI_Label lPrompt1;
-  GUI_Label lPrompt2;
-  
-  GUI_ButtonSmall bOK;
-  GUI_ButtonSmall bCancel;
-  
-  void Show();
-  void Hide();
-  void Default();
-  
-  bool eventButtonClick(int id, SDLWidget* widget);
-};
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -603,36 +551,6 @@ public:
 #define RM_PY 20
 #define RM_VX 280
 #define RM_VY 250
-
-#define RM_MAX_NAMES 20
-
-class GUI_ResultsMenu : public GUI_BaseMenu {
-public:
-  int index;
-
-  int px, py;
-
-  GUI_ResultsMenu();
-  
-  GUI_Board Board1;
-  GUI_Label lResultsMenu;
-  GUI_Label lLabel1;
-
-  GUI_ResultLine lNamex;
-  GUI_ResultLine lFragsx;
-  GUI_ResultLine lPointsx;
-  
-  GUI_ResultLine lName[RM_MAX_NAMES];
-  GUI_ResultLine lPoints[RM_MAX_NAMES];
-  GUI_ResultLine lFrags[RM_MAX_NAMES];
-  
-  void Show();
-  void Hide();
-  void Default();
-};
-
-#define RM_BASE 65
-
 
 /////////////////////////////////////////////////////////////////////////////
 // Help1 menu widgets
@@ -920,29 +838,6 @@ public:
 #define DPM_VX 360
 #define DPM_VY 150
 
-class GUI_DeletePlayerMenu : public GUI_BaseMenu {
-public:
-  GUI_DeletePlayerMenu();
-  
-  GUI_Board Board1;
-  GUI_Label DeletePlayerMenu;
-  GUI_ButtonSmall bDelete;
-  GUI_ButtonSmall bCancel;
-  GUI_Label lChoose;
-  GUI_Board Board2;
-  GUI_WidgetList WidgetList;
-  
-  void Show();
-  void Hide();
-  void Default();
-  void Return();
-  
-  bool eventButtonClick(int id, SDLWidget* widget);
-
-  GUI_LabelL* selected1;
-};
-
-
 /////////////////////////////////////////////////////////////////////////////
 // Video menu widgets
 /////////////////////////////////////////////////////////////////////////////
@@ -956,9 +851,9 @@ public:
 // Server menu widgets
 /////////////////////////////////////////////////////////////////////////////
 #define SMS_PX 140
-#define SMS_PY 105
+#define SMS_PY 80
 #define SMS_VX 360
-#define SMS_VY 270
+#define SMS_VY 320
 
 
 

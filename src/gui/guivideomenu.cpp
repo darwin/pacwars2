@@ -22,7 +22,6 @@ GUI_VideoMenu::GUI_VideoMenu() : GUI_BaseMenu(GUI_VIDEO, mkrect(VM_PX,VM_PY,VM_V
 
 	Default();
 
-	VideoMenu->SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
 	VideoMenu->SetFont(MainFont);
 
 	lGamma_r->SetAlignment(SDL_TA_RIGHT);
@@ -56,52 +55,18 @@ bool GUI_VideoMenu::eventButtonClick(int id, SDLWidget* widget) {
 	switch (id) {
 	case 1:
 		ConOut("");
-		ConOut("> Video menu sequence <");
+		ConOutEx(MISC_FONT, "> Video menu sequence <");
 
-		ConOut("gamma_r %s", eGamma_r->GetText());
-		CommandExecute("gamma_r %s", eGamma_r->GetText());
-		ConOut("gamma_g %s", eGamma_g->GetText());
-		CommandExecute("gamma_g %s", eGamma_g->GetText());
-		ConOut("gamma_b %s", eGamma_b->GetText());
-		CommandExecute("gamma_b %s", eGamma_b->GetText());
+		CommandExecuteOut("gamma_r %s", eGamma_r->GetText());
+		CommandExecuteOut("gamma_g %s", eGamma_g->GetText());
+		CommandExecuteOut("gamma_b %s", eGamma_b->GetText());
 
-		if (cFullscreen->GetPressed()) {
-			ConOut("fullscreen 1");
-			CommandExecute("fullscreen 1");
-		}
-		else {
-			ConOut("fullscreen 0");
-			CommandExecute("fullscreen 0");
-		}
-		
-		if (cGLBlit->GetPressed()) {
-			ConOut("glblit 1");
-			CommandExecute("glblit 1");
-		}
-		else {
-			ConOut("glblit 0");
-			CommandExecute("glblit 0");
-		}
-		
-		if (cAlphaMenu->GetPressed()) {
-			ConOut("alphamenu 1");
-			CommandExecute("alphamenu 1");
-		}
-		else {
-			ConOut("alphamenu 0");
-			CommandExecute("alphamenu 0");
-		}
-		
-		if (cDB->GetPressed()) {
-			ConOut("doublebuf 1");
-			CommandExecute("doublebuf 1");
-		}
-		else {
-			ConOut("doublebuf 0");
-			CommandExecute("doublebuf 0");
-		}
+		if (cFullscreen->GetPressed()) CommandExecuteOut("fullscreen 1");	else CommandExecuteOut("fullscreen 0");
+		if (cGLBlit->GetPressed()) CommandExecuteOut("glblit 1");	else CommandExecuteOut("glblit 0");
+		if (cAlphaMenu->GetPressed()) CommandExecuteOut("alphamenu 1");	else CommandExecuteOut("alphamenu 0");
+		if (cDB->GetPressed()) CommandExecuteOut("doublebuf 1"); else CommandExecuteOut("doublebuf 0");
 
-		ConOut("> end of sequence <");
+    ConOutEx(MISC_FONT, "> end of sequence <");
 		ConOut("");
 
 		GUI_Return();

@@ -1340,11 +1340,7 @@ void QuitCB(int res)
 
 void ShutdownCB(int res)
 {
-  if (res) 
-  {
-    ConOut("es");
-    CommandExecute("es");
-  }
+  if (res) CommandExecuteOut("es");
   while (GUI_id) GUI_Return();
   GUI_OpenMenu(GUI_MAINMENU);
 }
@@ -1555,7 +1551,7 @@ bool GUI_JoinGameMenu::eventButtonClick(int id, SDLWidget* widget)
   switch (id) {
   case 1:
     ConOut("");
-    ConOut("> JoinGame menu sequence <");
+    ConOutEx(MISC_FONT, "> JoinGame menu sequence <");
     if (net_client_status)
     {
       ConOut("ec");
@@ -1573,7 +1569,7 @@ bool GUI_JoinGameMenu::eventButtonClick(int id, SDLWidget* widget)
     CommandExecute("sc");
     ConOut("connect %s", eServerAddress.GetText());
     CommandExecute("connect %s", eServerAddress.GetText());
-    ConOut("> end of sequence <");
+    ConOutEx(MISC_FONT, "> end of sequence <");
     ConOut("");
     
     while (GUI_id) GUI_Return(); // return from all menus
@@ -1902,7 +1898,7 @@ bool GUI_NewGameMenu::eventButtonClick(int id, SDLWidget* widget)
     if (selected1 && selected2)
     {
       ConOut("");
-      ConOut("> NewGame menu sequence <");
+      ConOutEx(MISC_FONT, "> NewGame menu sequence <");
       if (net_server_status)
       {
         ConOut("es");
@@ -1923,7 +1919,7 @@ bool GUI_NewGameMenu::eventButtonClick(int id, SDLWidget* widget)
       CommandExecute("s_next_script %s", selected2->msi->name);
       ConOut("rs");
       CommandExecute("rs");
-      ConOut("> end of sequence <");
+      ConOutEx(MISC_FONT, "> end of sequence <");
       ConOut("");
       
       if (cJoin.GetPressed())
@@ -2087,13 +2083,13 @@ bool GUI_DisconnectMenu::eventButtonClick(int id, SDLWidget* widget)
   switch (id) {
   case 1:
     ConOut("");
-    ConOut("> Disconnect menu sequence <");
+    ConOutEx(MISC_FONT, "> Disconnect menu sequence <");
     if (net_client_status)
     {
       ConOut("disconnect");
       CommandExecute("disconnect");
     }
-    ConOut("> end of sequence <");
+    ConOutEx(MISC_FONT, "> end of sequence <");
     ConOut("");
     
     while (GUI_id!=GUI_MAINMENU) GUI_Return(); // return from all menus

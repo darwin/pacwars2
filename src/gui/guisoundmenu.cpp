@@ -47,7 +47,6 @@ GUI_SoundMenu::GUI_SoundMenu() : GUI_BaseMenu(GUI_SOUND, mkrect(SM_PX,SM_PY,SM_V
 
 	Default();
 
-	SoundMenu->SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
 	SoundMenu->SetFont(MainFont);
 
 	// there are some troubles with following the slider in double buffered mode.
@@ -67,10 +66,8 @@ void GUI_SoundMenu::Default()
 {
 	eMusicVolume->SetRange(0,64);
 	eMusicVolume->SetPosition((int)music_volume.value);
-	//eMusicVolume->SetTextFormat("%i", (int)music_volume.value);
 	eSoundVolume->SetRange(0,64);
 	eSoundVolume->SetPosition((int)sound_volume.value);
-	//eSoundVolume->SetTextFormat("%i", (int)sound_volume.value);
 	e3dDist->SetTextFormat("%.3g", snd_dist.value);
 	e3dRoll->SetTextFormat("%.3g", snd_roll.value);
 
@@ -87,28 +84,24 @@ bool GUI_SoundMenu::eventButtonClick(int id, SDLWidget* widget)
   switch (id) {
   case 1:
     ConOut("");
-    ConOut("> Sound menu sequence <");
+    ConOutEx(MISC_FONT, "> Sound menu sequence <");
 
     ConOut("sound_volume %i", eSoundVolume->GetPosition());
     ConOut("music_volume %i", eMusicVolume->GetPosition());
 
-    ConOut("snd_dist %s", e3dDist->GetText());
-    CommandExecute("snd_dist %s", e3dDist->GetText());
-    ConOut("snd_roll %s", e3dRoll->GetText());
-    CommandExecute("snd_roll %s", e3dRoll->GetText());
+    CommandExecuteOut("snd_dist %s", e3dDist->GetText());
+    CommandExecuteOut("snd_roll %s", e3dRoll->GetText());
 
     if (cSwap->GetPressed())
     {
-      ConOut("snd_swap 1");
-      CommandExecute("snd_swap 1");
+      CommandExecuteOut("snd_swap 1");
     }
     else
     {
-      ConOut("snd_swap 0");
-      CommandExecute("snd_swap 0");
+      CommandExecuteOut("snd_swap 0");
     }
 
-    ConOut("> end of sequence <");
+    ConOutEx(MISC_FONT, "> end of sequence <");
     ConOut("");
 
     GUI_Return();
@@ -116,19 +109,6 @@ bool GUI_SoundMenu::eventButtonClick(int id, SDLWidget* widget)
   case 2:
     Return();
     break;
-/*  case 4:
-    if (snd_swapLR.value==1.0)
-    {
-      Cvar_SetValue("snd_swap", 0);
-    }
-    else
-    {
-      Cvar_SetValue("snd_swap", 1);
-    }
-    OKD1->Reset("SWAPPED LEFT/RIGHT", "The direction of 3d sound output was reversed.");
-    GUI_OpenMenu(GUI_OKDIALOG1);
-
-    break;*/
   case 3:
     if (snd_3don.value==1.0)
     {

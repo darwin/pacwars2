@@ -43,7 +43,6 @@ GUI_NewGameMenu::GUI_NewGameMenu(): GUI_BaseMenu(GUI_NEWGAME, mkrect(NG_PX,NG_PY
 	bStartIt = new GUI_ButtonSmall(this, 1, SDLWidget::mkrect(25,360,150,25), "START SERVER");
 	bCancel = new GUI_ButtonSmall(this, 2, SDLWidget::mkrect(25+150+10,360,150,25), "BACK");
 
-	NewGameMenu->SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
 	NewGameMenu->SetFont(MainFont);
 
 	lWelcomeMsg->SetAlignment(SDL_TA_RIGHT);
@@ -168,28 +167,20 @@ bool GUI_NewGameMenu::eventButtonClick(int id, SDLWidget* widget)
     if (selected1 && selected2)
     {
       ConOut("");
-      ConOut("> NewGame menu sequence <");
+      ConOutEx(MISC_FONT, "> NewGame menu sequence <");
       if (net_server_status)
       {
-        ConOut("es");
-        CommandExecute("es");
+        CommandExecuteOut("es");
       }
 
-      ConOut("s_name %s", eServerName->GetText());
-      CommandExecute("s_name %s", eServerName->GetText());
-      ConOut("s_welcome_msg %s", eWelcomeMsg->GetText());
-      CommandExecute("s_welcome_msg %s", eWelcomeMsg->GetText());
-      ConOut("s_maxclients %s", eMaxClients->GetText());
-      CommandExecute("s_maxclients %s", eMaxClients->GetText());
-      ConOut("ss");
-      CommandExecute("ss");
-      ConOut("s_next_map%s", selected1->GetText());
-      CommandExecute("s_next_map%s", selected1->GetText());
-      ConOut("s_next_script %s", selected2->msi->name);
-      CommandExecute("s_next_script %s", selected2->msi->name);
-      ConOut("rs");
-      CommandExecute("rs");
-      ConOut("> end of sequence <");
+      CommandExecuteOut("s_name %s", eServerName->GetText());
+      CommandExecuteOut("s_welcome_msg %s", eWelcomeMsg->GetText());
+      CommandExecuteOut("s_maxclients %s", eMaxClients->GetText());
+      CommandExecuteOut("ss");
+      CommandExecuteOut("s_next_map%s", selected1->GetText());
+      CommandExecuteOut("s_next_script %s", selected2->msi->name);
+      CommandExecuteOut("rs");
+      ConOutEx(MISC_FONT, "> end of sequence <");
       ConOut("");
 
       if (cJoin->GetPressed())
