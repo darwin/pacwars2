@@ -7,10 +7,12 @@ libgui_la_SOURCES = \
 	gui.cpp \
 	guibasemenu.cpp \
 	guisoundmenu.cpp \
-	guinewgamemenu.cpp
+	guinewgamemenu.cpp \
+	guiservermenu.cpp
 
 EXTRA_DIST = \
 	gui.h \
 	guibasemenu.h \
 	guisoundmenu.h \
-	guinewgamemenu.h
+	guinewgamemenu.h \
+	guiservermenu.h

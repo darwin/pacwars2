@@ -19,6 +19,7 @@
 #include "guibasemenu.h"
 #include "guisoundmenu.h"
 #include "guinewgamemenu.h"
+#include "guiservermenu.h"
 
 #include "smapman.h"
 #include "sprite.h"
@@ -1200,40 +1201,6 @@ public:
 #define SMS_VX 360
 #define SMS_VY 270
 
-
-class GUI_ServerMenu : public GUI_BaseMenu {
-public:
-  GUI_ServerMenu();
-  
-  GUI_Board Board1;
-  GUI_Label ServerMenu;
-  
-  GUI_Label lServerName;
-  GUI_TextEdit eServerName;
-  GUI_Label lWelcomeMsg;
-  GUI_TextEdit eWelcomeMsg;
-  GUI_Label lMaxClients;
-  GUI_NumEdit eMaxClients;
-
-  GUI_Label lTimelimit;
-  GUI_NumEdit eTimelimit;
-
-  GUI_CheckBox cDelTmps;
-  GUI_CheckBox cRDRqs;
-  GUI_CheckBox cRURqs;
-
-  GUI_ButtonSmall bSet;
-  GUI_ButtonSmall bCancel;
-
-  GUI_Label lEffect;
-
-  void Show();
-  void Hide();
-  void Default();
-  void Return();
-  
-  bool eventButtonClick(int id, SDLWidget* widget);
-};
 
 
 /////////////////////////////////////////////////////////////////////////////

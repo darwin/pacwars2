@@ -9,7 +9,6 @@ class GUI_NumEdit;
 class GUI_CheckBox;
 class GUI_ButtonSmall;
 class GUI_TextEdit;
-class GUI_CheckBox;
 class GUI_WidgetList;
 class GUI_LabelL;
 
