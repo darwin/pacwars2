@@ -7,26 +7,26 @@
 GUI_JoinGameMenu* JGMenu;
 
 
-GUI_JoinGameMenu::GUI_JoinGameMenu() : GUI_BaseMenu(GUI_JOINGAME, mkrect(JG_PX,JG_PY,JG_VX,JG_VY)) {
+GUI_JoinGameMenu::GUI_JoinGameMenu() : GUI_BaseMenu(GUI_JOINGAME, PG_Rect(JG_PX,JG_PY,JG_VX,JG_VY)) {
 	JGMenu = this;
 
-	JoinGameMenu = new GUI_Label(this, SDLWidget::mkrect(1,4,JG_VX-2,25), "JOIN GAME", false);
-	lServerAddress = new GUI_Label(this, SDLWidget::mkrect(1,50, 119,20), "Server address:", false);
-	eServerAddress = new GUI_TextEdit(this, SDLWidget::mkrect(120,50,215,20));
-	lClientName = new GUI_Label(this, SDLWidget::mkrect(1,80, 119,20), "client name:", false);
-	eClientName = new GUI_TextEdit(this, SDLWidget::mkrect(120,80,215,20));
-	lClientDesc = new GUI_Label(this, SDLWidget::mkrect(1,110, 119,20), "client finger:", false);
-	eClientDesc = new GUI_TextEdit(this, SDLWidget::mkrect(120,110,215,20));
-	bConnect = new GUI_ButtonSmall(this, 1, SDLWidget::mkrect(25,140,150,25), "CONNECT");
-	bCancel = new GUI_ButtonSmall(this, 2, SDLWidget::mkrect(25+150+10,140,150,25), "BACK");
+	JoinGameMenu = new GUI_Label(this, PG_Rect(1,4,JG_VX-2,25), "JOIN GAME", false);
+	lServerAddress = new GUI_Label(this, PG_Rect(1,50, 119,20), "Server address:", false);
+	eServerAddress = new GUI_TextEdit(this, PG_Rect(120,50,215,20));
+	lClientName = new GUI_Label(this, PG_Rect(1,80, 119,20), "client name:", false);
+	eClientName = new GUI_TextEdit(this, PG_Rect(120,80,215,20));
+	lClientDesc = new GUI_Label(this, PG_Rect(1,110, 119,20), "client finger:", false);
+	eClientDesc = new GUI_TextEdit(this, PG_Rect(120,110,215,20));
+	bConnect = new GUI_ButtonSmall(this, 1, PG_Rect(25,140,150,25), "CONNECT");
+	bCancel = new GUI_ButtonSmall(this, 2, PG_Rect(25+150+10,140,150,25), "BACK");
 
 	Default();
 
 	JoinGameMenu->SetFont(MainFont);
 
-	lServerAddress->SetAlignment(SDL_TA_RIGHT);
-	lClientName->SetAlignment(SDL_TA_RIGHT);
-	lClientDesc->SetAlignment(SDL_TA_RIGHT);
+	lServerAddress->SetAlignment(PG_TA_RIGHT);
+	lClientName->SetAlignment(PG_TA_RIGHT);
+	lClientDesc->SetAlignment(PG_TA_RIGHT);
 
 	LoadThemeStyle("GUI_Board");
 }
@@ -44,7 +44,7 @@ void GUI_JoinGameMenu::Default() {
 	eClientDesc->SetText(c_desc.string);
 }
 
-bool GUI_JoinGameMenu::eventButtonClick(int id, SDLWidget* widget) {
+bool GUI_JoinGameMenu::eventButtonClick(int id, PG_Widget* widget) {
 
 	switch (id) {
 

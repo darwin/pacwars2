@@ -3,11 +3,11 @@
 
 #include "guibasemenu.h"
 #include "cvar.h"
+#include "pgwidgetlist.h"
 
 class GUI_Label;
 class GUI_LabelL;
 class GUI_ButtonSmall;
-class GUI_WidgetList;
 
 class GUI_DeletePlayerMenu : public GUI_BaseMenu {
 public:
@@ -17,7 +17,7 @@ public:
   GUI_ButtonSmall* bDelete;
   GUI_ButtonSmall* bCancel;
   GUI_Label* lChoose;
-  GUI_WidgetList* WidgetList;
+  PG_WidgetList* WidgetList;
 
   GUI_LabelL* selected1; // pointer to actualy selected item
   
@@ -25,7 +25,7 @@ public:
   void Return();
 
 protected:  
-  bool eventButtonClick(int id, SDLWidget* widget);
+  bool eventButtonClick(int id, PG_Widget* widget);
   void eventShow();
   void eventHide();
 };

@@ -2,6 +2,7 @@
 #define GUINEWGAMEMENU_H
 
 #include "guibasemenu.h"
+#include "pgwidgetlist.h"
 
 class GUI_Board;
 class GUI_Label;
@@ -9,7 +10,6 @@ class GUI_NumEdit;
 class GUI_CheckBox;
 class GUI_ButtonSmall;
 class GUI_TextEdit;
-class GUI_WidgetList;
 class GUI_LabelL;
 
 /////////////////////////////////////////////////////////////////////////////
@@ -50,8 +50,8 @@ public:
 
   GUI_CheckBox* cJoin;
 
-  GUI_WidgetList* WidgetList1;
-  GUI_WidgetList* WidgetList2;
+  PG_WidgetList* WidgetList1;
+  PG_WidgetList* WidgetList2;
 
   GUI_LabelL* selected1;
   GUI_LabelL* selected2;
@@ -63,7 +63,7 @@ public:
 
   void GenerateScriptSelection();
 
-  bool eventButtonClick(int id, SDLWidget* widget);
+  bool eventButtonClick(int id, PG_Widget* widget);
 };
 
 extern GUI_NewGameMenu* NGMenu;

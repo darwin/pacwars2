@@ -12,13 +12,13 @@ extern GUI_OKDialog2 *OKD2;
 /////////////////////////////////////////////////////////////////////////////
 
 PARAGUI_CALLBACK(handler_slider_music) {
-  SDLSlider* s = (SDLSlider*)clientdata;
+  PG_Slider* s = (PG_Slider*)clientdata;
   CommandExecute("music_volume %i", s->GetPosition());
 	return true;
 }
 
 PARAGUI_CALLBACK(handler_slider_sound) {
-  SDLSlider* s = (SDLSlider*)clientdata;
+  PG_Slider* s = (PG_Slider*)clientdata;
   CommandExecute("sound_volume %i", s->GetPosition());
   smPlayVoice(SM_MESSENGER, 100, 11);
 	return true;
@@ -28,22 +28,22 @@ void GUI_SoundMenu::Return() {
 	GUI_BaseMenu::Return();
 }
 
-GUI_SoundMenu::GUI_SoundMenu() : GUI_BaseMenu(GUI_SOUND, mkrect(SM_PX,SM_PY,SM_VX,SM_VY)) {
+GUI_SoundMenu::GUI_SoundMenu() : GUI_BaseMenu(GUI_SOUND, PG_Rect(SM_PX,SM_PY,SM_VX,SM_VY)) {
 
-	SoundMenu = new GUI_Label(this, SDLWidget::mkrect(1,4,SM_VX-2,25), "SOUND OPTIONS", false);
-	lRange = new GUI_Label(this, SDLWidget::mkrect(1,30,SM_VX-2,20), "Edit sound properties", false);
-	lMusicVolume = new GUI_Label(this, SDLWidget::mkrect(1,65, 119,20), "Music volume:", false);
-	eMusicVolume = new SDLSlider(this, 4, SDLWidget::mkrect(120,65+5,215,20),  false);
-	lSoundVolume = new GUI_Label(this, SDLWidget::mkrect(1,90, 119,20), "Sound volume:", false);
-	eSoundVolume = new SDLSlider(this, 5, SDLWidget::mkrect(120,90+5,215,20), 0);
-	b3ds = new GUI_ButtonSmall(this, 3, SDLWidget::mkrect(25,120,310,25), "ENABLE/DISABLE 3D sound engine");
-	cSwap = new GUI_CheckBox(this, SDLWidget::mkrect(25,147,310,CB_SIZEY), "swap left/right sound channel", true, GUI_Gray64);
-	l3dDist = new GUI_Label(this, SDLWidget::mkrect(1,170, 119,20), "3D distance step:", false);
-	e3dDist = new GUI_FloatEdit(this, SDLWidget::mkrect(120,170,215,20), 0, 50);
-	l3dRoll = new GUI_Label(this, SDLWidget::mkrect(1,195, 119,20), "3D sound rollover:", false);
-	e3dRoll = new GUI_FloatEdit(this, SDLWidget::mkrect(120,195,215,20), 0, 50);
-	bSet = new GUI_ButtonSmall(this, 1, SDLWidget::mkrect(25,225,150, 25), "APPLY");
-	bCancel = new GUI_ButtonSmall(this, 2, SDLWidget::mkrect(25+150+10,225,150,25), "BACK");
+	SoundMenu = new GUI_Label(this, PG_Rect(1,4,SM_VX-2,25), "SOUND OPTIONS", false);
+	lRange = new GUI_Label(this, PG_Rect(1,30,SM_VX-2,20), "Edit sound properties", false);
+	lMusicVolume = new GUI_Label(this, PG_Rect(1,65, 119,20), "Music volume:", false);
+	eMusicVolume = new PG_Slider(this, 4, PG_Rect(120,65+5,215,20),  false);
+	lSoundVolume = new GUI_Label(this, PG_Rect(1,90, 119,20), "Sound volume:", false);
+	eSoundVolume = new PG_Slider(this, 5, PG_Rect(120,90+5,215,20), 0);
+	b3ds = new GUI_ButtonSmall(this, 3, PG_Rect(25,120,310,25), "ENABLE/DISABLE 3D sound engine");
+	cSwap = new GUI_CheckBox(this, PG_Rect(25,147,310,CB_SIZEY), "swap left/right sound channel", true, GUI_Gray64);
+	l3dDist = new GUI_Label(this, PG_Rect(1,170, 119,20), "3D distance step:", false);
+	e3dDist = new GUI_FloatEdit(this, PG_Rect(120,170,215,20), 0, 50);
+	l3dRoll = new GUI_Label(this, PG_Rect(1,195, 119,20), "3D sound rollover:", false);
+	e3dRoll = new GUI_FloatEdit(this, PG_Rect(120,195,215,20), 0, 50);
+	bSet = new GUI_ButtonSmall(this, 1, PG_Rect(25,225,150, 25), "APPLY");
+	bCancel = new GUI_ButtonSmall(this, 2, PG_Rect(25+150+10,225,150,25), "BACK");
 
 	Default();
 
@@ -54,10 +54,10 @@ GUI_SoundMenu::GUI_SoundMenu() : GUI_BaseMenu(GUI_SOUND, mkrect(SM_PX,SM_PY,SM_V
 	eMusicVolume->SetEventCallback(MSG_SLIDEEND, handler_slider_music, eMusicVolume);
 	eSoundVolume->SetEventCallback(MSG_SLIDEEND, handler_slider_sound, eSoundVolume);
 
-  lMusicVolume->SetAlignment(SDL_TA_RIGHT);
-	l3dDist->SetAlignment(SDL_TA_RIGHT);
-	l3dRoll->SetAlignment(SDL_TA_RIGHT);
-	lSoundVolume->SetAlignment(SDL_TA_RIGHT);
+  lMusicVolume->SetAlignment(PG_TA_RIGHT);
+	l3dDist->SetAlignment(PG_TA_RIGHT);
+	l3dRoll->SetAlignment(PG_TA_RIGHT);
+	lSoundVolume->SetAlignment(PG_TA_RIGHT);
 
 	LoadThemeStyle("GUI_Board");
 }
@@ -79,7 +79,7 @@ void GUI_SoundMenu::Default()
 	}
 }
 
-bool GUI_SoundMenu::eventButtonClick(int id, SDLWidget* widget)
+bool GUI_SoundMenu::eventButtonClick(int id, PG_Widget* widget)
 {
   switch (id) {
   case 1:

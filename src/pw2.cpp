@@ -22,6 +22,8 @@
 #undef DrawText
 #undef SendMessage
 
+#include <gui.h>
+/*
 #include <sdlwidget.h>
 #include <sdlapplication.h>
 #include <sdlbutton.h>
@@ -34,6 +36,7 @@
 #include <sdlprogressbar.h>
 #include <sdlradiobutton.h>
 #include <sdlcheckbutton.h>
+*/
 
 //#include <crtdbg.h>
 #include "mapman.h"
@@ -111,7 +114,7 @@ bool inloop = 0;
 // 1 = active 
 // 2 = iconified
 
-SDLApplication *pPW2app;
+PG_Application *pPW2app;
 Uint8 video_bpp;
 SDL_Surface *screen;
 const SDL_VideoInfo *VideoInfo = NULL;
@@ -2873,7 +2876,7 @@ void ProcessEvents()
     }
     
     if (GUI_id) {
-      SDLMessageObject::PumpIntoEventQueue(&event);
+      PG_MessageObject::PumpIntoEventQueue(&event);
       //continue;
     }
     
@@ -3065,7 +3068,7 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
   LoadConfig(PW_CONFIG_FILE);
 #endif
   
-  SDLApplication app;
+  PG_Application app;
   strcpy(fname, gui_dir.string);
   if (fname[strlen(fname) - 1] == '/')
     fname[strlen(fname) - 1] = 0;
@@ -3704,7 +3707,7 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
         enable_menu_music = 0;
       }
       
-      SDL_Rect r1, r2;
+      PG_Rect r1, r2;
       GUI_menu->GetClipRects(r1, r2);
       
       if (alphamenu.value) {
@@ -3715,18 +3718,17 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
       
       SDL_SetColorKey(app.GetScreen(), SDL_SRCCOLORKEY, 0x0);
       SDL_BlitSurface(app.GetScreen(), &r2, screen, &r2);
-      
-      //SDL_BlitSurface(app.GetScreen(), NULL, screen, NULL);
-      if (GUI_id != GUI_MAINMENU) {
-        GUI_menu->DrawHLine(r2.x - 1, r2.y - 1, r2.w + 1, 255, 255,
-          255, screen);
+
+		// will change that again -- Alex
+      /*if (GUI_id != GUI_MAINMENU) {
+        GUI_menu->DrawHLine(1, 1, r2.w + 1, 255, 255, 255, screen);
         GUI_menu->DrawHLine(r2.x - 1, r2.y + r2.h, r2.w + 2, 255,
           255, 255, screen);
         GUI_menu->DrawVLine(r2.x - 1, r2.y - 1, r2.h + 1, 255, 255,
           255, screen);
         GUI_menu->DrawVLine(r2.x + r2.w, r2.y - 1, r2.h + 1, 255,
           255, 255, screen);
-      }
+      }*/
     } else {
       if (MapLoaded != 2)
         DrawText("Press ESCAPE to open menu", screen, SmallFont, 200,

@@ -42,7 +42,7 @@ public:
 
 protected:
 
-  bool eventButtonClick(int id, SDLWidget* widget);
+  bool eventButtonClick(int id, PG_Widget* widget);
   void eventShow();
   void eventHide();
 };

@@ -2,26 +2,26 @@
 #include "gui.h"
 #include "client.h"
 
-GUI_ClientMenu::GUI_ClientMenu() : GUI_BaseMenu(GUI_CLIENT, mkrect(CMS_PX,CMS_PY,CMS_VX,CMS_VY)) {
+GUI_ClientMenu::GUI_ClientMenu() : GUI_BaseMenu(GUI_CLIENT, PG_Rect(CMS_PX,CMS_PY,CMS_VX,CMS_VY)) {
 
-	ClientMenu = new GUI_Label(this, SDLWidget::mkrect(1,4,CMS_VX-2,25), "CLIENT OPTIONS", false);
-	lEffect = new GUI_Label(this, SDLWidget::mkrect(1,30,CMS_VX-2,20), "This settings will affect the client side of the game.", false);
-	lClientName = new GUI_Label(this, SDLWidget::mkrect(1,65, 119,20), "Station name:", false);
-	eClientName = new GUI_TextEdit(this, SDLWidget::mkrect(120,65,215,20));
-	lClientDesc = new GUI_Label(this, SDLWidget::mkrect(1,90, 119,20), "Station finger:", false);
-	eClientDesc  = new GUI_TextEdit(this, SDLWidget::mkrect(120,90,215,20));
-	cDelTmps = new GUI_CheckBox(this, SDLWidget::mkrect(25,115,310,CB_SIZEY), "delete temporary files after transmission", false, GUI_Gray64);
-	cDRqs = new GUI_CheckBox(this, SDLWidget::mkrect(25,140,310,CB_SIZEY), "allow download requests", false, GUI_Gray64);
-	cURqs = new GUI_CheckBox(this, SDLWidget::mkrect(25,165,310,CB_SIZEY), "allow upload requests", false, GUI_Gray64);
-	bSet = new GUI_ButtonSmall(this, 1, SDLWidget::mkrect(25,190,150, 25), "APPLY");
-	bCancel = new GUI_ButtonSmall(this, 2, SDLWidget::mkrect(25+150+10,190,150,25), "BACK");
+	ClientMenu = new GUI_Label(this, PG_Rect(1,4,CMS_VX-2,25), "CLIENT OPTIONS", false);
+	lEffect = new GUI_Label(this, PG_Rect(1,30,CMS_VX-2,20), "This settings will affect the client side of the game.", false);
+	lClientName = new GUI_Label(this, PG_Rect(1,65, 119,20), "Station name:", false);
+	eClientName = new GUI_TextEdit(this, PG_Rect(120,65,215,20));
+	lClientDesc = new GUI_Label(this, PG_Rect(1,90, 119,20), "Station finger:", false);
+	eClientDesc  = new GUI_TextEdit(this, PG_Rect(120,90,215,20));
+	cDelTmps = new GUI_CheckBox(this, PG_Rect(25,115,310,CB_SIZEY), "delete temporary files after transmission", false, GUI_Gray64);
+	cDRqs = new GUI_CheckBox(this, PG_Rect(25,140,310,CB_SIZEY), "allow download requests", false, GUI_Gray64);
+	cURqs = new GUI_CheckBox(this, PG_Rect(25,165,310,CB_SIZEY), "allow upload requests", false, GUI_Gray64);
+	bSet = new GUI_ButtonSmall(this, 1, PG_Rect(25,190,150, 25), "APPLY");
+	bCancel = new GUI_ButtonSmall(this, 2, PG_Rect(25+150+10,190,150,25), "BACK");
 
 	Default();
 
 	ClientMenu->SetFont(MainFont);
 
-	lClientName->SetAlignment(SDL_TA_RIGHT);
-	lClientDesc->SetAlignment(SDL_TA_RIGHT);
+	lClientName->SetAlignment(PG_TA_RIGHT);
+	lClientDesc->SetAlignment(PG_TA_RIGHT);
 
 	LoadThemeStyle("GUI_Board");
 }
@@ -42,7 +42,7 @@ void GUI_ClientMenu::Default() {
 	if (c_uploading.value) cURqs->SetPressed(); else cURqs->SetUnpressed();
 }
 
-bool GUI_ClientMenu::eventButtonClick(int id, SDLWidget* widget) {
+bool GUI_ClientMenu::eventButtonClick(int id, PG_Widget* widget) {
 
 	switch (id) {
 	case 1:

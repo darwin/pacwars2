@@ -8,14 +8,14 @@
 #define GUI_H
 
 #include "paragui.h"
-#include "sdlgradientwidget.h"
-#include "sdllineedit.h"
-#include "sdlbutton.h"
-#include "sdllabel.h"
-#include "sdlcheckbutton.h"
-#include "sdlscrollbar.h"
-#include "sdlwidgetlist.h"
-#include "sdlslider.h"
+#include "pggradientwidget.h"
+#include "pglineedit.h"
+#include "pgbutton.h"
+#include "pglabel.h"
+#include "pgcheckbutton.h"
+#include "pgscrollbar.h"
+#include "pgwidgetlist.h"
+#include "pgslider.h"
 
 #include "guibasemenu.h"
 #include "guisoundmenu.h"
@@ -107,9 +107,9 @@ extern SDL_Color GUI_SelectedItem;
 // Board
 /////////////////////////////////////////////////////////////////////////////
 
-class GUI_Board : public SDLGradientWidget {
+class GUI_Board : public PG_GradientWidget {
 public:
-  GUI_Board(SDLWidget* parent, SDL_Rect& r, bool storebackground = false, char* theme=NULL);
+  GUI_Board(PG_Widget* parent, const PG_Rect& r, bool storebackground = false, char* theme=NULL);
 //  void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
   
   bool drawbackground;
@@ -119,10 +119,10 @@ public:
 // Bitmap
 /////////////////////////////////////////////////////////////////////////////
 
-class GUI_Bitmap : public SDLWidget {
+class GUI_Bitmap : public PG_Widget {
 public:
-  GUI_Bitmap(SDLWidget* parent, SDL_Rect& r, bool storebackground = false, SDL_Surface* s=NULL);
-  void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
+  GUI_Bitmap(PG_Widget* parent, const PG_Rect& r, bool storebackground = false, SDL_Surface* s=NULL);
+  void eventDraw(SDL_Surface* surface, const PG_Rect& rect);
   
   SDL_Surface *bitmap;
   bool drawbackground;
@@ -132,14 +132,14 @@ public:
 // Label
 /////////////////////////////////////////////////////////////////////////////
 
-class GUI_Label : public SDLLabel {
+class GUI_Label : public PG_Label {
 public:
-  GUI_Label(SDLWidget* parent, SDL_Rect& r, char* text, bool storebackground = false, char* style = "GUI_Label");
+  GUI_Label(PG_Widget* parent, const PG_Rect& r, char* text, bool storebackground = false, char* style = "GUI_Label");
 };
 
-class GUI_LabelC : public SDLLabel {
+class GUI_LabelC : public PG_Label {
 public:
-  GUI_LabelC(SDLWidget* parent, SDL_Rect& r, char* text, bool storebackground = false);
+  GUI_LabelC(PG_Widget* parent, const PG_Rect& r, char* text, bool storebackground = false);
 };
 
 
@@ -147,10 +147,10 @@ public:
 // Label
 /////////////////////////////////////////////////////////////////////////////
 
-class GUI_LabelL : public SDLLabel {
+class GUI_LabelL : public PG_Label {
 public:
-  GUI_LabelL(SDLWidget* parent, SDL_Rect& r, char* text, GUI_LabelL** iselected, CSMapInfo* si, SDL_Color ic1, SDL_Color ic2, void (*cb)(GUI_LabelL*)=NULL);
-  void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
+  GUI_LabelL(PG_Widget* parent, const PG_Rect& r, char* text, GUI_LabelL** iselected, CSMapInfo* si, SDL_Color ic1, SDL_Color ic2, void (*cb)(GUI_LabelL*)=NULL);
+  void eventDraw(SDL_Surface* surface, const PG_Rect& rect);
   bool eventMouseButtonDown(const SDL_MouseButtonEvent* button);
 
 
@@ -166,9 +166,9 @@ public:
 // Buttons
 /////////////////////////////////////////////////////////////////////////////
 
-class GUI_Button : public SDLButton {
+class GUI_Button : public PG_Button {
 public:
-  GUI_Button(SDLWidget* parent, int btnid, SDL_Rect& r, char* text);
+  GUI_Button(PG_Widget* parent, int btnid, const PG_Rect& r, char* text);
   
   SDL_Color c;
   bool drawbackground;
@@ -176,7 +176,7 @@ public:
 
 class GUI_ButtonBig : public GUI_Button {
 public:
-  GUI_ButtonBig(SDLWidget* parent, int btnid, SDL_Rect& r, char* text);
+  GUI_ButtonBig(PG_Widget* parent, int btnid, const PG_Rect& r, char* text);
   void eventMouseLeave();
   void eventMouseEnter();
 	bool eventMouseButtonDown(const SDL_MouseButtonEvent* button);
@@ -189,7 +189,7 @@ public:
 
 class GUI_ButtonSmall : public GUI_Button {
 public:
-  GUI_ButtonSmall(SDLWidget* parent, int btnid, SDL_Rect& r, char* text);
+  GUI_ButtonSmall(PG_Widget* parent, int btnid, const PG_Rect& r, char* text);
   void eventMouseLeave();
   void eventMouseEnter();
 };
@@ -200,10 +200,10 @@ public:
 /////////////////////////////////////////////////////////////////////////////
 
 #define CB_SIZEY 20
-class DECLSPEC GUI_CheckBox : public SDLCheckButton {
+class DECLSPEC GUI_CheckBox : public PG_CheckButton {
 public: 
 	
-	GUI_CheckBox(SDLWidget* parent, SDL_Rect& r, char* text, bool ipressed=false, SDL_Color bg = GUI_Black);
+	GUI_CheckBox(PG_Widget* parent, const PG_Rect& r, char* text, bool ipressed=false, SDL_Color bg = GUI_Black);
 	~GUI_CheckBox();
 
   void eventMouseEnter();
@@ -215,9 +215,9 @@ public:
 // TextEdit
 /////////////////////////////////////////////////////////////////////////////
 
-class GUI_TextEdit : public SDLLineEdit {
+class GUI_TextEdit : public PG_LineEdit {
 public:
-  GUI_TextEdit(SDLWidget* parent, SDL_Rect& r);
+  GUI_TextEdit(PG_Widget* parent, const PG_Rect& r);
 };
 
 
@@ -227,7 +227,7 @@ public:
 
 class GUI_NumEdit : public GUI_TextEdit {
 public:
-  GUI_NumEdit(SDLWidget* parent, SDL_Rect& r, int imin, int imax);
+  GUI_NumEdit(PG_Widget* parent, const PG_Rect& r, int imin, int imax);
   
   int min, max;
 };
@@ -239,30 +239,11 @@ public:
 
 class GUI_FloatEdit : public GUI_TextEdit {
 public:
-  GUI_FloatEdit(SDLWidget* parent, SDL_Rect& r, float imin, float max);
+  GUI_FloatEdit(PG_Widget* parent, const PG_Rect& r, float imin, float max);
   
   float min, max;
 };
 
-
-/////////////////////////////////////////////////////////////////////////////
-// Scrollbar
-/////////////////////////////////////////////////////////////////////////////
-
-class GUI_ScrollBar : public SDLScrollBar {
-public:
-  GUI_ScrollBar(SDLWidget* parent, int id, SDL_Rect& r, int direction);
-};
-
-#define LB_POSX 5
-
-class GUI_WidgetList : public SDLWidgetList {
-public: 
-  GUI_WidgetList(SDLWidget* parent, SDL_Rect& r);
-  ~GUI_WidgetList();
-
-  void AddWidget(SDLWidget* w);
-};
 
 /////////////////////////////////////////////////////////////////////////////
 // OK dialog widgets
@@ -287,7 +268,7 @@ public:
 
   void Default();
   
-  bool eventButtonClick(int id, SDLWidget* widget);
+  bool eventButtonClick(int id, PG_Widget* widget);
 };
 
 
@@ -315,7 +296,7 @@ public:
 
   void Default();
   
-  bool eventButtonClick(int id, SDLWidget* widget);
+  bool eventButtonClick(int id, PG_Widget* widget);
 };
 
 
@@ -412,11 +393,11 @@ extern GUI_JoinGameMenu* JGMenu;
 // Skin widgets
 /////////////////////////////////////////////////////////////////////////////
 
-class GUI_ButtonS : public SDLWidget {
+class GUI_ButtonS : public PG_Widget {
 public:
-  GUI_ButtonS(SDLWidget* parent, int btnid, SDL_Rect& r);
+  GUI_ButtonS(PG_Widget* parent, int btnid, const PG_Rect& r);
   
-  void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
+  void eventDraw(SDL_Surface* surface, const PG_Rect& rect);
   bool eventMouseButtonDown(const SDL_MouseButtonEvent* button);
   bool eventMouseButtonUp(const SDL_MouseButtonEvent* button);
   
@@ -428,12 +409,12 @@ public:
 };
 
 
-class GUI_SkinPic : public SDLWidget {
+class GUI_SkinPic : public PG_Widget {
 public:
-  GUI_SkinPic(SDLWidget* parent, SDL_Rect& r);
+  GUI_SkinPic(PG_Widget* parent, const PG_Rect& r);
   ~GUI_SkinPic();
 
-  void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
+  void eventDraw(SDL_Surface* surface, const PG_Rect& rect);
 
   GUI_TextEdit *lName;
   CSpriteInfo* sprite;
@@ -445,25 +426,25 @@ public:
 
 
 
-class GUI_SkinCtrl : public SDLWidget {
+class GUI_SkinCtrl : public PG_Widget {
 public:
-  GUI_SkinCtrl(SDLWidget* parent, SDL_Rect& r, bool storebackground = false);
+  GUI_SkinCtrl(PG_Widget* parent, const PG_Rect& r, bool storebackground = false);
   
-  void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
-  bool eventButtonClick(int id, SDLWidget* widget);
+  void eventDraw(SDL_Surface* surface, const PG_Rect& rect);
+  bool eventButtonClick(int id, PG_Widget* widget);
   
   GUI_SkinPic* SkinPic;
-  SDLButton* bNext;
-  SDLButton* bPrev;
+  PG_Button* bNext;
+  PG_Button* bPrev;
   
   SDL_Color c;
   bool drawbackground;
 };
 
 
-class GUI_Input : public SDLGradientWidget{
+class GUI_Input : public PG_GradientWidget{
 public:
-	GUI_Input(SDLWidget* parent, SDL_Rect& r, int iid);
+	GUI_Input(PG_Widget* parent, const PG_Rect& r, int iid);
 	~GUI_Input();
 
 	void InputBegin();
@@ -473,12 +454,12 @@ public:
 
   SDL_Color c_color;
 
-	void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
+	void eventDraw(SDL_Surface* surface, const PG_Rect& rect);
 	bool eventKeyDown(const SDL_KeyboardEvent* key);
 	bool eventMouseButtonDown(const SDL_MouseButtonEvent* button);
-	void eventInputFocusLost(SDLMessageObject* newfocus);
+	void eventInputFocusLost(PG_MessageObject* newfocus);
 
-	void DrawText(SDL_Surface* surface, SDL_Rect* rect);
+	void DrawText(SDL_Surface* surface, const PG_Rect* rect);
 	char* GetDrawText();
 
   Uint16 GetSym() { return sym; }
@@ -570,7 +551,7 @@ public:
   void Hide();
   void Default();
   
-  bool eventButtonClick(int id, SDLWidget* widget);
+  bool eventButtonClick(int id, PG_Widget* widget);
 };
 
 #define HM1_LY1 12
@@ -694,7 +675,7 @@ public:
   void Hide();
   void Default();
   
-  bool eventButtonClick(int id, SDLWidget* widget);
+  bool eventButtonClick(int id, PG_Widget* widget);
 };
 
 #define HM2_LY1 12

@@ -3,40 +3,40 @@
 #include "client.h"
 #include "pw2.h"
 
-GUI_CreatePlayerMenu::GUI_CreatePlayerMenu(int id, int inum) : GUI_BaseMenu(id, mkrect(CP_PX,CP_PY,CP_VX,CP_VY)) {
+GUI_CreatePlayerMenu::GUI_CreatePlayerMenu(int id, int inum) : GUI_BaseMenu(id, PG_Rect(CP_PX,CP_PY,CP_VX,CP_VY)) {
 
-	CreatePlayerMenu = new GUI_Label(this, SDLWidget::mkrect(1,4,CP_VX-2,25), "CREATE PLAYER", false);
-	lPName = new GUI_Label(this, SDLWidget::mkrect(1,40,180,20), "Player name:", false);
-	ePName = new GUI_TextEdit(this, SDLWidget::mkrect(10,60,180,20));
-	lSkin = new GUI_Label(this, SDLWidget::mkrect(1+220,40, 110,20), "Player skin:", false);
-	eSkin = new GUI_TextEdit(this, SDLWidget::mkrect(10+220,+60,110,20));
-	SkinCtrl = new GUI_SkinCtrl(this, SDLWidget::mkrect(CP_SK_X, CP_SK_Y, 34, 50), false);
-	lUp = new GUI_Label(this, SDLWidget::mkrect(CP_INPUT_X1    ,CP_INPUT_Y1    , CCSX,20), "key up:", false);
-	iUp = new GUI_Input(this, SDLWidget::mkrect(CP_INPUT_X1+CCSX,CP_INPUT_Y1    , 100 ,20),1);
-	lDown = new GUI_Label(this, SDLWidget::mkrect(CP_INPUT_X1    ,CP_INPUT_Y1+20 , CCSX,20), "key down:", false);
-	iDown = new GUI_Input(this, SDLWidget::mkrect(CP_INPUT_X1+CCSX,CP_INPUT_Y1+20 , 100 ,20),2);
-	lLeft = new GUI_Label(this, SDLWidget::mkrect(CP_INPUT_X1    ,CP_INPUT_Y1+40 , CCSX,20), "key left:", false);
-	iLeft = new GUI_Input(this, SDLWidget::mkrect(CP_INPUT_X1+CCSX,CP_INPUT_Y1+40 , 100 ,20),3);
-	lRight = new GUI_Label(this, SDLWidget::mkrect(CP_INPUT_X1    ,CP_INPUT_Y1+60 , CCSX,20), "key right:", false);
-	iRight = new GUI_Input(this, SDLWidget::mkrect(CP_INPUT_X1+CCSX,CP_INPUT_Y1+60 , 100 ,20),4);
-	lFire = new GUI_Label(this, SDLWidget::mkrect(CP_INPUT_X1    ,CP_INPUT_Y1+80 , CCSX,20), "key fire:", false);
-	iFire = new GUI_Input(this, SDLWidget::mkrect(CP_INPUT_X1+CCSX,CP_INPUT_Y1+80 , 100 ,20),5);
-	lShield = new GUI_Label(this, SDLWidget::mkrect(CP_INPUT_X1    ,CP_INPUT_Y1+100, CCSX,20), "shield:", false);
-	iShield = new GUI_Input(this, SDLWidget::mkrect(CP_INPUT_X1+CCSX,CP_INPUT_Y1+100, 100 ,20),6);
-	lWarp = new GUI_Label(this, SDLWidget::mkrect(CP_INPUT_X1    ,CP_INPUT_Y1+120, CCSX,20), "warp:", false);
-	iWarp = new GUI_Input(this, SDLWidget::mkrect(CP_INPUT_X1+CCSX,CP_INPUT_Y1+120, 100 ,20),7);
-	lWeapon1 = new GUI_Label(this, SDLWidget::mkrect(CP_INPUT_X2    ,CP_INPUT_Y2, CCSX,20), "pistolka:", false);
-	iWeapon1 = new GUI_Input(this, SDLWidget::mkrect(CP_INPUT_X2+CCSX,CP_INPUT_Y2, 100 ,20),8);
-	lWeapon2 = new GUI_Label(this, SDLWidget::mkrect(CP_INPUT_X2    ,CP_INPUT_Y2+20, CCSX,20), "becheromet:", false);
-	iWeapon2 = new GUI_Input(this, SDLWidget::mkrect(CP_INPUT_X2+CCSX,CP_INPUT_Y2+20, 100 ,20),9);
-	lWeapon3 = new GUI_Label(this, SDLWidget::mkrect(CP_INPUT_X2    ,CP_INPUT_Y2+40, CCSX,20), "railgun:", false);
-	iWeapon3 = new GUI_Input(this, SDLWidget::mkrect(CP_INPUT_X2+CCSX,CP_INPUT_Y2+40, 100 ,20),10);
-	lWeapon4 = new GUI_Label(this, SDLWidget::mkrect(CP_INPUT_X2    ,CP_INPUT_Y2+60, CCSX,20), "bombs:", false);
-	iWeapon4 = new GUI_Input(this, SDLWidget::mkrect(CP_INPUT_X2+CCSX,CP_INPUT_Y2+60, 100 ,20),11);
-	lWeapon5 = new GUI_Label(this, SDLWidget::mkrect(CP_INPUT_X2    ,CP_INPUT_Y2+80, CCSX,20), "grenades:", false);
-	iWeapon5 = new GUI_Input(this, SDLWidget::mkrect(CP_INPUT_X2+CCSX,CP_INPUT_Y2+80, 100 ,20),12);
-	bOK = new GUI_ButtonSmall(this, 1, SDLWidget::mkrect(25,240,150,25), "OK");
-	bCancel = new GUI_ButtonSmall(this, 2, SDLWidget::mkrect(25+150+10,240,150,25), "BACK");
+	CreatePlayerMenu = new GUI_Label(this, PG_Rect(1,4,CP_VX-2,25), "CREATE PLAYER", false);
+	lPName = new GUI_Label(this, PG_Rect(1,40,180,20), "Player name:", false);
+	ePName = new GUI_TextEdit(this, PG_Rect(10,60,180,20));
+	lSkin = new GUI_Label(this, PG_Rect(1+220,40, 110,20), "Player skin:", false);
+	eSkin = new GUI_TextEdit(this, PG_Rect(10+220,+60,110,20));
+	SkinCtrl = new GUI_SkinCtrl(this, PG_Rect(CP_SK_X, CP_SK_Y, 34, 50), false);
+	lUp = new GUI_Label(this, PG_Rect(CP_INPUT_X1    ,CP_INPUT_Y1    , CCSX,20), "key up:", false);
+	iUp = new GUI_Input(this, PG_Rect(CP_INPUT_X1+CCSX,CP_INPUT_Y1    , 100 ,20),1);
+	lDown = new GUI_Label(this, PG_Rect(CP_INPUT_X1    ,CP_INPUT_Y1+20 , CCSX,20), "key down:", false);
+	iDown = new GUI_Input(this, PG_Rect(CP_INPUT_X1+CCSX,CP_INPUT_Y1+20 , 100 ,20),2);
+	lLeft = new GUI_Label(this, PG_Rect(CP_INPUT_X1    ,CP_INPUT_Y1+40 , CCSX,20), "key left:", false);
+	iLeft = new GUI_Input(this, PG_Rect(CP_INPUT_X1+CCSX,CP_INPUT_Y1+40 , 100 ,20),3);
+	lRight = new GUI_Label(this, PG_Rect(CP_INPUT_X1    ,CP_INPUT_Y1+60 , CCSX,20), "key right:", false);
+	iRight = new GUI_Input(this, PG_Rect(CP_INPUT_X1+CCSX,CP_INPUT_Y1+60 , 100 ,20),4);
+	lFire = new GUI_Label(this, PG_Rect(CP_INPUT_X1    ,CP_INPUT_Y1+80 , CCSX,20), "key fire:", false);
+	iFire = new GUI_Input(this, PG_Rect(CP_INPUT_X1+CCSX,CP_INPUT_Y1+80 , 100 ,20),5);
+	lShield = new GUI_Label(this, PG_Rect(CP_INPUT_X1    ,CP_INPUT_Y1+100, CCSX,20), "shield:", false);
+	iShield = new GUI_Input(this, PG_Rect(CP_INPUT_X1+CCSX,CP_INPUT_Y1+100, 100 ,20),6);
+	lWarp = new GUI_Label(this, PG_Rect(CP_INPUT_X1    ,CP_INPUT_Y1+120, CCSX,20), "warp:", false);
+	iWarp = new GUI_Input(this, PG_Rect(CP_INPUT_X1+CCSX,CP_INPUT_Y1+120, 100 ,20),7);
+	lWeapon1 = new GUI_Label(this, PG_Rect(CP_INPUT_X2    ,CP_INPUT_Y2, CCSX,20), "pistolka:", false);
+	iWeapon1 = new GUI_Input(this, PG_Rect(CP_INPUT_X2+CCSX,CP_INPUT_Y2, 100 ,20),8);
+	lWeapon2 = new GUI_Label(this, PG_Rect(CP_INPUT_X2    ,CP_INPUT_Y2+20, CCSX,20), "becheromet:", false);
+	iWeapon2 = new GUI_Input(this, PG_Rect(CP_INPUT_X2+CCSX,CP_INPUT_Y2+20, 100 ,20),9);
+	lWeapon3 = new GUI_Label(this, PG_Rect(CP_INPUT_X2    ,CP_INPUT_Y2+40, CCSX,20), "railgun:", false);
+	iWeapon3 = new GUI_Input(this, PG_Rect(CP_INPUT_X2+CCSX,CP_INPUT_Y2+40, 100 ,20),10);
+	lWeapon4 = new GUI_Label(this, PG_Rect(CP_INPUT_X2    ,CP_INPUT_Y2+60, CCSX,20), "bombs:", false);
+	iWeapon4 = new GUI_Input(this, PG_Rect(CP_INPUT_X2+CCSX,CP_INPUT_Y2+60, 100 ,20),11);
+	lWeapon5 = new GUI_Label(this, PG_Rect(CP_INPUT_X2    ,CP_INPUT_Y2+80, CCSX,20), "grenades:", false);
+	iWeapon5 = new GUI_Input(this, PG_Rect(CP_INPUT_X2+CCSX,CP_INPUT_Y2+80, 100 ,20),12);
+	bOK = new GUI_ButtonSmall(this, 1, PG_Rect(25,240,150,25), "OK");
+	bCancel = new GUI_ButtonSmall(this, 2, PG_Rect(25+150+10,240,150,25), "BACK");
 
 	num=inum;
 	Default();
@@ -44,8 +44,8 @@ GUI_CreatePlayerMenu::GUI_CreatePlayerMenu(int id, int inum) : GUI_BaseMenu(id, 
 	CreatePlayerMenu->SetFont(MainFont);
 	CreatePlayerMenu->SetTextFormat("CREATE PLAYER%d", num);
 
-	lPName->SetAlignment(SDL_TA_LEFT);
-	lSkin->SetAlignment(SDL_TA_LEFT);
+	lPName->SetAlignment(PG_TA_LEFT);
+	lSkin->SetAlignment(PG_TA_LEFT);
 
 	SkinCtrl->SkinPic->lName = eSkin;
 	switch (num) {
@@ -55,19 +55,19 @@ GUI_CreatePlayerMenu::GUI_CreatePlayerMenu(int id, int inum) : GUI_BaseMenu(id, 
 	case 4: SkinCtrl->SkinPic->SetSkin(p4_skin.string); break;
 	}
 
-	lUp->SetAlignment(SDL_TA_RIGHT);
-	lDown->SetAlignment(SDL_TA_RIGHT);
-	lLeft->SetAlignment(SDL_TA_RIGHT);
-	lRight->SetAlignment(SDL_TA_RIGHT);
-	lFire->SetAlignment(SDL_TA_RIGHT);
-	lShield->SetAlignment(SDL_TA_RIGHT);
-	lWarp->SetAlignment(SDL_TA_RIGHT);
+	lUp->SetAlignment(PG_TA_RIGHT);
+	lDown->SetAlignment(PG_TA_RIGHT);
+	lLeft->SetAlignment(PG_TA_RIGHT);
+	lRight->SetAlignment(PG_TA_RIGHT);
+	lFire->SetAlignment(PG_TA_RIGHT);
+	lShield->SetAlignment(PG_TA_RIGHT);
+	lWarp->SetAlignment(PG_TA_RIGHT);
 
-	lWeapon1->SetAlignment(SDL_TA_RIGHT);
-	lWeapon2->SetAlignment(SDL_TA_RIGHT);
-	lWeapon3->SetAlignment(SDL_TA_RIGHT);
-	lWeapon4->SetAlignment(SDL_TA_RIGHT);
-	lWeapon5->SetAlignment(SDL_TA_RIGHT);
+	lWeapon1->SetAlignment(PG_TA_RIGHT);
+	lWeapon2->SetAlignment(PG_TA_RIGHT);
+	lWeapon3->SetAlignment(PG_TA_RIGHT);
+	lWeapon4->SetAlignment(PG_TA_RIGHT);
+	lWeapon5->SetAlignment(PG_TA_RIGHT);
 
 	LoadThemeStyle("GUI_Board");
 }
@@ -274,7 +274,7 @@ bool GUI_CreatePlayerMenu::SetPlayerVals(
       return false;
 }
 
-bool GUI_CreatePlayerMenu::eventButtonClick(int id, SDLWidget* widget) {
+bool GUI_CreatePlayerMenu::eventButtonClick(int id, PG_Widget* widget) {
 	CGame& g = client_info.game;
 
 	switch (id) {
@@ -323,7 +323,7 @@ bool GUI_CreatePlayerMenu::eventButtonClick(int id, SDLWidget* widget) {
 	return true;
 }
 
-bool GUI_CreatePlayerMenu::eventNextInput(int id, SDLWidget* widget)
+bool GUI_CreatePlayerMenu::eventNextInput(int id, PG_Widget* widget)
 {
 	switch (id) {
 	case 1:
@@ -376,11 +376,11 @@ bool GUI_CreatePlayerMenu::eventMessage(MSG_MESSAGE* msg){
 	// dispatch user message
 	switch(msg->type) {
 		case MSG_BUTTONCLICK:
-			rc = eventButtonClick(msg->widget_id, (SDLWidget*)(msg->from));
+			rc = eventButtonClick(msg->widget_id, (PG_Widget*)(msg->from));
 			break;
 
 		case MSG_SIGNAL:
-			rc = eventNextInput(msg->widget_id, (SDLWidget*)(msg->from));
+			rc = eventNextInput(msg->widget_id, (PG_Widget*)(msg->from));
 			break;
 		
 		default:

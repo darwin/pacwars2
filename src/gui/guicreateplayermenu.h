@@ -62,8 +62,8 @@ public:
 
 protected:
 
-	bool eventButtonClick(int id, SDLWidget* widget);
-	bool eventNextInput(int id, SDLWidget* widget);
+	bool eventButtonClick(int id, PG_Widget* widget);
+	bool eventNextInput(int id, PG_Widget* widget);
 	bool eventMessage(MSG_MESSAGE* msg);
 	void eventShow();
 	void eventHide();

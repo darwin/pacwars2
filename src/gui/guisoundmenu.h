@@ -2,7 +2,7 @@
 #define GUISOUNDMENU_H
 
 #include "guibasemenu.h"
-#include "sdlslider.h"
+#include "pgslider.h"
 
 class GUI_Board;
 class GUI_Label;
@@ -29,9 +29,9 @@ public:
   GUI_Label* lRange;
 
   GUI_Label* lMusicVolume;
-  SDLSlider* eMusicVolume;
+  PG_Slider* eMusicVolume;
   GUI_Label* lSoundVolume;
-  SDLSlider* eSoundVolume;
+  PG_Slider* eSoundVolume;
 
   GUI_CheckBox* cSwap;
   GUI_ButtonSmall* b3ds;
@@ -50,7 +50,7 @@ public:
   void Default();
   void Return();
 
-  bool eventButtonClick(int id, SDLWidget* widget);
+  bool eventButtonClick(int id, PG_Widget* widget);
 };
 
 

@@ -12,50 +12,50 @@ extern GUI_OKDialog1 *OKD1;
 
 GUI_NewGameMenu* NGMenu;
 
-GUI_NewGameMenu::GUI_NewGameMenu(): GUI_BaseMenu(GUI_NEWGAME, mkrect(NG_PX,NG_PY,NG_VX,NG_VY)) {
+GUI_NewGameMenu::GUI_NewGameMenu(): GUI_BaseMenu(GUI_NEWGAME, PG_Rect(NG_PX,NG_PY,NG_VX,NG_VY)) {
 
 	NGMenu = this;
 
-	NewGameMenu = new GUI_Label(this, SDLWidget::mkrect(1,4,NG_VX-2,25), "NEW GAME", false);
-	lIP = new GUI_Label(this, SDLWidget::mkrect(1,30,NG_VX-2,20), "<HERE COMES IP ADDRESS>", false);
-	lHost = new GUI_Label(this, SDLWidget::mkrect(1,51,NG_VX-2,20), "<HERE COMES HOST NAME>", false);
-	lServerName = new GUI_Label(this, SDLWidget::mkrect(1,90, 119,20), "Server name:", false);
-	eServerName = new GUI_TextEdit(this, SDLWidget::mkrect(120,90,215,20));
-	lWelcomeMsg = new GUI_Label(this, SDLWidget::mkrect(1,120,119,20), "Welcome msg:", false);
-	eWelcomeMsg = new GUI_TextEdit(this, SDLWidget::mkrect(120,120,215,20));
-	lMaxClients = new GUI_Label(this, SDLWidget::mkrect(1,150,119,20), "Max clients:", false);
-	eMaxClients = new GUI_NumEdit(this, SDLWidget::mkrect(120,150,80,20), 1, PWP_TOTALMAX_CLIENTS);
+	NewGameMenu = new GUI_Label(this, PG_Rect(1,4,NG_VX-2,25), "NEW GAME", false);
+	lIP = new GUI_Label(this, PG_Rect(1,30,NG_VX-2,20), "<HERE COMES IP ADDRESS>", false);
+	lHost = new GUI_Label(this, PG_Rect(1,51,NG_VX-2,20), "<HERE COMES HOST NAME>", false);
+	lServerName = new GUI_Label(this, PG_Rect(1,90, 119,20), "Server name:", false);
+	eServerName = new GUI_TextEdit(this, PG_Rect(120,90,215,20));
+	lWelcomeMsg = new GUI_Label(this, PG_Rect(1,120,119,20), "Welcome msg:", false);
+	eWelcomeMsg = new GUI_TextEdit(this, PG_Rect(120,120,215,20));
+	lMaxClients = new GUI_Label(this, PG_Rect(1,150,119,20), "Max clients:", false);
+	eMaxClients = new GUI_NumEdit(this, PG_Rect(120,150,80,20), 1, PWP_TOTALMAX_CLIENTS);
 
-	lChoose1 = new GUI_Label(this, SDLWidget::mkrect(25,179, 150,20), "Choose map:", false);
-	WidgetList1 = new GUI_WidgetList(this, SDLWidget::mkrect(26, 201, 148, 64));
+	lChoose1 = new GUI_Label(this, PG_Rect(25,179, 150,20), "Choose map:", false);
+	WidgetList1 = new PG_WidgetList(this, PG_Rect(26, 201, 148, 64), "GUI_WidgetList");
 
-	lChoose2 = new GUI_Label(this, SDLWidget::mkrect(25+150+10,179, 150,20), "Choose script:", false);
-	WidgetList2 = new GUI_WidgetList(this, SDLWidget::mkrect(26+150+10, 201, 148, 64));
+	lChoose2 = new GUI_Label(this, PG_Rect(25+150+10,179, 150,20), "Choose script:", false);
+	WidgetList2 = new PG_WidgetList(this, PG_Rect(26+150+10, 201, 148, 64), "GUI_WidgetList");
 
-	Board3 = new GUI_Board(this, SDLWidget::mkrect(25, 273, NG_VX-50, 54), false, "GUI_MapInfoBoard");
-	lAuthFile = new GUI_Label(Board3, SDLWidget::mkrect(2,2, NG_VX-50-8,12), "file", false);
-	lDesc1 = new GUI_Label(Board3, SDLWidget::mkrect(2,14, NG_VX-50-20,12), "d1", false);
-	lDesc2 = new GUI_Label(Board3, SDLWidget::mkrect(2,26, NG_VX-50-20,12), "d2", false);
-	lDesc3 = new GUI_Label(Board3, SDLWidget::mkrect(2,38, NG_VX-50-20,12), "d3", false);
+	Board3 = new GUI_Board(this, PG_Rect(25, 273, NG_VX-50, 54), false, "GUI_MapInfoBoard");
+	lAuthFile = new GUI_Label(Board3, PG_Rect(2,2, NG_VX-50-8,12), "file", false);
+	lDesc1 = new GUI_Label(Board3, PG_Rect(2,14, NG_VX-50-20,12), "d1", false);
+	lDesc2 = new GUI_Label(Board3, PG_Rect(2,26, NG_VX-50-20,12), "d2", false);
+	lDesc3 = new GUI_Label(Board3, PG_Rect(2,38, NG_VX-50-20,12), "d3", false);
 
-	cJoin = new GUI_CheckBox(this, SDLWidget::mkrect(25,333,NG_VX-50, CB_SIZEY), "join the game after starting server", true, GUI_Gray64);
+	cJoin = new GUI_CheckBox(this, PG_Rect(25,333,NG_VX-50, CB_SIZEY), "join the game after starting server", true, GUI_Gray64);
 
-	bStartIt = new GUI_ButtonSmall(this, 1, SDLWidget::mkrect(25,360,150,25), "START SERVER");
-	bCancel = new GUI_ButtonSmall(this, 2, SDLWidget::mkrect(25+150+10,360,150,25), "BACK");
+	bStartIt = new GUI_ButtonSmall(this, 1, PG_Rect(25,360,150,25), "START SERVER");
+	bCancel = new GUI_ButtonSmall(this, 2, PG_Rect(25+150+10,360,150,25), "BACK");
 
 	NewGameMenu->SetFont(MainFont);
 
-	lWelcomeMsg->SetAlignment(SDL_TA_RIGHT);
-	lMaxClients->SetAlignment(SDL_TA_RIGHT);
-	lServerName->SetAlignment(SDL_TA_RIGHT);
+	lWelcomeMsg->SetAlignment(PG_TA_RIGHT);
+	lMaxClients->SetAlignment(PG_TA_RIGHT);
+	lServerName->SetAlignment(PG_TA_RIGHT);
 
-	lChoose1->SetAlignment(SDL_TA_LEFT);
-	lChoose2->SetAlignment(SDL_TA_LEFT);
+	lChoose1->SetAlignment(PG_TA_LEFT);
+	lChoose2->SetAlignment(PG_TA_LEFT);
 
-	lDesc1->SetAlignment(SDL_TA_LEFT);
-	lDesc2->SetAlignment(SDL_TA_LEFT);
-	lDesc3->SetAlignment(SDL_TA_LEFT);
-	lAuthFile->SetAlignment(SDL_TA_LEFT);
+	lDesc1->SetAlignment(PG_TA_LEFT);
+	lDesc2->SetAlignment(PG_TA_LEFT);
+	lDesc3->SetAlignment(PG_TA_LEFT);
+	lAuthFile->SetAlignment(PG_TA_LEFT);
 
 	IPaddress serverIP;
 	SDLNet_ResolveHost(&serverIP, "localhost", PWP_MSG_SPORT);
@@ -121,7 +121,7 @@ void GUI_NewGameMenu::GenerateScriptSelection()
     {
       char s[200];
       sprintf(s, " %s", a->sname);
-      WidgetList2->AddWidget(new GUI_LabelL(NULL, SDLWidget::mkrect(0,0,150-14,12), s, &selected2, a, GUI_UnselectedItem, GUI_SelectedItem, scriptchCB));
+      WidgetList2->AddWidget(new GUI_LabelL(NULL, PG_Rect(0,0,150-14,12), s, &selected2, a, GUI_UnselectedItem, GUI_SelectedItem, scriptchCB));
     }
     a = a->next;
   }
@@ -149,7 +149,7 @@ void GUI_NewGameMenu::Default()
     i++;
     char s[200];
     sprintf(s, " %s", a->name);
-		WidgetList1->AddWidget(new GUI_LabelL(NULL, SDLWidget::mkrect(0,0,150-14,12), s, &selected1, 0, GUI_UnselectedItem, GUI_SelectedItem, mapchCB));
+		WidgetList1->AddWidget(new GUI_LabelL(NULL, PG_Rect(0,0,150-14,12), s, &selected1, 0, GUI_UnselectedItem, GUI_SelectedItem, mapchCB));
     a = a->next;
   }
 
@@ -160,7 +160,7 @@ void GUI_NewGameMenu::Default()
   GenerateScriptSelection();
 }
 
-bool GUI_NewGameMenu::eventButtonClick(int id, SDLWidget* widget)
+bool GUI_NewGameMenu::eventButtonClick(int id, PG_Widget* widget)
 {
   switch (id) {
   case 1:
@@ -221,7 +221,7 @@ bool GUI_NewGameMenu::eventButtonClick(int id, SDLWidget* widget)
 }
 
 void GUI_NewGameMenu::eventShow() {
-  Clear();
+  //Clear();
 }
 
 void GUI_NewGameMenu::eventHide() {

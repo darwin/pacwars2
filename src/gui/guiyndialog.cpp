@@ -21,18 +21,18 @@ void GUI_YNDialog::Reset(void (*cb)(int res), char* title, char* line1, char* tl
   callback = cb;
 }
 
-GUI_YNDialog::GUI_YNDialog() : GUI_BaseMenu(GUI_YNDIALOG, mkrect(YN_PX,YN_PY,YN_VX,YN_VY)) {
+GUI_YNDialog::GUI_YNDialog() : GUI_BaseMenu(GUI_YNDIALOG, PG_Rect(YN_PX,YN_PY,YN_VX,YN_VY)) {
 
 	Default();
 
-	YNDialog = new GUI_Label(this, SDLWidget::mkrect(1,4,YN_VX-2,25), "", false);
-	lPrompt1 = new GUI_Label(this, SDLWidget::mkrect(1,35, YN_VX-2,20), "", false);
-	bA = new GUI_ButtonSmall(this, 1, SDLWidget::mkrect(25,65,150,25), "YES");
-	bB = new GUI_ButtonSmall(this, 2, SDLWidget::mkrect(25+150+10,65,150,25), "NO");
+	YNDialog = new GUI_Label(this, PG_Rect(1,4,YN_VX-2,25), "", false);
+	lPrompt1 = new GUI_Label(this, PG_Rect(1,35, YN_VX-2,20), "", false);
+	bA = new GUI_ButtonSmall(this, 1, PG_Rect(25,65,150,25), "YES");
+	bB = new GUI_ButtonSmall(this, 2, PG_Rect(25+150+10,65,150,25), "NO");
 
 	YNDialog->SetFont(MainFont);
 
-	lPrompt1->SetAlignment(SDL_TA_CENTER);
+	lPrompt1->SetAlignment(PG_TA_CENTER);
 
 	LoadThemeStyle("GUI_Board");
 }
@@ -41,7 +41,7 @@ void GUI_YNDialog::Default()
 {
 }
 
-bool GUI_YNDialog::eventButtonClick(int id, SDLWidget* widget)
+bool GUI_YNDialog::eventButtonClick(int id, PG_Widget* widget)
 {
   switch (id) {
   case 1:

@@ -1,21 +1,21 @@
 #ifndef GUIBASEMENU_H
 #define GUIBASEMENU_H
 
-#include "sdlgradientwidget.h"
+#include "pggradientwidget.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // Base menu widgets
 /////////////////////////////////////////////////////////////////////////////
 
-class GUI_BaseMenu : public SDLGradientWidget {
+class GUI_BaseMenu : public PG_GradientWidget {
 public:
   int mid;
   int parentmid;
   GUI_BaseMenu *next;
 
-  GUI_BaseMenu(int iid, SDL_Rect& rect);
+  GUI_BaseMenu(int iid, const PG_Rect& rect);
 
-  void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
+  void eventDraw(SDL_Surface* surface, const PG_Rect& rect);
   void Clear();
 
   virtual void Default() { }

@@ -172,16 +172,16 @@ void GUI_InitColors(SDL_Surface* screen)
 // Board
 /////////////////////////////////////////////////////////////////////////////
 
-class GUI_Board : public SDLGradientWidget {
+class GUI_Board : public PG_GradientWidget {
 public:
-  GUI_Board(SDLWidget* parent, SDL_Rect& r, bool storebackground = false, char* theme=NULL);
+  GUI_Board(PG_Widget* parent, SDL_Rect& r, bool storebackground = false, char* theme=NULL);
 //  void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
   
   bool drawbackground;
 };
 
-GUI_Board::GUI_Board(SDLWidget* parent, SDL_Rect& r,  bool storebackground, char* theme):
-SDLGradientWidget(parent,r)
+GUI_Board::GUI_Board(PG_Widget* parent, SDL_Rect& r,  bool storebackground, char* theme):
+PG_GradientWidget(parent,r)
 {
 //  drawbackground = true;
   if (!theme)
@@ -195,7 +195,7 @@ void GUI_Board::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
 {
   if (drawbackground) {
     SDL_FillRect(surface, rect, SDL_MapRGB(surface->format, c.r, c.g, c.b));
-    SDLWidget::DrawBorder(surface, rect, 1, false);
+    PG_Widget::DrawBorder(surface, rect, 1, false);
   }
   else
     SDL_FillRect(surface, rect, 0);
@@ -206,17 +206,17 @@ void GUI_Board::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
 // Bitmap
 /////////////////////////////////////////////////////////////////////////////
 
-class GUI_Bitmap : public SDLWidget {
+class GUI_Bitmap : public PG_Widget {
 public:
-  GUI_Bitmap(SDLWidget* parent, SDL_Rect& r, bool storebackground = false, SDL_Surface* s=NULL);
+  GUI_Bitmap(PG_Widget* parent, SDL_Rect& r, bool storebackground = false, SDL_Surface* s=NULL);
   void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
   
   SDL_Surface *bitmap;
   bool drawbackground;
 };
 
-GUI_Bitmap::GUI_Bitmap(SDLWidget* parent, SDL_Rect& r,  bool storebackground, SDL_Surface* s):
-SDLWidget(parent,r,storebackground)
+GUI_Bitmap::GUI_Bitmap(PG_Widget* parent, SDL_Rect& r,  bool storebackground, SDL_Surface* s):
+PG_Widget(parent,r,storebackground)
 {
   bitmap = s;
 }
@@ -237,9 +237,9 @@ void GUI_Bitmap::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
 // Label
 /////////////////////////////////////////////////////////////////////////////
 
-class GUI_Label : public SDLLabel {
+class GUI_Label : public PG_Label {
 public:
-  GUI_Label(SDLWidget* parent, SDL_Rect& r, char* text, bool storebackground = false);
+  GUI_Label(PG_Widget* parent, SDL_Rect& r, char* text, bool storebackground = false);
  // void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
 
   void SetColor(SDL_Color c1, SDL_Color c2);
@@ -251,8 +251,8 @@ public:
 };
 
 
-GUI_Label::GUI_Label(SDLWidget* parent, SDL_Rect& r, char* text, bool storebackground):
-SDLLabel(parent,r,text,storebackground)
+GUI_Label::GUI_Label(PG_Widget* parent, SDL_Rect& r, char* text, bool storebackground):
+PG_Label(parent,r,text,storebackground)
 {
   SetFont(TextFont);
 //  SetColor(GUI_LabelColor, GUI_LabelColor);
@@ -260,7 +260,7 @@ SDLLabel(parent,r,text,storebackground)
   shifty = 2;
   shiftx = 0;
   bgmode = 2;
-  SetAlignment(SDL_TA_CENTER); 
+  SetAlignment(PG_TA_CENTER); 
 }
 
 void GUI_Label::SetColor(SDL_Color c1, SDL_Color c2)
@@ -278,7 +278,7 @@ void GUI_Label::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
       SDL_FillRect(surface, rect, SDL_MapRGB(surface->format, c.r, c.g, c.b));
       if (bgmode==1)
       {
-        SDLWidget::DrawBorder(surface, rect, 1, false);
+        PG_Widget::DrawBorder(surface, rect, 1, false);
       }
     }
     else
@@ -291,17 +291,17 @@ void GUI_Label::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
   if (my_srfText)
   {
 		switch (my_alignment) {
-			case SDL_TA_LEFT:
+			case PG_TA_LEFT:
 			my_rectLabel.x = rect->x;
 			my_rectLabel.y = rect->y + (rect->h - my_srfText->h) / 2;
 			break;
 
-			case SDL_TA_RIGHT:
+			case PG_TA_RIGHT:
 			my_rectLabel.x = rect->x + (rect->w - my_srfText->w);
 			my_rectLabel.y = rect->y + (rect->h - my_srfText->h) / 2;
 			break;
 
-			case SDL_TA_CENTER:
+			case PG_TA_CENTER:
 			my_rectLabel.x = rect->x + (rect->w - my_srfText->w) / 2;
 			my_rectLabel.y = rect->y + (rect->h - my_srfText->h) / 2;
 			break;
@@ -321,9 +321,9 @@ void GUI_Label::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
   }
 }
 */
-class GUI_LabelC : public SDLLabel {
+class GUI_LabelC : public PG_Label {
 public:
-  GUI_LabelC(SDLWidget* parent, SDL_Rect& r, char* text, bool storebackground = false);
+  GUI_LabelC(PG_Widget* parent, SDL_Rect& r, char* text, bool storebackground = false);
 //  void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
   
   SDL_Color c;
@@ -333,8 +333,8 @@ public:
 };
 
 
-GUI_LabelC::GUI_LabelC(SDLWidget* parent, SDL_Rect& r, char* text, bool storebackground):
-SDLLabel(parent,r,text,storebackground)
+GUI_LabelC::GUI_LabelC(PG_Widget* parent, SDL_Rect& r, char* text, bool storebackground):
+PG_Label(parent,r,text,storebackground)
 {
   SetFont(TextFont);
 //  SetColor(GUI_LabelColor, GUI_LabelColor);
@@ -342,7 +342,7 @@ SDLLabel(parent,r,text,storebackground)
   shifty = 0;
   shiftx = 0;
   bgmode = 0;
-  SetAlignment(SDL_TA_LEFT); 
+  SetAlignment(PG_TA_LEFT); 
 }
 
 /*
@@ -354,7 +354,7 @@ void GUI_LabelC::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
       SDL_FillRect(surface, rect, SDL_MapRGB(surface->format, c.r, c.g, c.b));
       if (bgmode==1)
       {
-        SDLWidget::DrawBorder(surface, rect, 1, false);
+        PG_Widget::DrawBorder(surface, rect, 1, false);
       }
     }
     else
@@ -370,17 +370,17 @@ void GUI_LabelC::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
   if (my_srfText)
   {
 		switch (my_alignment) {
-			case SDL_TA_LEFT:
+			case PG_TA_LEFT:
 			my_rectLabel.x = rect->x;
 			my_rectLabel.y = rect->y + (rect->h - my_srfText->h) / 2;
 			break;
 
-			case SDL_TA_RIGHT:
+			case PG_TA_RIGHT:
 			my_rectLabel.x = rect->x + (rect->w - my_srfText->w);
 			my_rectLabel.y = rect->y + (rect->h - my_srfText->h) / 2;
 			break;
 
-			case SDL_TA_CENTER:
+			case PG_TA_CENTER:
 			my_rectLabel.x = rect->x + (rect->w - my_srfText->w) / 2;
 			my_rectLabel.y = rect->y + (rect->h - my_srfText->h) / 2;
 			break;
@@ -404,9 +404,9 @@ void GUI_LabelC::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
 // Label
 /////////////////////////////////////////////////////////////////////////////
 
-class GUI_LabelL : public SDLLabel {
+class GUI_LabelL : public PG_Label {
 public:
-  GUI_LabelL(SDLWidget* parent, SDL_Rect& r, char* text, GUI_LabelL** iselected, CSMapInfo* si, SDL_Color ic1, SDL_Color ic2, void (*cb)(GUI_LabelL*)=NULL);
+  GUI_LabelL(PG_Widget* parent, SDL_Rect& r, char* text, GUI_LabelL** iselected, CSMapInfo* si, SDL_Color ic1, SDL_Color ic2, void (*cb)(GUI_LabelL*)=NULL);
   void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
   bool eventMouseButtonDown(const SDL_MouseButtonEvent* button);
 
@@ -424,8 +424,8 @@ public:
 };
 
 
-GUI_LabelL::GUI_LabelL(SDLWidget* parent, SDL_Rect& r, char* text, GUI_LabelL** iselected, CSMapInfo* si, SDL_Color ic1, SDL_Color ic2, void (*cb)(GUI_LabelL*)):
-SDLLabel(parent,r,text,false)
+GUI_LabelL::GUI_LabelL(PG_Widget* parent, SDL_Rect& r, char* text, GUI_LabelL** iselected, CSMapInfo* si, SDL_Color ic1, SDL_Color ic2, void (*cb)(GUI_LabelL*)):
+PG_Label(parent,r,text,false)
 {
   SetFont(TextFont);
   c1 = ic1;
@@ -436,7 +436,7 @@ SDLLabel(parent,r,text,false)
   selected = iselected;
   msi = si;
   callback = cb;
-  SetAlignment(SDL_TA_LEFT); 
+  SetAlignment(PG_TA_LEFT); 
 //  SetColor(GUI_LabelColor, GUI_LabelColor);
 }
 
@@ -457,7 +457,7 @@ void GUI_LabelL::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
 {
   SDL_Color c;
   if (*selected==this) SetTextColor(c2); else SetTextColor(c1);
-  SDLLabel::eventDraw(surface, rect);  
+  PG_Label::eventDraw(surface, rect);  
 }
 
 bool eventMouseButtonDown(const SDL_MouseButtonEvent* button);
@@ -475,7 +475,7 @@ public:
 
 
 GUI_ResultLine::GUI_ResultLine():
-GUI_Label(NULL, SDLWidget::mkrect(0,0,1,1), "x", false)
+GUI_Label(NULL, PG_Rect(0,0,1,1), "x", false)
 {
   SetFont(BtnFont);
 //  SetColor(GUI_ResultLineColor, GUI_ResultLineColor);
@@ -483,7 +483,7 @@ GUI_Label(NULL, SDLWidget::mkrect(0,0,1,1), "x", false)
   shifty = 2;
   shiftx = 0;
   bgmode = 2;
-  SetAlignment(SDL_TA_LEFT); 
+  SetAlignment(PG_TA_LEFT); 
 }
 
 void GUI_ResultLine::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
@@ -496,9 +496,9 @@ void GUI_ResultLine::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
 // Buttons
 /////////////////////////////////////////////////////////////////////////////
 
-class GUI_Button : public SDLButton {
+class GUI_Button : public PG_Button {
 public:
-  GUI_Button(SDLWidget* parent, int btnid, SDL_Rect& r, char* text);
+  GUI_Button(PG_Widget* parent, int btnid, SDL_Rect& r, char* text);
 //  void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
   
   SDL_Color c;
@@ -506,8 +506,8 @@ public:
   bool drawbackground;
 };
 
-GUI_Button::GUI_Button(SDLWidget* parent, int btnid, SDL_Rect& r, char* text):
-SDLButton(parent,btnid,r,text)
+GUI_Button::GUI_Button(PG_Widget* parent, int btnid, SDL_Rect& r, char* text):
+PG_Button(parent,btnid,r,text)
 {
   SetBorderSize(0,0,0);
   SetTextColor(GUI_BtnTextColor);
@@ -523,7 +523,7 @@ void GUI_Button::eventDraw(SDL_Surface* surface, SDL_Rect* rect){
   //  _beep(200,100);
   if (drawbackground) {
     SDL_FillRect(surface, rect, SDL_MapRGB(surface->format, c.r, c.g, c.b));
-    SDLWidget::DrawBorder(surface, rect, 1, false);
+    PG_Widget::DrawBorder(surface, rect, 1, false);
   }
   else
     SDL_FillRect(surface, rect, 0);
@@ -558,7 +558,7 @@ void GUI_Button::eventDraw(SDL_Surface* surface, SDL_Rect* rect){
 
 class GUI_ButtonBig : public GUI_Button {
 public:
-  GUI_ButtonBig(SDLWidget* parent, int btnid, SDL_Rect& r, char* text);
+  GUI_ButtonBig(PG_Widget* parent, int btnid, SDL_Rect& r, char* text);
   void eventMouseLeave() { 
     //SetFont(MainFont); 
     if (enabled)
@@ -593,7 +593,7 @@ public:
 
 };
 
-GUI_ButtonBig::GUI_ButtonBig(SDLWidget* parent, int btnid, SDL_Rect& r, char* text):
+GUI_ButtonBig::GUI_ButtonBig(PG_Widget* parent, int btnid, SDL_Rect& r, char* text):
 GUI_Button(parent,btnid,r,text)
 {
   SetFont(MainFont);
@@ -605,12 +605,12 @@ GUI_Button(parent,btnid,r,text)
 
 class GUI_ButtonSmall : public GUI_Button {
 public:
-  GUI_ButtonSmall(SDLWidget* parent, int btnid, SDL_Rect& r, char* text);
+  GUI_ButtonSmall(PG_Widget* parent, int btnid, SDL_Rect& r, char* text);
   void eventMouseLeave() { /*SetFont(BtnFont);*/ SetTextColor(GUI_BtnTextColor); Redraw(); }
   void eventMouseEnter() { /*SetFont(BtnFont2);*/ SetTextColor(GUI_BtnATextColor); Redraw(); }
 };
 
-GUI_ButtonSmall::GUI_ButtonSmall(SDLWidget* parent, int btnid, SDL_Rect& r, char* text):
+GUI_ButtonSmall::GUI_ButtonSmall(PG_Widget* parent, int btnid, SDL_Rect& r, char* text):
 GUI_Button(parent,btnid,r,text)
 {
   SetFont(BtnFont);
@@ -625,18 +625,18 @@ GUI_Button(parent,btnid,r,text)
 /////////////////////////////////////////////////////////////////////////////
 
 #define CB_SIZEY 20
-class DECLSPEC GUI_CheckBox : public SDLCheckButton {
+class DECLSPEC GUI_CheckBox : public PG_CheckButton {
 public: 
 	
-	GUI_CheckBox(SDLWidget* parent, SDL_Rect& r, char* text, bool ipressed=false, SDL_Color bg = GUI_Black);
+	GUI_CheckBox(PG_Widget* parent, SDL_Rect& r, char* text, bool ipressed=false, SDL_Color bg = GUI_Black);
 	~GUI_CheckBox();
 
   void eventMouseEnter();
   void eventMouseLeave();
 };
 
-GUI_CheckBox::GUI_CheckBox(SDLWidget* parent, SDL_Rect& r, char* text, bool ipressed, SDL_Color bg) : 
-SDLCheckButton(parent,99, r, text)
+GUI_CheckBox::GUI_CheckBox(PG_Widget* parent, SDL_Rect& r, char* text, bool ipressed, SDL_Color bg) : 
+PG_CheckButton(parent,99, r, text)
 {
   if (ipressed) SetPressed();
   my_widgetLabel->SetFont(TextFont);
@@ -651,11 +651,11 @@ GUI_CheckBox::~GUI_CheckBox()
 }
 
 void GUI_CheckBox::eventMouseEnter() {
-	SDLGradientWidget::eventMouseEnter();
+	PG_GradientWidget::eventMouseEnter();
 }
 
 void GUI_CheckBox::eventMouseLeave() {
-	SDLGradientWidget::eventMouseLeave();
+	PG_GradientWidget::eventMouseLeave();
 }
 
 
@@ -663,13 +663,13 @@ void GUI_CheckBox::eventMouseLeave() {
 // TextEdit
 /////////////////////////////////////////////////////////////////////////////
 
-class GUI_TextEdit : public SDLLineEdit {
+class GUI_TextEdit : public PG_LineEdit {
 public:
-  GUI_TextEdit(SDLWidget* parent, SDL_Rect& r);
+  GUI_TextEdit(PG_Widget* parent, SDL_Rect& r);
 };
 
-GUI_TextEdit::GUI_TextEdit(SDLWidget* parent, SDL_Rect& r):
-SDLLineEdit(parent, r)
+GUI_TextEdit::GUI_TextEdit(PG_Widget* parent, SDL_Rect& r):
+PG_LineEdit(parent, r)
 {
   SetFont(TextFont);
   LoadThemeStyle("GUI_LineEdit", "GradientWidget");
@@ -681,14 +681,14 @@ SDLLineEdit(parent, r)
 
 class GUI_NumEdit : public GUI_TextEdit {
 public:
-  GUI_NumEdit(SDLWidget* parent, SDL_Rect& r, int imin, int imax);
+  GUI_NumEdit(PG_Widget* parent, SDL_Rect& r, int imin, int imax);
   
   bool eventFilterKey(const SDL_KeyboardEvent* key);
 
   int min, max;
 };
 
-GUI_NumEdit::GUI_NumEdit(SDLWidget* parent, SDL_Rect& r, int imin, int imax):
+GUI_NumEdit::GUI_NumEdit(PG_Widget* parent, SDL_Rect& r, int imin, int imax):
 GUI_TextEdit(parent, r)
 {
   SetFont(TextFont);
@@ -737,14 +737,14 @@ bool GUI_NumEdit::eventFilterKey(const SDL_KeyboardEvent* key)
 
 class GUI_FloatEdit : public GUI_TextEdit {
 public:
-  GUI_FloatEdit(SDLWidget* parent, SDL_Rect& r, float imin, float max);
+  GUI_FloatEdit(PG_Widget* parent, SDL_Rect& r, float imin, float max);
   
   bool eventFilterKey(const SDL_KeyboardEvent* key);
   
   float min, max;
 };
 
-GUI_FloatEdit::GUI_FloatEdit(SDLWidget* parent, SDL_Rect& r, float imin, float imax):
+GUI_FloatEdit::GUI_FloatEdit(PG_Widget* parent, SDL_Rect& r, float imin, float imax):
 GUI_TextEdit(parent, r)
 {
   SetFont(TextFont);
@@ -795,29 +795,29 @@ bool GUI_FloatEdit::eventFilterKey(const SDL_KeyboardEvent* key)
 // Scrollbar
 /////////////////////////////////////////////////////////////////////////////
 
-class GUI_ScrollBar : public SDLScrollBar {
+class GUI_ScrollBar : public PG_ScrollBar {
 public:
-  GUI_ScrollBar(SDLWidget* parent, int id, SDL_Rect& r, int direction);
+  GUI_ScrollBar(PG_Widget* parent, int id, SDL_Rect& r, int direction);
 };
 
-GUI_ScrollBar::GUI_ScrollBar(SDLWidget* parent, int id, SDL_Rect& r, int direction) : SDLScrollBar(parent, id, r, direction)
+GUI_ScrollBar::GUI_ScrollBar(PG_Widget* parent, int id, SDL_Rect& r, int direction) : PG_ScrollBar(parent, id, r, direction)
 {
 
 }
 
 #define LB_POSX 5
 
-class GUI_WidgetList : public SDLWidgetList {
+class GUI_WidgetList : public PG_WidgetList {
 public: 
-  GUI_WidgetList(SDLWidget* parent, SDL_Rect& r);
+  GUI_WidgetList(PG_Widget* parent, SDL_Rect& r);
   ~GUI_WidgetList();
 
-  void AddWidget(SDLWidget* w);
+  void AddWidget(PG_Widget* w);
 };
 
-GUI_WidgetList::GUI_WidgetList(SDLWidget* parent, SDL_Rect& r) : SDLWidgetList(parent, r/*, true*/){
+GUI_WidgetList::GUI_WidgetList(PG_Widget* parent, SDL_Rect& r) : PG_WidgetList(parent, r/*, true*/){
   
-  // TODO: comment SDLWidgetList(...) !!! when download new paragui
+  // TODO: comment PG_WidgetList(...) !!! when download new paragui
 
 	/*
 	my_widgetCount = 0;
@@ -830,7 +830,7 @@ GUI_WidgetList::GUI_WidgetList(SDLWidget* parent, SDL_Rect& r) : SDLWidgetList(p
 	my_rectScrollbar.h = r.h - 2;
 	my_rectScrollbar.w = my_widthScrollbar;
 
-	my_objScrollbar = new SDLScrollBar(this, SDL_IDWIDGETLIST_SCROLL, my_rectScrollbar, SDL_SB_VERTICAL);
+	my_objScrollbar = new PG_ScrollBar(this, SDL_IDWIDGETLIST_SCROLL, my_rectScrollbar, SDL_SB_VERTICAL);
 
 	my_rectList.x = 0;
 	my_rectList.y = 0;
@@ -858,9 +858,9 @@ GUI_WidgetList::~GUI_WidgetList()
 //	delete my_objScrollbar;
 }
 
-void GUI_WidgetList::AddWidget(SDLWidget* w) {
+void GUI_WidgetList::AddWidget(PG_Widget* w) {
 
-	SDLWidgetList::AddWidget(w);
+	PG_WidgetList::AddWidget(w);
 
 	/*
 	w->SetVisible(false);
@@ -895,13 +895,13 @@ void GUI_WidgetList::AddWidget(SDLWidget* w) {
 // Base menu widgets
 /////////////////////////////////////////////////////////////////////////////
 
-class GUI_BaseMenu : public SDLWidget {
+class GUI_BaseMenu : public PG_Widget {
 public:
   int mid;
   int parentmid;
   GUI_BaseMenu *next;
   
-  GUI_BaseMenu(int iid, SDL_Rect& rect): SDLWidget(NULL, rect) { mid = iid; next = NULL; }
+  GUI_BaseMenu(int iid, SDL_Rect& rect): PG_Widget(NULL, rect) { mid = iid; next = NULL; }
   
   void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
   void Clear();
@@ -915,12 +915,12 @@ public:
 
 void GUI_BaseMenu::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
 {
-  SDLWidget::DrawBorder(surface, rect, 1, false);
+  PG_Widget::DrawBorder(surface, rect, 1, false);
 }
 
 void GUI_BaseMenu::Clear()
 {
-  SDL_FillRect(SDLApplication::GetScreen(), &my_rectDisplay, 0);
+  SDL_FillRect(PG_Application::GetScreen(), &my_rectDisplay, 0);
 }
 
 void GUI_BaseMenu::Return()
@@ -928,7 +928,7 @@ void GUI_BaseMenu::Return()
   Hide();
   blocked_inputs = 0;
   HideMouse();
-  SDL_FillRect(SDLApplication::GetScreen(), &my_rectDisplay, 0);
+  SDL_FillRect(PG_Application::GetScreen(), &my_rectDisplay, 0);
   if (parentmid!=-1) 
   {
     GUI_Show(parentmid);
@@ -963,7 +963,7 @@ public:
   void Hide();
   void Default();
   
-  bool eventButtonClick(int id, SDLWidget* widget);
+  bool eventButtonClick(int id, PG_Widget* widget);
 };
 
 void GUI_OKDialog1::Reset(char* title, char* line1)
@@ -973,11 +973,11 @@ void GUI_OKDialog1::Reset(char* title, char* line1)
 }
 
 GUI_OKDialog1::GUI_OKDialog1(char* title, char* line1, char* line2):
-GUI_BaseMenu(GUI_OKDIALOG1, mkrect(OKD1_PX,OKD1_PY,OKD1_VX,OKD1_VY)),
-Board1(NULL, SDLWidget::mkrect(OKD1_PX,OKD1_PY,OKD1_VX,100), false),
-OKDialog1(NULL, SDLWidget::mkrect(OKD1_PX+1,OKD1_PY+4,OKD1_VX-2,25), title, false),
-lPrompt1(NULL, SDLWidget::mkrect(OKD1_PX+1,OKD1_PY+35, OKD1_VX-2,20), line1, false),
-bOK(NULL, 1, SDLWidget::mkrect(OKD1_PX+105,OKD1_PY+65,150,25), "OK")
+GUI_BaseMenu(GUI_OKDIALOG1, PG_Rect(OKD1_PX,OKD1_PY,OKD1_VX,OKD1_VY)),
+Board1(NULL, PG_Rect(OKD1_PX,OKD1_PY,OKD1_VX,100), false),
+OKDialog1(NULL, PG_Rect(OKD1_PX+1,OKD1_PY+4,OKD1_VX-2,25), title, false),
+lPrompt1(NULL, PG_Rect(OKD1_PX+1,OKD1_PY+35, OKD1_VX-2,20), line1, false),
+bOK(NULL, 1, PG_Rect(OKD1_PX+105,OKD1_PY+65,150,25), "OK")
 {
   Default();
   
@@ -986,7 +986,7 @@ bOK(NULL, 1, SDLWidget::mkrect(OKD1_PX+105,OKD1_PY+65,150,25), "OK")
   
   OKDialog1.bgmode = 2;
   
-  lPrompt1.SetAlignment(SDL_TA_CENTER); 
+  lPrompt1.SetAlignment(PG_TA_CENTER); 
   lPrompt1.bgmode = 2;
   
   AddChild(&Board1);
@@ -999,7 +999,7 @@ void GUI_OKDialog1::Default()
 {
 }
 
-bool GUI_OKDialog1::eventButtonClick(int id, SDLWidget* widget)
+bool GUI_OKDialog1::eventButtonClick(int id, PG_Widget* widget)
 {
   switch (id) {
   case 1:
@@ -1062,7 +1062,7 @@ public:
   void Hide();
   void Default();
   
-  bool eventButtonClick(int id, SDLWidget* widget);
+  bool eventButtonClick(int id, PG_Widget* widget);
 };
 
 void GUI_OKDialog2::Reset(char* title, char* line1, char* line2)
@@ -1073,12 +1073,12 @@ void GUI_OKDialog2::Reset(char* title, char* line1, char* line2)
 }
 
 GUI_OKDialog2::GUI_OKDialog2(char* title, char* line1, char* line2):
-GUI_BaseMenu(GUI_OKDIALOG2, mkrect(OKD2_PX,OKD2_PY,OKD2_VX,OKD2_VY)),
-Board1(NULL, SDLWidget::mkrect(OKD2_PX,OKD2_PY,OKD2_VX,120), false),
-OKDialog2(NULL, SDLWidget::mkrect(OKD2_PX+1,OKD2_PY+4,OKD2_VX-2,25), title, false),
-lPrompt1(NULL, SDLWidget::mkrect(OKD2_PX+1,OKD2_PY+35, OKD2_VX-2,20), line1, false),
-lPrompt2(NULL, SDLWidget::mkrect(OKD2_PX+1,OKD2_PY+55, OKD2_VX-2,20), line2, false),
-bOK(NULL, 1, SDLWidget::mkrect(OKD2_PX+105,OKD2_PY+90,150,25), "OK")
+GUI_BaseMenu(GUI_OKDIALOG2, PG_Rect(OKD2_PX,OKD2_PY,OKD2_VX,OKD2_VY)),
+Board1(NULL, PG_Rect(OKD2_PX,OKD2_PY,OKD2_VX,120), false),
+OKDialog2(NULL, PG_Rect(OKD2_PX+1,OKD2_PY+4,OKD2_VX-2,25), title, false),
+lPrompt1(NULL, PG_Rect(OKD2_PX+1,OKD2_PY+35, OKD2_VX-2,20), line1, false),
+lPrompt2(NULL, PG_Rect(OKD2_PX+1,OKD2_PY+55, OKD2_VX-2,20), line2, false),
+bOK(NULL, 1, PG_Rect(OKD2_PX+105,OKD2_PY+90,150,25), "OK")
 {
   Default();
   
@@ -1087,9 +1087,9 @@ bOK(NULL, 1, SDLWidget::mkrect(OKD2_PX+105,OKD2_PY+90,150,25), "OK")
   
   OKDialog2.bgmode = 2;
   
-  lPrompt1.SetAlignment(SDL_TA_CENTER); 
+  lPrompt1.SetAlignment(PG_TA_CENTER); 
   lPrompt1.bgmode = 2;
-  lPrompt2.SetAlignment(SDL_TA_CENTER); 
+  lPrompt2.SetAlignment(PG_TA_CENTER); 
   lPrompt2.bgmode = 2;
   
   AddChild(&Board1);
@@ -1103,7 +1103,7 @@ void GUI_OKDialog2::Default()
 {
 }
 
-bool GUI_OKDialog2::eventButtonClick(int id, SDLWidget* widget)
+bool GUI_OKDialog2::eventButtonClick(int id, PG_Widget* widget)
 {
   switch (id) {
   case 1:
@@ -1171,7 +1171,7 @@ public:
   void Hide();
   void Default();
   
-  bool eventButtonClick(int id, SDLWidget* widget);
+  bool eventButtonClick(int id, PG_Widget* widget);
 };
 
 void GUI_YNDialog::Reset(void (*cb)(int res), char* title, char* line1, char* tla, char* tlb)
@@ -1184,12 +1184,12 @@ void GUI_YNDialog::Reset(void (*cb)(int res), char* title, char* line1, char* tl
 }
 
 GUI_YNDialog::GUI_YNDialog():
-GUI_BaseMenu(GUI_YNDIALOG, mkrect(YN_PX,YN_PY,YN_VX,YN_VY)),
-Board1(NULL, SDLWidget::mkrect(YN_PX,YN_PY,YN_VX,100), false),
-YNDialog(NULL, SDLWidget::mkrect(YN_PX+1,YN_PY+4,YN_VX-2,25), "", false),
-lPrompt1(NULL, SDLWidget::mkrect(YN_PX+1,YN_PY+35, YN_VX-2,20), "", false),
-bA(NULL, 1, SDLWidget::mkrect(YN_PX+25,YN_PY+65,150,25), "YES"),
-bB(NULL, 2, SDLWidget::mkrect(YN_PX+25+150+10,YN_PY+65,150,25), "NO")
+GUI_BaseMenu(GUI_YNDIALOG, PG_Rect(YN_PX,YN_PY,YN_VX,YN_VY)),
+Board1(NULL, PG_Rect(YN_PX,YN_PY,YN_VX,100), false),
+YNDialog(NULL, PG_Rect(YN_PX+1,YN_PY+4,YN_VX-2,25), "", false),
+lPrompt1(NULL, PG_Rect(YN_PX+1,YN_PY+35, YN_VX-2,20), "", false),
+bA(NULL, 1, PG_Rect(YN_PX+25,YN_PY+65,150,25), "YES"),
+bB(NULL, 2, PG_Rect(YN_PX+25+150+10,YN_PY+65,150,25), "NO")
 {
   Default();
   
@@ -1198,7 +1198,7 @@ bB(NULL, 2, SDLWidget::mkrect(YN_PX+25+150+10,YN_PY+65,150,25), "NO")
   
   YNDialog.bgmode = 2;
   
-  lPrompt1.SetAlignment(SDL_TA_CENTER); 
+  lPrompt1.SetAlignment(PG_TA_CENTER); 
   lPrompt1.bgmode = 2;
   
   AddChild(&Board1);
@@ -1212,7 +1212,7 @@ void GUI_YNDialog::Default()
 {
 }
 
-bool GUI_YNDialog::eventButtonClick(int id, SDLWidget* widget)
+bool GUI_YNDialog::eventButtonClick(int id, PG_Widget* widget)
 {
   switch (id) {
   case 1:
@@ -1286,23 +1286,23 @@ public:
   void Return();
   void Default();
   
-  bool eventButtonClick(int id, SDLWidget* widget);
+  bool eventButtonClick(int id, PG_Widget* widget);
 };
 
 GUI_MainMenu::GUI_MainMenu():
-GUI_BaseMenu(GUI_MAINMENU, mkrect(MM_PX,MM_PY,MM_VX,MM_VY)),
-//mBack1(NULL, SDLWidget::mkrect(MM_PX+30, MM_PY+60, splash->w, splash->h), false, splash),
-lMainMenu(NULL, 0, SDLWidget::mkrect(MM_PX,MM_PY,MM_VX,40), "Main Menu"),
-bNewGame(NULL, 1, SDLWidget::mkrect(MM_PX,MM_PY+40,MM_VX,40), "Start Server"),
-bEndGame(NULL, 9, SDLWidget::mkrect(MM_PX,MM_PY+40,MM_VX,40), "Shutdown Server"),
-bJoinDiscGame(NULL, 2, SDLWidget::mkrect(MM_PX,MM_PY+80,MM_VX,40), "Join Game"),
-bCreatePlayer(NULL, 3, SDLWidget::mkrect(MM_PX,MM_PY+120,MM_VX,40), "Create Player"),
-bDeletePlayer(NULL, 4, SDLWidget::mkrect(MM_PX,MM_PY+160,MM_VX,40), "Delete Player"),
-bOptions(NULL, 5, SDLWidget::mkrect(MM_PX,MM_PY+200,MM_VX,40), "Options"),
-bCredits(NULL, 6, SDLWidget::mkrect(MM_PX,MM_PY+240,MM_VX,40), "Credits"),
-bHelp(NULL, 7, SDLWidget::mkrect(MM_PX,MM_PY+280,MM_VX,40), "Info"),
-bQuit(NULL, 8, SDLWidget::mkrect(MM_PX,MM_PY+320,MM_VX,40), "Quit"),
-bGame(NULL, 10, SDLWidget::mkrect(MM_PX,MM_PY+360,MM_VX,40), "Back To Game")
+GUI_BaseMenu(GUI_MAINMENU, PG_Rect(MM_PX,MM_PY,MM_VX,MM_VY)),
+//mBack1(NULL, PG_Rect(MM_PX+30, MM_PY+60, splash->w, splash->h), false, splash),
+lMainMenu(NULL, 0, PG_Rect(MM_PX,MM_PY,MM_VX,40), "Main Menu"),
+bNewGame(NULL, 1, PG_Rect(MM_PX,MM_PY+40,MM_VX,40), "Start Server"),
+bEndGame(NULL, 9, PG_Rect(MM_PX,MM_PY+40,MM_VX,40), "Shutdown Server"),
+bJoinDiscGame(NULL, 2, PG_Rect(MM_PX,MM_PY+80,MM_VX,40), "Join Game"),
+bCreatePlayer(NULL, 3, PG_Rect(MM_PX,MM_PY+120,MM_VX,40), "Create Player"),
+bDeletePlayer(NULL, 4, PG_Rect(MM_PX,MM_PY+160,MM_VX,40), "Delete Player"),
+bOptions(NULL, 5, PG_Rect(MM_PX,MM_PY+200,MM_VX,40), "Options"),
+bCredits(NULL, 6, PG_Rect(MM_PX,MM_PY+240,MM_VX,40), "Credits"),
+bHelp(NULL, 7, PG_Rect(MM_PX,MM_PY+280,MM_VX,40), "Info"),
+bQuit(NULL, 8, PG_Rect(MM_PX,MM_PY+320,MM_VX,40), "Quit"),
+bGame(NULL, 10, PG_Rect(MM_PX,MM_PY+360,MM_VX,40), "Back To Game")
 {
   Default();
   
@@ -1351,7 +1351,7 @@ void EndGameCB(int res)
   GUI_Return();
 }
 
-bool GUI_MainMenu::eventButtonClick(int id, SDLWidget* widget)
+bool GUI_MainMenu::eventButtonClick(int id, PG_Widget* widget)
 {
   char* a[]={"I'M SURE", "YES", "OK", "DO IT", "LEAVE"};
 
@@ -1500,17 +1500,17 @@ void GUI_JoinGameMenu::Return()
 }
 
 GUI_JoinGameMenu::GUI_JoinGameMenu():
-GUI_BaseMenu(GUI_JOINGAME, mkrect(JG_PX,JG_PY,JG_VX,JG_VY)),
-Board1(NULL, SDLWidget::mkrect(JG_PX,JG_PY,JG_VX, JG_VY), false),
-JoinGameMenu(NULL, SDLWidget::mkrect(JG_PX+1,JG_PY+4,JG_VX-2,25), "JOIN GAME", false),
-lServerAddress(NULL, SDLWidget::mkrect(JG_PX+1,JG_PY+50, 119,20), "Server address:", false),
-eServerAddress(NULL, SDLWidget::mkrect(JG_PX+120,JG_PY+50,215,20)),
-lClientName(NULL, SDLWidget::mkrect(JG_PX+1,JG_PY+80, 119,20), "client name:", false),
-eClientName(NULL, SDLWidget::mkrect(JG_PX+120,JG_PY+80,215,20)),
-lClientDesc(NULL, SDLWidget::mkrect(JG_PX+1,JG_PY+110, 119,20), "client finger:", false),
-eClientDesc(NULL, SDLWidget::mkrect(JG_PX+120,JG_PY+110,215,20)),
-bConnect(NULL, 1, SDLWidget::mkrect(JG_PX+25,JG_PY+140,150,25), "CONNECT"),
-bCancel(NULL, 2, SDLWidget::mkrect(JG_PX+25+150+10,JG_PY+140,150,25), "BACK")
+GUI_BaseMenu(GUI_JOINGAME, PG_Rect(JG_PX,JG_PY,JG_VX,JG_VY)),
+Board1(NULL, PG_Rect(JG_PX,JG_PY,JG_VX, JG_VY), false),
+JoinGameMenu(NULL, PG_Rect(JG_PX+1,JG_PY+4,JG_VX-2,25), "JOIN GAME", false),
+lServerAddress(NULL, PG_Rect(JG_PX+1,JG_PY+50, 119,20), "Server address:", false),
+eServerAddress(NULL, PG_Rect(JG_PX+120,JG_PY+50,215,20)),
+lClientName(NULL, PG_Rect(JG_PX+1,JG_PY+80, 119,20), "client name:", false),
+eClientName(NULL, PG_Rect(JG_PX+120,JG_PY+80,215,20)),
+lClientDesc(NULL, PG_Rect(JG_PX+1,JG_PY+110, 119,20), "client finger:", false),
+eClientDesc(NULL, PG_Rect(JG_PX+120,JG_PY+110,215,20)),
+bConnect(NULL, 1, PG_Rect(JG_PX+25,JG_PY+140,150,25), "CONNECT"),
+bCancel(NULL, 2, PG_Rect(JG_PX+25+150+10,JG_PY+140,150,25), "BACK")
 {
   JGMenu = this;
   Default();
@@ -1520,11 +1520,11 @@ bCancel(NULL, 2, SDLWidget::mkrect(JG_PX+25+150+10,JG_PY+140,150,25), "BACK")
   
   JoinGameMenu.bgmode = 2;
   
-  lServerAddress.SetAlignment(SDL_TA_RIGHT); 
+  lServerAddress.SetAlignment(PG_TA_RIGHT); 
   lServerAddress.shiftx = -4;
-  lClientName.SetAlignment(SDL_TA_RIGHT); 
+  lClientName.SetAlignment(PG_TA_RIGHT); 
   lClientName.shiftx = -4;
-  lClientDesc.SetAlignment(SDL_TA_RIGHT); 
+  lClientDesc.SetAlignment(PG_TA_RIGHT); 
   lClientDesc.shiftx = -4;
   
   AddChild(&Board1);
@@ -1546,7 +1546,7 @@ void GUI_JoinGameMenu::Default()
   eClientDesc.SetText(c_desc.string);
 }
 
-bool GUI_JoinGameMenu::eventButtonClick(int id, SDLWidget* widget)
+bool GUI_JoinGameMenu::eventButtonClick(int id, PG_Widget* widget)
 {
   switch (id) {
   case 1:
@@ -1668,7 +1668,7 @@ public:
 
   void GenerateScriptSelection();
   
-  bool eventButtonClick(int id, SDLWidget* widget);
+  bool eventButtonClick(int id, PG_Widget* widget);
 };
 
 GUI_NewGameMenu* NGMenu;
@@ -1682,36 +1682,36 @@ void GUI_NewGameMenu::Return()
 }
 
 GUI_NewGameMenu::GUI_NewGameMenu():
-GUI_BaseMenu(GUI_NEWGAME, mkrect(NG_PX,NG_PY,NG_VX,NG_VY)),
-Board(NULL, SDLWidget::mkrect(NG_PX,NG_PY,NG_VX,NG_VY), false),
-NewGameMenu(NULL, SDLWidget::mkrect(NG_PX+1,NG_PY+4,NG_VX-2,25), "NEW GAME", false),
-lIP(NULL, SDLWidget::mkrect(NG_PX+1,NG_PY+30,NG_VX-2,20), "<HERE COMES IP ADDRESS>", false),
-lHost(NULL, SDLWidget::mkrect(NG_PX+1,NG_PY+51,NG_VX-2,20), "<HERE COMES HOST NAME>", false),
-lServerName(NULL, SDLWidget::mkrect(NG_PX+1,NG_PY+90, 119,20), "Server name:", false),
-eServerName(NULL, SDLWidget::mkrect(NG_PX+120,NG_PY+90,215,20)),
-lWelcomeMsg(NULL, SDLWidget::mkrect(NG_PX+1,NG_PY+120,119,20), "Welcome msg:", false),
-eWelcomeMsg(NULL, SDLWidget::mkrect(NG_PX+120,NG_PY+120,215,20)),
-lMaxClients(NULL, SDLWidget::mkrect(NG_PX+1,NG_PY+150,119,20), "Max clients:", false),
-eMaxClients(NULL, SDLWidget::mkrect(NG_PX+120,NG_PY+150,80,20), 1, PWP_TOTALMAX_CLIENTS),
+GUI_BaseMenu(GUI_NEWGAME, PG_Rect(NG_PX,NG_PY,NG_VX,NG_VY)),
+Board(NULL, PG_Rect(NG_PX,NG_PY,NG_VX,NG_VY), false),
+NewGameMenu(NULL, PG_Rect(NG_PX+1,NG_PY+4,NG_VX-2,25), "NEW GAME", false),
+lIP(NULL, PG_Rect(NG_PX+1,NG_PY+30,NG_VX-2,20), "<HERE COMES IP ADDRESS>", false),
+lHost(NULL, PG_Rect(NG_PX+1,NG_PY+51,NG_VX-2,20), "<HERE COMES HOST NAME>", false),
+lServerName(NULL, PG_Rect(NG_PX+1,NG_PY+90, 119,20), "Server name:", false),
+eServerName(NULL, PG_Rect(NG_PX+120,NG_PY+90,215,20)),
+lWelcomeMsg(NULL, PG_Rect(NG_PX+1,NG_PY+120,119,20), "Welcome msg:", false),
+eWelcomeMsg(NULL, PG_Rect(NG_PX+120,NG_PY+120,215,20)),
+lMaxClients(NULL, PG_Rect(NG_PX+1,NG_PY+150,119,20), "Max clients:", false),
+eMaxClients(NULL, PG_Rect(NG_PX+120,NG_PY+150,80,20), 1, PWP_TOTALMAX_CLIENTS),
 
-lChoose1(NULL, SDLWidget::mkrect(NG_PX+25,NG_PY+179, 150,20), "Choose map:", false),
-Board1(NULL, SDLWidget::mkrect(NG_PX+25, NG_PY+200, 150, 66), false),
-WidgetList1(NULL, SDLWidget::mkrect(NG_PX+26, NG_PY+201, 148, 64)),
+lChoose1(NULL, PG_Rect(NG_PX+25,NG_PY+179, 150,20), "Choose map:", false),
+Board1(NULL, PG_Rect(NG_PX+25, NG_PY+200, 150, 66), false),
+WidgetList1(NULL, PG_Rect(NG_PX+26, NG_PY+201, 148, 64)),
 
-lChoose2(NULL, SDLWidget::mkrect(NG_PX+25+150+10,NG_PY+179, 150,20), "Choose script:", false),
-Board2(NULL, SDLWidget::mkrect(NG_PX+25+150+10, NG_PY+200, 150, 66), false),
-WidgetList2(NULL, SDLWidget::mkrect(NG_PX+26+150+10, NG_PY+201, 148, 64)),
+lChoose2(NULL, PG_Rect(NG_PX+25+150+10,NG_PY+179, 150,20), "Choose script:", false),
+Board2(NULL, PG_Rect(NG_PX+25+150+10, NG_PY+200, 150, 66), false),
+WidgetList2(NULL, PG_Rect(NG_PX+26+150+10, NG_PY+201, 148, 64)),
 
-Board3(NULL, SDLWidget::mkrect(NG_PX+25, NG_PY+273, NG_VX-50, 54), false, "GUI_MapInfoBoard"),
-lAuthFile(NULL, SDLWidget::mkrect(NG_PX+25,NG_PY+275, NG_VX-50-8,12), "file", false),
-lDesc1(NULL, SDLWidget::mkrect(NG_PX+25,NG_PY+287, NG_VX-50-20,12), "d1", false),
-lDesc2(NULL, SDLWidget::mkrect(NG_PX+25,NG_PY+299, NG_VX-50-20,12), "d2", false),
-lDesc3(NULL, SDLWidget::mkrect(NG_PX+25,NG_PY+311, NG_VX-50-20,12), "d3", false),
+Board3(NULL, PG_Rect(NG_PX+25, NG_PY+273, NG_VX-50, 54), false, "GUI_MapInfoBoard"),
+lAuthFile(NULL, PG_Rect(NG_PX+25,NG_PY+275, NG_VX-50-8,12), "file", false),
+lDesc1(NULL, PG_Rect(NG_PX+25,NG_PY+287, NG_VX-50-20,12), "d1", false),
+lDesc2(NULL, PG_Rect(NG_PX+25,NG_PY+299, NG_VX-50-20,12), "d2", false),
+lDesc3(NULL, PG_Rect(NG_PX+25,NG_PY+311, NG_VX-50-20,12), "d3", false),
 
-cJoin(NULL, SDLWidget::mkrect(NG_PX+25,NG_PY+333,NG_VX-50, CB_SIZEY), "join the game after starting server", true, GUI_Gray64),
+cJoin(NULL, PG_Rect(NG_PX+25,NG_PY+333,NG_VX-50, CB_SIZEY), "join the game after starting server", true, GUI_Gray64),
 
-bStartIt(NULL, 1, SDLWidget::mkrect(NG_PX+25,NG_PY+360,150,25), "START SERVER"),
-bCancel(NULL, 2, SDLWidget::mkrect(NG_PX+25+150+10,NG_PY+360,150,25), "BACK")
+bStartIt(NULL, 1, PG_Rect(NG_PX+25,NG_PY+360,150,25), "START SERVER"),
+bCancel(NULL, 2, PG_Rect(NG_PX+25+150+10,NG_PY+360,150,25), "BACK")
 {
   NGMenu = this;
 
@@ -1724,37 +1724,37 @@ bCancel(NULL, 2, SDLWidget::mkrect(NG_PX+25+150+10,NG_PY+360,150,25), "BACK")
   NewGameMenu.bgmode = 2;
 
   
-  lWelcomeMsg.SetAlignment(SDL_TA_RIGHT); 
+  lWelcomeMsg.SetAlignment(PG_TA_RIGHT); 
   lWelcomeMsg.shiftx = -4;
-  lMaxClients.SetAlignment(SDL_TA_RIGHT); 
+  lMaxClients.SetAlignment(PG_TA_RIGHT); 
   lMaxClients.shiftx = -4;
-  lServerName.SetAlignment(SDL_TA_RIGHT);
+  lServerName.SetAlignment(PG_TA_RIGHT);
   lServerName.shiftx = -4;
 
   lChoose1.bgmode = 2;
-  lChoose1.SetAlignment(SDL_TA_LEFT);
+  lChoose1.SetAlignment(PG_TA_LEFT);
   lChoose2.bgmode = 2;
-  lChoose2.SetAlignment(SDL_TA_LEFT);
+  lChoose2.SetAlignment(PG_TA_LEFT);
 
   lDesc1.bgmode = 2;
   lDesc1.shiftx = 10;
   lDesc1.shifty = -3;  
-  lDesc1.SetAlignment(SDL_TA_LEFT);
+  lDesc1.SetAlignment(PG_TA_LEFT);
   lDesc2.bgmode = 2;
-  lDesc2.SetAlignment(SDL_TA_LEFT);
+  lDesc2.SetAlignment(PG_TA_LEFT);
   lDesc2.shiftx = 10;
   lDesc2.shifty = -3;  
   lDesc3.bgmode = 2;
-  lDesc3.SetAlignment(SDL_TA_LEFT);
+  lDesc3.SetAlignment(PG_TA_LEFT);
   lDesc3.shiftx = 10;
   lDesc3.shifty = -3;  
   lAuthFile.bgmode = 2;
-  lAuthFile.SetAlignment(SDL_TA_LEFT);
+  lAuthFile.SetAlignment(PG_TA_LEFT);
   lAuthFile.shiftx = 10;
   lAuthFile.shifty = -3;  
   
   IPaddress serverIP;
-  SDLNet_ResolveHost(&serverIP, "localhost", PWP_MSG_SPORT);
+  PG_Net_ResolveHost(&serverIP, "localhost", PWP_MSG_SPORT);
   
   if (serverIP.host != INADDR_NONE ) 
   {
@@ -1762,11 +1762,11 @@ bCancel(NULL, 2, SDLWidget::mkrect(NG_PX+25+150+10,NG_PY+360,150,25), "BACK")
     sprintf(s, "IP %s", AddrToS(&serverIP));
     lIP.SetText(s);
     
-    char * remote_host_name = SDLNet_ResolveIP(&serverIP);
+    char * remote_host_name = PG_Net_ResolveIP(&serverIP);
     if (remote_host_name)
     {
       // try to resolve found host - that because of localhost doesn't return full IP address
-      SDLNet_ResolveHost(&serverIP, remote_host_name, PWP_MSG_SPORT);
+      PG_Net_ResolveHost(&serverIP, remote_host_name, PWP_MSG_SPORT);
       sprintf(s, "IP %s", AddrToS(&serverIP));
       lIP.SetText(s);
       
@@ -1853,7 +1853,7 @@ void GUI_NewGameMenu::GenerateScriptSelection()
   while (a) {
     i++;
     if (selected1 && strcmp(selected1->GetText(), a->map)==0)
-      WidgetList2.AddWidget(new GUI_LabelL(NULL, SDLWidget::mkrect(0,0,150-14,12), a->sname, &selected2, a, GUI_UnselectedItem, GUI_SelectedItem, scriptchCB));
+      WidgetList2.AddWidget(new GUI_LabelL(NULL, PG_Rect(0,0,150-14,12), a->sname, &selected2, a, GUI_UnselectedItem, GUI_SelectedItem, scriptchCB));
     a = a->next;
   }
 
@@ -1880,7 +1880,7 @@ void GUI_NewGameMenu::Default()
   int i=0;
   while (a) {
     i++;
-		WidgetList1.AddWidget(new GUI_LabelL(NULL, SDLWidget::mkrect(0,0,150-14,12), a->name, &selected1, 0, GUI_UnselectedItem, GUI_SelectedItem, mapchCB));
+		WidgetList1.AddWidget(new GUI_LabelL(NULL, PG_Rect(0,0,150-14,12), a->name, &selected1, 0, GUI_UnselectedItem, GUI_SelectedItem, mapchCB));
     a = a->next;
   }
 
@@ -1891,7 +1891,7 @@ void GUI_NewGameMenu::Default()
   GenerateScriptSelection();
 }
 
-bool GUI_NewGameMenu::eventButtonClick(int id, SDLWidget* widget)
+bool GUI_NewGameMenu::eventButtonClick(int id, PG_Widget* widget)
 {
   switch (id) {
   case 1:
@@ -2042,17 +2042,17 @@ public:
   void Hide();
   void Default();
   
-  bool eventButtonClick(int id, SDLWidget* widget);
+  bool eventButtonClick(int id, PG_Widget* widget);
 };
 
 GUI_DisconnectMenu::GUI_DisconnectMenu():
-GUI_BaseMenu(GUI_DISCONNECT, mkrect(DG_PX,DG_PY,DG_VX,DG_VY)),
-Board1(NULL, SDLWidget::mkrect(DG_PX,DG_PY,DG_VX,125), false),
-DisconnectMenu(NULL, SDLWidget::mkrect(DG_PX+1,DG_PY+4,DG_VX-2,25), "DISCONNECT", false),
-lPrompt1(NULL, SDLWidget::mkrect(DG_PX+1,DG_PY+35, DG_VX-2,20), "Do you really want", false),
-lPrompt2(NULL, SDLWidget::mkrect(DG_PX+1,DG_PY+55, DG_VX-2,20), "disconnect from this game ?", false),
-bOK(NULL, 1, SDLWidget::mkrect(DG_PX+25,DG_PY+90,150,25), "OK"),
-bCancel(NULL, 2, SDLWidget::mkrect(DG_PX+25+150+10,DG_PY+90,150,25), "BACK")
+GUI_BaseMenu(GUI_DISCONNECT, PG_Rect(DG_PX,DG_PY,DG_VX,DG_VY)),
+Board1(NULL, PG_Rect(DG_PX,DG_PY,DG_VX,125), false),
+DisconnectMenu(NULL, PG_Rect(DG_PX+1,DG_PY+4,DG_VX-2,25), "DISCONNECT", false),
+lPrompt1(NULL, PG_Rect(DG_PX+1,DG_PY+35, DG_VX-2,20), "Do you really want", false),
+lPrompt2(NULL, PG_Rect(DG_PX+1,DG_PY+55, DG_VX-2,20), "disconnect from this game ?", false),
+bOK(NULL, 1, PG_Rect(DG_PX+25,DG_PY+90,150,25), "OK"),
+bCancel(NULL, 2, PG_Rect(DG_PX+25+150+10,DG_PY+90,150,25), "BACK")
 {
   Default();
   
@@ -2061,9 +2061,9 @@ bCancel(NULL, 2, SDLWidget::mkrect(DG_PX+25+150+10,DG_PY+90,150,25), "BACK")
   
   DisconnectMenu.bgmode = 2;
   
-  lPrompt1.SetAlignment(SDL_TA_CENTER); 
+  lPrompt1.SetAlignment(PG_TA_CENTER); 
   lPrompt1.bgmode = 2;
-  lPrompt2.SetAlignment(SDL_TA_CENTER); 
+  lPrompt2.SetAlignment(PG_TA_CENTER); 
   lPrompt2.bgmode = 2;
   
   AddChild(&Board1);
@@ -2078,7 +2078,7 @@ void GUI_DisconnectMenu::Default()
 {
 }
 
-bool GUI_DisconnectMenu::eventButtonClick(int id, SDLWidget* widget)
+bool GUI_DisconnectMenu::eventButtonClick(int id, PG_Widget* widget)
 {
   switch (id) {
   case 1:
@@ -2171,7 +2171,7 @@ public:
   void Hide();
   void Default();
   
-  bool eventButtonClick(int id, SDLWidget* widget);
+  bool eventButtonClick(int id, PG_Widget* widget);
 };
 
 #define CM_G1_PX (CM_PX+8)
@@ -2188,35 +2188,35 @@ public:
 
 
 GUI_CreditsMenu::GUI_CreditsMenu():
-GUI_BaseMenu(GUI_CREDITS, mkrect(CM_PX,CM_PY,CM_VX,CM_VY)),
-Board1(NULL, SDLWidget::mkrect(CM_PX,CM_PY,CM_VX,420), false),
-mBack1(NULL, SDLWidget::mkrect(CM_PX+1, CM_PY+1, credits->w, credits->h), false, credits),
-CreditsMenu(NULL, SDLWidget::mkrect(CM_PX+1,CM_PY+4,CM_VX-2,25), "Credits", false),
-lLine1(NULL, SDLWidget::mkrect(CM_G1_PX,CM_G1_PY+35, CM_G1_VX-2,20), "Code by Antonin Hildebrand aka Woid", false),
-lLine2(NULL, SDLWidget::mkrect(CM_G1_PX,CM_G1_PY+55, CM_G1_VX-2,20), "Graphics by Petr Stastny aka Raist", false),
-lLine3(NULL, SDLWidget::mkrect(CM_G1_PX,CM_G1_PY+75, CM_G1_VX-2,20), "Music by Ondrej Broukal aka GameOver", false),
-lLine4(NULL, SDLWidget::mkrect(CM_G1X_PX,CM_G1_PY+95, CM_G1_VX-2,20), "Petr Stastny aka Raist", false),
-lLine5(NULL, SDLWidget::mkrect(CM_G1X_PX,CM_G1_PY+115, CM_G1_VX-2,20), "Pavel Mirejovsky aka Dusty", false),
-lLine20(NULL, SDLWidget::mkrect(CM_G1_PX,CM_G1_PY+155, CM_G1_VX-2,20), "Iain Syme author of the orignal PacWars", false),
-lLine7(NULL, SDLWidget::mkrect(CM_G2_PX,CM_G2_PY+155, CM_G2_VX-2,20), "SDL library by Sam Latinga", false),
-lLine8(NULL, SDLWidget::mkrect(CM_G2_PX,CM_G2_PY+175, CM_G2_VX-2,20), "SeeR scripting engine", false),
-lLine6(NULL, SDLWidget::mkrect(CM_G2_PX,CM_G2_PY+195, CM_G2_VX-2,20), "by Przemek Podsiadly aka Theur", false),
-lLine9(NULL, SDLWidget::mkrect(CM_G2_PX,CM_G2_PY+215, CM_G2_VX-2,20), "BASS sound system by Ian Luck", false),
-lLine10(NULL, SDLWidget::mkrect(CM_G2_PX,CM_G2_PY+235, CM_G2_VX-2,20), "Mappy by Robin Burrows", false),
-lLine11(NULL, SDLWidget::mkrect(CM_G2_PX,CM_G2_PY+255, CM_G2_VX-2,20), "ParaGUI by Alexander Pipelka", false),
-lLine12(NULL, SDLWidget::mkrect(CM_G2_PX,CM_G2_PY+275, CM_G2_VX-2,20), "ImageMagick library by ImageMagick Studio", false),
-lLine13(NULL, SDLWidget::mkrect(CM_G2_PX,CM_G2_PY+295, CM_G2_VX-2,20), "SDL: net, console, ttf, mixer and image libs", false),
-lLine14(NULL, SDLWidget::mkrect(CM_G2_PX,CM_G2_PY+315, CM_G2_VX-2,20), "zlib, libpng, libjpeg, UPX packer", false),
-lLine16(NULL, SDLWidget::mkrect(CM_PX+4,CM_PY+235, CM_VX-2,20), "Thanks to SLiK, Mem, Lada, Tessien, Dusty, Farey, Kerim, Garett Banuk, Nula, ...", false),
-lLine17(NULL, SDLWidget::mkrect(CM_PX+4,CM_PY+255, CM_VX-8,20), "See credits.txt for full list.", false),
-lLine18(NULL, SDLWidget::mkrect(CM_PX+4,CM_PY+315, CM_VX-2,25), "visit pacComunity at", false),
-lLine19(NULL, SDLWidget::mkrect(CM_PX+4,CM_PY+345, CM_VX-2,25), "http://pw2.tsx.org", false),
-lLine15(NULL, SDLWidget::mkrect(CM_PX+4,CM_PY+285, CM_VX-4,25), "PacWars2 rulezzz !!!", false),
-bOK(NULL, 1, SDLWidget::mkrect(CM_PX+155,CM_PY+390,150,25), "COOL")
+GUI_BaseMenu(GUI_CREDITS, PG_Rect(CM_PX,CM_PY,CM_VX,CM_VY)),
+Board1(NULL, PG_Rect(CM_PX,CM_PY,CM_VX,420), false),
+mBack1(NULL, PG_Rect(CM_PX+1, CM_PY+1, credits->w, credits->h), false, credits),
+CreditsMenu(NULL, PG_Rect(CM_PX+1,CM_PY+4,CM_VX-2,25), "Credits", false),
+lLine1(NULL, PG_Rect(CM_G1_PX,CM_G1_PY+35, CM_G1_VX-2,20), "Code by Antonin Hildebrand aka Woid", false),
+lLine2(NULL, PG_Rect(CM_G1_PX,CM_G1_PY+55, CM_G1_VX-2,20), "Graphics by Petr Stastny aka Raist", false),
+lLine3(NULL, PG_Rect(CM_G1_PX,CM_G1_PY+75, CM_G1_VX-2,20), "Music by Ondrej Broukal aka GameOver", false),
+lLine4(NULL, PG_Rect(CM_G1X_PX,CM_G1_PY+95, CM_G1_VX-2,20), "Petr Stastny aka Raist", false),
+lLine5(NULL, PG_Rect(CM_G1X_PX,CM_G1_PY+115, CM_G1_VX-2,20), "Pavel Mirejovsky aka Dusty", false),
+lLine20(NULL, PG_Rect(CM_G1_PX,CM_G1_PY+155, CM_G1_VX-2,20), "Iain Syme author of the orignal PacWars", false),
+lLine7(NULL, PG_Rect(CM_G2_PX,CM_G2_PY+155, CM_G2_VX-2,20), "PG_ library by Sam Latinga", false),
+lLine8(NULL, PG_Rect(CM_G2_PX,CM_G2_PY+175, CM_G2_VX-2,20), "SeeR scripting engine", false),
+lLine6(NULL, PG_Rect(CM_G2_PX,CM_G2_PY+195, CM_G2_VX-2,20), "by Przemek Podsiadly aka Theur", false),
+lLine9(NULL, PG_Rect(CM_G2_PX,CM_G2_PY+215, CM_G2_VX-2,20), "BASS sound system by Ian Luck", false),
+lLine10(NULL, PG_Rect(CM_G2_PX,CM_G2_PY+235, CM_G2_VX-2,20), "Mappy by Robin Burrows", false),
+lLine11(NULL, PG_Rect(CM_G2_PX,CM_G2_PY+255, CM_G2_VX-2,20), "ParaGUI by Alexander Pipelka", false),
+lLine12(NULL, PG_Rect(CM_G2_PX,CM_G2_PY+275, CM_G2_VX-2,20), "ImageMagick library by ImageMagick Studio", false),
+lLine13(NULL, PG_Rect(CM_G2_PX,CM_G2_PY+295, CM_G2_VX-2,20), "PG_: net, console, ttf, mixer and image libs", false),
+lLine14(NULL, PG_Rect(CM_G2_PX,CM_G2_PY+315, CM_G2_VX-2,20), "zlib, libpng, libjpeg, UPX packer", false),
+lLine16(NULL, PG_Rect(CM_PX+4,CM_PY+235, CM_VX-2,20), "Thanks to SLiK, Mem, Lada, Tessien, Dusty, Farey, Kerim, Garett Banuk, Nula, ...", false),
+lLine17(NULL, PG_Rect(CM_PX+4,CM_PY+255, CM_VX-8,20), "See credits.txt for full list.", false),
+lLine18(NULL, PG_Rect(CM_PX+4,CM_PY+315, CM_VX-2,25), "visit pacComunity at", false),
+lLine19(NULL, PG_Rect(CM_PX+4,CM_PY+345, CM_VX-2,25), "http://pw2.tsx.org", false),
+lLine15(NULL, PG_Rect(CM_PX+4,CM_PY+285, CM_VX-4,25), "PacWars2 rulezzz !!!", false),
+bOK(NULL, 1, PG_Rect(CM_PX+155,CM_PY+390,150,25), "COOL")
 {
   Default();
   
-  CreditsMenu.SetAlignment(SDL_TA_CENTER); 
+  CreditsMenu.SetAlignment(PG_TA_CENTER); 
 //  CreditsMenu.SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
   CreditsMenu.SetFont(MainFont);
   
@@ -2230,64 +2230,64 @@ bOK(NULL, 1, SDLWidget::mkrect(CM_PX+155,CM_PY+390,150,25), "COOL")
   AddChild(&mBack1);
   AddChild(&CreditsMenu);
 
-  lLine1.SetAlignment(SDL_TA_LEFT); 
+  lLine1.SetAlignment(PG_TA_LEFT); 
   lLine1.bgmode = 0;
   AddChild(&lLine1);
-  lLine2.SetAlignment(SDL_TA_LEFT); 
+  lLine2.SetAlignment(PG_TA_LEFT); 
   lLine2.bgmode = 0;
   AddChild(&lLine2);
-  lLine3.SetAlignment(SDL_TA_LEFT); 
+  lLine3.SetAlignment(PG_TA_LEFT); 
   lLine3.bgmode = 0;
   AddChild(&lLine3);
-  lLine4.SetAlignment(SDL_TA_LEFT); 
+  lLine4.SetAlignment(PG_TA_LEFT); 
   lLine4.bgmode = 0;
   AddChild(&lLine4);
-  lLine5.SetAlignment(SDL_TA_LEFT); 
+  lLine5.SetAlignment(PG_TA_LEFT); 
   lLine5.bgmode = 0;
   AddChild(&lLine5);
-  lLine6.SetAlignment(SDL_TA_LEFT); 
+  lLine6.SetAlignment(PG_TA_LEFT); 
   lLine6.bgmode = 0;
   AddChild(&lLine6);
-  lLine7.SetAlignment(SDL_TA_LEFT); 
+  lLine7.SetAlignment(PG_TA_LEFT); 
   lLine7.bgmode = 0;
   AddChild(&lLine7);
-  lLine8.SetAlignment(SDL_TA_LEFT); 
+  lLine8.SetAlignment(PG_TA_LEFT); 
   lLine8.bgmode = 0;
   AddChild(&lLine8);
-  lLine9.SetAlignment(SDL_TA_LEFT); 
+  lLine9.SetAlignment(PG_TA_LEFT); 
   lLine9.bgmode = 0;
   AddChild(&lLine9);
-  lLine20.SetAlignment(SDL_TA_LEFT); 
+  lLine20.SetAlignment(PG_TA_LEFT); 
   lLine20.bgmode = 0;
   AddChild(&lLine20);
-  lLine10.SetAlignment(SDL_TA_LEFT); 
+  lLine10.SetAlignment(PG_TA_LEFT); 
   lLine10.bgmode = 0;
   AddChild(&lLine10);
-  lLine11.SetAlignment(SDL_TA_LEFT); 
+  lLine11.SetAlignment(PG_TA_LEFT); 
   lLine11.bgmode = 0;
   AddChild(&lLine11);
-  lLine12.SetAlignment(SDL_TA_LEFT); 
+  lLine12.SetAlignment(PG_TA_LEFT); 
   lLine12.bgmode = 0;
   AddChild(&lLine12);
-  lLine13.SetAlignment(SDL_TA_LEFT); 
+  lLine13.SetAlignment(PG_TA_LEFT); 
   lLine13.bgmode = 0;
   AddChild(&lLine13);
-  lLine14.SetAlignment(SDL_TA_LEFT); 
+  lLine14.SetAlignment(PG_TA_LEFT); 
   lLine14.bgmode = 0;
   AddChild(&lLine14);
-  lLine15.SetAlignment(SDL_TA_CENTER); 
+  lLine15.SetAlignment(PG_TA_CENTER); 
   lLine15.bgmode = 0;
   AddChild(&lLine15);
-  lLine16.SetAlignment(SDL_TA_CENTER); 
+  lLine16.SetAlignment(PG_TA_CENTER); 
   lLine16.bgmode = 0;
   AddChild(&lLine16);
-  lLine17.SetAlignment(SDL_TA_RIGHT); 
+  lLine17.SetAlignment(PG_TA_RIGHT); 
   lLine17.bgmode = 0;
   AddChild(&lLine17);
-  lLine18.SetAlignment(SDL_TA_CENTER); 
+  lLine18.SetAlignment(PG_TA_CENTER); 
   lLine18.bgmode = 0;
   AddChild(&lLine18);
-  lLine19.SetAlignment(SDL_TA_CENTER); 
+  lLine19.SetAlignment(PG_TA_CENTER); 
   lLine19.bgmode = 0;
   AddChild(&lLine19);
   
@@ -2298,7 +2298,7 @@ void GUI_CreditsMenu::Default()
 {
 }
 
-bool GUI_CreditsMenu::eventButtonClick(int id, SDLWidget* widget)
+bool GUI_CreditsMenu::eventButtonClick(int id, PG_Widget* widget)
 {
   switch (id) {
   case 1:
@@ -2397,18 +2397,18 @@ public:
   void Hide();
   void Default();
   
-  bool eventButtonClick(int id, SDLWidget* widget);
+  bool eventButtonClick(int id, PG_Widget* widget);
 };
 
 GUI_OptionsMenu::GUI_OptionsMenu():
-GUI_BaseMenu(GUI_OPTIONS, mkrect(OM_PX,OM_PY,OM_VX,OM_VY)),
-lOptionsMenu(NULL,0, SDLWidget::mkrect(OM_PX,OM_PY,OM_VX,40), "Options Menu"),
-bServer(NULL, 1, SDLWidget::mkrect(OM_PX,OM_PY+40,OM_VX,40), "Server"),
-bClient(NULL, 5, SDLWidget::mkrect(OM_PX,OM_PY+80,OM_VX,40), "Client"),
-bVideo(NULL, 2, SDLWidget::mkrect(OM_PX,OM_PY+120,OM_VX,40), "Video"),
-bSound(NULL, 3, SDLWidget::mkrect(OM_PX,OM_PY+160,OM_VX,40), "Sound"),
-bPaths(NULL, 4, SDLWidget::mkrect(OM_PX,OM_PY+200,OM_VX,40), "Paths"),
-bBack(NULL, 10, SDLWidget::mkrect(OM_PX,OM_PY+240,OM_VX,40), "Back")
+GUI_BaseMenu(GUI_OPTIONS, PG_Rect(OM_PX,OM_PY,OM_VX,OM_VY)),
+lOptionsMenu(NULL,0, PG_Rect(OM_PX,OM_PY,OM_VX,40), "Options Menu"),
+bServer(NULL, 1, PG_Rect(OM_PX,OM_PY+40,OM_VX,40), "Server"),
+bClient(NULL, 5, PG_Rect(OM_PX,OM_PY+80,OM_VX,40), "Client"),
+bVideo(NULL, 2, PG_Rect(OM_PX,OM_PY+120,OM_VX,40), "Video"),
+bSound(NULL, 3, PG_Rect(OM_PX,OM_PY+160,OM_VX,40), "Sound"),
+bPaths(NULL, 4, PG_Rect(OM_PX,OM_PY+200,OM_VX,40), "Paths"),
+bBack(NULL, 10, PG_Rect(OM_PX,OM_PY+240,OM_VX,40), "Back")
 {
   Default();
   
@@ -2428,7 +2428,7 @@ void GUI_OptionsMenu::Default()
 {
 }
 
-bool GUI_OptionsMenu::eventButtonClick(int id, SDLWidget* widget)
+bool GUI_OptionsMenu::eventButtonClick(int id, PG_Widget* widget)
 {
   switch (id) {
   case 1:
@@ -2501,17 +2501,17 @@ public:
   void Hide();
   void Default();
   
-  bool eventButtonClick(int id, SDLWidget* widget);
+  bool eventButtonClick(int id, PG_Widget* widget);
 };
 
 GUI_CreatePlayerSelMenu::GUI_CreatePlayerSelMenu():
-GUI_BaseMenu(GUI_CREATEPLAYER, mkrect(CPS_PX,CPS_PY,CPS_VX,CPS_VY)),
-lCreatePlayerSelMenu(NULL, 0, SDLWidget::mkrect(CPS_PX,CPS_PY,CPS_VX,40), "Players Menu"),
-bCP1(NULL, 1, SDLWidget::mkrect(CPS_PX,CPS_PY+40,CPS_VX,40), "Player1"),
-bCP2(NULL, 2, SDLWidget::mkrect(CPS_PX,CPS_PY+80,CPS_VX,40), "Player2"),
-bCP3(NULL, 3, SDLWidget::mkrect(CPS_PX,CPS_PY+120,CPS_VX,40), "Player3"),
-bCP4(NULL, 4, SDLWidget::mkrect(CPS_PX,CPS_PY+160,CPS_VX,40), "Player4"),
-bBack(NULL, 10, SDLWidget::mkrect(CPS_PX,CPS_PY+200,CPS_VX,40), "Back")
+GUI_BaseMenu(GUI_CREATEPLAYER, PG_Rect(CPS_PX,CPS_PY,CPS_VX,CPS_VY)),
+lCreatePlayerSelMenu(NULL, 0, PG_Rect(CPS_PX,CPS_PY,CPS_VX,40), "Players Menu"),
+bCP1(NULL, 1, PG_Rect(CPS_PX,CPS_PY+40,CPS_VX,40), "Player1"),
+bCP2(NULL, 2, PG_Rect(CPS_PX,CPS_PY+80,CPS_VX,40), "Player2"),
+bCP3(NULL, 3, PG_Rect(CPS_PX,CPS_PY+120,CPS_VX,40), "Player3"),
+bCP4(NULL, 4, PG_Rect(CPS_PX,CPS_PY+160,CPS_VX,40), "Player4"),
+bBack(NULL, 10, PG_Rect(CPS_PX,CPS_PY+200,CPS_VX,40), "Back")
 {
   Default();
   
@@ -2530,7 +2530,7 @@ void GUI_CreatePlayerSelMenu::Default()
 {
 }
 
-bool GUI_CreatePlayerSelMenu::eventButtonClick(int id, SDLWidget* widget)
+bool GUI_CreatePlayerSelMenu::eventButtonClick(int id, PG_Widget* widget)
 {
   switch (id) {
   case 1:
@@ -2616,7 +2616,7 @@ public:
   void Default();
   void Return();
   
-  bool eventButtonClick(int id, SDLWidget* widget);
+  bool eventButtonClick(int id, PG_Widget* widget);
 };
 
 void GUI_PathsMenu::Return()
@@ -2634,28 +2634,28 @@ void GUI_PathsMenu::Return()
 #define PM_BASE 65
 
 GUI_PathsMenu::GUI_PathsMenu():
-GUI_BaseMenu(GUI_PATHS, mkrect(PM_PX,PM_PY,PM_VX,PM_VY)),
-Board1(NULL, SDLWidget::mkrect(PM_PX,PM_PY,PM_VX,PM_VY), false),
-lPathsMenu(NULL, SDLWidget::mkrect(PM_PX+1,PM_PY+4,PM_VX-2,25), "PATHS FOR GAME", false),
-lEffect(NULL, SDLWidget::mkrect(PM_PX+1,PM_PY+30,PM_VX-2,20), "Changes will take effect after restarting program.", false),
+GUI_BaseMenu(GUI_PATHS, PG_Rect(PM_PX,PM_PY,PM_VX,PM_VY)),
+Board1(NULL, PG_Rect(PM_PX,PM_PY,PM_VX,PM_VY), false),
+lPathsMenu(NULL, PG_Rect(PM_PX+1,PM_PY+4,PM_VX-2,25), "PATHS FOR GAME", false),
+lEffect(NULL, PG_Rect(PM_PX+1,PM_PY+30,PM_VX-2,20), "Changes will take effect after restarting program.", false),
 
-lScriptDir(NULL, SDLWidget::mkrect(PM_PX+1,PM_PY+PM_BASE, 120,20), "Scripts:", false),
-eScriptDir(NULL, SDLWidget::mkrect(PM_PX+120,PM_PY+PM_BASE,215,20)),
-lMapDir(NULL, SDLWidget::mkrect(PM_PX+1,PM_PY+PM_BASE+20, 119,20), "Maps:", false),
-eMapDir(NULL, SDLWidget::mkrect(PM_PX+120,PM_PY+PM_BASE+20,215,20)),
-lSkinDir(NULL, SDLWidget::mkrect(PM_PX+1,PM_PY+PM_BASE+40, 119,20), "Skins:", false),
-eSkinDir(NULL, SDLWidget::mkrect(PM_PX+120,PM_PY+PM_BASE+40,215,20)),
-lSpriteDir(NULL, SDLWidget::mkrect(PM_PX+1,PM_PY+PM_BASE+60, 119,20), "Sprites:", false),
-eSpriteDir(NULL, SDLWidget::mkrect(PM_PX+120,PM_PY+PM_BASE+60,215,20)),
-lGfxDir(NULL, SDLWidget::mkrect(PM_PX+1,PM_PY+PM_BASE+80, 119,20), "Graphics:", false),
-eGfxDir(NULL, SDLWidget::mkrect(PM_PX+120,PM_PY+PM_BASE+80,215,20)),
-lGuiDir(NULL, SDLWidget::mkrect(PM_PX+1,PM_PY+PM_BASE+100, 119,20), "GUI:", false),
-eGuiDir(NULL, SDLWidget::mkrect(PM_PX+120,PM_PY+PM_BASE+100,215,20)),
-lSndDir(NULL, SDLWidget::mkrect(PM_PX+1,PM_PY+PM_BASE+120, 119,20), "Sound:", false),
-eSndDir(NULL, SDLWidget::mkrect(PM_PX+120,PM_PY+PM_BASE+120,215,20)),
+lScriptDir(NULL, PG_Rect(PM_PX+1,PM_PY+PM_BASE, 120,20), "Scripts:", false),
+eScriptDir(NULL, PG_Rect(PM_PX+120,PM_PY+PM_BASE,215,20)),
+lMapDir(NULL, PG_Rect(PM_PX+1,PM_PY+PM_BASE+20, 119,20), "Maps:", false),
+eMapDir(NULL, PG_Rect(PM_PX+120,PM_PY+PM_BASE+20,215,20)),
+lSkinDir(NULL, PG_Rect(PM_PX+1,PM_PY+PM_BASE+40, 119,20), "Skins:", false),
+eSkinDir(NULL, PG_Rect(PM_PX+120,PM_PY+PM_BASE+40,215,20)),
+lSpriteDir(NULL, PG_Rect(PM_PX+1,PM_PY+PM_BASE+60, 119,20), "Sprites:", false),
+eSpriteDir(NULL, PG_Rect(PM_PX+120,PM_PY+PM_BASE+60,215,20)),
+lGfxDir(NULL, PG_Rect(PM_PX+1,PM_PY+PM_BASE+80, 119,20), "Graphics:", false),
+eGfxDir(NULL, PG_Rect(PM_PX+120,PM_PY+PM_BASE+80,215,20)),
+lGuiDir(NULL, PG_Rect(PM_PX+1,PM_PY+PM_BASE+100, 119,20), "GUI:", false),
+eGuiDir(NULL, PG_Rect(PM_PX+120,PM_PY+PM_BASE+100,215,20)),
+lSndDir(NULL, PG_Rect(PM_PX+1,PM_PY+PM_BASE+120, 119,20), "Sound:", false),
+eSndDir(NULL, PG_Rect(PM_PX+120,PM_PY+PM_BASE+120,215,20)),
 
-bChange(NULL, 1, SDLWidget::mkrect(PM_PX+25,PM_PY+PM_BASE+150,150,25), "APPLY"),
-bCancel(NULL, 2, SDLWidget::mkrect(PM_PX+25+150+10,PM_PY+PM_BASE+150,150,25), "BACK")
+bChange(NULL, 1, PG_Rect(PM_PX+25,PM_PY+PM_BASE+150,150,25), "APPLY"),
+bCancel(NULL, 2, PG_Rect(PM_PX+25+150+10,PM_PY+PM_BASE+150,150,25), "BACK")
 {
   Default();
   
@@ -2665,19 +2665,19 @@ bCancel(NULL, 2, SDLWidget::mkrect(PM_PX+25+150+10,PM_PY+PM_BASE+150,150,25), "B
   lEffect.bgmode = 2;
   lPathsMenu.bgmode = 2;
   
-  lScriptDir.SetAlignment(SDL_TA_RIGHT); 
+  lScriptDir.SetAlignment(PG_TA_RIGHT); 
   lScriptDir.shiftx = -4;
-  lMapDir.SetAlignment(SDL_TA_RIGHT); 
+  lMapDir.SetAlignment(PG_TA_RIGHT); 
   lMapDir.shiftx = -4;
-  lSkinDir.SetAlignment(SDL_TA_RIGHT); 
+  lSkinDir.SetAlignment(PG_TA_RIGHT); 
   lSkinDir.shiftx = -4;
-  lSpriteDir.SetAlignment(SDL_TA_RIGHT); 
+  lSpriteDir.SetAlignment(PG_TA_RIGHT); 
   lSpriteDir.shiftx = -4;
-  lGfxDir.SetAlignment(SDL_TA_RIGHT); 
+  lGfxDir.SetAlignment(PG_TA_RIGHT); 
   lGfxDir.shiftx = -4;
-  lGuiDir.SetAlignment(SDL_TA_RIGHT); 
+  lGuiDir.SetAlignment(PG_TA_RIGHT); 
   lGuiDir.shiftx = -4;
-  lSndDir.SetAlignment(SDL_TA_RIGHT); 
+  lSndDir.SetAlignment(PG_TA_RIGHT); 
   lSndDir.shiftx = -4;
   
   AddChild(&Board1);
@@ -2714,7 +2714,7 @@ void GUI_PathsMenu::Default()
   eSndDir.SetText(snd_dir.string);
 }
 
-bool GUI_PathsMenu::eventButtonClick(int id, SDLWidget* widget)
+bool GUI_PathsMenu::eventButtonClick(int id, PG_Widget* widget)
 {
   switch (id) {
   case 1:
@@ -2811,9 +2811,9 @@ void GUI_PathsMenu::Hide()
 // Skin widgets
 /////////////////////////////////////////////////////////////////////////////
 
-class GUI_ButtonS : public SDLWidget {
+class GUI_ButtonS : public PG_Widget {
 public:
-  GUI_ButtonS(SDLWidget* parent, int btnid, SDL_Rect& r);
+  GUI_ButtonS(PG_Widget* parent, int btnid, SDL_Rect& r);
   
   void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
   bool eventMouseButtonDown(const SDL_MouseButtonEvent* button);
@@ -2826,8 +2826,8 @@ public:
   int id;
 };
 
-GUI_ButtonS::GUI_ButtonS(SDLWidget* parent, int btnid, SDL_Rect& r):
-SDLWidget(parent, r, false)
+GUI_ButtonS::GUI_ButtonS(PG_Widget* parent, int btnid, SDL_Rect& r):
+PG_Widget(parent, r, false)
 {
   //  drawbackground = true;
   SDL_Surface* background = NULL;
@@ -2869,19 +2869,19 @@ bool GUI_ButtonS::eventMouseButtonUp(const SDL_MouseButtonEvent* button){
   
   if(!IsMouseInside())
     return false;
-  SDLMessageObject::SendMessage(GetParent(), MSG_BUTTONCLICK, id, 0);
+  PG_MessageObject::SendMessage(GetParent(), MSG_BUTTONCLICK, id, 0);
   
   return true;
 }
 
 bool GUI_ButtonS::SetBackground(const char* filename, int mode){
-  background = SDL_LoadBMP(SDLApplication::GetRelativePath((char*)filename));
+  background = SDL_LoadBMP(PG_Application::GetRelativePath((char*)filename));
   return (background != NULL);
 }
 
-class GUI_SkinPic : public SDLWidget {
+class GUI_SkinPic : public PG_Widget {
 public:
-  GUI_SkinPic(SDLWidget* parent, SDL_Rect& r);
+  GUI_SkinPic(PG_Widget* parent, SDL_Rect& r);
   ~GUI_SkinPic();
   
   void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
@@ -2894,8 +2894,8 @@ public:
   void SetSkin(char* name);
 };
 
-GUI_SkinPic::GUI_SkinPic(SDLWidget* parent, SDL_Rect& r):
-SDLWidget(parent, r, false)
+GUI_SkinPic::GUI_SkinPic(PG_Widget* parent, SDL_Rect& r):
+PG_Widget(parent, r, false)
 {
   
   lName = NULL;
@@ -2985,26 +2985,26 @@ void GUI_SkinPic::SetSkin(char* ns)
 }
 
 
-class GUI_SkinCtrl : public SDLWidget {
+class GUI_SkinCtrl : public PG_Widget {
 public:
-  GUI_SkinCtrl(SDLWidget* parent, SDL_Rect& r, bool storebackground = false);
+  GUI_SkinCtrl(PG_Widget* parent, SDL_Rect& r, bool storebackground = false);
   
   void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
-  bool eventButtonClick(int id, SDLWidget* widget);
+  bool eventButtonClick(int id, PG_Widget* widget);
   
   GUI_SkinPic SkinPic;
-  SDLButton bNext;
-  SDLButton bPrev;
+  PG_Button bNext;
+  PG_Button bPrev;
   
   SDL_Color c;
   bool drawbackground;
 };
 
-GUI_SkinCtrl::GUI_SkinCtrl(SDLWidget* parent, SDL_Rect& r,  bool storebackground):
-SDLWidget(parent,r,storebackground),
-SkinPic(NULL, SDLWidget::mkrect(CP_SK_X+1, CP_SK_Y+1, 32, 32)),
-bNext(NULL, 2, SDLWidget::mkrect(CP_SK_X+17, CP_SK_Y+33, 16, 16)),
-bPrev(NULL, 1, SDLWidget::mkrect(CP_SK_X+1, CP_SK_Y+33, 16, 16))
+GUI_SkinCtrl::GUI_SkinCtrl(PG_Widget* parent, SDL_Rect& r,  bool storebackground):
+PG_Widget(parent,r,storebackground),
+SkinPic(NULL, PG_Rect(CP_SK_X+1, CP_SK_Y+1, 32, 32)),
+bNext(NULL, 2, PG_Rect(CP_SK_X+17, CP_SK_Y+33, 16, 16)),
+bPrev(NULL, 1, PG_Rect(CP_SK_X+1, CP_SK_Y+33, 16, 16))
 {
   c = GUI_Gray64;
   drawbackground = true;
@@ -3021,15 +3021,15 @@ void GUI_SkinCtrl::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
 {
   if (drawbackground) {
     SDL_FillRect(surface, rect, SDL_MapRGB(surface->format, c.r, c.g, c.b));
-    SDLWidget::DrawBorder(surface, rect, 1, false);
+    PG_Widget::DrawBorder(surface, rect, 1, false);
   }
   else
     SDL_FillRect(surface, rect, 0);
   
-  SDLWidget::eventDraw(surface, rect);
+  PG_Widget::eventDraw(surface, rect);
 }
 
-bool GUI_SkinCtrl::eventButtonClick(int id, SDLWidget* widget)
+bool GUI_SkinCtrl::eventButtonClick(int id, PG_Widget* widget)
 {
   switch (id) {
   case 1:
@@ -3058,9 +3058,9 @@ bool GUI_SkinCtrl::eventButtonClick(int id, SDLWidget* widget)
   return true;
 }
 
-class GUI_Input : public SDLGradientWidget{
+class GUI_Input : public PG_GradientWidget{
 public:
-	GUI_Input(SDLWidget* parent, SDL_Rect& r, int iid);
+	GUI_Input(PG_Widget* parent, SDL_Rect& r, int iid);
 	~GUI_Input();
 
 	void InputBegin();
@@ -3073,7 +3073,7 @@ public:
 	void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
 	bool eventKeyDown(const SDL_KeyboardEvent* key);
 	bool eventMouseButtonDown(const SDL_MouseButtonEvent* button);
-	void eventInputFocusLost(SDLMessageObject* newfocus);
+	void eventInputFocusLost(PG_MessageObject* newfocus);
 
 	void DrawText(SDL_Surface* surface, SDL_Rect* rect);
 	char* GetDrawText();
@@ -3091,8 +3091,8 @@ public:
 	SDL_Color textcolor;
 };
 
-GUI_Input::GUI_Input(SDLWidget* parent, SDL_Rect& r, int iid) :
-SDLGradientWidget(parent,r){
+GUI_Input::GUI_Input(PG_Widget* parent, SDL_Rect& r, int iid) :
+PG_GradientWidget(parent,r){
   SetFont(TextFont);
   text[0] = 0;
 	offset_x = 0;
@@ -3117,7 +3117,7 @@ void GUI_Input::eventDraw(SDL_Surface* surface, SDL_Rect* rect){
   else
     textcolor = GUI_InputInactive;    
 
-  SDLGradientWidget::eventDraw(surface, rect);
+  PG_GradientWidget::eventDraw(surface, rect);
 
 	DrawText(surface, rect);
 	DrawBorder(surface, rect, 1, false);
@@ -3133,7 +3133,7 @@ void GUI_Input::DrawText(SDL_Surface* surface, SDL_Rect* rect){
 	// draw text
 	char* DrawText = GetDrawText();
 	if(DrawText[0] != 0){
-		SDLDrawObject::DrawText(x+offset_x,y+2, DrawText, textcolor, GetFont());
+		PG_DrawObject::DrawText(x+offset_x,y+2, DrawText, textcolor, GetFont());
 	}		
 }
 
@@ -3182,7 +3182,7 @@ bool GUI_Input::eventKeyDown(const SDL_KeyboardEvent* key){
 	}
 }
 
-void GUI_Input::eventInputFocusLost(SDLMessageObject* newfocus){
+void GUI_Input::eventInputFocusLost(PG_MessageObject* newfocus){
 	InputEnd();
 }
 
@@ -3240,40 +3240,40 @@ void GUI_CreatePlayerMenu::Return()
 #define CCSX 60
 
 GUI_CreatePlayerMenu::GUI_CreatePlayerMenu(int id, int inum):
-GUI_BaseMenu(id, mkrect(CP_PX,CP_PY,CP_VX,CP_VY)),
-Board1(NULL, SDLWidget::mkrect(CP_PX,CP_PY,CP_VX,270), false),
-CreatePlayerMenu(NULL, SDLWidget::mkrect(CP_PX+1,CP_PY+4,CP_VX-2,25), "CREATE PLAYER", false),
-lPName(NULL, SDLWidget::mkrect(CP_PX+1,CP_PY+40,180,20), "Player name:", false),
-ePName(NULL, SDLWidget::mkrect(CP_PX+10,CP_PY+60,180,20)),
-lSkin(NULL, SDLWidget::mkrect(CP_PX+1+220,CP_PY+40, 110,20), "Player skin:", false),
-eSkin(NULL, SDLWidget::mkrect(CP_PX+10+220,CP_PY+60,110,20)),
-SkinCtrl(NULL, SDLWidget::mkrect(CP_SK_X, CP_SK_Y, 34, 50), false),
-lUp(NULL, SDLWidget::mkrect(CP_INPUT_X1    ,CP_INPUT_Y1    , CCSX,20), "key up:", false),
-iUp(NULL, SDLWidget::mkrect(CP_INPUT_X1+CCSX,CP_INPUT_Y1    , 100 ,20),1),
-lDown(NULL, SDLWidget::mkrect(CP_INPUT_X1    ,CP_INPUT_Y1+20 , CCSX,20), "key down:", false),
-iDown(NULL, SDLWidget::mkrect(CP_INPUT_X1+CCSX,CP_INPUT_Y1+20 , 100 ,20),2),
-lLeft(NULL, SDLWidget::mkrect(CP_INPUT_X1    ,CP_INPUT_Y1+40 , CCSX,20), "key left:", false),
-iLeft(NULL, SDLWidget::mkrect(CP_INPUT_X1+CCSX,CP_INPUT_Y1+40 , 100 ,20),3),
-lRight(NULL, SDLWidget::mkrect(CP_INPUT_X1    ,CP_INPUT_Y1+60 , CCSX,20), "key right:", false),
-iRight(NULL, SDLWidget::mkrect(CP_INPUT_X1+CCSX,CP_INPUT_Y1+60 , 100 ,20),4),
-lFire(NULL, SDLWidget::mkrect(CP_INPUT_X1    ,CP_INPUT_Y1+80 , CCSX,20), "key fire:", false),
-iFire(NULL, SDLWidget::mkrect(CP_INPUT_X1+CCSX,CP_INPUT_Y1+80 , 100 ,20),5),
-lShield(NULL, SDLWidget::mkrect(CP_INPUT_X1    ,CP_INPUT_Y1+100, CCSX,20), "shield:", false),
-iShield(NULL, SDLWidget::mkrect(CP_INPUT_X1+CCSX,CP_INPUT_Y1+100, 100 ,20),6),
-lWarp(NULL, SDLWidget::mkrect(CP_INPUT_X1    ,CP_INPUT_Y1+120, CCSX,20), "warp:", false),
-iWarp(NULL, SDLWidget::mkrect(CP_INPUT_X1+CCSX,CP_INPUT_Y1+120, 100 ,20),7),
-lWeapon1(NULL, SDLWidget::mkrect(CP_INPUT_X2    ,CP_INPUT_Y2, CCSX,20), "pistolka:", false),
-iWeapon1(NULL, SDLWidget::mkrect(CP_INPUT_X2+CCSX,CP_INPUT_Y2, 100 ,20),8),
-lWeapon2(NULL, SDLWidget::mkrect(CP_INPUT_X2    ,CP_INPUT_Y2+20, CCSX,20), "becheromet:", false),
-iWeapon2(NULL, SDLWidget::mkrect(CP_INPUT_X2+CCSX,CP_INPUT_Y2+20, 100 ,20),9),
-lWeapon3(NULL, SDLWidget::mkrect(CP_INPUT_X2    ,CP_INPUT_Y2+40, CCSX,20), "railgun:", false),
-iWeapon3(NULL, SDLWidget::mkrect(CP_INPUT_X2+CCSX,CP_INPUT_Y2+40, 100 ,20),10),
-lWeapon4(NULL, SDLWidget::mkrect(CP_INPUT_X2    ,CP_INPUT_Y2+60, CCSX,20), "bombs:", false),
-iWeapon4(NULL, SDLWidget::mkrect(CP_INPUT_X2+CCSX,CP_INPUT_Y2+60, 100 ,20),11),
-lWeapon5(NULL, SDLWidget::mkrect(CP_INPUT_X2    ,CP_INPUT_Y2+80, CCSX,20), "grenades:", false),
-iWeapon5(NULL, SDLWidget::mkrect(CP_INPUT_X2+CCSX,CP_INPUT_Y2+80, 100 ,20),12),
-bOK(NULL, 1, SDLWidget::mkrect(CP_PX+25,CP_PY+240,150,25), "OK"),
-bCancel(NULL, 2, SDLWidget::mkrect(CP_PX+25+150+10,CP_PY+240,150,25), "BACK")
+GUI_BaseMenu(id, PG_Rect(CP_PX,CP_PY,CP_VX,CP_VY)),
+Board1(NULL, PG_Rect(CP_PX,CP_PY,CP_VX,270), false),
+CreatePlayerMenu(NULL, PG_Rect(CP_PX+1,CP_PY+4,CP_VX-2,25), "CREATE PLAYER", false),
+lPName(NULL, PG_Rect(CP_PX+1,CP_PY+40,180,20), "Player name:", false),
+ePName(NULL, PG_Rect(CP_PX+10,CP_PY+60,180,20)),
+lSkin(NULL, PG_Rect(CP_PX+1+220,CP_PY+40, 110,20), "Player skin:", false),
+eSkin(NULL, PG_Rect(CP_PX+10+220,CP_PY+60,110,20)),
+SkinCtrl(NULL, PG_Rect(CP_SK_X, CP_SK_Y, 34, 50), false),
+lUp(NULL, PG_Rect(CP_INPUT_X1    ,CP_INPUT_Y1    , CCSX,20), "key up:", false),
+iUp(NULL, PG_Rect(CP_INPUT_X1+CCSX,CP_INPUT_Y1    , 100 ,20),1),
+lDown(NULL, PG_Rect(CP_INPUT_X1    ,CP_INPUT_Y1+20 , CCSX,20), "key down:", false),
+iDown(NULL, PG_Rect(CP_INPUT_X1+CCSX,CP_INPUT_Y1+20 , 100 ,20),2),
+lLeft(NULL, PG_Rect(CP_INPUT_X1    ,CP_INPUT_Y1+40 , CCSX,20), "key left:", false),
+iLeft(NULL, PG_Rect(CP_INPUT_X1+CCSX,CP_INPUT_Y1+40 , 100 ,20),3),
+lRight(NULL, PG_Rect(CP_INPUT_X1    ,CP_INPUT_Y1+60 , CCSX,20), "key right:", false),
+iRight(NULL, PG_Rect(CP_INPUT_X1+CCSX,CP_INPUT_Y1+60 , 100 ,20),4),
+lFire(NULL, PG_Rect(CP_INPUT_X1    ,CP_INPUT_Y1+80 , CCSX,20), "key fire:", false),
+iFire(NULL, PG_Rect(CP_INPUT_X1+CCSX,CP_INPUT_Y1+80 , 100 ,20),5),
+lShield(NULL, PG_Rect(CP_INPUT_X1    ,CP_INPUT_Y1+100, CCSX,20), "shield:", false),
+iShield(NULL, PG_Rect(CP_INPUT_X1+CCSX,CP_INPUT_Y1+100, 100 ,20),6),
+lWarp(NULL, PG_Rect(CP_INPUT_X1    ,CP_INPUT_Y1+120, CCSX,20), "warp:", false),
+iWarp(NULL, PG_Rect(CP_INPUT_X1+CCSX,CP_INPUT_Y1+120, 100 ,20),7),
+lWeapon1(NULL, PG_Rect(CP_INPUT_X2    ,CP_INPUT_Y2, CCSX,20), "pistolka:", false),
+iWeapon1(NULL, PG_Rect(CP_INPUT_X2+CCSX,CP_INPUT_Y2, 100 ,20),8),
+lWeapon2(NULL, PG_Rect(CP_INPUT_X2    ,CP_INPUT_Y2+20, CCSX,20), "becheromet:", false),
+iWeapon2(NULL, PG_Rect(CP_INPUT_X2+CCSX,CP_INPUT_Y2+20, 100 ,20),9),
+lWeapon3(NULL, PG_Rect(CP_INPUT_X2    ,CP_INPUT_Y2+40, CCSX,20), "railgun:", false),
+iWeapon3(NULL, PG_Rect(CP_INPUT_X2+CCSX,CP_INPUT_Y2+40, 100 ,20),10),
+lWeapon4(NULL, PG_Rect(CP_INPUT_X2    ,CP_INPUT_Y2+60, CCSX,20), "bombs:", false),
+iWeapon4(NULL, PG_Rect(CP_INPUT_X2+CCSX,CP_INPUT_Y2+60, 100 ,20),11),
+lWeapon5(NULL, PG_Rect(CP_INPUT_X2    ,CP_INPUT_Y2+80, CCSX,20), "grenades:", false),
+iWeapon5(NULL, PG_Rect(CP_INPUT_X2+CCSX,CP_INPUT_Y2+80, 100 ,20),12),
+bOK(NULL, 1, PG_Rect(CP_PX+25,CP_PY+240,150,25), "OK"),
+bCancel(NULL, 2, PG_Rect(CP_PX+25+150+10,CP_PY+240,150,25), "BACK")
 {
   num=inum;
   Default();
@@ -3286,10 +3286,10 @@ bCancel(NULL, 2, SDLWidget::mkrect(CP_PX+25+150+10,CP_PY+240,150,25), "BACK")
   
   CreatePlayerMenu.bgmode = 2;
   lPName.bgmode = 2;
-  lPName.SetAlignment(SDL_TA_LEFT); 
+  lPName.SetAlignment(PG_TA_LEFT); 
   lPName.shiftx = 4;
   lSkin.bgmode = 2;
-  lSkin.SetAlignment(SDL_TA_LEFT); 
+  lSkin.SetAlignment(PG_TA_LEFT); 
   lSkin.shiftx = 4;
 
   SkinCtrl.SkinPic.lName = &eSkin;
@@ -3301,19 +3301,19 @@ bCancel(NULL, 2, SDLWidget::mkrect(CP_PX+25+150+10,CP_PY+240,150,25), "BACK")
   }
    
   
-  lUp.SetAlignment(SDL_TA_RIGHT); 
-  lDown.SetAlignment(SDL_TA_RIGHT); 
-  lLeft.SetAlignment(SDL_TA_RIGHT); 
-  lRight.SetAlignment(SDL_TA_RIGHT); 
-  lFire.SetAlignment(SDL_TA_RIGHT); 
-  lShield.SetAlignment(SDL_TA_RIGHT); 
-  lWarp.SetAlignment(SDL_TA_RIGHT); 
+  lUp.SetAlignment(PG_TA_RIGHT); 
+  lDown.SetAlignment(PG_TA_RIGHT); 
+  lLeft.SetAlignment(PG_TA_RIGHT); 
+  lRight.SetAlignment(PG_TA_RIGHT); 
+  lFire.SetAlignment(PG_TA_RIGHT); 
+  lShield.SetAlignment(PG_TA_RIGHT); 
+  lWarp.SetAlignment(PG_TA_RIGHT); 
 
-  lWeapon1.SetAlignment(SDL_TA_RIGHT); 
-  lWeapon2.SetAlignment(SDL_TA_RIGHT); 
-  lWeapon3.SetAlignment(SDL_TA_RIGHT); 
-  lWeapon4.SetAlignment(SDL_TA_RIGHT); 
-  lWeapon5.SetAlignment(SDL_TA_RIGHT); 
+  lWeapon1.SetAlignment(PG_TA_RIGHT); 
+  lWeapon2.SetAlignment(PG_TA_RIGHT); 
+  lWeapon3.SetAlignment(PG_TA_RIGHT); 
+  lWeapon4.SetAlignment(PG_TA_RIGHT); 
+  lWeapon5.SetAlignment(PG_TA_RIGHT); 
 
   AddChild(&Board1);
   AddChild(&CreatePlayerMenu);
@@ -3358,19 +3358,19 @@ void GUI_CreatePlayerMenu::Default()
   case 1:
     ePName.SetText(p1_name.string);
 
-    iUp.SetText(SDL_GetKeyName((SDLKey)(Uint16)p1_key_up.value));
-    iDown.SetText(SDL_GetKeyName((SDLKey)(Uint16)p1_key_down.value));
-    iLeft.SetText(SDL_GetKeyName((SDLKey)(Uint16)p1_key_left.value));
-    iRight.SetText(SDL_GetKeyName((SDLKey)(Uint16)p1_key_right.value));
-    iFire.SetText(SDL_GetKeyName((SDLKey)(Uint16)p1_key_fire.value));
-    iShield.SetText(SDL_GetKeyName((SDLKey)(Uint16)p1_key_shield.value));
-    iWarp.SetText(SDL_GetKeyName((SDLKey)(Uint16)p1_key_warp.value));
+    iUp.SetText(SDL_GetKeyName((PG_Key)(Uint16)p1_key_up.value));
+    iDown.SetText(SDL_GetKeyName((PG_Key)(Uint16)p1_key_down.value));
+    iLeft.SetText(SDL_GetKeyName((PG_Key)(Uint16)p1_key_left.value));
+    iRight.SetText(SDL_GetKeyName((PG_Key)(Uint16)p1_key_right.value));
+    iFire.SetText(SDL_GetKeyName((PG_Key)(Uint16)p1_key_fire.value));
+    iShield.SetText(SDL_GetKeyName((PG_Key)(Uint16)p1_key_shield.value));
+    iWarp.SetText(SDL_GetKeyName((PG_Key)(Uint16)p1_key_warp.value));
 
-    iWeapon1.SetText(SDL_GetKeyName((SDLKey)(Uint16)p1_key_weapon1.value));
-    iWeapon2.SetText(SDL_GetKeyName((SDLKey)(Uint16)p1_key_weapon2.value));
-    iWeapon3.SetText(SDL_GetKeyName((SDLKey)(Uint16)p1_key_weapon3.value));
-    iWeapon4.SetText(SDL_GetKeyName((SDLKey)(Uint16)p1_key_weapon4.value));
-    iWeapon5.SetText(SDL_GetKeyName((SDLKey)(Uint16)p1_key_weapon5.value));
+    iWeapon1.SetText(SDL_GetKeyName((PG_Key)(Uint16)p1_key_weapon1.value));
+    iWeapon2.SetText(SDL_GetKeyName((PG_Key)(Uint16)p1_key_weapon2.value));
+    iWeapon3.SetText(SDL_GetKeyName((PG_Key)(Uint16)p1_key_weapon3.value));
+    iWeapon4.SetText(SDL_GetKeyName((PG_Key)(Uint16)p1_key_weapon4.value));
+    iWeapon5.SetText(SDL_GetKeyName((PG_Key)(Uint16)p1_key_weapon5.value));
 
     iUp.SetSym((Uint16)p1_key_up.value);
     iDown.SetSym((Uint16)p1_key_down.value);
@@ -3388,19 +3388,19 @@ void GUI_CreatePlayerMenu::Default()
     break;
   case 2:
     ePName.SetText(p2_name.string);
-    iUp.SetText(SDL_GetKeyName((SDLKey)(Uint16)p2_key_up.value));
-    iDown.SetText(SDL_GetKeyName((SDLKey)(Uint16)p2_key_down.value));
-    iLeft.SetText(SDL_GetKeyName((SDLKey)(Uint16)p2_key_left.value));
-    iRight.SetText(SDL_GetKeyName((SDLKey)(Uint16)p2_key_right.value));
-    iFire.SetText(SDL_GetKeyName((SDLKey)(Uint16)p2_key_fire.value));
-    iShield.SetText(SDL_GetKeyName((SDLKey)(Uint16)p2_key_shield.value));
-    iWarp.SetText(SDL_GetKeyName((SDLKey)(Uint16)p2_key_warp.value));
+    iUp.SetText(SDL_GetKeyName((PG_Key)(Uint16)p2_key_up.value));
+    iDown.SetText(SDL_GetKeyName((PG_Key)(Uint16)p2_key_down.value));
+    iLeft.SetText(SDL_GetKeyName((PG_Key)(Uint16)p2_key_left.value));
+    iRight.SetText(SDL_GetKeyName((PG_Key)(Uint16)p2_key_right.value));
+    iFire.SetText(SDL_GetKeyName((PG_Key)(Uint16)p2_key_fire.value));
+    iShield.SetText(SDL_GetKeyName((PG_Key)(Uint16)p2_key_shield.value));
+    iWarp.SetText(SDL_GetKeyName((PG_Key)(Uint16)p2_key_warp.value));
 
-    iWeapon1.SetText(SDL_GetKeyName((SDLKey)(Uint16)p2_key_weapon1.value));
-    iWeapon2.SetText(SDL_GetKeyName((SDLKey)(Uint16)p2_key_weapon2.value));
-    iWeapon3.SetText(SDL_GetKeyName((SDLKey)(Uint16)p2_key_weapon3.value));
-    iWeapon4.SetText(SDL_GetKeyName((SDLKey)(Uint16)p2_key_weapon4.value));
-    iWeapon5.SetText(SDL_GetKeyName((SDLKey)(Uint16)p2_key_weapon5.value));
+    iWeapon1.SetText(SDL_GetKeyName((PG_Key)(Uint16)p2_key_weapon1.value));
+    iWeapon2.SetText(SDL_GetKeyName((PG_Key)(Uint16)p2_key_weapon2.value));
+    iWeapon3.SetText(SDL_GetKeyName((PG_Key)(Uint16)p2_key_weapon3.value));
+    iWeapon4.SetText(SDL_GetKeyName((PG_Key)(Uint16)p2_key_weapon4.value));
+    iWeapon5.SetText(SDL_GetKeyName((PG_Key)(Uint16)p2_key_weapon5.value));
 
     iUp.SetSym((Uint16)p2_key_up.value);
     iDown.SetSym((Uint16)p2_key_down.value);
@@ -3418,19 +3418,19 @@ void GUI_CreatePlayerMenu::Default()
     break;
   case 3:
     ePName.SetText(p3_name.string);
-    iUp.SetText(SDL_GetKeyName((SDLKey)(Uint16)p3_key_up.value));
-    iDown.SetText(SDL_GetKeyName((SDLKey)(Uint16)p3_key_down.value));
-    iLeft.SetText(SDL_GetKeyName((SDLKey)(Uint16)p3_key_left.value));
-    iRight.SetText(SDL_GetKeyName((SDLKey)(Uint16)p3_key_right.value));
-    iFire.SetText(SDL_GetKeyName((SDLKey)(Uint16)p3_key_fire.value));
-    iShield.SetText(SDL_GetKeyName((SDLKey)(Uint16)p3_key_shield.value));
-    iWarp.SetText(SDL_GetKeyName((SDLKey)(Uint16)p3_key_warp.value));
+    iUp.SetText(SDL_GetKeyName((PG_Key)(Uint16)p3_key_up.value));
+    iDown.SetText(SDL_GetKeyName((PG_Key)(Uint16)p3_key_down.value));
+    iLeft.SetText(SDL_GetKeyName((PG_Key)(Uint16)p3_key_left.value));
+    iRight.SetText(SDL_GetKeyName((PG_Key)(Uint16)p3_key_right.value));
+    iFire.SetText(SDL_GetKeyName((PG_Key)(Uint16)p3_key_fire.value));
+    iShield.SetText(SDL_GetKeyName((PG_Key)(Uint16)p3_key_shield.value));
+    iWarp.SetText(SDL_GetKeyName((PG_Key)(Uint16)p3_key_warp.value));
 
-    iWeapon1.SetText(SDL_GetKeyName((SDLKey)(Uint16)p3_key_weapon1.value));
-    iWeapon2.SetText(SDL_GetKeyName((SDLKey)(Uint16)p3_key_weapon2.value));
-    iWeapon3.SetText(SDL_GetKeyName((SDLKey)(Uint16)p3_key_weapon3.value));
-    iWeapon4.SetText(SDL_GetKeyName((SDLKey)(Uint16)p3_key_weapon4.value));
-    iWeapon5.SetText(SDL_GetKeyName((SDLKey)(Uint16)p3_key_weapon5.value));
+    iWeapon1.SetText(SDL_GetKeyName((PG_Key)(Uint16)p3_key_weapon1.value));
+    iWeapon2.SetText(SDL_GetKeyName((PG_Key)(Uint16)p3_key_weapon2.value));
+    iWeapon3.SetText(SDL_GetKeyName((PG_Key)(Uint16)p3_key_weapon3.value));
+    iWeapon4.SetText(SDL_GetKeyName((PG_Key)(Uint16)p3_key_weapon4.value));
+    iWeapon5.SetText(SDL_GetKeyName((PG_Key)(Uint16)p3_key_weapon5.value));
 
     iUp.SetSym((Uint16)p3_key_up.value);
     iDown.SetSym((Uint16)p3_key_down.value);
@@ -3448,19 +3448,19 @@ void GUI_CreatePlayerMenu::Default()
     break;
   case 4:
     ePName.SetText(p4_name.string);
-    iUp.SetText(SDL_GetKeyName((SDLKey)(Uint16)p4_key_up.value));
-    iDown.SetText(SDL_GetKeyName((SDLKey)(Uint16)p4_key_down.value));
-    iLeft.SetText(SDL_GetKeyName((SDLKey)(Uint16)p4_key_left.value));
-    iRight.SetText(SDL_GetKeyName((SDLKey)(Uint16)p4_key_right.value));
-    iFire.SetText(SDL_GetKeyName((SDLKey)(Uint16)p4_key_fire.value));
-    iShield.SetText(SDL_GetKeyName((SDLKey)(Uint16)p4_key_shield.value));
-    iWarp.SetText(SDL_GetKeyName((SDLKey)(Uint16)p4_key_warp.value));
+    iUp.SetText(SDL_GetKeyName((PG_Key)(Uint16)p4_key_up.value));
+    iDown.SetText(SDL_GetKeyName((PG_Key)(Uint16)p4_key_down.value));
+    iLeft.SetText(SDL_GetKeyName((PG_Key)(Uint16)p4_key_left.value));
+    iRight.SetText(SDL_GetKeyName((PG_Key)(Uint16)p4_key_right.value));
+    iFire.SetText(SDL_GetKeyName((PG_Key)(Uint16)p4_key_fire.value));
+    iShield.SetText(SDL_GetKeyName((PG_Key)(Uint16)p4_key_shield.value));
+    iWarp.SetText(SDL_GetKeyName((PG_Key)(Uint16)p4_key_warp.value));
 
-    iWeapon1.SetText(SDL_GetKeyName((SDLKey)(Uint16)p4_key_weapon1.value));
-    iWeapon2.SetText(SDL_GetKeyName((SDLKey)(Uint16)p4_key_weapon2.value));
-    iWeapon3.SetText(SDL_GetKeyName((SDLKey)(Uint16)p4_key_weapon3.value));
-    iWeapon4.SetText(SDL_GetKeyName((SDLKey)(Uint16)p4_key_weapon4.value));
-    iWeapon5.SetText(SDL_GetKeyName((SDLKey)(Uint16)p4_key_weapon5.value));
+    iWeapon1.SetText(SDL_GetKeyName((PG_Key)(Uint16)p4_key_weapon1.value));
+    iWeapon2.SetText(SDL_GetKeyName((PG_Key)(Uint16)p4_key_weapon2.value));
+    iWeapon3.SetText(SDL_GetKeyName((PG_Key)(Uint16)p4_key_weapon3.value));
+    iWeapon4.SetText(SDL_GetKeyName((PG_Key)(Uint16)p4_key_weapon4.value));
+    iWeapon5.SetText(SDL_GetKeyName((PG_Key)(Uint16)p4_key_weapon5.value));
 
     iUp.SetSym((Uint16)p4_key_up.value);
     iDown.SetSym((Uint16)p4_key_down.value);
@@ -3479,7 +3479,7 @@ void GUI_CreatePlayerMenu::Default()
   }
 }
 
-bool GUI_CreatePlayerMenu::eventButtonClick(int id, SDLWidget* widget)
+bool GUI_CreatePlayerMenu::eventButtonClick(int id, PG_Widget* widget)
 {
   GPlayer* p;
   CGame& g = client_info.game;
@@ -3730,7 +3730,7 @@ bool GUI_CreatePlayerMenu::eventButtonClick(int id, SDLWidget* widget)
   return true;
 }
 
-bool GUI_CreatePlayerMenu::eventNextInput(int id, SDLWidget* widget)
+bool GUI_CreatePlayerMenu::eventNextInput(int id, PG_Widget* widget)
 {
   switch (id) {
   case 1:
@@ -3782,11 +3782,11 @@ bool GUI_CreatePlayerMenu::eventMessage(MSG_MESSAGE* msg){
 	// dispatch user message
 	switch(msg->type) {
 		case MSG_BUTTONCLICK:
-			rc = eventButtonClick(msg->widget_id, (SDLWidget*)(msg->from));
+			rc = eventButtonClick(msg->widget_id, (PG_Widget*)(msg->from));
 			break;
 
     case MSG_SIGNAL:
-			rc = eventNextInput(msg->widget_id, (SDLWidget*)(msg->from));
+			rc = eventNextInput(msg->widget_id, (PG_Widget*)(msg->from));
 			break;
 		
 		default:
@@ -3918,7 +3918,7 @@ public:
   void Default();
   void Return();
   
-  bool eventButtonClick(int id, SDLWidget* widget);
+  bool eventButtonClick(int id, PG_Widget* widget);
 };
 
 void GUI_SoundMenu::Return()
@@ -3929,22 +3929,22 @@ void GUI_SoundMenu::Return()
 }
 
 GUI_SoundMenu::GUI_SoundMenu():
-GUI_BaseMenu(GUI_SOUND, mkrect(SM_PX,SM_PY,SM_VX,SM_VY)),
-Board1(NULL, SDLWidget::mkrect(SM_PX,SM_PY,SM_VX, SM_VY), false),
-lRange(NULL, SDLWidget::mkrect(SM_PX+1,SM_PY+30,SM_VX-2,20), "Enter volume in range [0-64].", false),
-SoundMenu(NULL, SDLWidget::mkrect(SM_PX+1,SM_PY+4,SM_VX-2,25), "SOUND OPTIONS", false),
-lMusicVolume(NULL, SDLWidget::mkrect(SM_PX+1,SM_PY+65, 119,20), "Music volume:", false),
-eMusicVolume(NULL, SDLWidget::mkrect(SM_PX+120,SM_PY+65,215,20), 0, 64),
-lSoundVolume(NULL, SDLWidget::mkrect(SM_PX+1,SM_PY+90, 119,20), "Sound volume:", false),
-eSoundVolume(NULL, SDLWidget::mkrect(SM_PX+120,SM_PY+90,215,20), 0, 64),
-b3ds(NULL, 3, SDLWidget::mkrect(SM_PX+25,SM_PY+120,310,25), "ENABLE/DISABLE 3D sound engine"),
-cSwap(NULL, SDLWidget::mkrect(SM_PX+25,SM_PY+147,310,CB_SIZEY), "swap left/right sound channel", true, GUI_Gray64),
-l3dDist(NULL, SDLWidget::mkrect(SM_PX+1,SM_PY+170, 119,20), "3D distance step:", false),
-e3dDist(NULL, SDLWidget::mkrect(SM_PX+120,SM_PY+170,215,20), 0, 50),
-l3dRoll(NULL, SDLWidget::mkrect(SM_PX+1,SM_PY+195, 119,20), "3D sound rollover:", false),
-e3dRoll(NULL, SDLWidget::mkrect(SM_PX+120,SM_PY+195,215,20), 0, 50),
-bSet(NULL, 1, SDLWidget::mkrect(SM_PX+25,SM_PY+225,150, 25), "APPLY"),
-bCancel(NULL, 2, SDLWidget::mkrect(SM_PX+25+150+10,SM_PY+225,150,25), "BACK")
+GUI_BaseMenu(GUI_SOUND, PG_Rect(SM_PX,SM_PY,SM_VX,SM_VY)),
+Board1(NULL, PG_Rect(SM_PX,SM_PY,SM_VX, SM_VY), false),
+lRange(NULL, PG_Rect(SM_PX+1,SM_PY+30,SM_VX-2,20), "Enter volume in range [0-64].", false),
+SoundMenu(NULL, PG_Rect(SM_PX+1,SM_PY+4,SM_VX-2,25), "SOUND OPTIONS", false),
+lMusicVolume(NULL, PG_Rect(SM_PX+1,SM_PY+65, 119,20), "Music volume:", false),
+eMusicVolume(NULL, PG_Rect(SM_PX+120,SM_PY+65,215,20), 0, 64),
+lSoundVolume(NULL, PG_Rect(SM_PX+1,SM_PY+90, 119,20), "Sound volume:", false),
+eSoundVolume(NULL, PG_Rect(SM_PX+120,SM_PY+90,215,20), 0, 64),
+b3ds(NULL, 3, PG_Rect(SM_PX+25,SM_PY+120,310,25), "ENABLE/DISABLE 3D sound engine"),
+cSwap(NULL, PG_Rect(SM_PX+25,SM_PY+147,310,CB_SIZEY), "swap left/right sound channel", true, GUI_Gray64),
+l3dDist(NULL, PG_Rect(SM_PX+1,SM_PY+170, 119,20), "3D distance step:", false),
+e3dDist(NULL, PG_Rect(SM_PX+120,SM_PY+170,215,20), 0, 50),
+l3dRoll(NULL, PG_Rect(SM_PX+1,SM_PY+195, 119,20), "3D sound rollover:", false),
+e3dRoll(NULL, PG_Rect(SM_PX+120,SM_PY+195,215,20), 0, 50),
+bSet(NULL, 1, PG_Rect(SM_PX+25,SM_PY+225,150, 25), "APPLY"),
+bCancel(NULL, 2, PG_Rect(SM_PX+25+150+10,SM_PY+225,150,25), "BACK")
 {
   Default();
   
@@ -3954,13 +3954,13 @@ bCancel(NULL, 2, SDLWidget::mkrect(SM_PX+25+150+10,SM_PY+225,150,25), "BACK")
   SoundMenu.bgmode = 2;
   
   lRange.bgmode = 2;
-  lMusicVolume.SetAlignment(SDL_TA_RIGHT); 
+  lMusicVolume.SetAlignment(PG_TA_RIGHT); 
   lMusicVolume.shiftx = -4;
-  l3dDist.SetAlignment(SDL_TA_RIGHT); 
+  l3dDist.SetAlignment(PG_TA_RIGHT); 
   l3dDist.shiftx = -4;
-  l3dRoll.SetAlignment(SDL_TA_RIGHT); 
+  l3dRoll.SetAlignment(PG_TA_RIGHT); 
   l3dRoll.shiftx = -4;
-  lSoundVolume.SetAlignment(SDL_TA_RIGHT); 
+  lSoundVolume.SetAlignment(PG_TA_RIGHT); 
   lSoundVolume.shiftx = -4;
   
   AddChild(&Board1);
@@ -4001,7 +4001,7 @@ void GUI_SoundMenu::Default()
   if (snd_swap.value) cSwap.SetPressed(); else cSwap.SetUnpressed();
 }
 
-bool GUI_SoundMenu::eventButtonClick(int id, SDLWidget* widget)
+bool GUI_SoundMenu::eventButtonClick(int id, PG_Widget* widget)
 {
   switch (id) {
   case 1:
@@ -4151,10 +4151,10 @@ public:
 #define RM_BASE 65
 
 GUI_ResultsMenu::GUI_ResultsMenu():
-GUI_BaseMenu(GUI_RESULTS, mkrect(RM_PX,RM_PY,RM_VX,RM_VY)),
-Board1(NULL, SDLWidget::mkrect(RM_PX,RM_PY,RM_VX,60), false),
-lResultsMenu(NULL, SDLWidget::mkrect(RM_PX+1,RM_PY+4,RM_VX-2,25), "RESULTS", false),
-lLabel1(NULL, SDLWidget::mkrect(RM_PX+1,RM_PY+30,RM_VX-2,20), "Press SPACE to continue.", false)
+GUI_BaseMenu(GUI_RESULTS, PG_Rect(RM_PX,RM_PY,RM_VX,RM_VY)),
+Board1(NULL, PG_Rect(RM_PX,RM_PY,RM_VX,60), false),
+lResultsMenu(NULL, PG_Rect(RM_PX+1,RM_PY+4,RM_VX-2,25), "RESULTS", false),
+lLabel1(NULL, PG_Rect(RM_PX+1,RM_PY+30,RM_VX-2,20), "Press SPACE to continue.", false)
 {
   Default();
   
@@ -4378,7 +4378,7 @@ public:
   void Hide();
   void Default();
   
-  bool eventButtonClick(int id, SDLWidget* widget);
+  bool eventButtonClick(int id, PG_Widget* widget);
 };
 
 #define HM1_LY1 12
@@ -4432,44 +4432,44 @@ public:
 
 
 GUI_Help1Menu::GUI_Help1Menu():
-GUI_BaseMenu(GUI_HELP1, mkrect(HM1_PX,HM1_PY,HM1_VX,HM1_VY)),
-Board1(NULL, SDLWidget::mkrect(HM1_PX,HM1_PY,HM1_VX,HM1_VY), false),
-mBack1(NULL, SDLWidget::mkrect(HM1_PX+1, HM1_PY+1, help1->w, help1->h), false, help1),
-Help1Menu(NULL, SDLWidget::mkrect(HM1_PX+1,HM1_PY+4,HM1_VX-2,25), "Weapons & Bonuses", false),
-lLine1a(NULL, SDLWidget::mkrect(HM1_G1_PX,HM1_G1_PY, HM1_G1_VX-2, 20), "SMALL PISTOL", false),
-lLine1b(NULL, SDLWidget::mkrect(HM1_G1_PX,HM1_G1_PY+HM1_LY1, HM1_G1_VX-2, 20), "fires small slow projectiles", false),
-lLine1c(NULL, SDLWidget::mkrect(HM1_G1_PX,HM1_G1_PY+2*HM1_LY1, HM1_G1_VX-2, 20), "bounces with shield and some kind of walls", false),
-lLine2a(NULL, SDLWidget::mkrect(HM1_G2_PX,HM1_G2_PY, HM1_G2_VX-2, 20), "BECHEROMET", false),
-lLine2b(NULL, SDLWidget::mkrect(HM1_G2_PX,HM1_G2_PY+HM1_LY1, HM1_G2_VX-2, 20), "fires high piercing shots in clusters", false),
-lLine2c(NULL, SDLWidget::mkrect(HM1_G2_PX,HM1_G2_PY+2*HM1_LY1, HM1_G2_VX-2, 20), "loaded by becherovka bottles", false),
-lLine3a(NULL, SDLWidget::mkrect(HM1_G3_PX,HM1_G3_PY, HM1_G3_VX-2, 20), "RAILGUN", false),
-lLine3b(NULL, SDLWidget::mkrect(HM1_G3_PX,HM1_G3_PY+HM1_LY1, HM1_G3_VX-2, 20), "after small delay for charge fires long fireline", false),
-lLine3c(NULL, SDLWidget::mkrect(HM1_G3_PX,HM1_G3_PY+2*HM1_LY1, HM1_G3_VX-2, 20), "works on basis of pressed alcohol gas", false),
-lLine4a(NULL, SDLWidget::mkrect(HM1_G4_PX,HM1_G4_PY, HM1_G4_VX-2, 20), "RAPID BOMB", false),
-lLine4b(NULL, SDLWidget::mkrect(HM1_G4_PX,HM1_G4_PY+HM1_LY1, HM1_G4_VX-2, 20), "droped bomb blows up after a period of time", false),
-lLine4c(NULL, SDLWidget::mkrect(HM1_G4_PX,HM1_G4_PY+2*HM1_LY1, HM1_G4_VX-2, 20), "chemical modification of rapid drink", false),
-lLine5a(NULL, SDLWidget::mkrect(HM1_G5_PX,HM1_G5_PY, HM1_G5_VX-2, 20), "BETON GRENADE", false),
-lLine5b(NULL, SDLWidget::mkrect(HM1_G5_PX,HM1_G5_PY+HM1_LY1, HM1_G5_VX-2, 20), "after throwed detonates when stroked", false),
-lLine5c(NULL, SDLWidget::mkrect(HM1_G5_PX,HM1_G5_PY+2*HM1_LY1, HM1_G5_VX-2, 20), "deadly modification of beton mixture", false),
-lI1a(NULL, SDLWidget::mkrect(HM1_I1_PX,HM1_I1_PY, HM1_I1_VX-2, 20), "BECHER", false),
-lI1b(NULL, SDLWidget::mkrect(HM1_I1_PX,HM1_I1_PY+HM1_LY2, HM1_I1_VX-2, 20), "80 points", false),
-lI2a(NULL, SDLWidget::mkrect(HM1_I2_PX,HM1_I2_PY, HM1_I2_VX-2, 20), "RAPID", false),
-lI2b(NULL, SDLWidget::mkrect(HM1_I2_PX,HM1_I2_PY+HM1_LY2, HM1_I2_VX-2, 20), "20 points", false),
-lI3a(NULL, SDLWidget::mkrect(HM1_I3_PX,HM1_I3_PY, HM1_I3_VX-2, 20), "GOLD", false),
-lI3b(NULL, SDLWidget::mkrect(HM1_I3_PX,HM1_I3_PY+HM1_LY2, HM1_I3_VX-2, 20), "6 points", false),
-lI4a(NULL, SDLWidget::mkrect(HM1_I4_PX,HM1_I4_PY, HM1_I4_VX-2, 20), "GOLD", false),
-lI4b(NULL, SDLWidget::mkrect(HM1_I4_PX,HM1_I4_PY+HM1_LY2, HM1_I4_VX-2, 20), "5 points", false),
-lI5a(NULL, SDLWidget::mkrect(HM1_I5_PX,HM1_I5_PY, HM1_I5_VX-2, 20), "DRINK", false),
-lI5b(NULL, SDLWidget::mkrect(HM1_I5_PX,HM1_I5_PY+HM1_LY2, HM1_I5_VX-2, 20), "11 points", false),
-lI6a(NULL, SDLWidget::mkrect(HM1_I6_PX,HM1_I6_PY, HM1_I6_VX-2, 20), "DRINK", false),
-lI6b(NULL, SDLWidget::mkrect(HM1_I6_PX,HM1_I6_PY+HM1_LY2, HM1_I6_VX-2, 20), "13 points", false),
-bPrev(NULL, 2, SDLWidget::mkrect(HM1_PX+5,HM1_PY+330,70,20), "PREV"),
-bReturn(NULL, 1, SDLWidget::mkrect(HM1_PX+(HM1_VX-100)/2,HM1_PY+330,100,20), "RETURN"),
-bNext(NULL, 3, SDLWidget::mkrect(HM1_PX+HM1_VX-5-70,HM1_PY+330,70,20), "NEXT")
+GUI_BaseMenu(GUI_HELP1, PG_Rect(HM1_PX,HM1_PY,HM1_VX,HM1_VY)),
+Board1(NULL, PG_Rect(HM1_PX,HM1_PY,HM1_VX,HM1_VY), false),
+mBack1(NULL, PG_Rect(HM1_PX+1, HM1_PY+1, help1->w, help1->h), false, help1),
+Help1Menu(NULL, PG_Rect(HM1_PX+1,HM1_PY+4,HM1_VX-2,25), "Weapons & Bonuses", false),
+lLine1a(NULL, PG_Rect(HM1_G1_PX,HM1_G1_PY, HM1_G1_VX-2, 20), "SMALL PISTOL", false),
+lLine1b(NULL, PG_Rect(HM1_G1_PX,HM1_G1_PY+HM1_LY1, HM1_G1_VX-2, 20), "fires small slow projectiles", false),
+lLine1c(NULL, PG_Rect(HM1_G1_PX,HM1_G1_PY+2*HM1_LY1, HM1_G1_VX-2, 20), "bounces with shield and some kind of walls", false),
+lLine2a(NULL, PG_Rect(HM1_G2_PX,HM1_G2_PY, HM1_G2_VX-2, 20), "BECHEROMET", false),
+lLine2b(NULL, PG_Rect(HM1_G2_PX,HM1_G2_PY+HM1_LY1, HM1_G2_VX-2, 20), "fires high piercing shots in clusters", false),
+lLine2c(NULL, PG_Rect(HM1_G2_PX,HM1_G2_PY+2*HM1_LY1, HM1_G2_VX-2, 20), "loaded by becherovka bottles", false),
+lLine3a(NULL, PG_Rect(HM1_G3_PX,HM1_G3_PY, HM1_G3_VX-2, 20), "RAILGUN", false),
+lLine3b(NULL, PG_Rect(HM1_G3_PX,HM1_G3_PY+HM1_LY1, HM1_G3_VX-2, 20), "after small delay for charge fires long fireline", false),
+lLine3c(NULL, PG_Rect(HM1_G3_PX,HM1_G3_PY+2*HM1_LY1, HM1_G3_VX-2, 20), "works on basis of pressed alcohol gas", false),
+lLine4a(NULL, PG_Rect(HM1_G4_PX,HM1_G4_PY, HM1_G4_VX-2, 20), "RAPID BOMB", false),
+lLine4b(NULL, PG_Rect(HM1_G4_PX,HM1_G4_PY+HM1_LY1, HM1_G4_VX-2, 20), "droped bomb blows up after a period of time", false),
+lLine4c(NULL, PG_Rect(HM1_G4_PX,HM1_G4_PY+2*HM1_LY1, HM1_G4_VX-2, 20), "chemical modification of rapid drink", false),
+lLine5a(NULL, PG_Rect(HM1_G5_PX,HM1_G5_PY, HM1_G5_VX-2, 20), "BETON GRENADE", false),
+lLine5b(NULL, PG_Rect(HM1_G5_PX,HM1_G5_PY+HM1_LY1, HM1_G5_VX-2, 20), "after throwed detonates when stroked", false),
+lLine5c(NULL, PG_Rect(HM1_G5_PX,HM1_G5_PY+2*HM1_LY1, HM1_G5_VX-2, 20), "deadly modification of beton mixture", false),
+lI1a(NULL, PG_Rect(HM1_I1_PX,HM1_I1_PY, HM1_I1_VX-2, 20), "BECHER", false),
+lI1b(NULL, PG_Rect(HM1_I1_PX,HM1_I1_PY+HM1_LY2, HM1_I1_VX-2, 20), "80 points", false),
+lI2a(NULL, PG_Rect(HM1_I2_PX,HM1_I2_PY, HM1_I2_VX-2, 20), "RAPID", false),
+lI2b(NULL, PG_Rect(HM1_I2_PX,HM1_I2_PY+HM1_LY2, HM1_I2_VX-2, 20), "20 points", false),
+lI3a(NULL, PG_Rect(HM1_I3_PX,HM1_I3_PY, HM1_I3_VX-2, 20), "GOLD", false),
+lI3b(NULL, PG_Rect(HM1_I3_PX,HM1_I3_PY+HM1_LY2, HM1_I3_VX-2, 20), "6 points", false),
+lI4a(NULL, PG_Rect(HM1_I4_PX,HM1_I4_PY, HM1_I4_VX-2, 20), "GOLD", false),
+lI4b(NULL, PG_Rect(HM1_I4_PX,HM1_I4_PY+HM1_LY2, HM1_I4_VX-2, 20), "5 points", false),
+lI5a(NULL, PG_Rect(HM1_I5_PX,HM1_I5_PY, HM1_I5_VX-2, 20), "DRINK", false),
+lI5b(NULL, PG_Rect(HM1_I5_PX,HM1_I5_PY+HM1_LY2, HM1_I5_VX-2, 20), "11 points", false),
+lI6a(NULL, PG_Rect(HM1_I6_PX,HM1_I6_PY, HM1_I6_VX-2, 20), "DRINK", false),
+lI6b(NULL, PG_Rect(HM1_I6_PX,HM1_I6_PY+HM1_LY2, HM1_I6_VX-2, 20), "13 points", false),
+bPrev(NULL, 2, PG_Rect(HM1_PX+5,HM1_PY+330,70,20), "PREV"),
+bReturn(NULL, 1, PG_Rect(HM1_PX+(HM1_VX-100)/2,HM1_PY+330,100,20), "RETURN"),
+bNext(NULL, 3, PG_Rect(HM1_PX+HM1_VX-5-70,HM1_PY+330,70,20), "NEXT")
 {
   Default();
   
-  Help1Menu.SetAlignment(SDL_TA_CENTER); 
+  Help1Menu.SetAlignment(PG_TA_CENTER); 
   Help1Menu.SetFont(MainFont);
   
   Help1Menu.bgmode = 0;
@@ -4520,7 +4520,7 @@ void GUI_Help1Menu::Default()
 {
 }
 
-bool GUI_Help1Menu::eventButtonClick(int id, SDLWidget* widget)
+bool GUI_Help1Menu::eventButtonClick(int id, PG_Widget* widget)
 {
   switch (id) {
   case 1:
@@ -4695,7 +4695,7 @@ public:
   void Hide();
   void Default();
   
-  bool eventButtonClick(int id, SDLWidget* widget);
+  bool eventButtonClick(int id, PG_Widget* widget);
 };
 
 #define HM2_LY1 12
@@ -4791,59 +4791,59 @@ public:
 
 
 GUI_Help2Menu::GUI_Help2Menu():
-GUI_BaseMenu(GUI_HELP2, mkrect(HM2_PX,HM2_PY,HM2_VX,HM2_VY)),
-Board1(NULL, SDLWidget::mkrect(HM2_PX,HM2_PY,HM2_VX,HM2_VY), false),
-mBack1(NULL, SDLWidget::mkrect(HM2_PX+1, HM2_PY+1, help2->w, help2->h), false, help2),
-Help2Menu(NULL, SDLWidget::mkrect(HM2_PX+1,HM2_PY+4,HM2_VX-2,25), "Items & Ammo", false),
-lI1a(NULL, SDLWidget::mkrect(HM2_I1_PX,HM2_I1_PY, HM2_I1_VX-2, 20), "SPEED", false),
-lI1b(NULL, SDLWidget::mkrect(HM2_I1_PX,HM2_I1_PY+HM2_LY1, HM2_I1_VX-2, 20), "faster moving", false),
-lI2a(NULL, SDLWidget::mkrect(HM2_I2_PX,HM2_I2_PY, HM2_I2_VX-2, 20), "POWER", false),
-lI2b(NULL, SDLWidget::mkrect(HM2_I2_PX,HM2_I2_PY+HM2_LY1, HM2_I2_VX-2, 20), "full bomb power", false),
-lI3a(NULL, SDLWidget::mkrect(HM2_I3_PX,HM2_I3_PY, HM2_I3_VX-2, 20), "SHIELD", false),
-lI3b(NULL, SDLWidget::mkrect(HM2_I3_PX,HM2_I3_PY+HM2_LY1, HM2_I3_VX-2, 20), "add shields", false),
-lI4a(NULL, SDLWidget::mkrect(HM2_I4_PX,HM2_I4_PY, HM2_I4_VX-2, 20), "INVISIBILITY", false),
-lI4b(NULL, SDLWidget::mkrect(HM2_I4_PX,HM2_I4_PY+HM2_LY1, HM2_I4_VX-2, 20), "", false),
-lI5a(NULL, SDLWidget::mkrect(HM2_I5_PX,HM2_I5_PY, HM2_I5_VX-2, 20), "PUNCH", false),
-lI5b(NULL, SDLWidget::mkrect(HM2_I5_PX,HM2_I5_PY+HM2_LY1, HM2_I5_VX-2, 20), "punching bombs", false),
-lI6a(NULL, SDLWidget::mkrect(HM2_I6_PX,HM2_I6_PY, HM2_I6_VX-2, 20), "WARP", false),
-lI6b(NULL, SDLWidget::mkrect(HM2_I6_PX,HM2_I6_PY+HM2_LY1, HM2_I6_VX-2, 20), "add warps", false),
-lI7a(NULL, SDLWidget::mkrect(HM2_I7_PX,HM2_I7_PY, HM2_I7_VX-2, 20), "GLASSES", false),
-lI7b(NULL, SDLWidget::mkrect(HM2_I7_PX,HM2_I7_PY+HM2_LY1, HM2_I7_VX-2, 20), "detecting invisibles", false),
-lJ1a(NULL, SDLWidget::mkrect(HM2_J1_PX,HM2_J1_PY, HM2_J1_VX-2, 20), "BECHEROMET", false),
-lJ1b(NULL, SDLWidget::mkrect(HM2_J1_PX,HM2_J1_PY+HM2_LY2, HM2_J1_VX-2, 20), "enable weapon", false),
-lJ2a(NULL, SDLWidget::mkrect(HM2_J2_PX,HM2_J2_PY, HM2_J2_VX-2, 20), "RAILGUN", false),
-lJ2b(NULL, SDLWidget::mkrect(HM2_J2_PX,HM2_J2_PY+HM2_LY2, HM2_J2_VX-2, 20), "enable weapon", false),
-lJ3a(NULL, SDLWidget::mkrect(HM2_J3_PX,HM2_J3_PY, HM2_J3_VX-2, 20), "BOMB", false),
-lJ3b(NULL, SDLWidget::mkrect(HM2_J3_PX,HM2_J3_PY+HM2_LY2, HM2_J3_VX-2, 20), "enable weapon", false),
-lJ4a(NULL, SDLWidget::mkrect(HM2_J4_PX,HM2_J4_PY, HM2_J4_VX-2, 20), "GRENADE", false),
-lJ4b(NULL, SDLWidget::mkrect(HM2_J4_PX,HM2_J4_PY+HM2_LY2, HM2_J4_VX-2, 20), "enable weapon", false),
-lJ5a(NULL, SDLWidget::mkrect(HM2_J5_PX,HM2_J5_PY, HM2_J5_VX-2, 20), "AMMO", false),
-lJ5b(NULL, SDLWidget::mkrect(HM2_J5_PX,HM2_J5_PY+HM2_LY2, HM2_J5_VX-2, 20), "becheromet", false),
-lJ6a(NULL, SDLWidget::mkrect(HM2_J6_PX,HM2_J6_PY, HM2_J6_VX-2, 20), "AMMO", false),
-lJ6b(NULL, SDLWidget::mkrect(HM2_J6_PX,HM2_J6_PY+HM2_LY2, HM2_J6_VX-2, 20), "railgun", false),
-lJ7a(NULL, SDLWidget::mkrect(HM2_J7_PX,HM2_J7_PY, HM2_J7_VX-2, 20), "AMMO", false),
-lJ7b(NULL, SDLWidget::mkrect(HM2_J7_PX,HM2_J7_PY+HM2_LY2, HM2_J7_VX-2, 20), "bombs", false),
-lK1a(NULL, SDLWidget::mkrect(HM2_K1_PX,HM2_K1_PY, HM2_K1_VX-2, 20), "AMMO", false),
-lK1b(NULL, SDLWidget::mkrect(HM2_K1_PX,HM2_K1_PY+HM2_LY3, HM2_K1_VX-2, 20), "grenades", false),
-lK2a(NULL, SDLWidget::mkrect(HM2_K2_PX,HM2_K2_PY, HM2_K2_VX-2, 20), "TURTLE", false),
-lK2b(NULL, SDLWidget::mkrect(HM2_K2_PX,HM2_K2_PY+HM2_LY3, HM2_K2_VX-2, 20), "slower moving", false),
-lK3a(NULL, SDLWidget::mkrect(HM2_K3_PX,HM2_K3_PY, HM2_K3_VX-2, 20), "GLUE", false),
-lK3b(NULL, SDLWidget::mkrect(HM2_K3_PX,HM2_K3_PY+HM2_LY3, HM2_K3_VX-2, 20), "not able moving", false),
-lK4a(NULL, SDLWidget::mkrect(HM2_K4_PX,HM2_K4_PY, HM2_K4_VX-2, 20), "REVERSE", false),
-lK4b(NULL, SDLWidget::mkrect(HM2_K4_PX,HM2_K4_PY+HM2_LY3, HM2_K4_VX-2, 20), "reverse controls", false),
-lK5a(NULL, SDLWidget::mkrect(HM2_K5_PX,HM2_K5_PY, HM2_K5_VX-2, 20), "LOST", false),
-lK5b(NULL, SDLWidget::mkrect(HM2_K5_PX,HM2_K5_PY+HM2_LY3, HM2_K5_VX-2, 20), "disable weapons", false),
-lK6a(NULL, SDLWidget::mkrect(HM2_K6_PX,HM2_K6_PY, HM2_K6_VX-2, 20), "BERSERK", false),
-lK6b(NULL, SDLWidget::mkrect(HM2_K6_PX,HM2_K6_PY+HM2_LY3, HM2_K6_VX-2, 20), "kill by touch", false),
-lK7a(NULL, SDLWidget::mkrect(HM2_K7_PX,HM2_K7_PY, HM2_K7_VX-2, 20), "", false),
-lK7b(NULL, SDLWidget::mkrect(HM2_K7_PX,HM2_K7_PY+HM2_LY3, HM2_K7_VX-2, 20), "", false),
-bPrev(NULL, 2, SDLWidget::mkrect(HM2_PX+5,HM2_PY+365,70,20), "PREV"),
-bReturn(NULL, 1, SDLWidget::mkrect(HM2_PX+(HM2_VX-100)/2,HM2_PY+365,100,20), "RETURN"),
-bNext(NULL, 3, SDLWidget::mkrect(HM2_PX+HM2_VX-5-70,HM2_PY+365,70,20), "NEXT")
+GUI_BaseMenu(GUI_HELP2, PG_Rect(HM2_PX,HM2_PY,HM2_VX,HM2_VY)),
+Board1(NULL, PG_Rect(HM2_PX,HM2_PY,HM2_VX,HM2_VY), false),
+mBack1(NULL, PG_Rect(HM2_PX+1, HM2_PY+1, help2->w, help2->h), false, help2),
+Help2Menu(NULL, PG_Rect(HM2_PX+1,HM2_PY+4,HM2_VX-2,25), "Items & Ammo", false),
+lI1a(NULL, PG_Rect(HM2_I1_PX,HM2_I1_PY, HM2_I1_VX-2, 20), "SPEED", false),
+lI1b(NULL, PG_Rect(HM2_I1_PX,HM2_I1_PY+HM2_LY1, HM2_I1_VX-2, 20), "faster moving", false),
+lI2a(NULL, PG_Rect(HM2_I2_PX,HM2_I2_PY, HM2_I2_VX-2, 20), "POWER", false),
+lI2b(NULL, PG_Rect(HM2_I2_PX,HM2_I2_PY+HM2_LY1, HM2_I2_VX-2, 20), "full bomb power", false),
+lI3a(NULL, PG_Rect(HM2_I3_PX,HM2_I3_PY, HM2_I3_VX-2, 20), "SHIELD", false),
+lI3b(NULL, PG_Rect(HM2_I3_PX,HM2_I3_PY+HM2_LY1, HM2_I3_VX-2, 20), "add shields", false),
+lI4a(NULL, PG_Rect(HM2_I4_PX,HM2_I4_PY, HM2_I4_VX-2, 20), "INVISIBILITY", false),
+lI4b(NULL, PG_Rect(HM2_I4_PX,HM2_I4_PY+HM2_LY1, HM2_I4_VX-2, 20), "", false),
+lI5a(NULL, PG_Rect(HM2_I5_PX,HM2_I5_PY, HM2_I5_VX-2, 20), "PUNCH", false),
+lI5b(NULL, PG_Rect(HM2_I5_PX,HM2_I5_PY+HM2_LY1, HM2_I5_VX-2, 20), "punching bombs", false),
+lI6a(NULL, PG_Rect(HM2_I6_PX,HM2_I6_PY, HM2_I6_VX-2, 20), "WARP", false),
+lI6b(NULL, PG_Rect(HM2_I6_PX,HM2_I6_PY+HM2_LY1, HM2_I6_VX-2, 20), "add warps", false),
+lI7a(NULL, PG_Rect(HM2_I7_PX,HM2_I7_PY, HM2_I7_VX-2, 20), "GLASSES", false),
+lI7b(NULL, PG_Rect(HM2_I7_PX,HM2_I7_PY+HM2_LY1, HM2_I7_VX-2, 20), "detecting invisibles", false),
+lJ1a(NULL, PG_Rect(HM2_J1_PX,HM2_J1_PY, HM2_J1_VX-2, 20), "BECHEROMET", false),
+lJ1b(NULL, PG_Rect(HM2_J1_PX,HM2_J1_PY+HM2_LY2, HM2_J1_VX-2, 20), "enable weapon", false),
+lJ2a(NULL, PG_Rect(HM2_J2_PX,HM2_J2_PY, HM2_J2_VX-2, 20), "RAILGUN", false),
+lJ2b(NULL, PG_Rect(HM2_J2_PX,HM2_J2_PY+HM2_LY2, HM2_J2_VX-2, 20), "enable weapon", false),
+lJ3a(NULL, PG_Rect(HM2_J3_PX,HM2_J3_PY, HM2_J3_VX-2, 20), "BOMB", false),
+lJ3b(NULL, PG_Rect(HM2_J3_PX,HM2_J3_PY+HM2_LY2, HM2_J3_VX-2, 20), "enable weapon", false),
+lJ4a(NULL, PG_Rect(HM2_J4_PX,HM2_J4_PY, HM2_J4_VX-2, 20), "GRENADE", false),
+lJ4b(NULL, PG_Rect(HM2_J4_PX,HM2_J4_PY+HM2_LY2, HM2_J4_VX-2, 20), "enable weapon", false),
+lJ5a(NULL, PG_Rect(HM2_J5_PX,HM2_J5_PY, HM2_J5_VX-2, 20), "AMMO", false),
+lJ5b(NULL, PG_Rect(HM2_J5_PX,HM2_J5_PY+HM2_LY2, HM2_J5_VX-2, 20), "becheromet", false),
+lJ6a(NULL, PG_Rect(HM2_J6_PX,HM2_J6_PY, HM2_J6_VX-2, 20), "AMMO", false),
+lJ6b(NULL, PG_Rect(HM2_J6_PX,HM2_J6_PY+HM2_LY2, HM2_J6_VX-2, 20), "railgun", false),
+lJ7a(NULL, PG_Rect(HM2_J7_PX,HM2_J7_PY, HM2_J7_VX-2, 20), "AMMO", false),
+lJ7b(NULL, PG_Rect(HM2_J7_PX,HM2_J7_PY+HM2_LY2, HM2_J7_VX-2, 20), "bombs", false),
+lK1a(NULL, PG_Rect(HM2_K1_PX,HM2_K1_PY, HM2_K1_VX-2, 20), "AMMO", false),
+lK1b(NULL, PG_Rect(HM2_K1_PX,HM2_K1_PY+HM2_LY3, HM2_K1_VX-2, 20), "grenades", false),
+lK2a(NULL, PG_Rect(HM2_K2_PX,HM2_K2_PY, HM2_K2_VX-2, 20), "TURTLE", false),
+lK2b(NULL, PG_Rect(HM2_K2_PX,HM2_K2_PY+HM2_LY3, HM2_K2_VX-2, 20), "slower moving", false),
+lK3a(NULL, PG_Rect(HM2_K3_PX,HM2_K3_PY, HM2_K3_VX-2, 20), "GLUE", false),
+lK3b(NULL, PG_Rect(HM2_K3_PX,HM2_K3_PY+HM2_LY3, HM2_K3_VX-2, 20), "not able moving", false),
+lK4a(NULL, PG_Rect(HM2_K4_PX,HM2_K4_PY, HM2_K4_VX-2, 20), "REVERSE", false),
+lK4b(NULL, PG_Rect(HM2_K4_PX,HM2_K4_PY+HM2_LY3, HM2_K4_VX-2, 20), "reverse controls", false),
+lK5a(NULL, PG_Rect(HM2_K5_PX,HM2_K5_PY, HM2_K5_VX-2, 20), "LOST", false),
+lK5b(NULL, PG_Rect(HM2_K5_PX,HM2_K5_PY+HM2_LY3, HM2_K5_VX-2, 20), "disable weapons", false),
+lK6a(NULL, PG_Rect(HM2_K6_PX,HM2_K6_PY, HM2_K6_VX-2, 20), "BERSERK", false),
+lK6b(NULL, PG_Rect(HM2_K6_PX,HM2_K6_PY+HM2_LY3, HM2_K6_VX-2, 20), "kill by touch", false),
+lK7a(NULL, PG_Rect(HM2_K7_PX,HM2_K7_PY, HM2_K7_VX-2, 20), "", false),
+lK7b(NULL, PG_Rect(HM2_K7_PX,HM2_K7_PY+HM2_LY3, HM2_K7_VX-2, 20), "", false),
+bPrev(NULL, 2, PG_Rect(HM2_PX+5,HM2_PY+365,70,20), "PREV"),
+bReturn(NULL, 1, PG_Rect(HM2_PX+(HM2_VX-100)/2,HM2_PY+365,100,20), "RETURN"),
+bNext(NULL, 3, PG_Rect(HM2_PX+HM2_VX-5-70,HM2_PY+365,70,20), "NEXT")
 {
   Default();
   
-  Help2Menu.SetAlignment(SDL_TA_CENTER); 
+  Help2Menu.SetAlignment(PG_TA_CENTER); 
   Help2Menu.SetFont(MainFont);
   
   Help2Menu.bgmode = 0;
@@ -4906,7 +4906,7 @@ void GUI_Help2Menu::Default()
 {
 }
 
-bool GUI_Help2Menu::eventButtonClick(int id, SDLWidget* widget)
+bool GUI_Help2Menu::eventButtonClick(int id, PG_Widget* widget)
 {
   switch (id) {
   case 1:
@@ -5062,7 +5062,7 @@ public:
   void Default();
   void Return();
   
-  bool eventButtonClick(int id, SDLWidget* widget);
+  bool eventButtonClick(int id, PG_Widget* widget);
 
   GUI_LabelL* selected1;
 };
@@ -5073,14 +5073,14 @@ void GUI_DeletePlayerMenu::Return()
 }
 
 GUI_DeletePlayerMenu::GUI_DeletePlayerMenu():
-GUI_BaseMenu(GUI_DELETEPLAYER, mkrect(DPM_PX,DPM_PY,DPM_VX,DPM_VY)),
-Board1(NULL, SDLWidget::mkrect(DPM_PX,DPM_PY,DPM_VX,DPM_VY), false),
-DeletePlayerMenu(NULL, SDLWidget::mkrect(DPM_PX+1,DPM_PY+4,DPM_VX-2,25), "DELETE PLAYER", false),
-lChoose(NULL, SDLWidget::mkrect(DPM_PX+25,DPM_PY+40, 159,20), "Choose player name to delete:", false),
-Board2(NULL, SDLWidget::mkrect(DPM_PX+25+150+10, DPM_PY+39, 150, 66), false),
-WidgetList(NULL, SDLWidget::mkrect(DPM_PX+26+150+10, DPM_PY+40, 148, 64)),
-bDelete(NULL, 1, SDLWidget::mkrect(DPM_PX+25,DPM_PY+120,150,25), "DELETE"),
-bCancel(NULL, 2, SDLWidget::mkrect(DPM_PX+25+150+10,DPM_PY+120,150,25), "BACK")
+GUI_BaseMenu(GUI_DELETEPLAYER, PG_Rect(DPM_PX,DPM_PY,DPM_VX,DPM_VY)),
+Board1(NULL, PG_Rect(DPM_PX,DPM_PY,DPM_VX,DPM_VY), false),
+DeletePlayerMenu(NULL, PG_Rect(DPM_PX+1,DPM_PY+4,DPM_VX-2,25), "DELETE PLAYER", false),
+lChoose(NULL, PG_Rect(DPM_PX+25,DPM_PY+40, 159,20), "Choose player name to delete:", false),
+Board2(NULL, PG_Rect(DPM_PX+25+150+10, DPM_PY+39, 150, 66), false),
+WidgetList(NULL, PG_Rect(DPM_PX+26+150+10, DPM_PY+40, 148, 64)),
+bDelete(NULL, 1, PG_Rect(DPM_PX+25,DPM_PY+120,150,25), "DELETE"),
+bCancel(NULL, 2, PG_Rect(DPM_PX+25+150+10,DPM_PY+120,150,25), "BACK")
 {
   Default();
   
@@ -5116,7 +5116,7 @@ void GUI_DeletePlayerMenu::Default()
       if (p->brain_owner==client_info.client_num)
       {
         id++;
-		    WidgetList.AddWidget(new GUI_LabelL(NULL, SDLWidget::mkrect(0,0,150-14,16), p->player_name.GetValRef()->chars, &selected1, 0, GUI_UnselectedItem, GUI_SelectedItem));
+		    WidgetList.AddWidget(new GUI_LabelL(NULL, PG_Rect(0,0,150-14,16), p->player_name.GetValRef()->chars, &selected1, 0, GUI_UnselectedItem, GUI_SelectedItem));
       }
     }
   }
@@ -5126,7 +5126,7 @@ void GUI_DeletePlayerMenu::Default()
     selected1 = NULL;
 }
 
-bool GUI_DeletePlayerMenu::eventButtonClick(int id, SDLWidget* widget)
+bool GUI_DeletePlayerMenu::eventButtonClick(int id, PG_Widget* widget)
 {
   switch (id) {
   case 1:
@@ -5214,7 +5214,7 @@ public:
   void Default();
   void Return();
   
-  bool eventButtonClick(int id, SDLWidget* widget);
+  bool eventButtonClick(int id, PG_Widget* widget);
 };
 
 void GUI_VideoMenu::Return()
@@ -5226,22 +5226,22 @@ void GUI_VideoMenu::Return()
 }
 
 GUI_VideoMenu::GUI_VideoMenu():
-GUI_BaseMenu(GUI_VIDEO, mkrect(VM_PX,VM_PY,VM_VX,VM_VY)),
-Board1(NULL, SDLWidget::mkrect(VM_PX,VM_PY,VM_VX, VM_VY), false),
-lEffect(NULL, SDLWidget::mkrect(VM_PX+1,VM_PY+30,VM_VX-2,20), "[r] marked changes will take effect after restarting program.", false),
-VideoMenu(NULL, SDLWidget::mkrect(VM_PX+1,VM_PY+4,VM_VX-2,25), "VIDEO OPTIONS", false),
-cFullscreen(NULL, SDLWidget::mkrect(VM_PX+25,VM_PY+60,310,CB_SIZEY), "run game in fullscreen mode [r]", true, GUI_Gray64),
-cDB(NULL, SDLWidget::mkrect(VM_PX+25,VM_PY+85,310,CB_SIZEY), "double buffering mode [r]", true, GUI_Gray64),
-cGLBlit(NULL, SDLWidget::mkrect(VM_PX+25,VM_PY+110,310,CB_SIZEY), "use OpenGL for blitting [r]", true, GUI_Gray64),
-cAlphaMenu(NULL, SDLWidget::mkrect(VM_PX+25,VM_PY+135,310,CB_SIZEY), "display menu with alpha (slow!)", true, GUI_Gray64),
-lGamma_r(NULL, SDLWidget::mkrect(VM_PX+1,VM_PY+160, 119,20), "red gamma:", false),
-eGamma_r(NULL, SDLWidget::mkrect(VM_PX+120,VM_PY+160,150,20), 0, 1),
-lGamma_g(NULL, SDLWidget::mkrect(VM_PX+1,VM_PY+185, 119,20), "green gamma:", false),
-eGamma_g(NULL, SDLWidget::mkrect(VM_PX+120,VM_PY+185,150,20), 0, 1),
-lGamma_b(NULL, SDLWidget::mkrect(VM_PX+1,VM_PY+210, 119,20), "blue gamma:", false),
-eGamma_b(NULL, SDLWidget::mkrect(VM_PX+120,VM_PY+210,150,20), 0, 1),
-bSet(NULL, 1, SDLWidget::mkrect(VM_PX+25,VM_PY+240,150, 25), "APPLY"),
-bCancel(NULL, 2, SDLWidget::mkrect(VM_PX+25+150+10,VM_PY+240,150,25), "BACK")
+GUI_BaseMenu(GUI_VIDEO, PG_Rect(VM_PX,VM_PY,VM_VX,VM_VY)),
+Board1(NULL, PG_Rect(VM_PX,VM_PY,VM_VX, VM_VY), false),
+lEffect(NULL, PG_Rect(VM_PX+1,VM_PY+30,VM_VX-2,20), "[r] marked changes will take effect after restarting program.", false),
+VideoMenu(NULL, PG_Rect(VM_PX+1,VM_PY+4,VM_VX-2,25), "VIDEO OPTIONS", false),
+cFullscreen(NULL, PG_Rect(VM_PX+25,VM_PY+60,310,CB_SIZEY), "run game in fullscreen mode [r]", true, GUI_Gray64),
+cDB(NULL, PG_Rect(VM_PX+25,VM_PY+85,310,CB_SIZEY), "double buffering mode [r]", true, GUI_Gray64),
+cGLBlit(NULL, PG_Rect(VM_PX+25,VM_PY+110,310,CB_SIZEY), "use OpenGL for blitting [r]", true, GUI_Gray64),
+cAlphaMenu(NULL, PG_Rect(VM_PX+25,VM_PY+135,310,CB_SIZEY), "display menu with alpha (slow!)", true, GUI_Gray64),
+lGamma_r(NULL, PG_Rect(VM_PX+1,VM_PY+160, 119,20), "red gamma:", false),
+eGamma_r(NULL, PG_Rect(VM_PX+120,VM_PY+160,150,20), 0, 1),
+lGamma_g(NULL, PG_Rect(VM_PX+1,VM_PY+185, 119,20), "green gamma:", false),
+eGamma_g(NULL, PG_Rect(VM_PX+120,VM_PY+185,150,20), 0, 1),
+lGamma_b(NULL, PG_Rect(VM_PX+1,VM_PY+210, 119,20), "blue gamma:", false),
+eGamma_b(NULL, PG_Rect(VM_PX+120,VM_PY+210,150,20), 0, 1),
+bSet(NULL, 1, PG_Rect(VM_PX+25,VM_PY+240,150, 25), "APPLY"),
+bCancel(NULL, 2, PG_Rect(VM_PX+25+150+10,VM_PY+240,150,25), "BACK")
 {
   Default();
   
@@ -5250,11 +5250,11 @@ bCancel(NULL, 2, SDLWidget::mkrect(VM_PX+25+150+10,VM_PY+240,150,25), "BACK")
   
   VideoMenu.bgmode = 2;
 
-  lGamma_r.SetAlignment(SDL_TA_RIGHT); 
+  lGamma_r.SetAlignment(PG_TA_RIGHT); 
   lGamma_r.shiftx = -4;
-  lGamma_g.SetAlignment(SDL_TA_RIGHT); 
+  lGamma_g.SetAlignment(PG_TA_RIGHT); 
   lGamma_g.shiftx = -4;
-  lGamma_b.SetAlignment(SDL_TA_RIGHT); 
+  lGamma_b.SetAlignment(PG_TA_RIGHT); 
   lGamma_b.shiftx = -4;
   
   AddChild(&Board1);
@@ -5291,7 +5291,7 @@ void GUI_VideoMenu::Default()
   eGamma_b.SetText(s);
 }
 
-bool GUI_VideoMenu::eventButtonClick(int id, SDLWidget* widget)
+bool GUI_VideoMenu::eventButtonClick(int id, PG_Widget* widget)
 {
   switch (id) {
   case 1:
@@ -5442,7 +5442,7 @@ public:
   void Default();
   void Return();
   
-  bool eventButtonClick(int id, SDLWidget* widget);
+  bool eventButtonClick(int id, PG_Widget* widget);
 };
 
 void GUI_ServerMenu::Return()
@@ -5455,23 +5455,23 @@ void GUI_ServerMenu::Return()
 }
 
 GUI_ServerMenu::GUI_ServerMenu():
-GUI_BaseMenu(GUI_SERVER, mkrect(SMS_PX,SMS_PY,SMS_VX,SMS_VY)),
-Board1(NULL, SDLWidget::mkrect(SMS_PX,SMS_PY,SMS_VX, SMS_VY), false),
-lEffect(NULL, SDLWidget::mkrect(VM_PX+1,VM_PY+30,VM_VX-2,20), "This settings will affect the server side of the game.", false),
-ServerMenu(NULL, SDLWidget::mkrect(SMS_PX+1,SMS_PY+4,SMS_VX-2,25), "SERVER OPTIONS", false),
-lServerName(NULL, SDLWidget::mkrect(SMS_PX+1,SMS_PY+65, 119,20), "Server name:", false),
-eServerName(NULL, SDLWidget::mkrect(SMS_PX+120,SMS_PY+65,215,20)),
-lWelcomeMsg(NULL, SDLWidget::mkrect(SMS_PX+1,SMS_PY+90,119,20), "Welcome msg:", false),
-eWelcomeMsg(NULL, SDLWidget::mkrect(SMS_PX+120,SMS_PY+90,215,20)),
-lMaxClients(NULL, SDLWidget::mkrect(SMS_PX+1,SMS_PY+115,119,20), "Max clients:", false),
-eMaxClients(NULL, SDLWidget::mkrect(SMS_PX+120,SMS_PY+115,80,20), 1, PWP_TOTALMAX_CLIENTS),
-lTimelimit(NULL, SDLWidget::mkrect(SMS_PX+1,SMS_PY+140, 119,20), "timelimit:", false),
-eTimelimit(NULL, SDLWidget::mkrect(SMS_PX+120,SMS_PY+140,150,20), 20, 10000),
-cDelTmps(NULL, SDLWidget::mkrect(SMS_PX+25,SMS_PY+165,310,CB_SIZEY), "delete temporary files after transmission", false, GUI_Gray64),
-cRDRqs(NULL, SDLWidget::mkrect(SMS_PX+25,SMS_PY+190,310,CB_SIZEY), "receive download requests", false, GUI_Gray64),
-cRURqs(NULL, SDLWidget::mkrect(SMS_PX+25,SMS_PY+215,310,CB_SIZEY), "receive upload requests", false, GUI_Gray64),
-bSet(NULL, 1, SDLWidget::mkrect(SMS_PX+25,SMS_PY+240,150, 25), "APPLY"),
-bCancel(NULL, 2, SDLWidget::mkrect(SMS_PX+25+150+10,SMS_PY+240,150,25), "BACK")
+GUI_BaseMenu(GUI_SERVER, PG_Rect(SMS_PX,SMS_PY,SMS_VX,SMS_VY)),
+Board1(NULL, PG_Rect(SMS_PX,SMS_PY,SMS_VX, SMS_VY), false),
+lEffect(NULL, PG_Rect(VM_PX+1,VM_PY+30,VM_VX-2,20), "This settings will affect the server side of the game.", false),
+ServerMenu(NULL, PG_Rect(SMS_PX+1,SMS_PY+4,SMS_VX-2,25), "SERVER OPTIONS", false),
+lServerName(NULL, PG_Rect(SMS_PX+1,SMS_PY+65, 119,20), "Server name:", false),
+eServerName(NULL, PG_Rect(SMS_PX+120,SMS_PY+65,215,20)),
+lWelcomeMsg(NULL, PG_Rect(SMS_PX+1,SMS_PY+90,119,20), "Welcome msg:", false),
+eWelcomeMsg(NULL, PG_Rect(SMS_PX+120,SMS_PY+90,215,20)),
+lMaxClients(NULL, PG_Rect(SMS_PX+1,SMS_PY+115,119,20), "Max clients:", false),
+eMaxClients(NULL, PG_Rect(SMS_PX+120,SMS_PY+115,80,20), 1, PWP_TOTALMAX_CLIENTS),
+lTimelimit(NULL, PG_Rect(SMS_PX+1,SMS_PY+140, 119,20), "timelimit:", false),
+eTimelimit(NULL, PG_Rect(SMS_PX+120,SMS_PY+140,150,20), 20, 10000),
+cDelTmps(NULL, PG_Rect(SMS_PX+25,SMS_PY+165,310,CB_SIZEY), "delete temporary files after transmission", false, GUI_Gray64),
+cRDRqs(NULL, PG_Rect(SMS_PX+25,SMS_PY+190,310,CB_SIZEY), "receive download requests", false, GUI_Gray64),
+cRURqs(NULL, PG_Rect(SMS_PX+25,SMS_PY+215,310,CB_SIZEY), "receive upload requests", false, GUI_Gray64),
+bSet(NULL, 1, PG_Rect(SMS_PX+25,SMS_PY+240,150, 25), "APPLY"),
+bCancel(NULL, 2, PG_Rect(SMS_PX+25+150+10,SMS_PY+240,150,25), "BACK")
 {
   Default();
   
@@ -5479,13 +5479,13 @@ bCancel(NULL, 2, SDLWidget::mkrect(SMS_PX+25+150+10,SMS_PY+240,150,25), "BACK")
   ServerMenu.SetFont(MainFont);
   ServerMenu.bgmode = 2;
   
-  lTimelimit.SetAlignment(SDL_TA_RIGHT); 
+  lTimelimit.SetAlignment(PG_TA_RIGHT); 
   lTimelimit.shiftx = -4;
-  lWelcomeMsg.SetAlignment(SDL_TA_RIGHT); 
+  lWelcomeMsg.SetAlignment(PG_TA_RIGHT); 
   lWelcomeMsg.shiftx = -4;
-  lMaxClients.SetAlignment(SDL_TA_RIGHT); 
+  lMaxClients.SetAlignment(PG_TA_RIGHT); 
   lMaxClients.shiftx = -4;
-  lServerName.SetAlignment(SDL_TA_RIGHT);
+  lServerName.SetAlignment(PG_TA_RIGHT);
   lServerName.shiftx = -4;
 
   AddChild(&Board1);
@@ -5523,7 +5523,7 @@ void GUI_ServerMenu::Default()
 
 }
 
-bool GUI_ServerMenu::eventButtonClick(int id, SDLWidget* widget)
+bool GUI_ServerMenu::eventButtonClick(int id, PG_Widget* widget)
 {
   switch (id) {
   case 1:
@@ -5665,7 +5665,7 @@ public:
   void Default();
   void Return();
   
-  bool eventButtonClick(int id, SDLWidget* widget);
+  bool eventButtonClick(int id, PG_Widget* widget);
 };
 
 void GUI_ClientMenu::Return()
@@ -5676,19 +5676,19 @@ void GUI_ClientMenu::Return()
 }
 
 GUI_ClientMenu::GUI_ClientMenu():
-GUI_BaseMenu(GUI_CLIENT, mkrect(CMS_PX,CMS_PY,CMS_VX,CMS_VY)),
-Board1(NULL, SDLWidget::mkrect(CMS_PX,CMS_PY,CMS_VX, CMS_VY), false),
-ClientMenu(NULL, SDLWidget::mkrect(CMS_PX+1,CMS_PY+4,CMS_VX-2,25), "CLIENT OPTIONS", false),
-lEffect(NULL, SDLWidget::mkrect(CMS_PX+1,CMS_PY+30,CMS_VX-2,20), "This settings will affect the client side of the game.", false),
-lClientName(NULL, SDLWidget::mkrect(CMS_PX+1,CMS_PY+65, 119,20), "Station name:", false),
-eClientName(NULL, SDLWidget::mkrect(CMS_PX+120,CMS_PY+65,215,20)),
-lClientDesc(NULL, SDLWidget::mkrect(CMS_PX+1,CMS_PY+90, 119,20), "Station finger:", false),
-eClientDesc(NULL, SDLWidget::mkrect(CMS_PX+120,CMS_PY+90,215,20)),
-cDelTmps(NULL, SDLWidget::mkrect(CMS_PX+25,CMS_PY+115,310,CB_SIZEY), "delete temporary files after transmission", false, GUI_Gray64),
-cDRqs(NULL, SDLWidget::mkrect(CMS_PX+25,CMS_PY+140,310,CB_SIZEY), "allow download requests", false, GUI_Gray64),
-cURqs(NULL, SDLWidget::mkrect(CMS_PX+25,CMS_PY+165,310,CB_SIZEY), "allow upload requests", false, GUI_Gray64),
-bSet(NULL, 1, SDLWidget::mkrect(CMS_PX+25,CMS_PY+190,150, 25), "APPLY"),
-bCancel(NULL, 2, SDLWidget::mkrect(CMS_PX+25+150+10,CMS_PY+190,150,25), "BACK")
+GUI_BaseMenu(GUI_CLIENT, PG_Rect(CMS_PX,CMS_PY,CMS_VX,CMS_VY)),
+Board1(NULL, PG_Rect(CMS_PX,CMS_PY,CMS_VX, CMS_VY), false),
+ClientMenu(NULL, PG_Rect(CMS_PX+1,CMS_PY+4,CMS_VX-2,25), "CLIENT OPTIONS", false),
+lEffect(NULL, PG_Rect(CMS_PX+1,CMS_PY+30,CMS_VX-2,20), "This settings will affect the client side of the game.", false),
+lClientName(NULL, PG_Rect(CMS_PX+1,CMS_PY+65, 119,20), "Station name:", false),
+eClientName(NULL, PG_Rect(CMS_PX+120,CMS_PY+65,215,20)),
+lClientDesc(NULL, PG_Rect(CMS_PX+1,CMS_PY+90, 119,20), "Station finger:", false),
+eClientDesc(NULL, PG_Rect(CMS_PX+120,CMS_PY+90,215,20)),
+cDelTmps(NULL, PG_Rect(CMS_PX+25,CMS_PY+115,310,CB_SIZEY), "delete temporary files after transmission", false, GUI_Gray64),
+cDRqs(NULL, PG_Rect(CMS_PX+25,CMS_PY+140,310,CB_SIZEY), "allow download requests", false, GUI_Gray64),
+cURqs(NULL, PG_Rect(CMS_PX+25,CMS_PY+165,310,CB_SIZEY), "allow upload requests", false, GUI_Gray64),
+bSet(NULL, 1, PG_Rect(CMS_PX+25,CMS_PY+190,150, 25), "APPLY"),
+bCancel(NULL, 2, PG_Rect(CMS_PX+25+150+10,CMS_PY+190,150,25), "BACK")
 {
   Default();
   
@@ -5696,9 +5696,9 @@ bCancel(NULL, 2, SDLWidget::mkrect(CMS_PX+25+150+10,CMS_PY+190,150,25), "BACK")
   ClientMenu.SetFont(MainFont);
   ClientMenu.bgmode = 2;
   
-  lClientName.SetAlignment(SDL_TA_RIGHT); 
+  lClientName.SetAlignment(PG_TA_RIGHT); 
   lClientName.shiftx = -4;
-  lClientDesc.SetAlignment(SDL_TA_RIGHT); 
+  lClientDesc.SetAlignment(PG_TA_RIGHT); 
   lClientDesc.shiftx = -4;
 
   AddChild(&Board1);
@@ -5726,7 +5726,7 @@ void GUI_ClientMenu::Default()
 
 }
 
-bool GUI_ClientMenu::eventButtonClick(int id, SDLWidget* widget)
+bool GUI_ClientMenu::eventButtonClick(int id, PG_Widget* widget)
 {
   switch (id) {
   case 1:
@@ -5901,34 +5901,34 @@ void GUI_Show(int id)
 bool GUI_Init(SDL_Surface* s)
 {
   GUI_InitColors(s);
-  MainFont = TTF_OpenFont(SDLApplication::GetRelativePath("fonts/futuraxk.ttf"), 24);
+  MainFont = TTF_OpenFont(PG_Application::GetRelativePath("fonts/futuraxk.ttf"), 24);
   if (!MainFont)
   {
-    fprintf(stderr, "GUI: Couldn't load font %s", SDLApplication::GetRelativePath("fonts/futuraxk.ttf"));
+    fprintf(stderr, "GUI: Couldn't load font %s", PG_Application::GetRelativePath("fonts/futuraxk.ttf"));
     return false;
   }
-  MainFont2 = TTF_OpenFont(SDLApplication::GetRelativePath("fonts/futuraxk.ttf"), 28);
+  MainFont2 = TTF_OpenFont(PG_Application::GetRelativePath("fonts/futuraxk.ttf"), 28);
   if (!MainFont2)
   {
-    fprintf(stderr, "GUI: Couldn't load font %s", SDLApplication::GetRelativePath("fonts/futuraxk.ttf"));
+    fprintf(stderr, "GUI: Couldn't load font %s", PG_Application::GetRelativePath("fonts/futuraxk.ttf"));
     return false;
   }
-  TextFont = TTF_OpenFont(SDLApplication::GetRelativePath("fonts/font2.ttf"), 10);
+  TextFont = TTF_OpenFont(PG_Application::GetRelativePath("fonts/font2.ttf"), 10);
   if (!TextFont)
   {
-    fprintf(stderr, "GUI: Couldn't load font %s", SDLApplication::GetRelativePath("fonts/font2.ttf"));
+    fprintf(stderr, "GUI: Couldn't load font %s", PG_Application::GetRelativePath("fonts/font2.ttf"));
     return false;
   }
-  BtnFont = TTF_OpenFont(SDLApplication::GetRelativePath("fonts/futurab.ttf"), 12);
+  BtnFont = TTF_OpenFont(PG_Application::GetRelativePath("fonts/futurab.ttf"), 12);
   if (!BtnFont)
   {
-    fprintf(stderr, "GUI: Couldn't load font %s", SDLApplication::GetRelativePath("fonts/futurab.ttf"));
+    fprintf(stderr, "GUI: Couldn't load font %s", PG_Application::GetRelativePath("fonts/futurab.ttf"));
     return false;
   }
-  BtnFont2 = TTF_OpenFont(SDLApplication::GetRelativePath("fonts/futurab.ttf"), 14);
+  BtnFont2 = TTF_OpenFont(PG_Application::GetRelativePath("fonts/futurab.ttf"), 14);
   if (!BtnFont2)
   {
-    fprintf(stderr, "GUI: Couldn't load font %s", SDLApplication::GetRelativePath("fonts/futurab.ttf"));
+    fprintf(stderr, "GUI: Couldn't load font %s", PG_Application::GetRelativePath("fonts/futurab.ttf"));
     return false;
   }
   

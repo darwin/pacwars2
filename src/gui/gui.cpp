@@ -150,7 +150,7 @@ void GUI_InitColors(SDL_Surface* screen)
 // Board
 /////////////////////////////////////////////////////////////////////////////
 
-GUI_Board::GUI_Board(SDLWidget* parent, SDL_Rect& r,  bool storebackground, char* theme) : SDLGradientWidget(parent,r) {
+GUI_Board::GUI_Board(PG_Widget* parent, const PG_Rect& r,  bool storebackground, char* theme) : PG_GradientWidget(parent,r) {
 	if (!theme) {
 		LoadThemeStyle("GUI_Board","GradientWidget");
 	}
@@ -164,19 +164,19 @@ GUI_Board::GUI_Board(SDLWidget* parent, SDL_Rect& r,  bool storebackground, char
 // Bitmap
 /////////////////////////////////////////////////////////////////////////////
 
-GUI_Bitmap::GUI_Bitmap(SDLWidget* parent, SDL_Rect& r,  bool storebackground, SDL_Surface* s) : SDLWidget(parent,r,storebackground) {
+GUI_Bitmap::GUI_Bitmap(PG_Widget* parent, const PG_Rect& r,  bool storebackground, SDL_Surface* s) : PG_Widget(parent,r,storebackground) {
 	bitmap = s;
 }
 
-void GUI_Bitmap::eventDraw(SDL_Surface* surface, SDL_Rect* rect) {
+void GUI_Bitmap::eventDraw(SDL_Surface* surface, const PG_Rect& rect) {
 	SDL_Rect sr;
 
 	sr.x = 0;
 	sr.y = 0;
-	sr.w = MIN(rect->w, bitmap->w);
-	sr.h = MIN(rect->h, bitmap->h);
+	sr.w = MIN(rect.w, bitmap->w);
+	sr.h = MIN(rect.h, bitmap->h);
 
-	SDL_BlitSurface(bitmap, &sr, surface, rect);
+	SDL_BlitSurface(bitmap, &sr, surface, (PG_Rect*)&rect);
 }
 
 
@@ -186,15 +186,15 @@ void GUI_Bitmap::eventDraw(SDL_Surface* surface, SDL_Rect* rect) {
 /////////////////////////////////////////////////////////////////////////////
 
 
-GUI_Label::GUI_Label(SDLWidget* parent, SDL_Rect& r, char* text, bool storebackground, char* style) : SDLLabel(parent,r,text) {
+GUI_Label::GUI_Label(PG_Widget* parent, const PG_Rect& r, char* text, bool storebackground, char* style) : PG_Label(parent,r,text) {
 	SetFont(TextFont);
-	SetAlignment(SDL_TA_CENTER);
-	SDLWidget::LoadThemeStyle(style, "GUI_Label");
+	SetAlignment(PG_TA_CENTER);
+	PG_Widget::LoadThemeStyle(style, "GUI_Label");
 }
 
-GUI_LabelC::GUI_LabelC(SDLWidget* parent, SDL_Rect& r, char* text, bool storebackground) : SDLLabel(parent,r,text) {
+GUI_LabelC::GUI_LabelC(PG_Widget* parent, const PG_Rect& r, char* text, bool storebackground) : PG_Label(parent,r,text) {
 	SetFont(TextFont);
-	SetAlignment(SDL_TA_LEFT);
+	SetAlignment(PG_TA_LEFT);
 }
 
 
@@ -202,7 +202,7 @@ GUI_LabelC::GUI_LabelC(SDLWidget* parent, SDL_Rect& r, char* text, bool storebac
 // Label
 /////////////////////////////////////////////////////////////////////////////
 
-GUI_LabelL::GUI_LabelL(SDLWidget* parent, SDL_Rect& r, char* text, GUI_LabelL** iselected, CSMapInfo* si, SDL_Color ic1, SDL_Color ic2, void (*cb)(GUI_LabelL*)) : SDLLabel(parent,r,text) {
+GUI_LabelL::GUI_LabelL(PG_Widget* parent, const PG_Rect& r, char* text, GUI_LabelL** iselected, CSMapInfo* si, SDL_Color ic1, SDL_Color ic2, void (*cb)(GUI_LabelL*)) : PG_Label(parent,r,text) {
 	SetFont(TextFont);
 
 	c1 = ic1;
@@ -211,7 +211,7 @@ GUI_LabelL::GUI_LabelL(SDLWidget* parent, SDL_Rect& r, char* text, GUI_LabelL** 
 	msi = si;
 	callback = cb;
 
-	SetAlignment(SDL_TA_LEFT);
+	SetAlignment(PG_TA_LEFT);
 }
 
 bool GUI_LabelL::eventMouseButtonDown(const SDL_MouseButtonEvent* button) {
@@ -227,7 +227,7 @@ bool GUI_LabelL::eventMouseButtonDown(const SDL_MouseButtonEvent* button) {
 	return true;
 }
 
-void GUI_LabelL::eventDraw(SDL_Surface* surface, SDL_Rect* rect) {
+void GUI_LabelL::eventDraw(SDL_Surface* surface, const PG_Rect& rect) {
 
 	if (*selected==this) {
 		SetTextColor(c2);
@@ -236,14 +236,14 @@ void GUI_LabelL::eventDraw(SDL_Surface* surface, SDL_Rect* rect) {
 		SetTextColor(c1);
 	}
 
-	SDLLabel::eventDraw(surface, rect);
+	PG_Label::eventDraw(surface, rect);
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // Buttons
 /////////////////////////////////////////////////////////////////////////////
 
-GUI_Button::GUI_Button(SDLWidget* parent, int btnid, SDL_Rect& r, char* text) : SDLButton(parent,btnid,r,text) {
+GUI_Button::GUI_Button(PG_Widget* parent, int btnid, const PG_Rect& r, char* text) : PG_Button(parent,btnid,r,text) {
 	SetBorderSize(0,0,0);
 	SetTextColor(GUI_BtnTextColor);
 	c = GUI_Red100;
@@ -251,8 +251,8 @@ GUI_Button::GUI_Button(SDLWidget* parent, int btnid, SDL_Rect& r, char* text) : 
 }
 
 
-GUI_ButtonBig::GUI_ButtonBig(SDLWidget* parent, int btnid, SDL_Rect& r, char* text) : GUI_Button(parent,btnid,r,text) {
-	SDLTheme* theme = SDLApplication::GetTheme();
+GUI_ButtonBig::GUI_ButtonBig(PG_Widget* parent, int btnid, const PG_Rect& r, char* text) : GUI_Button(parent,btnid,r,text) {
+	PG_Theme* theme = PG_Application::GetTheme();
 
 	SetFont(MainFont);
 	drawbackground = true;
@@ -300,8 +300,8 @@ bool GUI_ButtonBig::eventMouseButtonUp(const SDL_MouseButtonEvent* button) {
 }
 
 
-GUI_ButtonSmall::GUI_ButtonSmall(SDLWidget* parent, int btnid, SDL_Rect& r, char* text) : GUI_Button(parent,btnid,r,text) {
-	SDLTheme* theme = SDLApplication::GetTheme();
+GUI_ButtonSmall::GUI_ButtonSmall(PG_Widget* parent, int btnid, const PG_Rect& r, char* text) : GUI_Button(parent,btnid,r,text) {
+	PG_Theme* theme = PG_Application::GetTheme();
 
 	SetFont(BtnFont);
 	drawbackground = true;
@@ -336,7 +336,7 @@ void GUI_ButtonSmall::eventMouseEnter() {
 // Checkbox
 /////////////////////////////////////////////////////////////////////////////
 
-GUI_CheckBox::GUI_CheckBox(SDLWidget* parent, SDL_Rect& r, char* text, bool ipressed, SDL_Color bg) : SDLCheckButton(parent,99, r, text) {
+GUI_CheckBox::GUI_CheckBox(PG_Widget* parent, const PG_Rect& r, char* text, bool ipressed, SDL_Color bg) : PG_CheckButton(parent,99, r, text) {
 	if (ipressed) {
 		SetPressed();
 	}
@@ -352,11 +352,11 @@ GUI_CheckBox::~GUI_CheckBox() {
 }
 
 void GUI_CheckBox::eventMouseEnter() {
-	SDLGradientWidget::eventMouseEnter();
+	PG_GradientWidget::eventMouseEnter();
 }
 
 void GUI_CheckBox::eventMouseLeave() {
-	SDLGradientWidget::eventMouseLeave();
+	PG_GradientWidget::eventMouseLeave();
 }
 
 
@@ -364,7 +364,7 @@ void GUI_CheckBox::eventMouseLeave() {
 // TextEdit
 /////////////////////////////////////////////////////////////////////////////
 
-GUI_TextEdit::GUI_TextEdit(SDLWidget* parent, SDL_Rect& r) : SDLLineEdit(parent, r) {
+GUI_TextEdit::GUI_TextEdit(PG_Widget* parent, const PG_Rect& r) : PG_LineEdit(parent, r) {
 	SetFont(TextFont);
 	LoadThemeStyle("GUI_TextEdit");
 }
@@ -373,7 +373,7 @@ GUI_TextEdit::GUI_TextEdit(SDLWidget* parent, SDL_Rect& r) : SDLLineEdit(parent,
 // NumEdit
 /////////////////////////////////////////////////////////////////////////////
 
-GUI_NumEdit::GUI_NumEdit(SDLWidget* parent, SDL_Rect& r, int imin, int imax) : GUI_TextEdit(parent, r) {
+GUI_NumEdit::GUI_NumEdit(PG_Widget* parent, const PG_Rect& r, int imin, int imax) : GUI_TextEdit(parent, r) {
 	SetFont(TextFont);
 	min = imin;
 	max = imax;
@@ -384,28 +384,11 @@ GUI_NumEdit::GUI_NumEdit(SDLWidget* parent, SDL_Rect& r, int imin, int imax) : G
 // FloatEdit
 /////////////////////////////////////////////////////////////////////////////
 
-GUI_FloatEdit::GUI_FloatEdit(SDLWidget* parent, SDL_Rect& r, float imin, float imax) : GUI_TextEdit(parent, r) {
+GUI_FloatEdit::GUI_FloatEdit(PG_Widget* parent, const PG_Rect& r, float imin, float imax) : GUI_TextEdit(parent, r) {
 	SetFont(TextFont);
 	min = imin;
 	max = imax;
 	SetValidKeys("0123456789.-");
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// Scrollbar
-/////////////////////////////////////////////////////////////////////////////
-
-GUI_ScrollBar::GUI_ScrollBar(SDLWidget* parent, int id, SDL_Rect& r, int direction) : SDLScrollBar(parent, id, r, direction) {
-}
-
-GUI_WidgetList::GUI_WidgetList(SDLWidget* parent, SDL_Rect& r) : SDLWidgetList(parent, r, "GUI_WidgetList") {
-}
-
-GUI_WidgetList::~GUI_WidgetList() {
-}
-
-void GUI_WidgetList::AddWidget(SDLWidget* w) {
-	SDLWidgetList::AddWidget(w);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -418,17 +401,17 @@ void GUI_OKDialog1::Reset(char* title, char* line1)
 	lPrompt1->SetText(line1);
 }
 
-GUI_OKDialog1::GUI_OKDialog1(char* title, char* line1, char* line2) : GUI_BaseMenu(GUI_OKDIALOG1, mkrect(OKD1_PX,OKD1_PY,OKD1_VX,OKD1_VY)){
+GUI_OKDialog1::GUI_OKDialog1(char* title, char* line1, char* line2) : GUI_BaseMenu(GUI_OKDIALOG1, PG_Rect(OKD1_PX,OKD1_PY,OKD1_VX,OKD1_VY)){
 
-	OKDialog1 = new GUI_Label(this, SDLWidget::mkrect(1,4,OKD1_VX-2,25), title, false);
-	lPrompt1 = new GUI_Label(this, SDLWidget::mkrect(1,35, OKD1_VX-2,20), line1, false);
-	bOK = new GUI_ButtonSmall(this, 1, SDLWidget::mkrect(105,65,150,25), "OK");
+	OKDialog1 = new GUI_Label(this, PG_Rect(1,4,OKD1_VX-2,25), title, false);
+	lPrompt1 = new GUI_Label(this, PG_Rect(1,35, OKD1_VX-2,20), line1, false);
+	bOK = new GUI_ButtonSmall(this, 1, PG_Rect(105,65,150,25), "OK");
 
 	Default();
   
 	OKDialog1->SetFont(MainFont);
   
-	lPrompt1->SetAlignment(SDL_TA_CENTER);
+	lPrompt1->SetAlignment(PG_TA_CENTER);
 	LoadThemeStyle("GUI_Board");
 }
 
@@ -436,7 +419,7 @@ void GUI_OKDialog1::Default()
 {
 }
 
-bool GUI_OKDialog1::eventButtonClick(int id, SDLWidget* widget)
+bool GUI_OKDialog1::eventButtonClick(int id, PG_Widget* widget)
 {
 	switch (id) {
 		case 1:
@@ -461,20 +444,19 @@ void GUI_OKDialog2::Reset(char* title, char* line1, char* line2)
   lPrompt2->SetText(line2);
 }
 
-GUI_OKDialog2::GUI_OKDialog2(char* title, char* line1, char* line2):
-GUI_BaseMenu(GUI_OKDIALOG2, mkrect(OKD2_PX,OKD2_PY,OKD2_VX,OKD2_VY)) {
+GUI_OKDialog2::GUI_OKDialog2(char* title, char* line1, char* line2) : GUI_BaseMenu(GUI_OKDIALOG2, PG_Rect(OKD2_PX,OKD2_PY,OKD2_VX,OKD2_VY)) {
 
-  OKDialog2 = new GUI_Label(this, SDLWidget::mkrect(1,4,OKD2_VX-2,25), title, false);
-  lPrompt1 = new GUI_Label(this, SDLWidget::mkrect(1,35, OKD2_VX-2,20), line1, false);
-  lPrompt2 = new GUI_Label(this, SDLWidget::mkrect(1,55, OKD2_VX-2,20), line2, false);
-  bOK = new GUI_ButtonSmall(this, 1, SDLWidget::mkrect(105,90,150,25), "OK");
+  OKDialog2 = new GUI_Label(this, PG_Rect(1,4,OKD2_VX-2,25), title, false);
+  lPrompt1 = new GUI_Label(this, PG_Rect(1,35, OKD2_VX-2,20), line1, false);
+  lPrompt2 = new GUI_Label(this, PG_Rect(1,55, OKD2_VX-2,20), line2, false);
+  bOK = new GUI_ButtonSmall(this, 1, PG_Rect(105,90,150,25), "OK");
 
   Default();
   
   OKDialog2->SetFont(MainFont);
   
-  lPrompt1->SetAlignment(SDL_TA_CENTER); 
-  lPrompt2->SetAlignment(SDL_TA_CENTER);
+  lPrompt1->SetAlignment(PG_TA_CENTER);
+  lPrompt2->SetAlignment(PG_TA_CENTER);
 
   LoadThemeStyle("GUI_Board");
 }
@@ -483,11 +465,11 @@ void GUI_OKDialog2::Default()
 {
 }
 
-bool GUI_OKDialog2::eventButtonClick(int id, SDLWidget* widget)
+bool GUI_OKDialog2::eventButtonClick(int id, PG_Widget* widget)
 {
   switch (id) {
   case 1:
-    Return(); 
+    Return();
     break;
   case 2:
     Return();
@@ -501,38 +483,38 @@ bool GUI_OKDialog2::eventButtonClick(int id, SDLWidget* widget)
 // Skin widgets
 /////////////////////////////////////////////////////////////////////////////
 
-GUI_ButtonS::GUI_ButtonS(SDLWidget* parent, int btnid, SDL_Rect& r):
-SDLWidget(parent, r, false)
+GUI_ButtonS::GUI_ButtonS(PG_Widget* parent, int btnid, const PG_Rect& r):
+PG_Widget(parent, r, false)
 {
   //  drawbackground = true;
   SDL_Surface* background = NULL;
   id = btnid;
 }
 
-void GUI_ButtonS::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
+void GUI_ButtonS::eventDraw(SDL_Surface* surface, const PG_Rect& rect)
 {
   if(background == NULL){
     return;
   }
-  
+
   SDL_Rect dstrect;
   dstrect.x = 0;
   dstrect.y = 0;
   dstrect.w = background->w;
   dstrect.h = background->h;
-  
+
   SDL_Rect srcrect;
-  srcrect.x = rect->x;
-  srcrect.y = rect->y;
+  srcrect.x = rect.x;
+  srcrect.y = rect.y;
   srcrect.w = background->w;
   srcrect.h = background->h;
-  
+
   SDL_BlitSurface(background, &srcrect, surface, &dstrect);
 }
 
 bool GUI_ButtonS::eventMouseButtonDown(const SDL_MouseButtonEvent* button){
 	SetCapture();
-  
+
 	//Redraw();
 	Update();
 	return true;
@@ -541,23 +523,23 @@ bool GUI_ButtonS::eventMouseButtonDown(const SDL_MouseButtonEvent* button){
 bool GUI_ButtonS::eventMouseButtonUp(const SDL_MouseButtonEvent* button){
   ReleaseCapture();
   Update();
-  
+
   if(!IsMouseInside())
     return false;
-  SDLMessageObject::SendMessage(GetParent(), MSG_BUTTONCLICK, id, 0);
-  
+  PG_MessageObject::SendMessage(GetParent(), MSG_BUTTONCLICK, id, 0);
+
   return true;
 }
 
 bool GUI_ButtonS::SetBackground(const char* filename, int mode){
-  background = IMG_Load(SDLApplication::GetRelativePath((char*)filename));
+  background = IMG_Load(PG_Application::GetRelativePath((char*)filename));
   return (background != NULL);
 }
 
-GUI_SkinPic::GUI_SkinPic(SDLWidget* parent, SDL_Rect& r):
-SDLWidget(parent, r, false)
+GUI_SkinPic::GUI_SkinPic(PG_Widget* parent, const PG_Rect& r):
+PG_Widget(parent, r, false)
 {
-  
+
   lName = NULL;
   sprite = NULL;
 }
@@ -567,11 +549,11 @@ GUI_SkinPic::~GUI_SkinPic()
   if (sprite) SkinMan.Unregister(sprite);
 }
 
-void GUI_SkinPic::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
+void GUI_SkinPic::eventDraw(SDL_Surface* surface, const PG_Rect& rect)
 {
   SDL_Rect sr;
   SDL_Rect dr;
-  
+
   SDL_FillRect(surface, NULL, 255);
   if (sprite)
   {
@@ -582,8 +564,8 @@ void GUI_SkinPic::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
     sr.y = 0;
     dr.w = sprite->anims[0]->w;
     dr.h = sprite->anims[0]->h;
-    dr.x = rect->x;
-    dr.y = rect->y;
+    dr.x = rect.x;
+    dr.y = rect.y;
     SDL_BlitSurface(sprite->anims[0]->gfx, &sr, surface, &dr);
   }
 }
@@ -591,18 +573,18 @@ void GUI_SkinPic::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
 bool GUI_SkinPic::NextSkin()
 {
   CSpriteInfo *curr = SkinMan.sprites;
-  
+
   while (curr && strcmp(lName->GetText(), curr->name)!=0)
   {
     curr = curr->next;
   }
-  
-  if (!curr) 
+
+  if (!curr)
   {
     SetSkin(sprite_imp.string);
     return false;
   }
-  else 
+  else
   {
     if (!curr->next) return true;
     SetSkin(curr->next->name);
@@ -615,20 +597,20 @@ bool GUI_SkinPic::PrevSkin()
   CSpriteInfo *prev1 = NULL;
   CSpriteInfo *prev2 = NULL;
   CSpriteInfo *curr = SkinMan.sprites;
-  
+
   while (curr && strcmp(lName->GetText(), curr->name)!=0)
   {
     prev2 = prev1;
     prev1 = curr;
     curr = curr->next;
   }
-  
-  if (!curr) 
+
+  if (!curr)
   {
     SetSkin(sprite_imp.string);
     return false;
   }
-  else 
+  else
   {
     if (!prev1) return true;
     SetSkin(prev1->name);
@@ -644,10 +626,10 @@ void GUI_SkinPic::SetSkin(char* ns)
   GetParent()->Redraw();
 }
 
-GUI_SkinCtrl::GUI_SkinCtrl(SDLWidget* parent, SDL_Rect& r,  bool storebackground) : SDLWidget(parent,r,storebackground) {
-	SkinPic = new GUI_SkinPic(this, SDLWidget::mkrect(1, 1, 32, 32));
-	bNext = new SDLButton(this, 2, SDLWidget::mkrect(17, 33, 16, 16));
-	bPrev = new SDLButton(this, 1, SDLWidget::mkrect(1, 33, 16, 16));
+GUI_SkinCtrl::GUI_SkinCtrl(PG_Widget* parent, const PG_Rect& r,  bool storebackground) : PG_Widget(parent,r,storebackground) {
+	SkinPic = new GUI_SkinPic(this, PG_Rect(1, 1, 32, 32));
+	bNext = new PG_Button(this, 2, PG_Rect(17, 33, 16, 16));
+	bPrev = new PG_Button(this, 1, PG_Rect(1, 33, 16, 16));
 
 	c = GUI_Gray64;
 	drawbackground = true;
@@ -656,20 +638,20 @@ GUI_SkinCtrl::GUI_SkinCtrl(SDLWidget* parent, SDL_Rect& r,  bool storebackground
 	bNext->LoadThemeStyle("GUI_NextSkinButton");
 }
 
-void GUI_SkinCtrl::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
+void GUI_SkinCtrl::eventDraw(SDL_Surface* surface, const PG_Rect& rect)
 {
 	if (drawbackground) {
-		SDL_FillRect(surface, rect, SDL_MapRGB(surface->format, c.r, c.g, c.b));
-		SDLWidget::DrawBorder(surface, rect, 1, false);
+		SDL_FillRect(surface, (PG_Rect*)&rect, SDL_MapRGB(surface->format, c.r, c.g, c.b));
+		PG_Widget::DrawBorder(rect, 1, false);
 	}
 	else {
-		SDL_FillRect(surface, rect, 0);
+		SDL_FillRect(surface, (PG_Rect*)&rect, 0);
 	}
-  
-	SDLWidget::eventDraw(surface, rect);
+
+	PG_Widget::eventDraw(surface, rect);
 }
 
-bool GUI_SkinCtrl::eventButtonClick(int id, SDLWidget* widget)
+bool GUI_SkinCtrl::eventButtonClick(int id, PG_Widget* widget)
 {
 	switch (id) {
 
@@ -698,7 +680,7 @@ bool GUI_SkinCtrl::eventButtonClick(int id, SDLWidget* widget)
 }
 
 
-GUI_Input::GUI_Input(SDLWidget* parent, SDL_Rect& r, int iid) : SDLGradientWidget(parent,r) {
+GUI_Input::GUI_Input(PG_Widget* parent, const PG_Rect& r, int iid) : PG_GradientWidget(parent,r) {
 	SetFont(TextFont);
 
 	text[0] = 0;
@@ -718,7 +700,7 @@ GUI_Input::~GUI_Input(){
 }
 
 
-void GUI_Input::eventDraw(SDL_Surface* surface, SDL_Rect* rect) {
+void GUI_Input::eventDraw(SDL_Surface* surface, const PG_Rect& rect) {
 	if (waiting) {
 		textcolor = GUI_InputActive;
 	}
@@ -726,13 +708,13 @@ void GUI_Input::eventDraw(SDL_Surface* surface, SDL_Rect* rect) {
 		textcolor = GUI_InputInactive;
 	}
 
-	SDLGradientWidget::eventDraw(surface, rect);
+	PG_GradientWidget::eventDraw(surface, rect);
 
-	DrawText(surface, rect);
-	DrawBorder(surface, rect, 1, false);
+	DrawText(surface, &rect);
+	DrawBorder(rect, 1, false);
 }
 
-void GUI_Input::DrawText(SDL_Surface* surface, SDL_Rect* rect) {
+void GUI_Input::DrawText(SDL_Surface* surface, const PG_Rect* rect) {
 	int h;
 	int x,y;
 
@@ -743,7 +725,7 @@ void GUI_Input::DrawText(SDL_Surface* surface, SDL_Rect* rect) {
 	// draw text
 	char* DrawText = GetDrawText();
 	if(DrawText[0] != 0){
-		SDLDrawObject::DrawText(x+offset_x,y+2, DrawText, textcolor, GetFont());
+		PG_DrawObject::DrawText(x+offset_x,y+2, DrawText, textcolor, GetFont());
 	}		
 }
 
@@ -793,7 +775,7 @@ bool GUI_Input::eventKeyDown(const SDL_KeyboardEvent* key){
 	}
 }
 
-void GUI_Input::eventInputFocusLost(SDLMessageObject* newfocus){
+void GUI_Input::eventInputFocusLost(PG_MessageObject* newfocus){
 	InputEnd();
 }
 
@@ -819,46 +801,46 @@ void GUI_Input::SetText(char* new_text){
 /////////////////////////////////////////////////////////////////////////////
 
 GUI_Help1Menu::GUI_Help1Menu():
-GUI_BaseMenu(GUI_HELP1, mkrect(HM1_PX,HM1_PY,HM1_VX,HM1_VY)),
-Board1(NULL, SDLWidget::mkrect(HM1_PX,HM1_PY,HM1_VX,HM1_VY), false),
-mBack1(NULL, SDLWidget::mkrect(HM1_PX+1, HM1_PY+1, help1->w, help1->h), false, help1),
-Help1Menu(NULL, SDLWidget::mkrect(HM1_PX+1,HM1_PY+4,HM1_VX-2,25), "Weapons & Bonuses", false),
-lLine1a(NULL, SDLWidget::mkrect(HM1_G1_PX,HM1_G1_PY, HM1_G1_VX-2, 20), "SMALL PISTOL", false),
-lLine1b(NULL, SDLWidget::mkrect(HM1_G1_PX,HM1_G1_PY+HM1_LY1, HM1_G1_VX-2, 20), "fires small slow projectiles", false),
-lLine1c(NULL, SDLWidget::mkrect(HM1_G1_PX,HM1_G1_PY+2*HM1_LY1, HM1_G1_VX-2, 20), "bounces with shield and some kind of walls", false),
-lLine2a(NULL, SDLWidget::mkrect(HM1_G2_PX,HM1_G2_PY, HM1_G2_VX-2, 20), "BECHEROMET", false),
-lLine2b(NULL, SDLWidget::mkrect(HM1_G2_PX,HM1_G2_PY+HM1_LY1, HM1_G2_VX-2, 20), "fires high piercing shots in clusters", false),
-lLine2c(NULL, SDLWidget::mkrect(HM1_G2_PX,HM1_G2_PY+2*HM1_LY1, HM1_G2_VX-2, 20), "loaded by becherovka bottles", false),
-lLine3a(NULL, SDLWidget::mkrect(HM1_G3_PX,HM1_G3_PY, HM1_G3_VX-2, 20), "RAILGUN", false),
-lLine3b(NULL, SDLWidget::mkrect(HM1_G3_PX,HM1_G3_PY+HM1_LY1, HM1_G3_VX-2, 20), "after small delay for charge fires long fireline", false),
-lLine3c(NULL, SDLWidget::mkrect(HM1_G3_PX,HM1_G3_PY+2*HM1_LY1, HM1_G3_VX-2, 20), "works on basis of pressed alcohol gas", false),
-lLine4a(NULL, SDLWidget::mkrect(HM1_G4_PX,HM1_G4_PY, HM1_G4_VX-2, 20), "RAPID BOMB", false),
-lLine4b(NULL, SDLWidget::mkrect(HM1_G4_PX,HM1_G4_PY+HM1_LY1, HM1_G4_VX-2, 20), "droped bomb blows up after a period of time", false),
-lLine4c(NULL, SDLWidget::mkrect(HM1_G4_PX,HM1_G4_PY+2*HM1_LY1, HM1_G4_VX-2, 20), "chemical modification of rapid drink", false),
-lLine5a(NULL, SDLWidget::mkrect(HM1_G5_PX,HM1_G5_PY, HM1_G5_VX-2, 20), "BETON GRENADE", false),
-lLine5b(NULL, SDLWidget::mkrect(HM1_G5_PX,HM1_G5_PY+HM1_LY1, HM1_G5_VX-2, 20), "after throwed detonates when stroked", false),
-lLine5c(NULL, SDLWidget::mkrect(HM1_G5_PX,HM1_G5_PY+2*HM1_LY1, HM1_G5_VX-2, 20), "deadly modification of beton mixture", false),
-lI1a(NULL, SDLWidget::mkrect(HM1_I1_PX,HM1_I1_PY, HM1_I1_VX-2, 20), "BECHER", false),
-lI1b(NULL, SDLWidget::mkrect(HM1_I1_PX,HM1_I1_PY+HM1_LY2, HM1_I1_VX-2, 20), "80 points", false),
-lI2a(NULL, SDLWidget::mkrect(HM1_I2_PX,HM1_I2_PY, HM1_I2_VX-2, 20), "RAPID", false),
-lI2b(NULL, SDLWidget::mkrect(HM1_I2_PX,HM1_I2_PY+HM1_LY2, HM1_I2_VX-2, 20), "20 points", false),
-lI3a(NULL, SDLWidget::mkrect(HM1_I3_PX,HM1_I3_PY, HM1_I3_VX-2, 20), "GOLD", false),
-lI3b(NULL, SDLWidget::mkrect(HM1_I3_PX,HM1_I3_PY+HM1_LY2, HM1_I3_VX-2, 20), "6 points", false),
-lI4a(NULL, SDLWidget::mkrect(HM1_I4_PX,HM1_I4_PY, HM1_I4_VX-2, 20), "GOLD", false),
-lI4b(NULL, SDLWidget::mkrect(HM1_I4_PX,HM1_I4_PY+HM1_LY2, HM1_I4_VX-2, 20), "5 points", false),
-lI5a(NULL, SDLWidget::mkrect(HM1_I5_PX,HM1_I5_PY, HM1_I5_VX-2, 20), "DRINK", false),
-lI5b(NULL, SDLWidget::mkrect(HM1_I5_PX,HM1_I5_PY+HM1_LY2, HM1_I5_VX-2, 20), "11 points", false),
-lI6a(NULL, SDLWidget::mkrect(HM1_I6_PX,HM1_I6_PY, HM1_I6_VX-2, 20), "DRINK", false),
-lI6b(NULL, SDLWidget::mkrect(HM1_I6_PX,HM1_I6_PY+HM1_LY2, HM1_I6_VX-2, 20), "13 points", false),
-//bPrev(NULL, 2, SDLWidget::mkrect(HM1_PX+5,HM1_PY+330,70,20), "PREV"),
-bReturn(NULL, 1, SDLWidget::mkrect(HM1_PX+(HM1_VX-100)/2,HM1_PY+330,100,20), "RETURN"),
-bNext(NULL, 3, SDLWidget::mkrect(HM1_PX+HM1_VX-5-70,HM1_PY+330,70,20), "NEXT")
+GUI_BaseMenu(GUI_HELP1, PG_Rect(HM1_PX,HM1_PY,HM1_VX,HM1_VY)),
+Board1(NULL, PG_Rect(HM1_PX,HM1_PY,HM1_VX,HM1_VY), false),
+mBack1(NULL, PG_Rect(HM1_PX+1, HM1_PY+1, help1->w, help1->h), false, help1),
+Help1Menu(NULL, PG_Rect(HM1_PX+1,HM1_PY+4,HM1_VX-2,25), "Weapons & Bonuses", false),
+lLine1a(NULL, PG_Rect(HM1_G1_PX,HM1_G1_PY, HM1_G1_VX-2, 20), "SMALL PISTOL", false),
+lLine1b(NULL, PG_Rect(HM1_G1_PX,HM1_G1_PY+HM1_LY1, HM1_G1_VX-2, 20), "fires small slow projectiles", false),
+lLine1c(NULL, PG_Rect(HM1_G1_PX,HM1_G1_PY+2*HM1_LY1, HM1_G1_VX-2, 20), "bounces with shield and some kind of walls", false),
+lLine2a(NULL, PG_Rect(HM1_G2_PX,HM1_G2_PY, HM1_G2_VX-2, 20), "BECHEROMET", false),
+lLine2b(NULL, PG_Rect(HM1_G2_PX,HM1_G2_PY+HM1_LY1, HM1_G2_VX-2, 20), "fires high piercing shots in clusters", false),
+lLine2c(NULL, PG_Rect(HM1_G2_PX,HM1_G2_PY+2*HM1_LY1, HM1_G2_VX-2, 20), "loaded by becherovka bottles", false),
+lLine3a(NULL, PG_Rect(HM1_G3_PX,HM1_G3_PY, HM1_G3_VX-2, 20), "RAILGUN", false),
+lLine3b(NULL, PG_Rect(HM1_G3_PX,HM1_G3_PY+HM1_LY1, HM1_G3_VX-2, 20), "after small delay for charge fires long fireline", false),
+lLine3c(NULL, PG_Rect(HM1_G3_PX,HM1_G3_PY+2*HM1_LY1, HM1_G3_VX-2, 20), "works on basis of pressed alcohol gas", false),
+lLine4a(NULL, PG_Rect(HM1_G4_PX,HM1_G4_PY, HM1_G4_VX-2, 20), "RAPID BOMB", false),
+lLine4b(NULL, PG_Rect(HM1_G4_PX,HM1_G4_PY+HM1_LY1, HM1_G4_VX-2, 20), "droped bomb blows up after a period of time", false),
+lLine4c(NULL, PG_Rect(HM1_G4_PX,HM1_G4_PY+2*HM1_LY1, HM1_G4_VX-2, 20), "chemical modification of rapid drink", false),
+lLine5a(NULL, PG_Rect(HM1_G5_PX,HM1_G5_PY, HM1_G5_VX-2, 20), "BETON GRENADE", false),
+lLine5b(NULL, PG_Rect(HM1_G5_PX,HM1_G5_PY+HM1_LY1, HM1_G5_VX-2, 20), "after throwed detonates when stroked", false),
+lLine5c(NULL, PG_Rect(HM1_G5_PX,HM1_G5_PY+2*HM1_LY1, HM1_G5_VX-2, 20), "deadly modification of beton mixture", false),
+lI1a(NULL, PG_Rect(HM1_I1_PX,HM1_I1_PY, HM1_I1_VX-2, 20), "BECHER", false),
+lI1b(NULL, PG_Rect(HM1_I1_PX,HM1_I1_PY+HM1_LY2, HM1_I1_VX-2, 20), "80 points", false),
+lI2a(NULL, PG_Rect(HM1_I2_PX,HM1_I2_PY, HM1_I2_VX-2, 20), "RAPID", false),
+lI2b(NULL, PG_Rect(HM1_I2_PX,HM1_I2_PY+HM1_LY2, HM1_I2_VX-2, 20), "20 points", false),
+lI3a(NULL, PG_Rect(HM1_I3_PX,HM1_I3_PY, HM1_I3_VX-2, 20), "GOLD", false),
+lI3b(NULL, PG_Rect(HM1_I3_PX,HM1_I3_PY+HM1_LY2, HM1_I3_VX-2, 20), "6 points", false),
+lI4a(NULL, PG_Rect(HM1_I4_PX,HM1_I4_PY, HM1_I4_VX-2, 20), "GOLD", false),
+lI4b(NULL, PG_Rect(HM1_I4_PX,HM1_I4_PY+HM1_LY2, HM1_I4_VX-2, 20), "5 points", false),
+lI5a(NULL, PG_Rect(HM1_I5_PX,HM1_I5_PY, HM1_I5_VX-2, 20), "DRINK", false),
+lI5b(NULL, PG_Rect(HM1_I5_PX,HM1_I5_PY+HM1_LY2, HM1_I5_VX-2, 20), "11 points", false),
+lI6a(NULL, PG_Rect(HM1_I6_PX,HM1_I6_PY, HM1_I6_VX-2, 20), "DRINK", false),
+lI6b(NULL, PG_Rect(HM1_I6_PX,HM1_I6_PY+HM1_LY2, HM1_I6_VX-2, 20), "13 points", false),
+//bPrev(NULL, 2, PG_Rect(HM1_PX+5,HM1_PY+330,70,20), "PREV"),
+bReturn(NULL, 1, PG_Rect(HM1_PX+(HM1_VX-100)/2,HM1_PY+330,100,20), "RETURN"),
+bNext(NULL, 3, PG_Rect(HM1_PX+HM1_VX-5-70,HM1_PY+330,70,20), "NEXT")
 {
   Default();
-  
-  Help1Menu.SetAlignment(SDL_TA_CENTER); 
+
+  Help1Menu.SetAlignment(PG_TA_CENTER);
   Help1Menu.SetFont(MainFont);
-  
+
   AddChild(&Help1Menu);
 
   AddChild(&lLine1a);
@@ -880,7 +862,7 @@ bNext(NULL, 3, SDLWidget::mkrect(HM1_PX+HM1_VX-5-70,HM1_PY+330,70,20), "NEXT")
   AddChild(&lLine5a);
   AddChild(&lLine5b);
   AddChild(&lLine5c);
-  
+
   AddChild(&lI1a);
   AddChild(&lI1b);
   AddChild(&lI2a);
@@ -893,7 +875,7 @@ bNext(NULL, 3, SDLWidget::mkrect(HM1_PX+HM1_VX-5-70,HM1_PY+330,70,20), "NEXT")
   AddChild(&lI5b);
   AddChild(&lI6a);
   AddChild(&lI6b);
-  
+
   AddChild(&bReturn);
   AddChild(&bNext);
   //AddChild(&bPrev);
@@ -906,7 +888,7 @@ void GUI_Help1Menu::Default()
 {
 }
 
-bool GUI_Help1Menu::eventButtonClick(int id, SDLWidget* widget)
+bool GUI_Help1Menu::eventButtonClick(int id, PG_Widget* widget)
 {
   switch (id) {
   case 1:
@@ -923,27 +905,27 @@ bool GUI_Help1Menu::eventButtonClick(int id, SDLWidget* widget)
 void GUI_Help1Menu::Show()
 {
   Clear();
-  
-  Board1.Show();  
-  mBack1.Show();  
+
+  Board1.Show();
+  mBack1.Show();
   Help1Menu.Show();
-  
+
   lLine1a.Show();
   lLine1b.Show();
   lLine1c.Show();
-  
+
   lLine2a.Show();
   lLine2b.Show();
   lLine2c.Show();
-  
+
   lLine3a.Show();
   lLine3b.Show();
   lLine3c.Show();
-  
+
   lLine4a.Show();
   lLine4b.Show();
   lLine4c.Show();
-  
+
   lLine5a.Show();
   lLine5b.Show();
   lLine5c.Show();
@@ -960,34 +942,34 @@ void GUI_Help1Menu::Show()
   lI5b.Show();
   lI6a.Show();
   lI6b.Show();
-  
-  bReturn.Show();  
-  bNext.Show();  
+
+  bReturn.Show();
+  bNext.Show();
   //bPrev.Hide();
 }
 
 void GUI_Help1Menu::Hide()
 {
-  Board1.Hide();  
-  mBack1.Hide();  
+  Board1.Hide();
+  mBack1.Hide();
   Help1Menu.Hide();
-  
+
   lLine1a.Hide();
   lLine1b.Hide();
   lLine1c.Hide();
-  
+
   lLine2a.Hide();
   lLine2b.Hide();
   lLine2c.Hide();
-  
+
   lLine3a.Hide();
   lLine3b.Hide();
   lLine3c.Hide();
-  
+
   lLine4a.Hide();
   lLine4b.Hide();
   lLine4c.Hide();
-  
+
   lLine5a.Hide();
   lLine5b.Hide();
   lLine5c.Hide();
@@ -1004,10 +986,10 @@ void GUI_Help1Menu::Hide()
   lI5b.Hide();
   lI6a.Hide();
   lI6b.Hide();
-  
-  bReturn.Hide();  
-  bNext.Hide();  
-//  bPrev.Hide();  
+
+  bReturn.Hide();
+  bNext.Hide();
+//  bPrev.Hide();
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1015,59 +997,59 @@ void GUI_Help1Menu::Hide()
 /////////////////////////////////////////////////////////////////////////////
 
 GUI_Help2Menu::GUI_Help2Menu():
-GUI_BaseMenu(GUI_HELP2, mkrect(HM2_PX,HM2_PY,HM2_VX,HM2_VY)),
-Board1(NULL, SDLWidget::mkrect(HM2_PX,HM2_PY,HM2_VX,HM2_VY), false),
-mBack1(NULL, SDLWidget::mkrect(HM2_PX+1, HM2_PY+1, help2->w, help2->h), false, help2),
-Help2Menu(NULL, SDLWidget::mkrect(HM2_PX+1,HM2_PY+4,HM2_VX-2,25), "Items & Ammo", false),
-lI1a(NULL, SDLWidget::mkrect(HM2_I1_PX,HM2_I1_PY, HM2_I1_VX-2, 20), "SPEED", false),
-lI1b(NULL, SDLWidget::mkrect(HM2_I1_PX,HM2_I1_PY+HM2_LY1, HM2_I1_VX-2, 20), "faster moving", false),
-lI2a(NULL, SDLWidget::mkrect(HM2_I2_PX,HM2_I2_PY, HM2_I2_VX-2, 20), "POWER", false),
-lI2b(NULL, SDLWidget::mkrect(HM2_I2_PX,HM2_I2_PY+HM2_LY1, HM2_I2_VX-2, 20), "full bomb power", false),
-lI3a(NULL, SDLWidget::mkrect(HM2_I3_PX,HM2_I3_PY, HM2_I3_VX-2, 20), "SHIELD", false),
-lI3b(NULL, SDLWidget::mkrect(HM2_I3_PX,HM2_I3_PY+HM2_LY1, HM2_I3_VX-2, 20), "add shields", false),
-lI4a(NULL, SDLWidget::mkrect(HM2_I4_PX,HM2_I4_PY, HM2_I4_VX-2, 20), "INVISIBILITY", false),
-lI4b(NULL, SDLWidget::mkrect(HM2_I4_PX,HM2_I4_PY+HM2_LY1, HM2_I4_VX-2, 20), "", false),
-lI5a(NULL, SDLWidget::mkrect(HM2_I5_PX,HM2_I5_PY, HM2_I5_VX-2, 20), "PUNCH", false),
-lI5b(NULL, SDLWidget::mkrect(HM2_I5_PX,HM2_I5_PY+HM2_LY1, HM2_I5_VX-2, 20), "punching bombs", false),
-lI6a(NULL, SDLWidget::mkrect(HM2_I6_PX,HM2_I6_PY, HM2_I6_VX-2, 20), "WARP", false),
-lI6b(NULL, SDLWidget::mkrect(HM2_I6_PX,HM2_I6_PY+HM2_LY1, HM2_I6_VX-2, 20), "add warps", false),
-lI7a(NULL, SDLWidget::mkrect(HM2_I7_PX,HM2_I7_PY, HM2_I7_VX-2, 20), "GLASSES", false),
-lI7b(NULL, SDLWidget::mkrect(HM2_I7_PX,HM2_I7_PY+HM2_LY1, HM2_I7_VX-2, 20), "detecting invisibles", false),
-lJ1a(NULL, SDLWidget::mkrect(HM2_J1_PX,HM2_J1_PY, HM2_J1_VX-2, 20), "BECHEROMET", false),
-lJ1b(NULL, SDLWidget::mkrect(HM2_J1_PX,HM2_J1_PY+HM2_LY2, HM2_J1_VX-2, 20), "enable weapon", false),
-lJ2a(NULL, SDLWidget::mkrect(HM2_J2_PX,HM2_J2_PY, HM2_J2_VX-2, 20), "RAILGUN", false),
-lJ2b(NULL, SDLWidget::mkrect(HM2_J2_PX,HM2_J2_PY+HM2_LY2, HM2_J2_VX-2, 20), "enable weapon", false),
-lJ3a(NULL, SDLWidget::mkrect(HM2_J3_PX,HM2_J3_PY, HM2_J3_VX-2, 20), "BOMB", false),
-lJ3b(NULL, SDLWidget::mkrect(HM2_J3_PX,HM2_J3_PY+HM2_LY2, HM2_J3_VX-2, 20), "enable weapon", false),
-lJ4a(NULL, SDLWidget::mkrect(HM2_J4_PX,HM2_J4_PY, HM2_J4_VX-2, 20), "GRENADE", false),
-lJ4b(NULL, SDLWidget::mkrect(HM2_J4_PX,HM2_J4_PY+HM2_LY2, HM2_J4_VX-2, 20), "enable weapon", false),
-lJ5a(NULL, SDLWidget::mkrect(HM2_J5_PX,HM2_J5_PY, HM2_J5_VX-2, 20), "AMMO", false),
-lJ5b(NULL, SDLWidget::mkrect(HM2_J5_PX,HM2_J5_PY+HM2_LY2, HM2_J5_VX-2, 20), "becheromet", false),
-lJ6a(NULL, SDLWidget::mkrect(HM2_J6_PX,HM2_J6_PY, HM2_J6_VX-2, 20), "AMMO", false),
-lJ6b(NULL, SDLWidget::mkrect(HM2_J6_PX,HM2_J6_PY+HM2_LY2, HM2_J6_VX-2, 20), "railgun", false),
-lJ7a(NULL, SDLWidget::mkrect(HM2_J7_PX,HM2_J7_PY, HM2_J7_VX-2, 20), "AMMO", false),
-lJ7b(NULL, SDLWidget::mkrect(HM2_J7_PX,HM2_J7_PY+HM2_LY2, HM2_J7_VX-2, 20), "bombs", false),
-lK1a(NULL, SDLWidget::mkrect(HM2_K1_PX,HM2_K1_PY, HM2_K1_VX-2, 20), "AMMO", false),
-lK1b(NULL, SDLWidget::mkrect(HM2_K1_PX,HM2_K1_PY+HM2_LY3, HM2_K1_VX-2, 20), "grenades", false),
-lK2a(NULL, SDLWidget::mkrect(HM2_K2_PX,HM2_K2_PY, HM2_K2_VX-2, 20), "TURTLE", false),
-lK2b(NULL, SDLWidget::mkrect(HM2_K2_PX,HM2_K2_PY+HM2_LY3, HM2_K2_VX-2, 20), "slower moving", false),
-lK3a(NULL, SDLWidget::mkrect(HM2_K3_PX,HM2_K3_PY, HM2_K3_VX-2, 20), "GLUE", false),
-lK3b(NULL, SDLWidget::mkrect(HM2_K3_PX,HM2_K3_PY+HM2_LY3, HM2_K3_VX-2, 20), "not able moving", false),
-lK4a(NULL, SDLWidget::mkrect(HM2_K4_PX,HM2_K4_PY, HM2_K4_VX-2, 20), "REVERSE", false),
-lK4b(NULL, SDLWidget::mkrect(HM2_K4_PX,HM2_K4_PY+HM2_LY3, HM2_K4_VX-2, 20), "reverse controls", false),
-lK5a(NULL, SDLWidget::mkrect(HM2_K5_PX,HM2_K5_PY, HM2_K5_VX-2, 20), "LOST", false),
-lK5b(NULL, SDLWidget::mkrect(HM2_K5_PX,HM2_K5_PY+HM2_LY3, HM2_K5_VX-2, 20), "disable weapons", false),
-lK6a(NULL, SDLWidget::mkrect(HM2_K6_PX,HM2_K6_PY, HM2_K6_VX-2, 20), "BERSERK", false),
-lK6b(NULL, SDLWidget::mkrect(HM2_K6_PX,HM2_K6_PY+HM2_LY3, HM2_K6_VX-2, 20), "kill by touch", false),
-lK7a(NULL, SDLWidget::mkrect(HM2_K7_PX,HM2_K7_PY, HM2_K7_VX-2, 20), " ", false),
-lK7b(NULL, SDLWidget::mkrect(HM2_K7_PX,HM2_K7_PY+HM2_LY3, HM2_K7_VX-2, 20), " ", false),
-bPrev(NULL, 2, SDLWidget::mkrect(HM2_PX+5,HM2_PY+365,70,20), "PREV"),
-bReturn(NULL, 1, SDLWidget::mkrect(HM2_PX+(HM2_VX-100)/2,HM2_PY+365,100,20), "RETURN")
-//bNext(NULL, 3, SDLWidget::mkrect(HM2_PX+HM2_VX-5-70,HM2_PY+365,70,20), "NEXT")
+GUI_BaseMenu(GUI_HELP2, PG_Rect(HM2_PX,HM2_PY,HM2_VX,HM2_VY)),
+Board1(NULL, PG_Rect(HM2_PX,HM2_PY,HM2_VX,HM2_VY), false),
+mBack1(NULL, PG_Rect(HM2_PX+1, HM2_PY+1, help2->w, help2->h), false, help2),
+Help2Menu(NULL, PG_Rect(HM2_PX+1,HM2_PY+4,HM2_VX-2,25), "Items & Ammo", false),
+lI1a(NULL, PG_Rect(HM2_I1_PX,HM2_I1_PY, HM2_I1_VX-2, 20), "SPEED", false),
+lI1b(NULL, PG_Rect(HM2_I1_PX,HM2_I1_PY+HM2_LY1, HM2_I1_VX-2, 20), "faster moving", false),
+lI2a(NULL, PG_Rect(HM2_I2_PX,HM2_I2_PY, HM2_I2_VX-2, 20), "POWER", false),
+lI2b(NULL, PG_Rect(HM2_I2_PX,HM2_I2_PY+HM2_LY1, HM2_I2_VX-2, 20), "full bomb power", false),
+lI3a(NULL, PG_Rect(HM2_I3_PX,HM2_I3_PY, HM2_I3_VX-2, 20), "SHIELD", false),
+lI3b(NULL, PG_Rect(HM2_I3_PX,HM2_I3_PY+HM2_LY1, HM2_I3_VX-2, 20), "add shields", false),
+lI4a(NULL, PG_Rect(HM2_I4_PX,HM2_I4_PY, HM2_I4_VX-2, 20), "INVISIBILITY", false),
+lI4b(NULL, PG_Rect(HM2_I4_PX,HM2_I4_PY+HM2_LY1, HM2_I4_VX-2, 20), "", false),
+lI5a(NULL, PG_Rect(HM2_I5_PX,HM2_I5_PY, HM2_I5_VX-2, 20), "PUNCH", false),
+lI5b(NULL, PG_Rect(HM2_I5_PX,HM2_I5_PY+HM2_LY1, HM2_I5_VX-2, 20), "punching bombs", false),
+lI6a(NULL, PG_Rect(HM2_I6_PX,HM2_I6_PY, HM2_I6_VX-2, 20), "WARP", false),
+lI6b(NULL, PG_Rect(HM2_I6_PX,HM2_I6_PY+HM2_LY1, HM2_I6_VX-2, 20), "add warps", false),
+lI7a(NULL, PG_Rect(HM2_I7_PX,HM2_I7_PY, HM2_I7_VX-2, 20), "GLASSES", false),
+lI7b(NULL, PG_Rect(HM2_I7_PX,HM2_I7_PY+HM2_LY1, HM2_I7_VX-2, 20), "detecting invisibles", false),
+lJ1a(NULL, PG_Rect(HM2_J1_PX,HM2_J1_PY, HM2_J1_VX-2, 20), "BECHEROMET", false),
+lJ1b(NULL, PG_Rect(HM2_J1_PX,HM2_J1_PY+HM2_LY2, HM2_J1_VX-2, 20), "enable weapon", false),
+lJ2a(NULL, PG_Rect(HM2_J2_PX,HM2_J2_PY, HM2_J2_VX-2, 20), "RAILGUN", false),
+lJ2b(NULL, PG_Rect(HM2_J2_PX,HM2_J2_PY+HM2_LY2, HM2_J2_VX-2, 20), "enable weapon", false),
+lJ3a(NULL, PG_Rect(HM2_J3_PX,HM2_J3_PY, HM2_J3_VX-2, 20), "BOMB", false),
+lJ3b(NULL, PG_Rect(HM2_J3_PX,HM2_J3_PY+HM2_LY2, HM2_J3_VX-2, 20), "enable weapon", false),
+lJ4a(NULL, PG_Rect(HM2_J4_PX,HM2_J4_PY, HM2_J4_VX-2, 20), "GRENADE", false),
+lJ4b(NULL, PG_Rect(HM2_J4_PX,HM2_J4_PY+HM2_LY2, HM2_J4_VX-2, 20), "enable weapon", false),
+lJ5a(NULL, PG_Rect(HM2_J5_PX,HM2_J5_PY, HM2_J5_VX-2, 20), "AMMO", false),
+lJ5b(NULL, PG_Rect(HM2_J5_PX,HM2_J5_PY+HM2_LY2, HM2_J5_VX-2, 20), "becheromet", false),
+lJ6a(NULL, PG_Rect(HM2_J6_PX,HM2_J6_PY, HM2_J6_VX-2, 20), "AMMO", false),
+lJ6b(NULL, PG_Rect(HM2_J6_PX,HM2_J6_PY+HM2_LY2, HM2_J6_VX-2, 20), "railgun", false),
+lJ7a(NULL, PG_Rect(HM2_J7_PX,HM2_J7_PY, HM2_J7_VX-2, 20), "AMMO", false),
+lJ7b(NULL, PG_Rect(HM2_J7_PX,HM2_J7_PY+HM2_LY2, HM2_J7_VX-2, 20), "bombs", false),
+lK1a(NULL, PG_Rect(HM2_K1_PX,HM2_K1_PY, HM2_K1_VX-2, 20), "AMMO", false),
+lK1b(NULL, PG_Rect(HM2_K1_PX,HM2_K1_PY+HM2_LY3, HM2_K1_VX-2, 20), "grenades", false),
+lK2a(NULL, PG_Rect(HM2_K2_PX,HM2_K2_PY, HM2_K2_VX-2, 20), "TURTLE", false),
+lK2b(NULL, PG_Rect(HM2_K2_PX,HM2_K2_PY+HM2_LY3, HM2_K2_VX-2, 20), "slower moving", false),
+lK3a(NULL, PG_Rect(HM2_K3_PX,HM2_K3_PY, HM2_K3_VX-2, 20), "GLUE", false),
+lK3b(NULL, PG_Rect(HM2_K3_PX,HM2_K3_PY+HM2_LY3, HM2_K3_VX-2, 20), "not able moving", false),
+lK4a(NULL, PG_Rect(HM2_K4_PX,HM2_K4_PY, HM2_K4_VX-2, 20), "REVERSE", false),
+lK4b(NULL, PG_Rect(HM2_K4_PX,HM2_K4_PY+HM2_LY3, HM2_K4_VX-2, 20), "reverse controls", false),
+lK5a(NULL, PG_Rect(HM2_K5_PX,HM2_K5_PY, HM2_K5_VX-2, 20), "LOST", false),
+lK5b(NULL, PG_Rect(HM2_K5_PX,HM2_K5_PY+HM2_LY3, HM2_K5_VX-2, 20), "disable weapons", false),
+lK6a(NULL, PG_Rect(HM2_K6_PX,HM2_K6_PY, HM2_K6_VX-2, 20), "BERSERK", false),
+lK6b(NULL, PG_Rect(HM2_K6_PX,HM2_K6_PY+HM2_LY3, HM2_K6_VX-2, 20), "kill by touch", false),
+lK7a(NULL, PG_Rect(HM2_K7_PX,HM2_K7_PY, HM2_K7_VX-2, 20), " ", false),
+lK7b(NULL, PG_Rect(HM2_K7_PX,HM2_K7_PY+HM2_LY3, HM2_K7_VX-2, 20), " ", false),
+bPrev(NULL, 2, PG_Rect(HM2_PX+5,HM2_PY+365,70,20), "PREV"),
+bReturn(NULL, 1, PG_Rect(HM2_PX+(HM2_VX-100)/2,HM2_PY+365,100,20), "RETURN")
+//bNext(NULL, 3, PG_Rect(HM2_PX+HM2_VX-5-70,HM2_PY+365,70,20), "NEXT")
 {
   Default();
-  
-  Help2Menu.SetAlignment(SDL_TA_CENTER); 
+
+  Help2Menu.SetAlignment(PG_TA_CENTER);
   Help2Menu.SetFont(MainFont);
   
   AddChild(&Help2Menu);
@@ -1129,7 +1111,7 @@ void GUI_Help2Menu::Default()
 {
 }
 
-bool GUI_Help2Menu::eventButtonClick(int id, SDLWidget* widget)
+bool GUI_Help2Menu::eventButtonClick(int id, PG_Widget* widget)
 {
   switch (id) {
   case 1:
@@ -1333,34 +1315,34 @@ void GUI_Show(int id)
 bool GUI_Init(SDL_Surface* s)
 {
   GUI_InitColors(s);
-  MainFont = TTF_OpenFont(SDLApplication::GetRelativePath("fonts/futuraxk.ttf"), 24);
+  MainFont = TTF_OpenFont(PG_Application::GetRelativePath("fonts/futuraxk.ttf"), 24);
   if (!MainFont)
   {
-    fprintf(stderr, "GUI: Couldn't load font %s", SDLApplication::GetRelativePath("fonts/futuraxk.ttf"));
+    fprintf(stderr, "GUI: Couldn't load font %s", PG_Application::GetRelativePath("fonts/futuraxk.ttf"));
     return false;
   }
-  MainFont2 = TTF_OpenFont(SDLApplication::GetRelativePath("fonts/futuraxk.ttf"), 28);
+  MainFont2 = TTF_OpenFont(PG_Application::GetRelativePath("fonts/futuraxk.ttf"), 28);
   if (!MainFont2)
   {
-    fprintf(stderr, "GUI: Couldn't load font %s", SDLApplication::GetRelativePath("fonts/futuraxk.ttf"));
+    fprintf(stderr, "GUI: Couldn't load font %s", PG_Application::GetRelativePath("fonts/futuraxk.ttf"));
     return false;
   }
-  TextFont = TTF_OpenFont(SDLApplication::GetRelativePath("fonts/font2.ttf"), 10);
+  TextFont = TTF_OpenFont(PG_Application::GetRelativePath("fonts/font2.ttf"), 10);
   if (!TextFont)
   {
-    fprintf(stderr, "GUI: Couldn't load font %s", SDLApplication::GetRelativePath("fonts/font2.ttf"));
+    fprintf(stderr, "GUI: Couldn't load font %s", PG_Application::GetRelativePath("fonts/font2.ttf"));
     return false;
   }
-  BtnFont = TTF_OpenFont(SDLApplication::GetRelativePath("fonts/futurab.ttf"), 12);
+  BtnFont = TTF_OpenFont(PG_Application::GetRelativePath("fonts/futurab.ttf"), 12);
   if (!BtnFont)
   {
-    fprintf(stderr, "GUI: Couldn't load font %s", SDLApplication::GetRelativePath("fonts/futurab.ttf"));
+    fprintf(stderr, "GUI: Couldn't load font %s", PG_Application::GetRelativePath("fonts/futurab.ttf"));
     return false;
   }
-  BtnFont2 = TTF_OpenFont(SDLApplication::GetRelativePath("fonts/futurab.ttf"), 14);
+  BtnFont2 = TTF_OpenFont(PG_Application::GetRelativePath("fonts/futurab.ttf"), 14);
   if (!BtnFont2)
   {
-    fprintf(stderr, "GUI: Couldn't load font %s", SDLApplication::GetRelativePath("fonts/futurab.ttf"));
+    fprintf(stderr, "GUI: Couldn't load font %s", PG_Application::GetRelativePath("fonts/futurab.ttf"));
     return false;
   }
   

@@ -10,19 +10,19 @@ extern void ShutdownCB(int res);
 extern void DisconnectCB(int res);
 
 
-GUI_MainMenu::GUI_MainMenu() : GUI_BaseMenu(GUI_MAINMENU, mkrect(MM_PX,MM_PY,MM_VX,MM_VY)) {
+GUI_MainMenu::GUI_MainMenu() : GUI_BaseMenu(GUI_MAINMENU, PG_Rect(MM_PX,MM_PY,MM_VX,MM_VY)) {
 
-	lMainMenu = new GUI_ButtonBig(this, 0, SDLWidget::mkrect(0,0,MM_VX,40), "Main Menu");
-	bNewGame = new GUI_ButtonBig(this, 1, SDLWidget::mkrect(0,40,MM_VX,40), "Start Server");
-	bEndGame = new GUI_ButtonBig(this, 9, SDLWidget::mkrect(0,40,MM_VX,40), "Shutdown Server");
-	bJoinDiscGame = new GUI_ButtonBig(this, 2, SDLWidget::mkrect(0,80,MM_VX,40), "Join Game");
-	bCreatePlayer = new GUI_ButtonBig(this, 3, SDLWidget::mkrect(0,120,MM_VX,40), "Create Player");
-	bDeletePlayer = new GUI_ButtonBig(this, 4, SDLWidget::mkrect(0,160,MM_VX,40), "Delete Player");
-	bOptions = new GUI_ButtonBig(this, 5, SDLWidget::mkrect(0,200,MM_VX,40), "Options");
-	bCredits = new GUI_ButtonBig(this, 6, SDLWidget::mkrect(0,240,MM_VX,40), "Credits");
-	bHelp = new GUI_ButtonBig(this, 7, SDLWidget::mkrect(0,280,MM_VX,40), "Info");
-	bQuit = new GUI_ButtonBig(this, 8, SDLWidget::mkrect(0,320,MM_VX,40), "Quit");
-	bGame = new GUI_ButtonBig(this, 10, SDLWidget::mkrect(0,360,MM_VX,40), "Back To Game");
+	lMainMenu = new GUI_ButtonBig(this, 0, PG_Rect(0,0,MM_VX,40), "Main Menu");
+	bNewGame = new GUI_ButtonBig(this, 1, PG_Rect(0,40,MM_VX,40), "Start Server");
+	bEndGame = new GUI_ButtonBig(this, 9, PG_Rect(0,40,MM_VX,40), "Shutdown Server");
+	bJoinDiscGame = new GUI_ButtonBig(this, 2, PG_Rect(0,80,MM_VX,40), "Join Game");
+	bCreatePlayer = new GUI_ButtonBig(this, 3, PG_Rect(0,120,MM_VX,40), "Create Player");
+	bDeletePlayer = new GUI_ButtonBig(this, 4, PG_Rect(0,160,MM_VX,40), "Delete Player");
+	bOptions = new GUI_ButtonBig(this, 5, PG_Rect(0,200,MM_VX,40), "Options");
+	bCredits = new GUI_ButtonBig(this, 6, PG_Rect(0,240,MM_VX,40), "Credits");
+	bHelp = new GUI_ButtonBig(this, 7, PG_Rect(0,280,MM_VX,40), "Info");
+	bQuit = new GUI_ButtonBig(this, 8, PG_Rect(0,320,MM_VX,40), "Quit");
+	bGame = new GUI_ButtonBig(this, 10, PG_Rect(0,360,MM_VX,40), "Back To Game");
 
 	Default();
 
@@ -33,7 +33,7 @@ GUI_MainMenu::GUI_MainMenu() : GUI_BaseMenu(GUI_MAINMENU, mkrect(MM_PX,MM_PY,MM_
 void GUI_MainMenu::Default(){
 }
 
-bool GUI_MainMenu::eventButtonClick(int id, SDLWidget* widget) {
+bool GUI_MainMenu::eventButtonClick(int id, PG_Widget* widget) {
 	char* a[]={"I'M SURE", "YES", "OK", "DO IT", "LEAVE"};
 
 	switch (id) {

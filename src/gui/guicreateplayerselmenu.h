@@ -24,7 +24,7 @@ protected:
   void eventShow();
   void eventHide();
 
-  bool eventButtonClick(int id, SDLWidget* widget);
+  bool eventButtonClick(int id, PG_Widget* widget);
 };
 
 #endif	// GUICREATEPLAYERSELMENU_H

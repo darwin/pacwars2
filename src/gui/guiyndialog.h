@@ -23,7 +23,7 @@ public:
 
   void Default();
 
-  bool eventButtonClick(int id, SDLWidget* widget);
+  bool eventButtonClick(int id, PG_Widget* widget);
 };
 
 #endif	// GUIYNDIALOG_H
