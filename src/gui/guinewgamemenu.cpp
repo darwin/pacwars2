@@ -12,19 +12,10 @@ extern GUI_OKDialog1 *OKD1;
 
 GUI_NewGameMenu* NGMenu;
 
-void GUI_NewGameMenu::Return()
-{
-  eServerName->EditEnd();
-  eWelcomeMsg->EditEnd();
-  eMaxClients->EditEnd();
-  GUI_BaseMenu::Return();
-}
+GUI_NewGameMenu::GUI_NewGameMenu(): GUI_BaseMenu(GUI_NEWGAME, mkrect(NG_PX,NG_PY,NG_VX,NG_VY)) {
 
-GUI_NewGameMenu::GUI_NewGameMenu(): GUI_BaseMenu(GUI_NEWGAME, mkrect(NG_PX,NG_PY,NG_VX,NG_VY))
-{
-  NGMenu = this;
+	NGMenu = this;
 
-	//Board = new GUI_Board(NULL, SDLWidget::mkrect(NG_PX,NG_PY,NG_VX,NG_VY), false),
 	NewGameMenu = new GUI_Label(this, SDLWidget::mkrect(1,4,NG_VX-2,25), "NEW GAME", false);
 	lIP = new GUI_Label(this, SDLWidget::mkrect(1,30,NG_VX-2,20), "<HERE COMES IP ADDRESS>", false);
 	lHost = new GUI_Label(this, SDLWidget::mkrect(1,51,NG_VX-2,20), "<HERE COMES HOST NAME>", false);
@@ -36,11 +27,9 @@ GUI_NewGameMenu::GUI_NewGameMenu(): GUI_BaseMenu(GUI_NEWGAME, mkrect(NG_PX,NG_PY
 	eMaxClients = new GUI_NumEdit(this, SDLWidget::mkrect(120,150,80,20), 1, PWP_TOTALMAX_CLIENTS);
 
 	lChoose1 = new GUI_Label(this, SDLWidget::mkrect(25,179, 150,20), "Choose map:", false);
-	//Board1(NULL, SDLWidget::mkrect(NG_PX+25, NG_PY+200, 150, 66), false),
 	WidgetList1 = new GUI_WidgetList(this, SDLWidget::mkrect(26, 201, 148, 64));
 
 	lChoose2 = new GUI_Label(this, SDLWidget::mkrect(25+150+10,179, 150,20), "Choose script:", false);
-	//Board2(NULL, SDLWidget::mkrect(NG_PX+25+150+10, NG_PY+200, 150, 66), false),
 	WidgetList2 = new GUI_WidgetList(this, SDLWidget::mkrect(26+150+10, 201, 148, 64));
 
 	lAuthFile = new GUI_Label(this, SDLWidget::mkrect(25,275, NG_VX-50-8,12), "file", false);
@@ -56,7 +45,6 @@ GUI_NewGameMenu::GUI_NewGameMenu(): GUI_BaseMenu(GUI_NEWGAME, mkrect(NG_PX,NG_PY
 
 	NewGameMenu->SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
 	NewGameMenu->SetFont(MainFont);
-
 
 	lIP->bgmode = 2;
 	lHost->bgmode = 2;
@@ -94,50 +82,50 @@ GUI_NewGameMenu::GUI_NewGameMenu(): GUI_BaseMenu(GUI_NEWGAME, mkrect(NG_PX,NG_PY
 	IPaddress serverIP;
 	SDLNet_ResolveHost(&serverIP, "localhost", PWP_MSG_SPORT);
 
-  if (serverIP.host != INADDR_NONE )
-  {
-    lIP->SetTextFormat("IP %s", AddrToS(&serverIP));
+	if (serverIP.host != INADDR_NONE ) {
+		lIP->SetTextFormat("IP %s", AddrToS(&serverIP));
+		char * remote_host_name = SDLNet_ResolveIP(&serverIP);
+		
+		if (remote_host_name) {
+			// try to resolve found host - that because of localhost doesn't return full IP address
+			SDLNet_ResolveHost(&serverIP, remote_host_name, PWP_MSG_SPORT);
+			lIP->SetTextFormat("IP %s", AddrToS(&serverIP));
+			lHost->SetTextFormat("HOST NAME %s", /*_strlwr(*/remote_host_name/*)*/);
+		}
+		else
+			lHost->SetText("Unknown host name");
+	}
+	else {
+		lIP->SetText("Error resolving IP");
+		lHost->SetText("Unknown host name");
+	}
 
-    char * remote_host_name = SDLNet_ResolveIP(&serverIP);
-    if (remote_host_name)
-    {
-      // try to resolve found host - that because of localhost doesn't return full IP address
-      SDLNet_ResolveHost(&serverIP, remote_host_name, PWP_MSG_SPORT);
-      lIP->SetTextFormat("IP %s", AddrToS(&serverIP));
-      lHost->SetTextFormat("HOST NAME %s", /*_strlwr(*/remote_host_name/*)*/);
-    }
-    else
-      lHost->SetText("Unknown host name");
-  }
-  else
-  {
-    lIP->SetText("Error resolving IP");
-    lHost->SetText("Unknown host name");
-  }
-
-  Default();
-
+	Default();
 	LoadThemeStyle("GUI_Board");
+}
+
+void GUI_NewGameMenu::Return()
+{
+	eServerName->EditEnd();
+	eWelcomeMsg->EditEnd();
+	eMaxClients->EditEnd();
+	GUI_BaseMenu::Return();
 }
 
 void scriptchCB(GUI_LabelL* l)
 {
-//  NGMenu->Board3.Hide();
-//  NGMenu->Board3.Show();
-//  NGMenu->Board3.Show();
-  NGMenu->Board3->Redraw();
+	NGMenu->Board3->Redraw();
 
-  if(l == NULL) {
+	if(l == NULL) {
 		return;
-  }
+	}
 
-  if (l->msi)
-  {
-    NGMenu->lAuthFile->SetTextFormat(" File: %s.msc, Author: %s", NGMenu->selected2->msi->name, NGMenu->selected2->msi->author);
-    NGMenu->lDesc1->SetTextFormat(NGMenu->selected2->msi->desc[0]);
-    NGMenu->lDesc2->SetTextFormat(" %s", NGMenu->selected2->msi->desc[1]);
-    NGMenu->lDesc3->SetTextFormat(" %s", NGMenu->selected2->msi->desc[2]);
-  }
+	if (l->msi)   {
+		NGMenu->lAuthFile->SetTextFormat(" File: %s.msc, Author: %s", NGMenu->selected2->msi->name, NGMenu->selected2->msi->author);
+		NGMenu->lDesc1->SetTextFormat(NGMenu->selected2->msi->desc[0]);
+		NGMenu->lDesc2->SetTextFormat(" %s", NGMenu->selected2->msi->desc[1]);
+		NGMenu->lDesc3->SetTextFormat(" %s", NGMenu->selected2->msi->desc[2]);
+	}
 }
 
 
