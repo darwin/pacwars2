@@ -2978,7 +2978,7 @@ main(int argc, char *argv[])
     SDL_Surface* fake_screen = SDL_CreateRGBSurface(SDL_SWSURFACE|SDL_SRCCOLORKEY|SDL_SRCALPHA, 640, 480, video_bpp, 0, 0, 0, 0);
     SDL_FillRect(fake_screen, NULL, 0x0);
     //SDL_SetColorKey(fake_screen, SDL_SRCCOLORKEY, 0x000000FF);
-    SDL_SetAlpha(fake_screen, SDL_SRCALPHA, MENUALPHA);
+    //SDL_SetAlpha(fake_screen, SDL_SRCALPHA, MENUALPHA);
     app.SetScreen(fake_screen);
   }
   else
