@@ -1,5 +1,5 @@
 
-pw2snddir = $(prefix)/gfx
+pw2snddir = $(prefix)/snd
 
 pw2snd_DATA = \
 	10_0.wav \
@@ -64,6 +64,8 @@ pw2snd_DATA = \
 	win2.wav \
 	win3.wav \
 	xplo1.wav \
-	xplo2.wav
+	xplo2.wav \
+	pacwars2.it \
+	paccore.xm
 
 EXTRA_DIST = $(pw2snd_DATA)

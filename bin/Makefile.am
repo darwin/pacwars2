@@ -8,8 +8,9 @@ pw2_DATA = \
 	file_id.diz \
 	licence.txt \
 	PW2-site.url \
-	README-SDL.txt
+	README-SDL.txt \
+	pw2.sh
 
-EXTRA_DIST = $(pw2_DATA) pw2.sh
+EXTRA_DIST = $(pw2_DATA) 
 
 
