@@ -125,7 +125,7 @@ void GUI_MainMenu::eventShow() {
 		bEndGame->Show();
 	}
 
-	Redraw();
+	//Redraw();
 }
 
 void GUI_MainMenu::eventHide() {

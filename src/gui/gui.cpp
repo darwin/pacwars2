@@ -272,7 +272,7 @@ void GUI_ButtonBig::eventMouseLeave() {
 	SetFont(MainFont);
 	if (enabled) {
 		SetTextColor(GUI_BtnTextColor);
-		Redraw();
+		Update();
 	}
 }
 
@@ -281,7 +281,7 @@ void GUI_ButtonBig::eventMouseEnter() {
     if (enabled)
     {
       SetTextColor(GUI_BtnATextColor);
-      Redraw();
+      Update();
     }
 }
 
@@ -321,12 +321,14 @@ GUI_ButtonSmall::GUI_ButtonSmall(SDLWidget* parent, int btnid, SDL_Rect& r, char
 
 void GUI_ButtonSmall::eventMouseLeave() {
 	/*SetFont(BtnFont);*/
-	SetTextColor(GUI_BtnTextColor); Redraw();
+	SetTextColor(GUI_BtnTextColor);
+	Update();
 }
 
 void GUI_ButtonSmall::eventMouseEnter() {
 	/*SetFont(BtnFont2);*/
-	SetTextColor(GUI_BtnATextColor); Redraw();
+	SetTextColor(GUI_BtnATextColor);
+	Update();
 }
 
 
@@ -529,16 +531,16 @@ void GUI_ButtonS::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
 }
 
 bool GUI_ButtonS::eventMouseButtonDown(const SDL_MouseButtonEvent* button){
-  SetCapture();
+	SetCapture();
   
-  Redraw();
-  Update();
-  return true;
+	//Redraw();
+	Update();
+	return true;
 }
 
 bool GUI_ButtonS::eventMouseButtonUp(const SDL_MouseButtonEvent* button){
   ReleaseCapture();
-  Redraw();
+  Update();
   
   if(!IsMouseInside())
     return false;

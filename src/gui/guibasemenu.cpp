@@ -13,6 +13,7 @@ GUI_BaseMenu::GUI_BaseMenu(int iid, SDL_Rect& rect): SDLGradientWidget(NULL, rec
 	mid = iid;
 	next = NULL;
 	LoadThemeStyle("GUI_BaseMenu");
+	SetStoreBackground(false);
 }
 
 void GUI_BaseMenu::eventDraw(SDL_Surface* surface, SDL_Rect* rect) {

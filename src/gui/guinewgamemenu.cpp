@@ -131,7 +131,7 @@ void GUI_NewGameMenu::GenerateScriptSelection()
   else
     selected2 = NULL;
 
-	WidgetList2->Redraw();
+	WidgetList2->Update();
 	scriptchCB(selected2);
 }
 
