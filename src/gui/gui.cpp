@@ -15,6 +15,10 @@
 #include "pw2.h"
 #include "mapman.h"
 
+GUI_OKDialog1 *OKD1;
+GUI_OKDialog2 *OKD2;
+GUI_YNDialog *YND;
+
 GUI_BaseMenu* GUI_menu = NULL;
 int GUI_id = 0;
 
@@ -1318,11 +1322,75 @@ bool GUI_Init(SDL_Surface* s)
     return false;
   }
   
+  GUI_OKDialog1* OKDialog1 = new GUI_OKDialog1("");
+  GUI_OKDialog2* OKDialog2 = new GUI_OKDialog2("");
+  OKDialog1->next = OKDialog2;
+  GUI_YNDialog* YNDialog = new GUI_YNDialog;
+  OKDialog2->next = YNDialog;
+  GUI_MainMenu* MainMenu = new GUI_MainMenu;
+  YNDialog->next = MainMenu;
+  GUI_NewGameMenu* NewGameMenu = new GUI_NewGameMenu;
+  MainMenu->next = NewGameMenu;
+  GUI_JoinGameMenu* JoinGameMenu = new GUI_JoinGameMenu;
+  NewGameMenu->next = JoinGameMenu;
+  GUI_OptionsMenu* OptionsMenu = new GUI_OptionsMenu;
+  JoinGameMenu->next = OptionsMenu;
+  GUI_PathsMenu* PathsMenu = new GUI_PathsMenu;
+  OptionsMenu->next = PathsMenu;
+  GUI_CreatePlayerSelMenu* CreatePlayerMenu = new GUI_CreatePlayerSelMenu;
+  PathsMenu->next = CreatePlayerMenu;
+  GUI_CreatePlayerMenu* CreatePlayerMenu1 = new GUI_CreatePlayerMenu(GUI_CREATEPLAYER1, 1);
+  CreatePlayerMenu->next = CreatePlayerMenu1;
+  GUI_CreatePlayerMenu* CreatePlayerMenu2 = new GUI_CreatePlayerMenu(GUI_CREATEPLAYER2, 2);
+  CreatePlayerMenu1->next = CreatePlayerMenu2;
+  GUI_CreatePlayerMenu* CreatePlayerMenu3 = new GUI_CreatePlayerMenu(GUI_CREATEPLAYER3, 3);
+  CreatePlayerMenu2->next = CreatePlayerMenu3;
+  GUI_CreatePlayerMenu* CreatePlayerMenu4 = new GUI_CreatePlayerMenu(GUI_CREATEPLAYER4, 4);
+  CreatePlayerMenu3->next = CreatePlayerMenu4;
+  GUI_CreditsMenu* CreditsMenu = new GUI_CreditsMenu;
+  CreatePlayerMenu4->next = CreditsMenu;
+  GUI_SoundMenu* SoundMenu = new GUI_SoundMenu;
+  CreditsMenu->next = SoundMenu;
+  GUI_ResultsMenu* ResultsMenu = new GUI_ResultsMenu;
+  SoundMenu->next = ResultsMenu;
+  GUI_Help1Menu* Help1Menu = new GUI_Help1Menu;
+  ResultsMenu->next = Help1Menu;
+  GUI_Help2Menu* Help2Menu = new GUI_Help2Menu;
+  Help1Menu->next = Help2Menu;
+  GUI_DeletePlayerMenu* DeletePlayerMenu = new GUI_DeletePlayerMenu;
+  Help2Menu->next = DeletePlayerMenu;
+  GUI_ServerMenu* ServerMenu = new GUI_ServerMenu;
+  DeletePlayerMenu->next = ServerMenu;
+  GUI_VideoMenu* VideoMenu = new GUI_VideoMenu;
+  ServerMenu->next = VideoMenu;
+  GUI_ClientMenu* ClientMenu = new GUI_ClientMenu;
+  VideoMenu->next = ClientMenu;
+  GUI_RedefineKeysMenu* RedefineKeysMenu = new GUI_RedefineKeysMenu;
+  ClientMenu->next = RedefineKeysMenu;
+
+  OKD1 = OKDialog1;
+  OKD2 = OKDialog2;
+  YND = YNDialog;
+  
+  // register chain of components in
+  GUI_System = OKDialog1;
+
   return true;
 }
 
 bool GUI_Done()
 {
+  // dealocate all menus in chain
+  GUI_BaseMenu* save;
+  GUI_BaseMenu* cur = GUI_System;
+
+  while (cur)
+  {
+    save = cur->next;
+    delete cur;
+    cur = save;
+  }
+
   if (MainFont) TTF_CloseFont(MainFont);
   if (MainFont2) TTF_CloseFont(MainFont2);
   if (BtnFont) TTF_CloseFont(BtnFont);

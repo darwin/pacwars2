@@ -104,6 +104,14 @@ extern SDL_Color GUI_SmBtColor;
 extern SDL_Color GUI_UnselectedItem;
 extern SDL_Color GUI_SelectedItem;
 
+class GUI_OKDialog1;
+class GUI_OKDialog2;
+class GUI_YNDialog;
+
+extern GUI_OKDialog1 *OKD1;
+extern GUI_OKDialog2 *OKD2;
+extern GUI_YNDialog *YND;
+
 /////////////////////////////////////////////////////////////////////////////
 // Board
 /////////////////////////////////////////////////////////////////////////////
