@@ -7,7 +7,7 @@ bindir = $(prefix)
 pw2dir = $(prefix)
 
 pw2_DATA = \
-	config.cfg \
+	info.html \
 	file_id.diz \
 	licence.txt \
 	PW2-site.url \
