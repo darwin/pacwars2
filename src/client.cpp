@@ -1150,7 +1150,7 @@ int CL_Connect(char *server)
       msg_cpacket->data[POS_MSG_ID + 2] = 21;
       msg_cpacket->data[POS_MSG_ID + 3] = 57;
       msg_cpacket->data[POS_MSG_ID + 4] = 127;
-      memcpy(&msg_cpacket->data[POS_MSG_NAME], c_name.string, PWP_MAX_CLIENT_NAME);
+      strncpy((char*)&msg_cpacket->data[POS_MSG_NAME], c_name.string, PWP_MAX_CLIENT_NAME);
       msg_cpacket->data[POS_MSG_NAME + PWP_MAX_CLIENT_NAME - 1] = 0;
       msg_cpacket->len = POS_MSG_NAME + PWP_MAX_CLIENT_NAME;
       SDLNet_UDP_Send(msg_csock, 0, msg_cpacket);
