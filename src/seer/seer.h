@@ -421,12 +421,12 @@ extern "C" {
 		} int call(int addr, ...) {
 			va_list va;
 			 va_start(va, addr);
-			 return scVCall_Instance(ins, addr, -1, &(va_arg(va, int)));
+			 return scVCall_Instance(ins, addr, -1, (int*)va /*&(va_arg(va, int))*/);
 			//-1 - default number of parameters
 		} int call(char *_symbol, ...) {
 			va_list va;
 			 va_start(va, _symbol);
-			 return scVCall_Instance(ins, symbol(_symbol), -1, &(va_arg(va, int)));
+			 return scVCall_Instance(ins, symbol(_symbol), -1, (int*)va /*&(va_arg(va, int))*/);
 		} int start() {
 			return call("main");
 		} int vcall(int address, int paramc, int *params) {
@@ -436,13 +436,12 @@ extern "C" {
 		} int launch(int spd, int addr, ...) {
 			va_list va;
 			 va_start(va, addr);
-			 return scVLaunch_Instance(ins, spd, addr, -1, &(va_arg(va, int)));
+			 return scVLaunch_Instance(ins, spd, addr, -1, (int*) va /*&(va_arg(va, int))*/);
 		} int launch(int spd, char *_symbol, ...) {
 			va_list va;
 			 va_start(va, _symbol);
 			
-				return scVLaunch_Instance(ins, spd, symbol(_symbol), -1,
-										  &(va_arg(va, int)));
+				return scVLaunch_Instance(ins, spd, symbol(_symbol), -1, (int*)va /*&(va_arg(va, int))*/);
 		} void pause(int p) {
 			scPause_Instance(ins, p);
 		} void kill() { scKill_Instance(ins);

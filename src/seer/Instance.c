@@ -303,7 +303,7 @@ int scCall_Instance(scInstance * inst, int address, ...)
 {
 	va_list va;
 	va_start(va, address);
-	return scVCall_Instance(inst, address, -1, (int *) &(va_arg(va, int)));
+	return scVCall_Instance(inst, address, -1, va/*(int *)(&(va_arg(va, int)))*/ );
 }
 
 
@@ -495,8 +495,7 @@ int scLaunch_Instance(scInstance * inst, int spd, int address, ...)
 {
 	va_list va;
 	va_start(va, address);
-	return scVLaunch_Instance(inst, spd, address, -1,
-							  (int *) &(va_arg(va, int)));
+	return scVLaunch_Instance(inst, spd, address, -1, va /*(int *) &(va_arg(va, int))*/);
 }
 
 //the scheduler

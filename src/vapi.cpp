@@ -25,20 +25,20 @@
 
 void AddVapiExternals()
 {
-  scAdd_External_Symbol("svGetVars",      svGetVars);
-  scAdd_External_Symbol("svSetVars",      svSetVars);
+  scAdd_External_Symbol("svGetVars",      (void*)svGetVars);
+  scAdd_External_Symbol("svSetVars",      (void*)svSetVars);
 
-  scAdd_External_Symbol("cvGetVars",      cvGetVars);
-  scAdd_External_Symbol("cvSetVars",      cvSetVars);
+  scAdd_External_Symbol("cvGetVars",      (void*)cvGetVars);
+  scAdd_External_Symbol("cvSetVars",      (void*)cvSetVars);
 
-  scAdd_External_Symbol("cvPlayMusic",      cvPlayMusic);
-  scAdd_External_Symbol("cvPauseMusic",     cvPauseMusic);
-  scAdd_External_Symbol("cvVolumeMusic",    cvVolumeMusic);
+  scAdd_External_Symbol("cvPlayMusic",      (void*)cvPlayMusic);
+  scAdd_External_Symbol("cvPauseMusic",     (void*)cvPauseMusic);
+  scAdd_External_Symbol("cvVolumeMusic",    (void*)cvVolumeMusic);
 
-  scAdd_External_Symbol("smPlaySample3D",   smPlaySample3D);
-  scAdd_External_Symbol("smPlaySample",     smPlaySample);
-  scAdd_External_Symbol("smPlayVoice",      smPlayVoice);
-  scAdd_External_Symbol("smSetPosition",    smSetPosition);
+  scAdd_External_Symbol("smPlaySample3D",   (void*)smPlaySample3D);
+  scAdd_External_Symbol("smPlaySample",     (void*)smPlaySample);
+  scAdd_External_Symbol("smPlayVoice",      (void*)smPlayVoice);
+  scAdd_External_Symbol("smSetPosition",    (void*)smSetPosition);
 }
  
 //###########################################################################

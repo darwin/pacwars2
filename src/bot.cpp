@@ -51,9 +51,9 @@ static int WrapNearestDistance(int x1, int x2, int wrapsize)
 static int Map2PE(CIRect* r, PED* pe, CMapState* map)
 {
   // assume r is normalized
-  for (int y=r->A.y; y<r->B.y; y++)
+  for (int y=(int)r->A.y; y<(int)r->B.y; y++)
   { 
-    for (int x=r->A.x; x<r->B.x; x++)
+    for (int x=(int)r->A.x; x<(int)r->B.x; x++)
     {
       BLKSTR* b = map->GetBlock(x,y);
       MapNode* n = peMapXY(pe,x,y);
@@ -181,7 +181,8 @@ int bot_command(GPlayer* player, CGame* game, char* cmd, char* params)
     MapNode* start = peMapXY(player->pe, cur_x, cur_y);
     MapNode* dest = peMapXY(player->pe, dst_x, dst_y);
 
-    Map2PE(&CIRect(CIPoint(0,0), CIPoint(mapwidth, mapheight)), player->pe, &game->map);
+	CIRect rect(CIPoint(0,0), CIPoint(mapwidth, mapheight));
+    Map2PE(&rect, player->pe, &game->map);
     int length = peFindPath(player->pe, start, dest, 0, 1, &player->steps);
     if (length) 
       player->cur_step = 0; 
@@ -349,7 +350,9 @@ int bot_think(GPlayer* player, CGame* game, MoveVector* mv)
   if (ai_level.value!=1)
   {
     // just notify by sound
+#ifdef WIN32
     _beep(400, 400);
+#endif
     Cvar_SetValue("ai_level", 1);
   }
 

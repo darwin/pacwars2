@@ -23,31 +23,31 @@
 
 void AddMapiExternals()
 {
-	scAdd_External_Symbol("smGetBlockStr", smGetBlockStr);
-	scAdd_External_Symbol("smSetBlockStr", smSetBlockStr);
-	scAdd_External_Symbol("smGetAnimStr", smGetAnimStr);
-	scAdd_External_Symbol("smSetAnimStr", smSetAnimStr);
-	scAdd_External_Symbol("smSetMapLayer", smSetMapLayer);
-	scAdd_External_Symbol("smGetMapVal", smGetMapVal);
-	scAdd_External_Symbol("smGetMapBlock", smGetMapBlock);
-	scAdd_External_Symbol("smGetMapAnim", smGetMapAnim);
-	scAdd_External_Symbol("smSetMapVal", smSetMapVal);
-	scAdd_External_Symbol("smGetMapBlock", smGetMapBlock);
-	scAdd_External_Symbol("smGetMapWidth", smGetMapWidth);
-	scAdd_External_Symbol("smGetMapHeiht", smGetMapHeight);
+	scAdd_External_Symbol("smGetBlockStr", (void*)smGetBlockStr);
+	scAdd_External_Symbol("smSetBlockStr", (void*)smSetBlockStr);
+	scAdd_External_Symbol("smGetAnimStr", (void*)smGetAnimStr);
+	scAdd_External_Symbol("smSetAnimStr", (void*)smSetAnimStr);
+	scAdd_External_Symbol("smSetMapLayer", (void*)smSetMapLayer);
+	scAdd_External_Symbol("smGetMapVal", (void*)smGetMapVal);
+	scAdd_External_Symbol("smGetMapBlock", (void*)smGetMapBlock);
+	scAdd_External_Symbol("smGetMapAnim", (void*)smGetMapAnim);
+	scAdd_External_Symbol("smSetMapVal", (void*)smSetMapVal);
+	scAdd_External_Symbol("smGetMapBlock", (void*)smGetMapBlock);
+	scAdd_External_Symbol("smGetMapWidth", (void*)smGetMapWidth);
+	scAdd_External_Symbol("smGetMapHeiht", (void*)smGetMapHeight);
 
-	scAdd_External_Symbol("cmGetBlockStr", cmGetBlockStr);
-	scAdd_External_Symbol("cmSetBlockStr", cmSetBlockStr);
-	scAdd_External_Symbol("cmGetAnimStr", cmGetAnimStr);
-	scAdd_External_Symbol("cmSetAnimStr", cmSetAnimStr);
-	scAdd_External_Symbol("cmSetMapLayer", cmSetMapLayer);
-	scAdd_External_Symbol("cmGetMapVal", cmGetMapVal);
-	scAdd_External_Symbol("cmGetMapBlock", cmGetMapBlock);
-	scAdd_External_Symbol("cmGetMapAnim", cmGetMapAnim);
-	scAdd_External_Symbol("cmSetMapVal", cmSetMapVal);
-	scAdd_External_Symbol("cmGetMapBlock", cmGetMapBlock);
-	scAdd_External_Symbol("cmGetMapWidth", cmGetMapWidth);
-	scAdd_External_Symbol("cmGetMapHeiht", cmGetMapHeight);
+	scAdd_External_Symbol("cmGetBlockStr", (void*)cmGetBlockStr);
+	scAdd_External_Symbol("cmSetBlockStr", (void*)cmSetBlockStr);
+	scAdd_External_Symbol("cmGetAnimStr", (void*)cmGetAnimStr);
+	scAdd_External_Symbol("cmSetAnimStr", (void*)cmSetAnimStr);
+	scAdd_External_Symbol("cmSetMapLayer", (void*)cmSetMapLayer);
+	scAdd_External_Symbol("cmGetMapVal", (void*)cmGetMapVal);
+	scAdd_External_Symbol("cmGetMapBlock", (void*)cmGetMapBlock);
+	scAdd_External_Symbol("cmGetMapAnim", (void*)cmGetMapAnim);
+	scAdd_External_Symbol("cmSetMapVal", (void*)cmSetMapVal);
+	scAdd_External_Symbol("cmGetMapBlock", (void*)cmGetMapBlock);
+	scAdd_External_Symbol("cmGetMapWidth", (void*)cmGetMapWidth);
+	scAdd_External_Symbol("cmGetMapHeiht", (void*)cmGetMapHeight);
 
 	// map global vars
 	scAdd_External_Symbol("MapLoaded", &MapLoaded);

@@ -1553,7 +1553,7 @@ void CL_EnterGame(Uint32 time)
   }
   
   // synchronize time with server
-  client_info.last_time = time + delta - ctime + dbg_timeshift.value;
+  client_info.last_time = (Uint32) (time + delta - ctime + dbg_timeshift.value);
 }
  
 int CL_ChangeMap(char *mapname, char *scriptname)

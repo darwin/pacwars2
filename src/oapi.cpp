@@ -26,31 +26,31 @@
 
 void AddOapiExternals()
 {
-	scAdd_External_Symbol("soBornPlayer", soBornPlayer);
-	scAdd_External_Symbol("soGetPlayer", soGetPlayer);
-	scAdd_External_Symbol("soSetPlayer", soSetPlayer);
-	scAdd_External_Symbol("soBornShot", soBornShot);
-	scAdd_External_Symbol("soGetShot", soGetShot);
-	scAdd_External_Symbol("soSetShot", soSetShot);
-	scAdd_External_Symbol("soBornExtra", soBornExtra);
-	scAdd_External_Symbol("soGetExtra", soGetExtra);
-	scAdd_External_Symbol("soSetExtra", soSetExtra);
-	scAdd_External_Symbol("soBornBomb", soBornBomb);
-	scAdd_External_Symbol("soGetBomb", soGetBomb);
-	scAdd_External_Symbol("soSetBomb", soSetBomb);
+	scAdd_External_Symbol("soBornPlayer", (void*)soBornPlayer);
+	scAdd_External_Symbol("soGetPlayer", (void*)soGetPlayer);
+	scAdd_External_Symbol("soSetPlayer", (void*)soSetPlayer);
+	scAdd_External_Symbol("soBornShot", (void*)soBornShot);
+	scAdd_External_Symbol("soGetShot", (void*)soGetShot);
+	scAdd_External_Symbol("soSetShot", (void*)soSetShot);
+	scAdd_External_Symbol("soBornExtra", (void*)soBornExtra);
+	scAdd_External_Symbol("soGetExtra", (void*)soGetExtra);
+	scAdd_External_Symbol("soSetExtra", (void*)soSetExtra);
+	scAdd_External_Symbol("soBornBomb", (void*)soBornBomb);
+	scAdd_External_Symbol("soGetBomb", (void*)soGetBomb);
+	scAdd_External_Symbol("soSetBomb", (void*)soSetBomb);
 
-	scAdd_External_Symbol("coBornPlayer", coBornPlayer);
-	scAdd_External_Symbol("coGetPlayer", coGetPlayer);
-	scAdd_External_Symbol("coSetPlayer", coSetPlayer);
-	scAdd_External_Symbol("coBornShot", coBornShot);
-	scAdd_External_Symbol("coGetShot", coGetShot);
-	scAdd_External_Symbol("coSetShot", coSetShot);
-	scAdd_External_Symbol("coBornExtra", coBornExtra);
-	scAdd_External_Symbol("coGetExtra", coGetExtra);
-	scAdd_External_Symbol("coSetExtra", coSetExtra);
-	scAdd_External_Symbol("coBornBomb", coBornBomb);
-	scAdd_External_Symbol("coGetBomb", coGetBomb);
-	scAdd_External_Symbol("coSetBomb", coSetBomb);
+	scAdd_External_Symbol("coBornPlayer", (void*)coBornPlayer);
+	scAdd_External_Symbol("coGetPlayer", (void*)coGetPlayer);
+	scAdd_External_Symbol("coSetPlayer", (void*)coSetPlayer);
+	scAdd_External_Symbol("coBornShot", (void*)coBornShot);
+	scAdd_External_Symbol("coGetShot", (void*)coGetShot);
+	scAdd_External_Symbol("coSetShot", (void*)coSetShot);
+	scAdd_External_Symbol("coBornExtra", (void*)coBornExtra);
+	scAdd_External_Symbol("coGetExtra", (void*)coGetExtra);
+	scAdd_External_Symbol("coSetExtra", (void*)coSetExtra);
+	scAdd_External_Symbol("coBornBomb", (void*)coBornBomb);
+	scAdd_External_Symbol("coGetBomb", (void*)coGetBomb);
+	scAdd_External_Symbol("coSetBomb", (void*)coSetBomb);
 }
 
 //###########################################################################

@@ -1,6 +1,6 @@
 #include "float.h"
 
-#include "AIBase.h"
+#include "aibase.h"
 
 double eNumber = .001;
 double eDistance = .01;
@@ -428,7 +428,7 @@ void CIRect::Normalize()  // make [A,B] points [upper left, lower right]
 // following functions need normalized rectangle
 
 // intersect
-bool CIRect::Intersect(int x, int y) // point intersection
+bool CIRect::Intersect(double x, double y) // point intersection
 {
   if (A.x<=x && x<=B.x && A.y<=y && y<=B.y) return true; else return false;
 }
@@ -440,7 +440,7 @@ bool CIRect::Intersect(const CIPoint& C) // point intersection
 
 bool CIRect::Intersect(const CIPoint& C, const CIPoint& D)  // line intersection
 {
-  if (Sector(A.x, A.y)&Sector(B.x, B.y)) return false;
+  if (Sector((int)A.x, (int)A.y)&Sector((int)B.x, (int)B.y)) return false;
   CXPoint X;
   if (LineIntersection(C,D, CIPoint(A.x, DBL_MIN), CIPoint(A.x, DBL_MAX), &X)) return true;
   if (LineIntersection(C,D, CIPoint(B.x, DBL_MIN), CIPoint(B.x, DBL_MAX), &X)) return true;
@@ -456,7 +456,7 @@ bool CIRect::Intersect(const CILine& L) // line intersection
 
 bool CIRect::Intersect(const CIRect& R) // rect intersection
 {
-  if (Sector(R.A.x, R.A.y)&Sector(R.B.x, R.B.y)) return false;
+  if (Sector((int)R.A.x, (int)R.A.y)&Sector((int)R.B.x, (int)R.B.y)) return false;
   return true;
 }
 
@@ -471,7 +471,7 @@ void CIRect::Union(int x, int y) // union with point
 
 void CIRect::Union(const CIPoint& A) // union with point 
 {
-  Union(A.x, A.y);
+  Union((int)A.x, (int)A.y);
 }
 
 void CIRect::Union(const CIPoint& A, const CIPoint& B)  // union with line
@@ -567,7 +567,7 @@ bool CIWrapRect::Intersect(int x, int y) // point intersection
 
 bool CIWrapRect::Intersect(const CIPoint& C) // point intersection
 {
-  return Intersect(C.x, C.y);
+  return Intersect((int)C.x, (int)C.y);
 }
 
 //-----------------------------------------------------------------------------

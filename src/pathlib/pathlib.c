@@ -39,6 +39,10 @@ int HeuristicsEuclidean(PED* PE, MapNode* A, MapNode* B)
   return (int)(PE->BaseCost*sqrt((double)(dx*dx + dy*dy))); // Pythagoras
 }
 
+#ifndef WIN32
+#define max(a,b) ((a>b) ? a : b)
+#endif
+
 int HeuristicsMax(PED* PE, MapNode* A, MapNode* B)
 {
   const int dx = abs(A->Pos.X - B->Pos.X);

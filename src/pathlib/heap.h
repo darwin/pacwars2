@@ -12,7 +12,7 @@
 #ifndef _HEAP_H_
 #define _HEAP_H_
 
-#include "Types.h"
+#include "types.h"
 
 #ifdef __cplusplus
 	extern "C" {

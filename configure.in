@@ -165,6 +165,7 @@ src/Makefile
 src/console/Makefile
 src/seer/Makefile
 src/gui/Makefile
+src/pathlib/Makefile
 bin/Makefile
 bin/gfx/Makefile
 bin/gfx/game/Makefile

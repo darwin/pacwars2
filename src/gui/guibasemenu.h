@@ -22,4 +22,4 @@ public:
   virtual void Return();
 };
 
-#endif GUIBASEMENU_H
+#endif // GUIBASEMENU_H

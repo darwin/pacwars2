@@ -54,4 +54,4 @@ public:
 };
 
 
-#endif GUISOUNDMENU_H
+#endif // GUISOUNDMENU_H

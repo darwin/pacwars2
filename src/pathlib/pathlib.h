@@ -71,9 +71,9 @@
 //###########################################################################
 //# PE structure
 //###########################################################################
-typedef struct _PathEngineData PED;
-typedef int peHeuristics(PED*, MapNode*,MapNode*);
-typedef int peMixFunction(PED*, int, int, int);
+typedef struct _PathEngineData *PPED;
+typedef int peHeuristics(PPED, MapNode*,MapNode*);
+typedef int peMixFunction(PPED, int, int, int);
 
 // Path engine object
 typedef struct _PathEngineData

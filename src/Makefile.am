@@ -1,5 +1,5 @@
 
-SUBDIRS = console seer gui
+SUBDIRS = console seer gui pathlib
 
 INCLUDES = $(PARAGUI_CFLAGS) -I./console -I./seer -I./gui -DDISABLE_BASS
 
@@ -10,6 +10,7 @@ pw2dir = $(prefix)
 pw2_LDADD = \
 	-lconsole -lseer -L./console -L./seer \
 	./gui/libgui.la \
+	-lpathlib -L./pathlib \
 	$(STATIC_LIBS)
 
 pw2_SOURCES = \
@@ -49,7 +50,9 @@ pw2_SOURCES = \
 	pac_bomb.cpp \
 	pac_rail.cpp \
 	server.cpp \
-	chat.cpp
+	chat.cpp \
+	bot.cpp \
+	aibase.cpp
 
 EXTRA_DIST = \
 	_bldnum.h \

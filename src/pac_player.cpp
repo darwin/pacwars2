@@ -986,18 +986,18 @@ void GPlayer::MoveAutonomous(MoveVector* mv, TICK_TYPE time)
 bool GPlayer::TryToMoveDx(rect_t * r)
 {
   // try to optimize movement
-  rect_t or = *r;
-  int ory = or.top%MBSH;
+  rect_t orect = *r;
+  int ory = orect.top%MBSH;
   if (ory < MBSW/2)
   {
-    MoveBoundingBox(&or, 0, -ory);
-    if (GlobalCollision(&or, GPlayerObjColB, GPlayerMapColB))
+    MoveBoundingBox(&orect, 0, -ory);
+    if (GlobalCollision(&orect, GPlayerObjColB, GPlayerMapColB))
     {
-      MoveBoundingBox(&or, 0, MBSH);
-      if (GlobalCollision(&or, GPlayerObjColB, GPlayerMapColB))
+      MoveBoundingBox(&orect, 0, MBSH);
+      if (GlobalCollision(&orect, GPlayerObjColB, GPlayerMapColB))
       {
-        MoveBoundingBox(&or, 0, -2*MBSH);
-        if (GlobalCollision(&or, GPlayerObjColB, GPlayerMapColB))
+        MoveBoundingBox(&orect, 0, -2*MBSH);
+        if (GlobalCollision(&orect, GPlayerObjColB, GPlayerMapColB))
         {
 //          MoveBoundingBox(&or, 0, 3*MBSH);
 //          if (GlobalCollision(&or, GPlayerObjColB, GPlayerMapColB))
@@ -1010,14 +1010,14 @@ bool GPlayer::TryToMoveDx(rect_t * r)
   }
   else
   {
-    MoveBoundingBox(&or, 0, MBSH-ory);
-    if (GlobalCollision(&or, GPlayerObjColB, GPlayerMapColB))
+    MoveBoundingBox(&orect, 0, MBSH-ory);
+    if (GlobalCollision(&orect, GPlayerObjColB, GPlayerMapColB))
     {
-      MoveBoundingBox(&or, 0, -MBSH);
-      if (GlobalCollision(&or, GPlayerObjColB, GPlayerMapColB))
+      MoveBoundingBox(&orect, 0, -MBSH);
+      if (GlobalCollision(&orect, GPlayerObjColB, GPlayerMapColB))
       {
-        MoveBoundingBox(&or, 0, 2*MBSH);
-        if (GlobalCollision(&or, GPlayerObjColB, GPlayerMapColB))
+        MoveBoundingBox(&orect, 0, 2*MBSH);
+        if (GlobalCollision(&orect, GPlayerObjColB, GPlayerMapColB))
         {
 //          MoveBoundingBox(&or, 0, -3*MBSH);
 //          if (GlobalCollision(&or, GPlayerObjColB, GPlayerMapColB))
@@ -1028,7 +1028,7 @@ bool GPlayer::TryToMoveDx(rect_t * r)
       }
     }
   }
-  *r = or;
+  *r = orect;
   return true;
 }
 
@@ -1036,18 +1036,18 @@ bool GPlayer::TryToMoveDx(rect_t * r)
 bool GPlayer::TryToMoveDy(rect_t * r)
 {
   // try to optimize movement
-  rect_t or = *r;
-  int orx = or.left%MBSW;
+  rect_t orect = *r;
+  int orx = orect.left%MBSW;
   if (orx < MBSW/2)
   {
-    MoveBoundingBox(&or, -orx, 0);
-    if (GlobalCollision(&or, GPlayerObjColB, GPlayerMapColB))
+    MoveBoundingBox(&orect, -orx, 0);
+    if (GlobalCollision(&orect, GPlayerObjColB, GPlayerMapColB))
     {
-      MoveBoundingBox(&or, MBSW, 0);
-      if (GlobalCollision(&or, GPlayerObjColB, GPlayerMapColB))
+      MoveBoundingBox(&orect, MBSW, 0);
+      if (GlobalCollision(&orect, GPlayerObjColB, GPlayerMapColB))
       {
-        MoveBoundingBox(&or, -2*MBSW, 0);
-        if (GlobalCollision(&or, GPlayerObjColB, GPlayerMapColB))
+        MoveBoundingBox(&orect, -2*MBSW, 0);
+        if (GlobalCollision(&orect, GPlayerObjColB, GPlayerMapColB))
         {
 //          MoveBoundingBox(&or, 3*MBSW, 0);
 //          if (GlobalCollision(&or, GPlayerObjColB, GPlayerMapColB))
@@ -1060,14 +1060,14 @@ bool GPlayer::TryToMoveDy(rect_t * r)
   }
   else
   {
-    MoveBoundingBox(&or, MBSW-orx, 0);
-    if (GlobalCollision(&or, GPlayerObjColB, GPlayerMapColB))
+    MoveBoundingBox(&orect, MBSW-orx, 0);
+    if (GlobalCollision(&orect, GPlayerObjColB, GPlayerMapColB))
     {
-      MoveBoundingBox(&or, -MBSW, 0);
-      if (GlobalCollision(&or, GPlayerObjColB, GPlayerMapColB))
+      MoveBoundingBox(&orect, -MBSW, 0);
+      if (GlobalCollision(&orect, GPlayerObjColB, GPlayerMapColB))
       {
-        MoveBoundingBox(&or, 2*MBSW, 0);
-        if (GlobalCollision(&or, GPlayerObjColB, GPlayerMapColB))
+        MoveBoundingBox(&orect, 2*MBSW, 0);
+        if (GlobalCollision(&orect, GPlayerObjColB, GPlayerMapColB))
         {
 //          MoveBoundingBox(&or, -3*MBSW, 0);
 //          if (GlobalCollision(&or, GPlayerObjColB, GPlayerMapColB))
@@ -1078,7 +1078,7 @@ bool GPlayer::TryToMoveDy(rect_t * r)
       }
     }
   }
-  *r = or;
+  *r = orect;
   return true;
 }
 

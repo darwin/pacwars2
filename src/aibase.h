@@ -131,7 +131,7 @@ class CIPoint
 {
 public:  
   CIPoint() {}
-  CIPoint(const int x0, const int y0) { x = x0; y = y0; }
+  CIPoint(const double x0, const double y0) { x = x0; y = y0; }
   CIPoint(const CIVector& v);
   CIPoint(const CIPoint& A, const CIPoint& B, const int ratio) { Interpolate(A, B, ratio); } 
   
@@ -142,21 +142,21 @@ public:
   CIPoint     operator-=(const CIVector& rs);
   CIPoint&    operator=(const CIPoint& rs) { x = rs.x; y = rs.y; return *this; }
               operator CXPoint() { return CXPoint(x,y); }
-              operator CXPoint&() { return CXPoint(x,y); }
+              //operator const CXPoint&() { return CXPoint(x,y); }
   
   void        Zero() { x=0; y=0; }
   void        Add(const CIVector& v);	  
   void        SetXY(const int nx, const int ny) { x=nx; y=ny; }
   void        SetX(const int nx) { x = nx; }
   void        SetY(const int ny) { y = ny; }
-  int         GetX() const { return x; }
-  int         GetY() const { return y; }
+  double         GetX() const { return x; }
+  double         GetY() const { return y; }
   
   void        Interpolate(const CIPoint& A, const CIPoint& B, const int ratio) { x = A.x + (B.x-A.x) * ratio; y = A.y + (B.y-A.y) * ratio; }
   bool        ObjectInsideArea(const int x1, const int y1, const int x2, const int y2) { return (x1 <= x) && (x2 >= x) && (y1 <= y) && (y2 >= y); }
   
-  int         x;    // point x-coordinate
-  int         y;    // point y-coordinate
+  double         x;    // point x-coordinate
+  double         y;    // point y-coordinate
 };
 
 class CXVector : public CXPoint
@@ -218,7 +218,7 @@ public:
   CIPoint     operator+(const CXPoint& rs)  const { return CIPoint(ROUND(rs.x+x), ROUND(rs.y+y)); }
   double      operator*(const CIVector& rs)     { return DotProduct(rs); }
               operator CXVector() { return CXVector(x,y); }
-              operator CXVector&() { return CXVector(x,y); }
+              //operator CXVector&() { return CXVector(x,y); }
   
   double      Length() const            { return (double)sqrt(SQR(x)+SQR(y)); }
   void        Add(const CIVector& v)  { x += v.x; y += v.y; }  // redefinition for being inline
@@ -227,8 +227,8 @@ public:
   double      DotProduct(const CIPoint& v2) const { return x*v2.x + y*v2.y; }
   double      LinearDependent(const CIVector& rs) const; 
   
-  void        Rotate90cw()              { int sx = -x; x = y; y = sx; }
-  void        Rotate90ccw()             { int sy = -y; y = x; x = sy; }
+  void        Rotate90cw()              { double sx = -x; x = y; y = sx; }
+  void        Rotate90ccw()             { double sy = -y; y = x; x = sy; }
   void        Rotate180()               { x = -x; y = -y; }
 };
 
@@ -314,7 +314,7 @@ public:
   // following functions need normalized rectangle
   
   // intersection
-  bool Intersect(int x, int y); // point intersection
+  bool Intersect(double x, double y); // point intersection
   bool Intersect(const CIPoint& A); // point intersection
   bool Intersect(const CIPoint& A, const CIPoint& B);  // line intersection
   bool Intersect(const CILine& L); // line intersection
@@ -389,4 +389,4 @@ public:
   bool valid;
 };
 
-#endif  
+#endif

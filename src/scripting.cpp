@@ -180,7 +180,7 @@ int ScriptDesc::VRunScript(char *funcname, ...)
   //  now, let's execute the function "funcname"
   va_list va;
   va_start(va,funcname);
-  err = scVCall_Instance(prog,scGet_Symbol(prog, funcname),-1,&(va_arg(va,int)));
+  err = scVCall_Instance(prog,scGet_Symbol(prog, funcname),-1, (int*)va /*&(va_arg(va,int))*/);
   
   if (scErrorNo)
   {
@@ -440,30 +440,30 @@ void InitExternals()
 {
 
   // general externals
-  scAdd_External_Symbol("ConOut",ConOut);
-  scAdd_External_Symbol("ConPut",ConPut);
-  scAdd_External_Symbol("ConPar",ConPar);
-  scAdd_External_Symbol("SetMessenger",SetMessenger);
+  scAdd_External_Symbol("ConOut",(void*)ConOut);
+  scAdd_External_Symbol("ConPut",(void*)ConPut);
+  scAdd_External_Symbol("ConPar",(void*)ConPar);
+  scAdd_External_Symbol("SetMessenger",(void*)SetMessenger);
 
-  scAdd_External_Symbol("Cvar_RegisterVariable", Cvar_RegisterVariable);
-  scAdd_External_Symbol("Cvar_Set", Cvar_Set);
-  scAdd_External_Symbol("Cvar_SetValue", Cvar_SetValue);
-  scAdd_External_Symbol("Cvar_VariableValue", Cvar_VariableValue);
+  scAdd_External_Symbol("Cvar_RegisterVariable", (void*)Cvar_RegisterVariable);
+  scAdd_External_Symbol("Cvar_Set", (void*)Cvar_Set);
+  scAdd_External_Symbol("Cvar_SetValue", (void*)Cvar_SetValue);
+  scAdd_External_Symbol("Cvar_VariableValue", (void*)Cvar_VariableValue);
 
-  scAdd_External_Symbol("Cvar_VariableString", Cvar_VariableString);
-  scAdd_External_Symbol("Cvar_CompleteVariable", Cvar_CompleteVariable);
-  scAdd_External_Symbol("Cvar_Command", Cvar_Command);
+  scAdd_External_Symbol("Cvar_VariableString", (void*)Cvar_VariableString);
+  scAdd_External_Symbol("Cvar_CompleteVariable", (void*)Cvar_CompleteVariable);
+  scAdd_External_Symbol("Cvar_Command", (void*)Cvar_Command);
 
-  scAdd_External_Symbol("malloc",malloc);
-  scAdd_External_Symbol("free",free);
-  scAdd_External_Symbol("rand",rand);
+  scAdd_External_Symbol("malloc",(void*)malloc);
+  scAdd_External_Symbol("free",(void*)free);
+  scAdd_External_Symbol("rand",(void*)rand);
   
-  scAdd_External_Symbol("SV_BroadcastSound", SV_BroadcastSound);
-  scAdd_External_Symbol("SV_ClientSound", SV_ClientSound);
-  scAdd_External_Symbol("SV_BroadcastVoice", SV_BroadcastVoice);
-  scAdd_External_Symbol("SV_ClientVoice", SV_ClientVoice);
+  scAdd_External_Symbol("SV_BroadcastSound", (void*)SV_BroadcastSound);
+  scAdd_External_Symbol("SV_ClientSound", (void*)SV_ClientSound);
+  scAdd_External_Symbol("SV_BroadcastVoice", (void*)SV_BroadcastVoice);
+  scAdd_External_Symbol("SV_ClientVoice", (void*)SV_ClientVoice);
   
-  scAdd_External_Symbol("ChatMessage", ChatMessage);
+  scAdd_External_Symbol("ChatMessage", (void*)ChatMessage);
 
 
   // mapi externals

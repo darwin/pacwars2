@@ -9,7 +9,6 @@ pw2dir = $(prefix)
 pw2_DATA = \
 	info.html \
 	file_id.diz \
-	licence.txt \
 	PW2-site.url \
 	README-SDL.txt \
 	README-ParaGUI.txt
