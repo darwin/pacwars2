@@ -524,7 +524,7 @@ GUI_OKDialog1::GUI_OKDialog1(char* title, char* line1, char* line2) : GUI_BaseMe
 	lPrompt1 = new GUI_Label(this, SDLWidget::mkrect(1,35, OKD1_VX-2,20), line1, false);
 	bOK = new GUI_ButtonSmall(this, 1, SDLWidget::mkrect(105,65,150,25), "OK");
 
-	Board1 = new GUI_Board(this, SDLWidget::mkrect(0,0,OKD1_VX,100), false);
+	//Board1 = new GUI_Board(this, SDLWidget::mkrect(0,0,OKD1_VX,100), false);
 
 	Default();
   
@@ -532,6 +532,7 @@ GUI_OKDialog1::GUI_OKDialog1(char* title, char* line1, char* line2) : GUI_BaseMe
 	OKDialog1->SetFont(MainFont);
   
 	lPrompt1->SetAlignment(SDL_TA_CENTER);
+	LoadThemeStyle("GUI_Board");
 }
 
 void GUI_OKDialog1::Default()
@@ -566,7 +567,7 @@ void GUI_OKDialog2::Reset(char* title, char* line1, char* line2)
 GUI_OKDialog2::GUI_OKDialog2(char* title, char* line1, char* line2):
 GUI_BaseMenu(GUI_OKDIALOG2, mkrect(OKD2_PX,OKD2_PY,OKD2_VX,OKD2_VY)) {
 
-  Board1 = new GUI_Board(this, SDLWidget::mkrect(0,0,OKD2_VX,120), false);
+  //Board1 = new GUI_Board(this, SDLWidget::mkrect(0,0,OKD2_VX,120), false);
   OKDialog2 = new GUI_Label(this, SDLWidget::mkrect(1,4,OKD2_VX-2,25), title, false);
   lPrompt1 = new GUI_Label(this, SDLWidget::mkrect(1,35, OKD2_VX-2,20), line1, false);
   lPrompt2 = new GUI_Label(this, SDLWidget::mkrect(1,55, OKD2_VX-2,20), line2, false);
@@ -578,7 +579,9 @@ GUI_BaseMenu(GUI_OKDIALOG2, mkrect(OKD2_PX,OKD2_PY,OKD2_VX,OKD2_VY)) {
   OKDialog2->SetFont(MainFont);
   
   lPrompt1->SetAlignment(SDL_TA_CENTER); 
-  lPrompt2->SetAlignment(SDL_TA_CENTER); 
+  lPrompt2->SetAlignment(SDL_TA_CENTER);
+
+  LoadThemeStyle("GUI_Board");
 }
 
 void GUI_OKDialog2::Default()
