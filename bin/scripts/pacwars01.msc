@@ -163,7 +163,7 @@ int ssInit()
 	  soSetExtra(slot, extra);
   }
 
-  Mod_UltraRailing();
+  Mod_UltraRailingOnly();
 
   return 0;
 }
