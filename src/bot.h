@@ -43,6 +43,25 @@ extern cvar_t	ai_level;
 //## Constants & defines
 //###########################################################################
 
+// These define the bot types (less agresive to more agressive)
+#define BOT_DUMMY			0	
+#define BOT_GRUNT			1
+#define BOT_SOLDIER		2
+#define BOT_HUNTER		3
+#define BOT_TERMINATOR	4
+
+// This structure is the essense of the bot's personality traits.
+// The numbers are between 0 and 1. The closer to 0, the less probable
+// something is (hitting target, responding fast enought). The closer to
+// 1, the more probable something is.
+//
+typedef struct
+{
+	float accuracy;
+	float confidence;
+	float reflex;
+} s_botpersonality;
+
 
 //###########################################################################
 //## API
@@ -52,6 +71,7 @@ extern int bot_init(GPlayer* player, CGame* game);
 extern int bot_command(GPlayer* player, CGame* game, char* cmd, char* params);
 extern int bot_think(GPlayer* player, CGame* game, MoveVector* mv);
 extern int bot_done(GPlayer* player, CGame* game);
-
+extern int orig_bot_think(GPlayer* player, CGame* game, MoveVector* mv);
+extern int bot_set_destination(GPlayer *player, CGame *game, Uint16 dst_x, Uint16 dst_y);
 
 #endif

@@ -16,6 +16,15 @@
 // TODO: here should go game AI cvars ...
 cvar_t ai_level = {"ai_level", "1", true};   // example cvar (search string "ai_level" in all sources to add more cvars)
 
+// This is the definition of the bot personalities
+s_botpersonality botstats[5] = {
+	{ 0.1, 0.1, 0.1 },	// Dummy
+	{ 0.3, 0.3, 0.3 },	// Grunt
+	{ 0.5, 0.5, 0.5 },	// Soldier
+	{ 0.7, 0.7, 0.7 },	// Hunter
+	{ 0.9, 0.9, 0.9 }		// Terminator
+};
+
 // special heuristics function for wrapped map
 int HeuristicsWrap(PED* PE, MapNode* A, MapNode* B)
 {
@@ -149,6 +158,8 @@ int bot_init(GPlayer* player, CGame* game)
   player->steps = NULL;
   player->cur_step = 0;
 
+  //Init the bot to 
+
   
 
   return 0;
@@ -166,6 +177,13 @@ int bot_done(GPlayer* player, CGame* game)
   return 0;
 }
 
+/********************************************************************
+		bot_command
+
+  When a command is issued to a bot, it goes here.
+
+
+********************************************************************/
 int bot_command(GPlayer* player, CGame* game, char* cmd, char* params)
 {
   if (strcmp(cmd, "go")==0)
@@ -173,24 +191,8 @@ int bot_command(GPlayer* player, CGame* game, char* cmd, char* params)
     int dst_x, dst_y;
     if (sscanf(params, "%d %d", &dst_x, &dst_y) < 2) return 2;
 
-    Uint16 cur_x = player->xpos;
-    Uint16 cur_y = player->ypos;
-
     // per pixel position -> map block coordinates
-    cur_x>>=4;
-    cur_y>>=4;
-
-    MapNode* start = peMapXY(player->pe, cur_x, cur_y);
-    MapNode* dest = peMapXY(player->pe, dst_x, dst_y);
-
-	CIRect rect(CIPoint(0,0), CIPoint(mapwidth, mapheight));
-    Map2PE(&rect, player->pe, &game->map);
-    int length = peFindPath(player->pe, start, dest, 0, 1, &player->steps);
-    if (length) 
-      player->cur_step = 0; 
-    else 
-      ConOut("bot \"%s\": I don't know how to get there", player->player_name.GetValRef()->chars);
-
+	 bot_set_destination(player, game, dst_x, dst_y);
   
     return 0;
   }
@@ -209,14 +211,12 @@ int bot_command(GPlayer* player, CGame* game, char* cmd, char* params)
   //Follow me - Order the bot to follow a specific player
   if (strcmp(cmd, "follow") == 0)
   {
-		char leadername[256];
-		Uint16 leader_x;
-		Uint16 leader_y;
-		Uint16 cur_x = player->xpos;
-		Uint16 cur_y = player->ypos;
+	  char leadername[256];
+	  Uint16 leader_x;
+	  Uint16 leader_y;
 
-	  if (sscanf(params, "%s", leadername) < 1) 
-		  return 2;
+		if (sscanf(params, "%s", leadername) < 1) 
+			return 2;
 
 	  //Find the player
 	  for(int x=0; x<GAME_MAX_OBJS; x++)
@@ -238,28 +238,84 @@ int bot_command(GPlayer* player, CGame* game, char* cmd, char* params)
 	  } //End of loop
 
 	  //Set the bot's destination to the leader
-    cur_x>>=4;
-    cur_y>>=4;
+	  bot_set_destination(player, game, leader_x, leader_y);
 
-    MapNode* start = peMapXY(player->pe, cur_x, cur_y);
-    MapNode* dest = peMapXY(player->pe, leader_x, leader_y);
+  }
 
-	CIRect rect(CIPoint(0,0), CIPoint(mapwidth, mapheight));
-    Map2PE(&rect, player->pe, &game->map);
-    int length = peFindPath(player->pe, start, dest, 0, 1, &player->steps);
-    if (length) 
-      player->cur_step = 0; 
-    else 
-      ConOut("bot \"%s\": I don't know how to get there", player->player_name.GetValRef()->chars);
+  //Guard a position
+  if (strcmp(cmd, "guard") == 0)
+  {
 
-
+	  return 0;
   }
 
   return 1;
 }
 
+/*************************************************************
+		bot_think
+
+  This is where the bot thinks. :) This is the main function
+that controls the actions of the bot. Based on the type of 
+bot, there will be different actions/reactions, but the basic
+statemachine is here.
+
+  -NJL
+
+*************************************************************/
 int bot_think(GPlayer* player, CGame* game, MoveVector* mv) 
 { 
+
+	//Is our current objetive still valid?
+
+	//Are there any threats to us?
+
+	//Has the objective moved?
+
+	//Make adjustments to path/objective
+
+
+	//This is temporary
+	orig_bot_think(player, game, mv);
+  return 0; // ok
+}
+
+
+/**********************************************************
+		bot_set_destination
+
+  Use this function to set the destination for the bot.
+
+**********************************************************/
+int bot_set_destination(GPlayer *player, CGame *game, Uint16 dst_x, Uint16 dst_y)
+{
+	int ret = 0;
+	
+   Uint16 cur_x = player->xpos;
+   Uint16 cur_y = player->ypos;
+
+   // per pixel position -> map block coordinates
+   cur_x>>=4;
+   cur_y>>=4;
+
+   MapNode* start = peMapXY(player->pe, cur_x, cur_y);
+   MapNode* dest = peMapXY(player->pe, dst_x, dst_y);
+
+	CIRect rect(CIPoint(0,0), CIPoint(mapwidth, mapheight));
+	Map2PE(&rect, player->pe, &game->map);
+   int length = peFindPath(player->pe, start, dest, 0, 1, &player->steps);
+   if (length) 
+		player->cur_step = 0; 
+   else 
+      ConOut("bot \"%s\": I don't know how to get there", player->player_name.GetValRef()->chars);
+
+	 return ret;
+}
+
+
+// This is the original bot_think code
+int orig_bot_think(GPlayer* player, CGame* game, MoveVector* mv) 
+{
   // see AI state machine stored in player_object 
   // look around in map 
   // look after other objects around me 
@@ -420,3 +476,4 @@ int bot_think(GPlayer* player, CGame* game, MoveVector* mv)
 
   return 0; // ok
 }
+
