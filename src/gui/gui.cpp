@@ -371,10 +371,13 @@ void GUI_ButtonSmall::eventMouseEnter() {
 GUI_CheckBox::GUI_CheckBox(SDLWidget* parent, SDL_Rect& r, char* text, bool ipressed, SDL_Color bg) :
 SDLCheckButton(parent,99, r, text)
 {
-  if (ipressed) SetPressed();
-  my_widgetLabel->SetFont(TextFont);
+	if (ipressed) {
+		SetPressed();
+	}
 
-  LoadThemeStyle("GUI_CheckButton", "GradientWidget");
+	my_widgetLabel->SetFont(TextFont);
+
+	LoadThemeStyle("GUI_CheckButton");
 	my_widgetButton->LoadThemeStyle("GUI_CheckButton", "CheckWidget");
 	SetTransparency(0);
 }
@@ -399,8 +402,8 @@ void GUI_CheckBox::eventMouseLeave() {
 GUI_TextEdit::GUI_TextEdit(SDLWidget* parent, SDL_Rect& r):
 SDLLineEdit(parent, r)
 {
-  SetFont(TextFont);
-  LoadThemeStyle("GUI_LineEdit", "GradientWidget");
+	SetFont(TextFont);
+	LoadThemeStyle("GUI_LineEdit", "GradientWidget");
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -410,9 +413,9 @@ SDLLineEdit(parent, r)
 GUI_NumEdit::GUI_NumEdit(SDLWidget* parent, SDL_Rect& r, int imin, int imax):
 GUI_TextEdit(parent, r)
 {
-  SetFont(TextFont);
-  min = imin;
-  max = imax;
+	SetFont(TextFont);
+	min = imin;
+	max = imax;
 }
 
 
@@ -508,78 +511,15 @@ bool GUI_FloatEdit::eventFilterKey(const SDL_KeyboardEvent* key)
 GUI_ScrollBar::GUI_ScrollBar(SDLWidget* parent, int id, SDL_Rect& r, int direction) : SDLScrollBar(parent, id, r, direction) {
 }
 
-GUI_WidgetList::GUI_WidgetList(SDLWidget* parent, SDL_Rect& r) : SDLWidgetList(parent, r/*, true*/){
-  
-  // TODO: comment SDLWidgetList(...) !!! when download new paragui
-
-	/*
-	my_widgetCount = 0;
-	my_firstWidget = 0;
-	my_widthScrollbar = 12;
-	my_height = 0;
-
-  my_rectScrollbar.x = r.w - my_widthScrollbar - 1;
-	my_rectScrollbar.y = 1;
-	my_rectScrollbar.h = r.h - 2;
-	my_rectScrollbar.w = my_widthScrollbar;
-
-	my_objScrollbar = new SDLScrollBar(this, SDL_IDWIDGETLIST_SCROLL, my_rectScrollbar, SDL_SB_VERTICAL);
-
-	my_rectList.x = 0;
-	my_rectList.y = 0;
-	my_rectList.w = r.w - my_widthScrollbar;
-	my_rectList.h = r.h;
- 	*/
-
+GUI_WidgetList::GUI_WidgetList(SDLWidget* parent, SDL_Rect& r) : SDLWidgetList(parent, r/*, true*/) {
   LoadThemeStyle("GUI_WidgetList", "GradientWidget");
-/*	
-  my_rectScrollbar.x = r.w - my_widthScrollbar - 1;
-	my_rectScrollbar.y = 0;
-	my_rectScrollbar.h = r.h - 2;
-	my_rectScrollbar.w = my_widthScrollbar;
-
-	my_rectList.x = 5;
-	my_rectList.y = 1;
-	my_rectList.w = r.w - my_widthScrollbar - 10;
-	my_rectList.h = r.h-2;
-*/
 }
 
-GUI_WidgetList::~GUI_WidgetList()
-{
-//	DeleteAll();
-//	delete my_objScrollbar;
+GUI_WidgetList::~GUI_WidgetList() {
 }
 
 void GUI_WidgetList::AddWidget(SDLWidget* w) {
-
 	SDLWidgetList::AddWidget(w);
-
-	/*
-	w->SetVisible(false);
-	AddChild(w);
-	w->SetStoreBackground(false);
-
-	SDL_Rect r = w->GetWidgetRect();
-
-	if(my_widgetList.empty()) {
-		w->MoveWindow(LB_POSX, 0);
-		my_height = w->Height();
-	} else {
-		r = my_widgetList[my_widgetCount-1]->GetWidgetRect();
-		r.x -= my_rectDisplay.x;
-		r.y -= my_rectDisplay.y;
-
-		w->MoveWindow(r.x, r.y+r.h);
-		my_height = r.y + r.h + w->Height();
-	}
-
-	my_widgetList.insert(my_widgetList.end(), w);
-	my_widgetCount++;
-
-	my_objScrollbar->SetLineSize(my_height / my_widgetCount);
-	my_objScrollbar->SetRange(0, my_height - Height());
-	*/
 }
 
 	
@@ -610,14 +550,6 @@ GUI_OKDialog1::GUI_OKDialog1(char* title, char* line1, char* line2) : GUI_BaseMe
   
 	lPrompt1->SetAlignment(SDL_TA_CENTER);
 	lPrompt1->bgmode = 2;
-
-	/*
-  AddChild(&OKDialog1);
-  AddChild(&lPrompt1);
-  AddChild(&bOK);
-
-  AddChild(&Board1);
-	*/
 }
 
 void GUI_OKDialog1::Default()
@@ -626,15 +558,15 @@ void GUI_OKDialog1::Default()
 
 bool GUI_OKDialog1::eventButtonClick(int id, SDLWidget* widget)
 {
-  switch (id) {
-  case 1:
-    Return(); 
-    break;
-  case 2:
-    Return();
-    break;
-  }
-  return true;
+	switch (id) {
+		case 1:
+			Return();
+			break;
+		case 2:
+			Return();
+			break;
+	}
+	return true;
 }
 
 
