@@ -229,8 +229,6 @@ class GUI_NumEdit : public GUI_TextEdit {
 public:
   GUI_NumEdit(SDLWidget* parent, SDL_Rect& r, int imin, int imax);
   
-  bool eventFilterKey(const SDL_KeyboardEvent* key);
-
   int min, max;
 };
 
@@ -242,8 +240,6 @@ public:
 class GUI_FloatEdit : public GUI_TextEdit {
 public:
   GUI_FloatEdit(SDLWidget* parent, SDL_Rect& r, float imin, float max);
-  
-  bool eventFilterKey(const SDL_KeyboardEvent* key);
   
   float min, max;
 };

@@ -150,14 +150,13 @@ void GUI_InitColors(SDL_Surface* screen)
 // Board
 /////////////////////////////////////////////////////////////////////////////
 
-GUI_Board::GUI_Board(SDLWidget* parent, SDL_Rect& r,  bool storebackground, char* theme):
-SDLGradientWidget(parent,r)
-{
-//  drawbackground = true;
-  if (!theme)
-    LoadThemeStyle("GUI_Board","GradientWidget");
-  else
-    LoadThemeStyle(theme,"GradientWidget");
+GUI_Board::GUI_Board(SDLWidget* parent, SDL_Rect& r,  bool storebackground, char* theme) : SDLGradientWidget(parent,r) {
+	if (!theme) {
+		LoadThemeStyle("GUI_Board","GradientWidget");
+	}
+	else {
+		LoadThemeStyle(theme,"GradientWidget");
+	}
 }
 
 
@@ -165,20 +164,19 @@ SDLGradientWidget(parent,r)
 // Bitmap
 /////////////////////////////////////////////////////////////////////////////
 
-GUI_Bitmap::GUI_Bitmap(SDLWidget* parent, SDL_Rect& r,  bool storebackground, SDL_Surface* s):
-SDLWidget(parent,r,storebackground)
-{
-  bitmap = s;
+GUI_Bitmap::GUI_Bitmap(SDLWidget* parent, SDL_Rect& r,  bool storebackground, SDL_Surface* s) : SDLWidget(parent,r,storebackground) {
+	bitmap = s;
 }
 
-void GUI_Bitmap::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
-{
-  SDL_Rect sr;
-  sr.x = 0;
-  sr.y = 0;
-  sr.w = MIN(rect->w, bitmap->w);
-  sr.h = MIN(rect->h, bitmap->h);
-  SDL_BlitSurface(bitmap, &sr, surface, rect);
+void GUI_Bitmap::eventDraw(SDL_Surface* surface, SDL_Rect* rect) {
+	SDL_Rect sr;
+
+	sr.x = 0;
+	sr.y = 0;
+	sr.w = MIN(rect->w, bitmap->w);
+	sr.h = MIN(rect->h, bitmap->h);
+
+	SDL_BlitSurface(bitmap, &sr, surface, rect);
 }
 
 
@@ -188,19 +186,15 @@ void GUI_Bitmap::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
 /////////////////////////////////////////////////////////////////////////////
 
 
-GUI_Label::GUI_Label(SDLWidget* parent, SDL_Rect& r, char* text, bool storebackground, char* style):
-SDLLabel(parent,r,text)
-{
-  SetFont(TextFont);
-  SetAlignment(SDL_TA_CENTER); 
-  SDLWidget::LoadThemeStyle(style, "GUI_Label");
+GUI_Label::GUI_Label(SDLWidget* parent, SDL_Rect& r, char* text, bool storebackground, char* style) : SDLLabel(parent,r,text) {
+	SetFont(TextFont);
+	SetAlignment(SDL_TA_CENTER);
+	SDLWidget::LoadThemeStyle(style, "GUI_Label");
 }
 
-GUI_LabelC::GUI_LabelC(SDLWidget* parent, SDL_Rect& r, char* text, bool storebackground):
-SDLLabel(parent,r,text)
-{
-  SetFont(TextFont);
-  SetAlignment(SDL_TA_LEFT); 
+GUI_LabelC::GUI_LabelC(SDLWidget* parent, SDL_Rect& r, char* text, bool storebackground) : SDLLabel(parent,r,text) {
+	SetFont(TextFont);
+	SetAlignment(SDL_TA_LEFT);
 }
 
 
@@ -208,69 +202,78 @@ SDLLabel(parent,r,text)
 // Label
 /////////////////////////////////////////////////////////////////////////////
 
-GUI_LabelL::GUI_LabelL(SDLWidget* parent, SDL_Rect& r, char* text, GUI_LabelL** iselected, CSMapInfo* si, SDL_Color ic1, SDL_Color ic2, void (*cb)(GUI_LabelL*)):
-SDLLabel(parent,r,text)
-{
-  SetFont(TextFont);
-  c1 = ic1;
-  c2 = ic2;
-  selected = iselected;
-  msi = si;
-  callback = cb;
-  SetAlignment(SDL_TA_LEFT); 
+GUI_LabelL::GUI_LabelL(SDLWidget* parent, SDL_Rect& r, char* text, GUI_LabelL** iselected, CSMapInfo* si, SDL_Color ic1, SDL_Color ic2, void (*cb)(GUI_LabelL*)) : SDLLabel(parent,r,text) {
+	SetFont(TextFont);
+
+	c1 = ic1;
+	c2 = ic2;
+	selected = iselected;
+	msi = si;
+	callback = cb;
+
+	SetAlignment(SDL_TA_LEFT);
 }
 
-bool GUI_LabelL::eventMouseButtonDown(const SDL_MouseButtonEvent* button)
-{
-  GUI_LabelL* last = *selected;
-  if (last!=this)
-  {
-    *selected = this;
-    last->Redraw();
-    Redraw();
-    if (callback) (*callback)(last);
-  }
-  return true;
+bool GUI_LabelL::eventMouseButtonDown(const SDL_MouseButtonEvent* button) {
+	GUI_LabelL* last = *selected;
+
+	if (last!=this) {
+		*selected = this;
+		last->Redraw();
+		Redraw();
+		if (callback) (*callback)(last);
+	}
+
+	return true;
 }
 
-void GUI_LabelL::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
-{
-  if (*selected==this) SetTextColor(c2); else SetTextColor(c1);
-  SDLLabel::eventDraw(surface, rect);  
+void GUI_LabelL::eventDraw(SDL_Surface* surface, SDL_Rect* rect) {
+
+	if (*selected==this) {
+		SetTextColor(c2);
+	}
+	else {
+		SetTextColor(c1);
+	}
+
+	SDLLabel::eventDraw(surface, rect);
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // Buttons
 /////////////////////////////////////////////////////////////////////////////
 
-GUI_Button::GUI_Button(SDLWidget* parent, int btnid, SDL_Rect& r, char* text):
-SDLButton(parent,btnid,r,text)
-{
-  SetBorderSize(0,0,0);
-  SetTextColor(GUI_BtnTextColor);
-  c = GUI_Red100;
-  drawbackground = false;
+GUI_Button::GUI_Button(SDLWidget* parent, int btnid, SDL_Rect& r, char* text) : SDLButton(parent,btnid,r,text) {
+	SetBorderSize(0,0,0);
+	SetTextColor(GUI_BtnTextColor);
+	c = GUI_Red100;
+	drawbackground = false;
 }
 
 
-GUI_ButtonBig::GUI_ButtonBig(SDLWidget* parent, int btnid, SDL_Rect& r, char* text):
-GUI_Button(parent,btnid,r,text)
-{
-  SetFont(MainFont);
-  //  drawbackground = false;
-  drawbackground = true;
-  enabled = true;
+GUI_ButtonBig::GUI_ButtonBig(SDLWidget* parent, int btnid, SDL_Rect& r, char* text) : GUI_Button(parent,btnid,r,text) {
+	SDLTheme* theme = SDLApplication::GetTheme();
+
+	SetFont(MainFont);
+	drawbackground = true;
+	enabled = true;
+
 	LoadThemeStyle("GUI_MenuButton", "Button");
+	SDL_Color* color = theme->FindColor("GUI_MenuButton", "Button", "textcolor2");
+
+	if(color != NULL) {
+		GUI_BtnATextColor = *color;
+	}
+
 	GUI_BtnTextColor = GetTextColor();
 }
 
 void GUI_ButtonBig::eventMouseLeave() {
-    SetFont(MainFont);
-    if (enabled)
-    {
-      SetTextColor(GUI_BtnTextColor);
-      Redraw();
-    }
+	SetFont(MainFont);
+	if (enabled) {
+		SetTextColor(GUI_BtnTextColor);
+		Redraw();
+	}
 }
 
 void GUI_ButtonBig::eventMouseEnter() {
@@ -297,13 +300,23 @@ bool GUI_ButtonBig::eventMouseButtonUp(const SDL_MouseButtonEvent* button) {
 }
 
 
-GUI_ButtonSmall::GUI_ButtonSmall(SDLWidget* parent, int btnid, SDL_Rect& r, char* text):
-GUI_Button(parent,btnid,r,text)
-{
-  SetFont(BtnFont);
-  drawbackground = true;
-  c = GUI_SmBtColor;
+GUI_ButtonSmall::GUI_ButtonSmall(SDLWidget* parent, int btnid, SDL_Rect& r, char* text) : GUI_Button(parent,btnid,r,text) {
+	SDLTheme* theme = SDLApplication::GetTheme();
+
+	SetFont(BtnFont);
+	drawbackground = true;
+	c = GUI_SmBtColor;
+
 	LoadThemeStyle("GUI_NormalButton", "Button");
+
+	GUI_BtnTextColor = GetTextColor();
+	SDL_Color* color = theme->FindColor("GUI_MenuButton", "Button", "textcolor2");
+
+	if(color != NULL) {
+		GUI_BtnATextColor = *color;
+	}
+
+	GUI_BtnTextColor = GetTextColor();
 }
 
 void GUI_ButtonSmall::eventMouseLeave() {
@@ -321,9 +334,7 @@ void GUI_ButtonSmall::eventMouseEnter() {
 // Checkbox
 /////////////////////////////////////////////////////////////////////////////
 
-GUI_CheckBox::GUI_CheckBox(SDLWidget* parent, SDL_Rect& r, char* text, bool ipressed, SDL_Color bg) :
-SDLCheckButton(parent,99, r, text)
-{
+GUI_CheckBox::GUI_CheckBox(SDLWidget* parent, SDL_Rect& r, char* text, bool ipressed, SDL_Color bg) : SDLCheckButton(parent,99, r, text) {
 	if (ipressed) {
 		SetPressed();
 	}
@@ -335,8 +346,7 @@ SDLCheckButton(parent,99, r, text)
 	SetTransparency(0);
 }
 
-GUI_CheckBox::~GUI_CheckBox()
-{
+GUI_CheckBox::~GUI_CheckBox() {
 }
 
 void GUI_CheckBox::eventMouseEnter() {
@@ -352,9 +362,7 @@ void GUI_CheckBox::eventMouseLeave() {
 // TextEdit
 /////////////////////////////////////////////////////////////////////////////
 
-GUI_TextEdit::GUI_TextEdit(SDLWidget* parent, SDL_Rect& r):
-SDLLineEdit(parent, r)
-{
+GUI_TextEdit::GUI_TextEdit(SDLWidget* parent, SDL_Rect& r) : SDLLineEdit(parent, r) {
 	SetFont(TextFont);
 	LoadThemeStyle("GUI_TextEdit");
 }
@@ -363,100 +371,22 @@ SDLLineEdit(parent, r)
 // NumEdit
 /////////////////////////////////////////////////////////////////////////////
 
-GUI_NumEdit::GUI_NumEdit(SDLWidget* parent, SDL_Rect& r, int imin, int imax):
-GUI_TextEdit(parent, r)
-{
+GUI_NumEdit::GUI_NumEdit(SDLWidget* parent, SDL_Rect& r, int imin, int imax) : GUI_TextEdit(parent, r) {
 	SetFont(TextFont);
 	min = imin;
 	max = imax;
-}
-
-
-bool GUI_NumEdit::eventFilterKey(const SDL_KeyboardEvent* key)
-{
-  switch(key->keysym.sym){
-    
-    case SDLK_0:
-    case SDLK_1:
-    case SDLK_2:
-    case SDLK_3:
-    case SDLK_4:
-    case SDLK_5:
-    case SDLK_6:
-    case SDLK_7:
-    case SDLK_8:
-    case SDLK_9:
-    case SDLK_KP0:
-	  case SDLK_KP1:
-	  case SDLK_KP2:
-	  case SDLK_KP3:
-	  case SDLK_KP4:
-	  case SDLK_KP5:
-	  case SDLK_KP6:
-	  case SDLK_KP7:
-	  case SDLK_KP8:
-	  case SDLK_KP9:
-	  case SDLK_BACKSPACE:
-			return false;
-      break;
-      
-    default:
-      return true;
-  }
-  
-  return true;
+	SetValidKeys("0123456789");
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // FloatEdit
 /////////////////////////////////////////////////////////////////////////////
 
-GUI_FloatEdit::GUI_FloatEdit(SDLWidget* parent, SDL_Rect& r, float imin, float imax):
-GUI_TextEdit(parent, r)
-{
-  SetFont(TextFont);
-  min = imin;
-  max = imax;
-}
-
-
-bool GUI_FloatEdit::eventFilterKey(const SDL_KeyboardEvent* key)
-{
-  switch(key->keysym.sym){
-    
-    case SDLK_0:
-    case SDLK_1:
-    case SDLK_2:
-    case SDLK_3:
-    case SDLK_4:
-    case SDLK_5:
-    case SDLK_6:
-    case SDLK_7:
-    case SDLK_8:
-    case SDLK_9:
-    case SDLK_KP0:
-	  case SDLK_KP1:
-	  case SDLK_KP2:
-	  case SDLK_KP3:
-	  case SDLK_KP4:
-	  case SDLK_KP5:
-	  case SDLK_KP6:
-	  case SDLK_KP7:
-	  case SDLK_KP8:
-	  case SDLK_KP9:
-	  case SDLK_KP_PERIOD:
-		case SDLK_PERIOD:
-		case SDLK_MINUS:
-	  case SDLK_KP_MINUS:
-	  case SDLK_BACKSPACE:
-		return false;
-      break;
-      
-    default:
-      return true;
-  }
-  
-  return true;
+GUI_FloatEdit::GUI_FloatEdit(SDLWidget* parent, SDL_Rect& r, float imin, float imax) : GUI_TextEdit(parent, r) {
+	SetFont(TextFont);
+	min = imin;
+	max = imax;
+	SetValidKeys("0123456789.-");
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -720,91 +650,94 @@ GUI_SkinCtrl::GUI_SkinCtrl(SDLWidget* parent, SDL_Rect& r,  bool storebackground
 	c = GUI_Gray64;
 	drawbackground = true;
 
-  bPrev->LoadThemeStyle("GUI_PrevSkinButton");
-  bNext->LoadThemeStyle("GUI_NextSkinButton");
+	bPrev->LoadThemeStyle("GUI_PrevSkinButton");
+	bNext->LoadThemeStyle("GUI_NextSkinButton");
 }
 
 void GUI_SkinCtrl::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
 {
-  if (drawbackground) {
-    SDL_FillRect(surface, rect, SDL_MapRGB(surface->format, c.r, c.g, c.b));
-    SDLWidget::DrawBorder(surface, rect, 1, false);
-  }
-  else
-    SDL_FillRect(surface, rect, 0);
+	if (drawbackground) {
+		SDL_FillRect(surface, rect, SDL_MapRGB(surface->format, c.r, c.g, c.b));
+		SDLWidget::DrawBorder(surface, rect, 1, false);
+	}
+	else {
+		SDL_FillRect(surface, rect, 0);
+	}
   
-  SDLWidget::eventDraw(surface, rect);
+	SDLWidget::eventDraw(surface, rect);
 }
 
 bool GUI_SkinCtrl::eventButtonClick(int id, SDLWidget* widget)
 {
-  switch (id) {
-  case 1:
-    if (SkinPic->PrevSkin())
-    {
-      bPrev->Hide();
-    }
-    else
-    {
-      bPrev->Show();
-    }
-    bNext->Show();
-    break;
-  case 2:
-    if (SkinPic->NextSkin())
-    {
-      bNext->Hide();
-    }
-    else
-    {
-      bNext->Show();
-    }
-    bPrev->Show();
-    break;
-  }
-  return true;
+	switch (id) {
+
+	case 1:
+		if (SkinPic->PrevSkin()) {
+			bPrev->Hide();
+		}
+		else {
+			bPrev->Show();
+		}
+		bNext->Show();
+		break;
+
+	case 2:
+		if (SkinPic->NextSkin()) {
+			bNext->Hide();
+		}
+		else {
+			bNext->Show();
+		}
+		bPrev->Show();
+		break;
+	}
+
+	return true;
 }
 
 
-GUI_Input::GUI_Input(SDLWidget* parent, SDL_Rect& r, int iid) :
-SDLGradientWidget(parent,r){
-  SetFont(TextFont);
-  text[0] = 0;
+GUI_Input::GUI_Input(SDLWidget* parent, SDL_Rect& r, int iid) : SDLGradientWidget(parent,r) {
+	SetFont(TextFont);
+
+	text[0] = 0;
 	offset_x = 0;
 
 	textcolor.r = 0xFF;
 	textcolor.g = 0xFF;
 	textcolor.b = 0xFF;
 
-  id = iid;
+	id = iid;
 	waiting = false;
 
-  LoadThemeStyle("GUI_Input", "GradientWidget");
+	LoadThemeStyle("GUI_Input", "GradientWidget");
 }
 
 GUI_Input::~GUI_Input(){
 }
 
 
-void GUI_Input::eventDraw(SDL_Surface* surface, SDL_Rect* rect){
-	if (waiting)
-    textcolor = GUI_InputActive;    
-  else
-    textcolor = GUI_InputInactive;    
+void GUI_Input::eventDraw(SDL_Surface* surface, SDL_Rect* rect) {
+	if (waiting) {
+		textcolor = GUI_InputActive;
+	}
+	else {
+		textcolor = GUI_InputInactive;
+	}
 
-  SDLGradientWidget::eventDraw(surface, rect);
+	SDLGradientWidget::eventDraw(surface, rect);
 
 	DrawText(surface, rect);
 	DrawBorder(surface, rect, 1, false);
 }
 
-void GUI_Input::DrawText(SDL_Surface* surface, SDL_Rect* rect){
+void GUI_Input::DrawText(SDL_Surface* surface, SDL_Rect* rect) {
 	int h;
 	int x,y;
 
 	x = rect->x + 3;
 	h = TTF_FontHeight(GetFont());
 	y = (rect->h - h)/2;
+
 	// draw text
 	char* DrawText = GetDrawText();
 	if(DrawText[0] != 0){
@@ -836,23 +769,24 @@ bool GUI_Input::eventKeyDown(const SDL_KeyboardEvent* key){
 	}
 	
 	switch(key->keysym.sym){
-    case SDLK_ESCAPE:
-      InputEnd();
+
+		case SDLK_ESCAPE:
+			InputEnd();
 			return false;
 
 		// forbidden keys
-    case SDLK_F1: 
-    case SDLK_F2:
-    case SDLK_F3:
-    case SDLK_F4:
+		case SDLK_F1:
+		case SDLK_F2:
+		case SDLK_F3:
+		case SDLK_F4:
 			return false;
 
 		default:
-      InputEnd();
-      SetText(SDL_GetKeyName(key->keysym.sym));
-      sym=key->keysym.sym;
+			InputEnd();
+			SetText(SDL_GetKeyName(key->keysym.sym));
+			sym=key->keysym.sym;
 
-	    SendMessage(GetParent(), MSG_SIGNAL, id, 0);
+			SendMessage(GetParent(), MSG_SIGNAL, id, 0);
 			return true;
 	}
 }
