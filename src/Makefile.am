@@ -10,8 +10,7 @@ pw2dir = $(prefix)
 pw2_LDADD = \
 	-lconsole -lseer -L./console -L./seer \
 	./gui/libgui.la \
-	$(STATIC_LIBS) $(EX_LIBS)
-#	-lSDL_net -lSDL_image -lSDL_mixer $(EX_LIBS)
+	$(STATIC_LIBS)
 
 pw2_SOURCES = \
 	bldnum.cpp \
