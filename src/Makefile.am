@@ -7,10 +7,11 @@ bin_PROGRAMS = pw2
 
 pw2dir = $(prefix)
 
-pw2_LDADD = $(PARAGUI_LIBS) \
+pw2_LDADD = \
 	-lconsole -lseer -L./console -L./seer \
 	./gui/libgui.la \
-	-lSDL_net -lSDL_image -lSDL_mixer $(EX_LIBS)
+	$(STATIC_LIBS) $(EX_LIBS)
+#	-lSDL_net -lSDL_image -lSDL_mixer $(EX_LIBS)
 
 pw2_SOURCES = \
 	bldnum.cpp \

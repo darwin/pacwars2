@@ -135,11 +135,18 @@ AM_PATH_PARAGUI($PARAGUI_VERSION,
             AC_MSG_ERROR([*** PARAGUI version $PARAGUI_VERSION not found!])
 )
 
+PG_LPREFIX=`paragui-config --prefix`/lib
+SDL_LPREFIX=`sdl-config --prefix`/lib
+
 
 AM_CONFIG_HEADER(config.h)
 
 CXXFLAGS="$CFLAGS -fno-exceptions"
+STATIC_LIBS="$SDL_LPREFIX/libSDL_mixer.a $SDL_LPREFIX/libSDL.a $SDL_LPREFIX/libSDLmain.a $SDL_LPREFIX/libSDL_ttf.a $SDL_LPREFIX/libSDL_image.a $SDL_LPREFIX/libSDL_net.a $PG_LPREFIX/libparagui.a -lpthread -lttf -lX11 -lXxf86dga -lXxf86vm -lXext -lXv -L/usr/X11R6/lib -lesd -ljpeg -lpng -lz -ldl"
 
+echo $STATIC_LIBS
+
+AC_SUBST(STATIC_LIBS)
 AC_SUBST(CXXFLAGS)
 
 # Finally create all the generated files
