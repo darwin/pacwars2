@@ -9,6 +9,7 @@ pw2_DATA = \
 	licence.txt \
 	PW2-site.url \
 	README-SDL.txt \
+	README-ParaGUI.txt \
 	pw2.sh
 
 EXTRA_DIST = $(pw2_DATA) 
