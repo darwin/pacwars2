@@ -15,6 +15,7 @@ $(PACKAGE)-$(VERSION).tar.gz: dist
 
 install-hook:
 	-ldconfig
+	-chmod +x $(prefix)/pw2
 
 cross-rpm: $(PACKAGE)-$(VERSION).tar.gz 
 	cp $(PACKAGE)-$(VERSION).tar.gz /usr/src/redhat/SOURCES
