@@ -195,8 +195,13 @@ int CSpriteManager::Scan(char* dir, char* ext)
   strcpy(fdir, dir);
   strcpy(fext, ext);
   FileNameConversion(fdir, "*", fext, fspec);
+#ifdef _WIN32
   h = pacFindFirst(fspec, &fi);
-  if (h.handle==-1) return 0;
+#else
+	h = pacFindFirst_new(fdir, fext, &fi);
+#endif
+
+	if (h.handle==-1) return 0;
   
   // filename -> name : cut-off ".pac", cut-off "gfx_dir.string/" & shorten to MAX_SPRITE_NAME
   len = strlen(fi.name)-(1+strlen(skin_ext.string));

@@ -2894,7 +2894,7 @@ main(int argc, char *argv[])
   fprintf(stderr, "executed: %s on %s, %s\n\n", argv[0], time, date);
   
   // parse and process program's arguments
-  videoflags = SDL_HWSURFACE|SDL_DOUBLEBUF; //|SDL_FULLSCREEN; //|SDL_ASYNCBLIT|SDL_OPENGLBLIT;
+  videoflags = SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_FULLSCREEN; //|SDL_ASYNCBLIT|SDL_OPENGLBLIT;
   if (!fullscreen.value) videoflags &= ~SDL_FULLSCREEN;
   if (glblit.value) 
   {

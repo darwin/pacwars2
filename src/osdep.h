@@ -40,10 +40,13 @@ typedef struct {
 
 typedef struct {
   char name[_MAX_FNAME];
+  char dir[_MAX_FNAME];
+  char ext[_MAX_FNAME];
 } fileinfo_t;
 
 
 fhandle_t pacFindFirst(char *filespec, fileinfo_t *fileinfo);
+fhandle_t pacFindFirst_new(char *dir, char* ext, fileinfo_t *fileinfo);
 int pacFindNext(fhandle_t handle, fileinfo_t *fileinfo);
 int pacFindClose(fhandle_t handle);
 

@@ -344,6 +344,7 @@ SDLLabel(parent,r,text,storebackground)
   bgmode = 0;
   SetAlignment(SDL_TA_LEFT); 
 }
+
 /*
 void GUI_LabelC::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
 {
@@ -1839,6 +1840,11 @@ void scriptchCB(GUI_LabelL* l)
 //  NGMenu->Board3.Show();
 //  NGMenu->Board3.Show();
   NGMenu->Board3.Redraw();
+
+  if(l == NULL) {
+		return;
+  }
+
   if (l->msi)
   {
     char a[300];
