@@ -68,7 +68,8 @@ GUI_NewGameMenu::GUI_NewGameMenu(): GUI_BaseMenu(GUI_NEWGAME, PG_Rect(NG_PX,NG_P
 			// try to resolve found host - that because of localhost doesn't return full IP address
 			SDLNet_ResolveHost(&serverIP, remote_host_name, PWP_MSG_SPORT);
 			lIP->SetTextFormat("IP %s", AddrToS(&serverIP));
-			lHost->SetTextFormat("HOST NAME %s", /*_strlwr(*/remote_host_name/*)*/);
+//			lHost->SetTextFormat("HOST NAME %s", _strlwr(remote_host_name));
+			lHost->SetTextFormat("HOST NAME %s", remote_host_name);
 		}
 		else
 			lHost->SetText("Unknown host name");
@@ -137,6 +138,7 @@ void GUI_NewGameMenu::GenerateScriptSelection()
 
 void GUI_NewGameMenu::Default()
 {
+  
   eServerName->SetText(s_name.string);
   eMaxClients->SetText(s_maxclients.string);
   eWelcomeMsg->SetText(s_welcome_msg.string);
@@ -158,6 +160,7 @@ void GUI_NewGameMenu::Default()
   else
     selected1 = NULL;
   GenerateScriptSelection();
+  
 }
 
 bool GUI_NewGameMenu::eventButtonClick(int id, PG_Widget* widget)

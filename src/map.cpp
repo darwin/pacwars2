@@ -372,7 +372,7 @@ int MapRelocate(CMapState * ms)
 
 	for (i = 0; i < mapnumblockgfx; i++) {
 
-		mapTiles[i] = SDL_CreateRGBSurface(SDL_HWSURFACE | SDL_SRCCOLORKEY,
+		mapTiles[i] = SDL_CreateRGBSurface(SDL_HWSURFACE | SDL_SRCCOLORKEY | SDL_ASYNCBLIT | SDL_RLEACCEL,
 										   mapblockwidth,
 										   mapblockheight,
 										   video_bpp, 0, 0, 0, 0);

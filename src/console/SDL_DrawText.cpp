@@ -40,9 +40,8 @@ int LoadFont(const char *BitmapName, int flags)
 	/* Add a font to the list */
 	*CurrentFont = (BitFont *) malloc(sizeof(BitFont));
 
-//	(*CurrentFont)->FontSurface = SDL_DisplayFormat(Temp);
-//	SDL_FreeSurface(Temp);
-  (*CurrentFont)->FontSurface = Temp;
+	(*CurrentFont)->FontSurface = SDL_DisplayFormat(Temp);
+	SDL_FreeSurface(Temp);
 
 	(*CurrentFont)->CharWidth = (*CurrentFont)->FontSurface->w / 256;
 	(*CurrentFont)->CharHeight = (*CurrentFont)->FontSurface->h;
@@ -52,12 +51,12 @@ int LoadFont(const char *BitmapName, int flags)
 	TotalFonts++;
 
 	/* Set font as transparent if the flag is set */
-//	if (flags & TRANS_FONT) {
+	if (flags & TRANS_FONT) {
 		/* This line was left in in case of problems getting the pixel format */
 		/* SDL_SetColorKey((*CurrentFont)->FontSurface, SDL_SRCCOLORKEY|SDL_RLEACCEL, 0xFF00FF); */
 		//SDL_SetColorKey((*CurrentFont)->FontSurface, SDL_SRCCOLORKEY|SDL_RLEACCEL,
 		//(*CurrentFont)->FontSurface->format->Rmask|(*CurrentFont)->FontSurface->format->Bmask);
-/*
+
 		// Woid's hack
 		if (((*CurrentFont)->FontSurface)->format->BitsPerPixel == 16) {
 			SDL_SetColorKey((*CurrentFont)->FontSurface,
@@ -75,7 +74,7 @@ int LoadFont(const char *BitmapName, int flags)
 
 
 	}
-*/
+
 	ConOut("Loaded font \"%s\". Width:%d, Height:%d", BitmapName,
 		   (*CurrentFont)->CharWidth, (*CurrentFont)->CharHeight);
 	return FontNumber;

@@ -1078,7 +1078,7 @@ void GPlayer::ServerThink(Uint32 time)
         if (b->tr2) // killing tile
         {
           Kill();
-          SV_ClientVoice(brain_owner, SM_UPSSS, 100, 11);
+          //SV_ClientVoice(brain_owner, SM_UPSSS, 100, 11);
           DelFrag();
           return;
         }

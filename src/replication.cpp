@@ -21,7 +21,7 @@
 #include "console/SDL_Console.h"
 #include "SDL_net.h"
 #include "net.h"
-#include "server.h"
+#include "server.h" 
 #include "client.h"
 
 //###########################################################################

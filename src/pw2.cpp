@@ -351,10 +351,9 @@ SDL_Surface *LoadPic(char *fname)
     return SDL_AllocSurface(SDL_SWSURFACE | SDL_SRCCOLORKEY, 10, 10,
       video_bpp, 0, 0, 0, 0);
   }
-//  SDL_Surface *Converted = SDL_DisplayFormat(Temp);
-//  SDL_FreeSurface(Temp);
-//  return Converted;
-  return Temp;
+  SDL_Surface *Converted = SDL_DisplayFormat(Temp);
+  SDL_FreeSurface(Temp);
+  return Converted;
 }
 
 void DrawGameBack(SDL_Surface * screen)
