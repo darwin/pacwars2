@@ -50,8 +50,8 @@ GUI_SoundMenu::GUI_SoundMenu() : GUI_BaseMenu(GUI_SOUND, mkrect(SM_PX,SM_PY,SM_V
 	SoundMenu->SetColor(GUI_BtnTextColor, GUI_BtnATextColor);
 	SoundMenu->SetFont(MainFont);
 
-  eMusicVolume->SetEventCallback(MSG_SLIDE, handler_slider_music, eMusicVolume);
-  eSoundVolume->SetEventCallback(MSG_SLIDE, handler_slider_sound, eSoundVolume);
+  eMusicVolume->SetEventCallback(MSG_SLIDEEND, handler_slider_music, eMusicVolume);
+  eSoundVolume->SetEventCallback(MSG_SLIDEEND, handler_slider_sound, eSoundVolume);
 
 // MSG_SCROLLPOS dont gets called for SDLSlider - Alex
 //  eMusicVolume->SetEventCallback(MSG_SCROLLPOS, handler_slider_music, eMusicVolume);
