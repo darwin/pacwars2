@@ -23,7 +23,6 @@ int GUI_id = 0;
 
 extern GUI_OKDialog1 *OKD1;
 extern GUI_OKDialog2 *OKD2;
-extern GUI_YNDialog *YND;
 
 // Menu fonts
 TTF_Font* TextFont;
@@ -682,34 +681,6 @@ bool GUI_YNDialog::eventButtonClick(int id, SDLWidget* widget)
 
 
 
-/////////////////////////////////////////////////////////////////////////////
-// Main menu widgets
-/////////////////////////////////////////////////////////////////////////////
-
-GUI_MainMenu::GUI_MainMenu() : GUI_BaseMenu(GUI_MAINMENU, mkrect(MM_PX,MM_PY,MM_VX,MM_VY)) {
-
-	lMainMenu = new GUI_ButtonBig(this, 0, SDLWidget::mkrect(0,0,MM_VX,40), "Main Menu");
-	bNewGame = new GUI_ButtonBig(this, 1, SDLWidget::mkrect(0,40,MM_VX,40), "Start Server");
-	bEndGame = new GUI_ButtonBig(this, 9, SDLWidget::mkrect(0,40,MM_VX,40), "Shutdown Server");
-	bJoinDiscGame = new GUI_ButtonBig(this, 2, SDLWidget::mkrect(0,80,MM_VX,40), "Join Game");
-	bCreatePlayer = new GUI_ButtonBig(this, 3, SDLWidget::mkrect(0,120,MM_VX,40), "Create Player");
-	bDeletePlayer = new GUI_ButtonBig(this, 4, SDLWidget::mkrect(0,160,MM_VX,40), "Delete Player");
-	bOptions = new GUI_ButtonBig(this, 5, SDLWidget::mkrect(0,200,MM_VX,40), "Options");
-	bCredits = new GUI_ButtonBig(this, 6, SDLWidget::mkrect(0,240,MM_VX,40), "Credits");
-	bHelp = new GUI_ButtonBig(this, 7, SDLWidget::mkrect(0,280,MM_VX,40), "Info");
-	bQuit = new GUI_ButtonBig(this, 8, SDLWidget::mkrect(0,320,MM_VX,40), "Quit");
-	bGame = new GUI_ButtonBig(this, 10, SDLWidget::mkrect(0,360,MM_VX,40), "Back To Game");
-
-	Default();
-  
-	lMainMenu->enabled = false;
-	lMainMenu->LoadThemeStyle("GUI_MenuTitle", "Button");
-}
-
-void GUI_MainMenu::Default()
-{
-}
-
 void QuitCB(int res)
 {
   if (res) 
@@ -736,128 +707,6 @@ void EndGameCB(int res)
 {
   if (res) CEndServer("");
   GUI_Return();
-}
-
-bool GUI_MainMenu::eventButtonClick(int id, SDLWidget* widget)
-{
-  char* a[]={"I'M SURE", "YES", "OK", "DO IT", "LEAVE"};
-
-  switch (id) {
-  case 1:
-    GUI_OpenMenu(GUI_NEWGAME);
-    break;
-  case 2:
-    if (net_client_status==NS_CONNECTED)
-      GUI_OpenMenu(GUI_DISCONNECT);
-    else
-      GUI_OpenMenu(GUI_JOINGAME);
-    break;
-  case 3:
-    GUI_OpenMenu(GUI_CREATEPLAYER);
-    break;
-  case 4:
-    GUI_OpenMenu(GUI_DELETEPLAYER);
-    break;
-  case 5:
-    GUI_OpenMenu(GUI_OPTIONS);
-    break;
-  case 6:
-    GUI_OpenMenu(GUI_CREDITS);
-    break;
-  case 7:
-    GUI_OpenMenu(GUI_HELP1);
-    break;
-  case 8:
-    YND->Reset(QuitCB, "QUIT PACWARS2", "Do you really want to quit the game ?", a[rand()%5]);
-    GUI_OpenMenu(GUI_YNDIALOG);
-    break;
-  case 9:
-    YND->Reset(ShutdownCB, "END SERVER GAME", "Do you want shutdown server ?");
-    GUI_OpenMenu(GUI_YNDIALOG);
-    break;
-  case 10:
-    Return();
-    break;
-  }
-  return true;
-}
-
-void GUI_MainMenu::eventShow()
-{
-  Clear();
-  
-  bNewGame->Hide();
-  bEndGame->Hide();
-
-//  mBack1.Show();
-  if (net_client_status==NS_CONNECTED)
-  {
-//    objDisplayRect.y = (480-400)/2;
-//    objDisplayRect.h = 400;
-//    objClipRect = objDisplayRect;
-
-    bJoinDiscGame->SetText("Disconnect");
-    bCreatePlayer->MoveWindow(0,120);
-    bDeletePlayer->MoveWindow(0,160);
-    bOptions->MoveWindow(0,200);
-    bCredits->MoveWindow(0,240);
-    bHelp->MoveWindow(0,280);
-    bQuit->MoveWindow(0,320);
-    bGame->MoveWindow(0,360);
-  }
-  else
-  {
-//    objDisplayRect.y = (480-280)/2;
-//    objDisplayRect.h = 280;
-//    objClipRect = objDisplayRect;
-
-    bCreatePlayer->Hide();
-    bDeletePlayer->Hide();
-    bGame->Hide();
-
-    bJoinDiscGame->SetText("Join Game");
-    bOptions->MoveWindow(0,120);
-    bCredits->MoveWindow(0,160);
-    bHelp->MoveWindow(0,200);
-    bQuit->MoveWindow(0,240);
-
-//    bGame.MoveRect(MM_PX,MM_PY+280);
-
-  }
-
-  if (net_server_status==NS_UNINITED) {
-    bNewGame->Show();
-  }
-  else {
-    bEndGame->Show();
-  }
-
-	Redraw();
-}
-
-void GUI_MainMenu::eventHide()
-{
-/*  lMainMenu.Hide();
-  bNewGame.Hide();  
-  bEndGame.Hide();  
-  bJoinDiscGame.Hide();  
-  bCreatePlayer.Hide();  
-  bDeletePlayer.Hide();  
-  bOptions.Hide();  
-  bCredits.Hide();  
-  bHelp.Hide();  
-  bQuit.Hide();
-  bGame.Hide();
-*/
-}
-
-void GUI_MainMenu::Return()
-{
-  GUI_BaseMenu::Return();
-  GUI_id = GUI_NOMENU;
-  GUI_menu = NULL;
-
-  smPlaySample(SM_MENU2, menu_volume);
 }
 
 

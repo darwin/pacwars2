@@ -23,6 +23,7 @@
 #include "guiclientmenu.h"
 #include "guivideomenu.h"
 #include "guipathsmenu.h"
+#include "guimainmenu.h"
 
 #include "smapman.h"
 #include "sprite.h"
@@ -385,33 +386,6 @@ public:
 #define MM_PY 40
 #define MM_VX 280
 #define MM_VY 400
-
-
-class GUI_MainMenu : public GUI_BaseMenu {
-public:
-  GUI_MainMenu();
-
-//  GUI_Bitmap mBack1;
-  
-  GUI_ButtonBig* lMainMenu;
-  GUI_ButtonBig* bNewGame;
-  GUI_ButtonBig* bEndGame;
-  GUI_ButtonBig* bJoinDiscGame;
-  GUI_ButtonBig* bCreatePlayer;
-  GUI_ButtonBig* bDeletePlayer;
-  GUI_ButtonBig* bOptions;
-  GUI_ButtonBig* bHelp;
-  GUI_ButtonBig* bCredits;
-  GUI_ButtonBig* bQuit;
-  GUI_ButtonBig* bGame;
-  
-  void eventShow();
-  void eventHide();
-  void Return();
-  void Default();
-  
-  bool eventButtonClick(int id, SDLWidget* widget);
-};
 
 
 /////////////////////////////////////////////////////////////////////////////
