@@ -22,7 +22,7 @@
 
 #ifdef SAVE_RCSID
 static char rcsid =
- "@(#) $Id: SDL_cdrom.h,v 1.2 2001/02/15 14:53:12 woid Exp $";
+ "@(#) $Id: SDL_cdrom.h,v 1.3 2001/04/11 00:04:53 woid Exp $";
 #endif
 
 /* This is the CD-audio control API for Simple DirectMedia Layer */
@@ -168,7 +168,7 @@ extern DECLSPEC void SDL_CDClose(SDL_CD *cdrom);
 
 /* Ends C function definitions when using C++ */
 #ifdef __cplusplus
-};
+}
 #endif
 #include "close_code.h"
 

@@ -22,7 +22,7 @@
 
 #ifdef SAVE_RCSID
 static char rcsid =
- "@(#) $Id: SDL_audio.h,v 1.2 2001/02/15 14:53:12 woid Exp $";
+ "@(#) $Id: SDL_audio.h,v 1.3 2001/04/11 00:04:53 woid Exp $";
 #endif
 
 /* Access to the raw audio mixing buffer for the SDL library */
@@ -253,7 +253,7 @@ extern DECLSPEC void SDL_CloseAudio(void);
 
 /* Ends C function definitions when using C++ */
 #ifdef __cplusplus
-};
+}
 #endif
 #include "close_code.h"
 

@@ -22,7 +22,7 @@
 
 #ifdef SAVE_RCSID
 static char rcsid =
- "@(#) $Id: SDL_syswm.h,v 1.2 2001/02/15 14:53:12 woid Exp $";
+ "@(#) $Id: SDL_syswm.h,v 1.3 2001/04/11 00:04:53 woid Exp $";
 #endif
 
 /* Include file for SDL custom system window manager hooks */
@@ -50,7 +50,7 @@ typedef struct SDL_SysWMinfo SDL_SysWMinfo;
 
 /* This is the structure for custom window manager events */
 #if (defined(unix) || defined(__unix__) || defined(_AIX)) && \
-    !defined(DISABLE_X11)
+    (!defined(DISABLE_X11) && !defined(__CYGWIN32__))
  /* AIX is unix, of course, but the native compiler CSet doesn't define unix */
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
@@ -143,7 +143,7 @@ extern DECLSPEC int SDL_GetWMInfo(SDL_SysWMinfo *info);
 
 /* Ends C function definitions when using C++ */
 #ifdef __cplusplus
-};
+}
 #endif
 #include "close_code.h"
 

@@ -22,7 +22,7 @@
 
 #ifdef SAVE_RCSID
 static char rcsid =
- "@(#) $Id: SDL_rwops.h,v 1.2 2001/02/15 14:53:12 woid Exp $";
+ "@(#) $Id: SDL_rwops.h,v 1.3 2001/04/11 00:04:53 woid Exp $";
 #endif
 
 /* This file provides a general interface for SDL to read and write
@@ -106,7 +106,7 @@ extern DECLSPEC void SDL_FreeRW(SDL_RWops *area);
 
 /* Ends C function definitions when using C++ */
 #ifdef __cplusplus
-};
+}
 #endif
 #include "close_code.h"
 

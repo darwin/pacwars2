@@ -22,7 +22,7 @@
 
 #ifdef SAVE_RCSID
 static char rcsid =
- "@(#) $Id: SDL_video.h,v 1.2 2001/02/15 14:53:12 woid Exp $";
+ "@(#) $Id: SDL_video.h,v 1.3 2001/04/11 00:04:53 woid Exp $";
 #endif
 
 /* Header file for access to the SDL raw framebuffer window */
@@ -327,7 +327,22 @@ extern DECLSPEC SDL_Rect ** SDL_ListModes(SDL_PixelFormat *format, Uint32 flags)
  * memory while the monitor is refreshing.  It should only be used by 
  * applications that redraw the entire screen on every update.
  *
+ * If SDL_RESIZABLE is set in 'flags', the SDL library will allow the
+ * window manager, if any, to resize the window at runtime.  When this
+ * occurs, SDL will send a SDL_VIDEORESIZE event to you application,
+ * and you must respond to the event by re-calling SDL_SetVideoMode()
+ * with the requested size (or another size that suits the application).
+ *
+ * If SDL_NOFRAME is set in 'flags', the SDL library will create a window
+ * without any title bar or frame decoration.  Fullscreen video modes have
+ * this flag set automatically.
+ *
  * This function returns the video framebuffer surface, or NULL if it fails.
+ *
+ * If you rely on functionality provided by certain video flags, check the
+ * flags of the returned surface to make sure that functionality is available.
+ * SDL will fall back to reduced functionality if the exact flags you wanted
+ * are not available.
  */
 extern DECLSPEC SDL_Surface *SDL_SetVideoMode
 			(int width, int height, int bpp, Uint32 flags);
@@ -865,7 +880,7 @@ extern DECLSPEC SDL_GrabMode SDL_WM_GrabInput(SDL_GrabMode mode);
 
 /* Ends C function definitions when using C++ */
 #ifdef __cplusplus
-};
+}
 #endif
 #include "close_code.h"
 

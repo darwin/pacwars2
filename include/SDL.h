@@ -22,7 +22,7 @@
 
 #ifdef SAVE_RCSID
 static char rcsid =
- "@(#) $Id: SDL.h,v 1.2 2001/02/15 14:53:12 woid Exp $";
+ "@(#) $Id: SDL.h,v 1.3 2001/04/11 00:04:53 woid Exp $";
 #endif
 
 /* Main include header for the SDL library */
@@ -32,6 +32,7 @@ static char rcsid =
 
 #include "SDL_main.h"
 #include "SDL_types.h"
+#include "SDL_getenv.h"
 #include "SDL_error.h"
 #include "SDL_rwops.h"
 #include "SDL_timer.h"
@@ -89,7 +90,7 @@ extern DECLSPEC void SDL_Quit(void);
 
 /* Ends C function definitions when using C++ */
 #ifdef __cplusplus
-};
+}
 #endif
 #include "close_code.h"
 

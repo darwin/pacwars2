@@ -22,7 +22,7 @@
 
 #ifdef SAVE_RCSID
 static char rcsid =
- "@(#) $Id: SDL_endian.h,v 1.2 2001/02/15 14:53:12 woid Exp $";
+ "@(#) $Id: SDL_endian.h,v 1.3 2001/04/11 00:04:53 woid Exp $";
 #endif
 
 /* Functions for reading and writing endian-specific values */
@@ -142,7 +142,7 @@ extern DECLSPEC int SDL_WriteBE64(SDL_RWops *dst, Uint64 value);
 
 /* Ends C function definitions when using C++ */
 #ifdef __cplusplus
-};
+}
 #endif
 #include "close_code.h"
 

@@ -22,7 +22,7 @@
 
 #ifdef SAVE_RCSID
 static char rcsid =
- "@(#) $Id: SDL_mutex.h,v 1.2 2001/02/15 14:53:12 woid Exp $";
+ "@(#) $Id: SDL_mutex.h,v 1.3 2001/04/11 00:04:53 woid Exp $";
 #endif
 
 #ifndef _SDL_mutex_h
@@ -156,7 +156,7 @@ extern DECLSPEC int SDL_CondWaitTimeout(SDL_cond *cond, SDL_mutex *mutex, Uint32
 
 /* Ends C function definitions when using C++ */
 #ifdef __cplusplus
-};
+}
 #endif
 #include "close_code.h"
 

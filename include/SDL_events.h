@@ -22,7 +22,7 @@
 
 #ifdef SAVE_RCSID
 static char rcsid =
- "@(#) $Id: SDL_events.h,v 1.2 2001/02/15 14:53:12 woid Exp $";
+ "@(#) $Id: SDL_events.h,v 1.3 2001/04/11 00:04:53 woid Exp $";
 #endif
 
 /* Include file for SDL event handling */
@@ -61,7 +61,7 @@ enum { SDL_NOEVENT = 0,			/* Unused (do not remove) */
        SDL_EVENT_RESERVEDA,		/* Reserved for future use.. */
        SDL_EVENT_RESERVEDB,		/* Reserved for future use.. */
        SDL_VIDEORESIZE,			/* User resized video mode */
-       SDL_EVENT_RESERVED1,		/* Reserved for future use.. */
+       SDL_VIDEOEXPOSE,			/* Screen needs to be redrawn */
        SDL_EVENT_RESERVED2,		/* Reserved for future use.. */
        SDL_EVENT_RESERVED3,		/* Reserved for future use.. */
        SDL_EVENT_RESERVED4,		/* Reserved for future use.. */
@@ -99,6 +99,7 @@ enum {
 	                          SDL_EVENTMASK(SDL_JOYBUTTONDOWN)|
 	                          SDL_EVENTMASK(SDL_JOYBUTTONUP),
 	SDL_VIDEORESIZEMASK	= SDL_EVENTMASK(SDL_VIDEORESIZE),
+	SDL_VIDEOEXPOSEMASK	= SDL_EVENTMASK(SDL_VIDEOEXPOSE),
 	SDL_QUITMASK		= SDL_EVENTMASK(SDL_QUIT),
 	SDL_SYSWMEVENTMASK	= SDL_EVENTMASK(SDL_SYSWMEVENT)
 };
@@ -186,6 +187,11 @@ typedef struct {
 	int h;		/* New height */
 } SDL_ResizeEvent;
 
+/* The "screen redraw" event */
+typedef struct {
+	Uint8 type;	/* SDL_VIDEOEXPOSE */
+} SDL_ExposeEvent;
+
 /* The "quit requested" event */
 typedef struct {
 	Uint8 type;	/* SDL_QUIT */
@@ -219,6 +225,7 @@ typedef union {
 	SDL_JoyHatEvent jhat;
 	SDL_JoyButtonEvent jbutton;
 	SDL_ResizeEvent resize;
+	SDL_ExposeEvent expose;
 	SDL_QuitEvent quit;
 	SDL_UserEvent user;
 	SDL_SysWMEvent syswm;
@@ -320,7 +327,7 @@ extern DECLSPEC Uint8 SDL_EventState(Uint8 type, int state);
 
 /* Ends C function definitions when using C++ */
 #ifdef __cplusplus
-};
+}
 #endif
 #include "close_code.h"
 

@@ -22,7 +22,7 @@
 
 #ifdef SAVE_RCSID
 static char rcsid =
- "@(#) $Id: SDL_timer.h,v 1.2 2001/02/15 14:53:12 woid Exp $";
+ "@(#) $Id: SDL_timer.h,v 1.3 2001/04/11 00:04:53 woid Exp $";
 #endif
 
 #ifndef _SDL_timer_h
@@ -111,7 +111,7 @@ extern DECLSPEC SDL_bool SDL_RemoveTimer(SDL_TimerID t);
 
 /* Ends C function definitions when using C++ */
 #ifdef __cplusplus
-};
+}
 #endif
 #include "close_code.h"
 

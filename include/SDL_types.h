@@ -22,7 +22,7 @@
 
 #ifdef SAVE_RCSID
 static char rcsid =
- "@(#) $Id: SDL_types.h,v 1.2 2001/02/15 14:53:12 woid Exp $";
+ "@(#) $Id: SDL_types.h,v 1.3 2001/04/11 00:04:53 woid Exp $";
 #endif
 
 /* General data types used by the SDL library */
@@ -46,11 +46,13 @@ typedef unsigned int	Uint32;
 typedef signed int	Sint32;
 
 /* Figure out how to support 64-bit datatypes */
+#if !defined(__STRICT_ANSI__)
 #if defined(__GNUC__) || defined(__MWERKS__) /* MJS */
 #define SDL_HAS_64BIT_TYPE	long long
 #elif defined(_MSC_VER) /* VC++ */
 #define SDL_HAS_64BIT_TYPE	__int64
 #endif
+#endif /* !__STRICT_ANSI__ */
 
 /* The 64-bit datatype isn't supported on all platforms */
 #ifdef SDL_HAS_64BIT_TYPE

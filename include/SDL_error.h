@@ -22,7 +22,7 @@
 
 #ifdef SAVE_RCSID
 static char rcsid =
- "@(#) $Id: SDL_error.h,v 1.2 2001/02/15 14:53:12 woid Exp $";
+ "@(#) $Id: SDL_error.h,v 1.3 2001/04/11 00:04:53 woid Exp $";
 #endif
 
 /* Simple error message routines for SDL */
@@ -55,7 +55,7 @@ extern void SDL_Error(SDL_errorcode code);
 
 /* Ends C function definitions when using C++ */
 #ifdef __cplusplus
-};
+}
 #endif
 #include "close_code.h"
 
