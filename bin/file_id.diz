@@ -1,8 +1,7 @@
- PacWars2 - Becherovka game
-TCP/UDP internet action game
-Woid, Raist, Dusty, GameOver
-    Windows 9x, NT, 2k
+name: PacWars2
+desc: TCP/UDP internet action game
+auth: Woid, Raist, Braindead, Dusty, GameOver
+OS  : Windows 95/98/ME/NT/2000, Linux, BeOS
+url : http://pw2.tsx.org
 
-    http://pw2.tsx.org
-
-      pac them all !!!
+msg : pac them all !!!
