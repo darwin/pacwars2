@@ -271,11 +271,9 @@ extern DECLSPEC int CL_FindUnusedKBSlot();
 // do not call directly
 extern DECLSPEC int CL_ChangeMap(char *mapname, char *scriptname);
 
-extern DECLSPEC char CL_ParseReplication(net_msg * msg, TICK_TYPE time,
-										 CGame & game, bool mirror,
-										 int client);
+extern DECLSPEC char CL_ParseReplication(net_msg * msg, TICK_TYPE time, CGame & game, bool mirror, int client);
 
-extern DECLSPEC int CL_CreatePlayer(char *name, Uint8 keybindings);
+extern DECLSPEC int CL_CreatePlayer(char *name, brain_type btype, Uint8 keybindings);
 extern DECLSPEC int CL_DestroyPlayer(char *name);
 extern DECLSPEC int CL_SkinPlayer(char *name, char *spritename);
 extern DECLSPEC int CL_ChasePlayer(char *name);

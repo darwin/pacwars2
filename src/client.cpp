@@ -1772,14 +1772,8 @@ void CL_Move(Uint32 ticktime)
         while (more) {
           GP.pos = 0;
           GP << client_info.ticks;
-          more =
-            client_info.game.replicator.AssembleMsg(&GP,
-            MSG_MAX_BODY_SIZE
-            -
-            sizeof
-            (client_info.ticks));
-          GP.Send(&server.game_pool, &server.stats, game_csock,
-            0, false);
+          more = client_info.game.replicator.AssembleMsg(&GP, MSG_MAX_BODY_SIZE - sizeof(client_info.ticks));
+          GP.Send(&server.game_pool, &server.stats, game_csock, 0, false);
         }
         
         // reset replicator
@@ -1791,18 +1785,17 @@ void CL_Move(Uint32 ticktime)
   client_info.last_time = ticktime - client_info.start_time - delta;
 }
 
-int CL_CreatePlayer(char *name, Uint8 keybindings)
+int CL_CreatePlayer(char *name, brain_type btype, Uint8 keybindings)
 {
   Uint8 sendbuf[200];
   net_msg MSG(sendbuf);
   
   MSG << MSGID_CREATEPLAYER;
-  MSG << (Uint8) bt_client;
+  MSG << (Uint8) btype;
   MSG << keybindings;
   MSG.nprintf(LEN_MSG_PLNAME, "%s", name);
   
-  MSG.Send(&server.msg_pool, &server.stats, msg_csock, 0, true,
-			 RESEND_SYSTEM);
+  MSG.Send(&server.msg_pool, &server.stats, msg_csock, 0, true, RESEND_SYSTEM);
   
   smPlayVoice(SM_FIGHT1 + rand() % 2, 100, 5);
   return 0;
@@ -1816,8 +1809,7 @@ int CL_DestroyPlayer(char *name)
   MSG << MSGID_DESTROYPLAYER;
   MSG.nprintf(PWP_MAX_PLAYER_NAME, "%s", name);
   
-  MSG.Send(&server.msg_pool, &server.stats, msg_csock, 0, true,
-			 RESEND_SYSTEM);
+  MSG.Send(&server.msg_pool, &server.stats, msg_csock, 0, true, RESEND_SYSTEM);
   
   return 0;
 }
@@ -1832,8 +1824,7 @@ int CL_SkinPlayer(char *name, char *spritename)
   MSG.pos = POS_MSG_SKIN_SPRITENAME;
   MSG.nprintf(MAX_SPRITE_NAME, "%s", spritename);
   
-  MSG.Send(&server.msg_pool, &server.stats, msg_csock, 0, true,
-			 RESEND_SYSTEM);
+  MSG.Send(&server.msg_pool, &server.stats, msg_csock, 0, true,	 RESEND_SYSTEM);
   
   return 0;
 }
@@ -1871,8 +1862,7 @@ int CL_ChasePlayer(char *name)
     Uint8 sendbuf[200];
     net_msg MSG(sendbuf);
     MSG << MSGID_CHASEPLAYERRQ << i;
-    MSG.Send(&server.msg_pool, &server.stats, msg_csock, 0, true,
-      RESEND_GAME);
+    MSG.Send(&server.msg_pool, &server.stats, msg_csock, 0, true, RESEND_GAME);
   } else {
     ConOutEx(CLIENT_FONT, "Player \"%s\" not found", name);
   }

@@ -2234,7 +2234,27 @@ void CCreatePlayer(char *string)
       ConOutEx(CLIENT_FONT, "Client: creating player %s as player4", s);
       break;
     }
-    r = CL_CreatePlayer(s, index);
+    r = CL_CreatePlayer(s, bt_client, index);
+    if (r)
+      ConOutEx(CLIENT_FONT, "client: %s", SDL_GetError());
+  } else
+    ConOutEx(CMD_FONT, "Connect to the server first", SDL_GetError());
+#else
+  ConOut("Net: client support isn't compiled !");
+#endif
+}
+
+void CCreateBot(char *string)
+{
+  int r;
+  char s[MAX_WORD_INPUTED];
+#ifdef PW_NETCLIENT
+  if (sscanf(string, "%s", s) < 1) {
+    ConOut("Error: usage: cb <player_name> ");
+    return;
+  }
+  if (net_client_status == NS_CONNECTED) {
+    r = CL_CreatePlayer(s, bt_bot, 0);
     if (r)
       ConOutEx(CLIENT_FONT, "client: %s", SDL_GetError());
   } else
@@ -2681,6 +2701,7 @@ void AddConsoleCommands()
   AddCommand(&CDownloadSound, "dlsound", CMD_CLIENT);
   AddCommand(&CUploadSound, "ulsound", CMD_CLIENT);
   AddCommand(&CCreatePlayer, "cp", CMD_CLIENT);
+  AddCommand(&CCreateBot, "cb", CMD_CLIENT);
   AddCommand(&CDestroyPlayer, "dp", CMD_CLIENT);
   AddCommand(&CSkinPlayer, "sp", CMD_CLIENT);
   AddCommand(&CChasePlayer, "chase", CMD_CLIENT);

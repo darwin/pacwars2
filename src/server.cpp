@@ -1202,7 +1202,6 @@ char SV_ParseReplication(net_msg * msg, TICK_TYPE time, int cnum)
         mv = player->DecodeMV(msg, time);
         // do move in global game state
         //if (rand()%100==0) { ConOutEx(SERVER_FONT, "lost"); continue;}   // lost simulation
-
         player->ServerMove(&mv);
       }
       
@@ -1277,7 +1276,7 @@ int HandleServerGame(Uint32 deltaticks)
         client[player->brain_owner].replicator.Mark();
         player->xpos.MakeDirty(player->brain_owner, false);
         player->ypos.MakeDirty(player->brain_owner, false);
-        ConOut("SS - %d:[%d,%d]", server_info.ticks, *player->xpos.GetValRef(), *player->ypos.GetValRef());
+        //temp ConOut("SS - %d:[%d,%d]", server_info.ticks, *player->xpos.GetValRef(), *player->ypos.GetValRef());
       }
 
     }

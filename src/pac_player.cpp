@@ -6,6 +6,7 @@
 #include "client.h"
 #include "server.h"
 #include "sampleman.h"
+#include "bot.h"
 
 int blocked_inputs = 0;
 
@@ -199,16 +200,14 @@ void GPlayer::ClientThink(Uint32 time)
 
   // only owner
   // get user/brain input and create move vector
-  // TODO: key bindings
   if ((game->state==GS_CLIENT) && (role == ROLE_AutonomousProxy))
   {
     MoveVector mv;
     Uint8 *keys;
     
-    mv.tick = time;
-    
-    if (brain_type == bt_client)
-    {
+    switch (brain_type) {
+    // human user input -> move vector
+    case bt_client:
       keys = SDL_GetKeyState(NULL);
       if (keys[keybindings[kbindex].key_down] == SDL_PRESSED) mv.DOWN = 1; else  mv.DOWN = 0;
       if (keys[keybindings[kbindex].key_up] == SDL_PRESSED) mv.UP = 1; else  mv.UP = 0;
@@ -217,14 +216,20 @@ void GPlayer::ClientThink(Uint32 time)
       if (keys[keybindings[kbindex].key_fire] == SDL_PRESSED) mv.FIRE = 1; else  mv.FIRE = 0;
       if (keys[keybindings[kbindex].key_shield] == SDL_PRESSED) mv.SHIELD = 1; else  mv.SHIELD = 0;
       if (keys[keybindings[kbindex].key_warp] == SDL_PRESSED) mv.WARP = 1; else  mv.WARP = 0;
-      for (i=0; i<MAX_WEAPONS; i++)
+      for (i=0; i<MAX_WEAPONS; i++) {
         if (keys[keybindings[kbindex].key_weapon[i]] == SDL_PRESSED) mv.WEAPON[i] = 1; else  mv.WEAPON[i] = 0;
-    }
-    if (brain_type == bt_bot)
-    {
-      // TODO: run script to obtain bot's move vector
+      }
+      
+      break;
+    
+    // bot AI -> move vector
+    case bt_bot:
+      // call AI to obtain bot's move vector
+      bot_think(this, game, &mv);
+      break;
     }
     
+    mv.tick = time;
     if (time<reverse_end)
     {
       Uint8 s;
@@ -262,25 +267,9 @@ void GPlayer::ClientThink(Uint32 time)
       game->replicator.Mark();
       
       MoveAutonomous(&mv, time);
-       ConOut("cm - %d:[%d,%d]", time, *xpos.GetValRef(), *ypos.GetValRef());
+      // ConOut("cm - %d:[%d,%d]", time, *xpos.GetValRef(), *ypos.GetValRef());
       predictor.Add(&mv);
     }
-/*
-    TICK_TYPE replay_time = MAX(last_x_tick, last_y_tick);
-
-    Uint8 sh = predictor.head;
-    predictor.head = predictor.Find(replay_time);
-    //ConOut("AP %d, %d", time, replay_time);
-    while (predictor.head != sh) 
-    {
-      //_beep(10,100);
-      //ConOut("move");
-      MoveAutonomous(&predictor.p[predictor.head], predictor.p[predictor.head].tick);
-      last_x_tick = predictor.p[predictor.head].tick;
-      last_y_tick = predictor.p[predictor.head].tick;
-      predictor.FwHead();
-    }
-    */
   }
 
 }
@@ -1039,7 +1028,7 @@ bool GPlayer::TryToMoveDy(rect_t * r)
 void GPlayer::ServerThink(Uint32 time)
 {
   GEntity::ServerThink(time);
-  if (brain_type==bt_client) ping = client[brain_owner].ping;
+  if (brain_type!=bt_soulfree) ping = client[brain_owner].ping;
   if (anim>=2 && skin->anims[anim]->frames-1==frame) 
   { 
     Born();
@@ -1094,7 +1083,7 @@ void GPlayer::ServerThink(Uint32 time)
 void GPlayer::AdjustPosition(Uint16 nx, Uint16 ny, TICK_TYPE time)
 {
   // called from client side
-   ConOut("AP - %d:[%d,%d] (curtime=%d)", time, nx, ny, curtime);
+  //temp   ConOut("AP - %d:[%d,%d] (curtime=%d)", time, nx, ny, curtime);
   SetPos(nx, ny);
   Uint8 sh = predictor.head;
   predictor.head = predictor.Find(time);
@@ -1102,7 +1091,7 @@ void GPlayer::AdjustPosition(Uint16 nx, Uint16 ny, TICK_TYPE time)
   while (predictor.head != sh) 
   {
     MoveAutonomous(&predictor.p[predictor.head], predictor.p[predictor.head].tick);
-     ConOut("   x %d:[%d,%d]", predictor.p[predictor.head].tick, *xpos.GetValRef(), *ypos.GetValRef(), time, curtime);
+    //temp ConOut("   x %d:[%d,%d]", predictor.p[predictor.head].tick, *xpos.GetValRef(), *ypos.GetValRef(), time, curtime);
     predictor.FwHead();
   }
 }
