@@ -2855,13 +2855,8 @@ main(int argc, char *argv[])
   char		genstr[60]="";
   char		tempstr[60]="";
 
-#ifdef DISABLE_BASS
-  int    sound_hw_enabled = 0;
-  int    sound_3d_enabled = 0;
-#else
   int    sound_hw_enabled = 1;
   int    sound_3d_enabled = 1;
-#endif			// for debugging (Alex)
 
 #ifdef PW_MUSIC
   int audio_rate;
