@@ -73,13 +73,13 @@ void GUI_ResultsMenu::Default()
       if (sort[i]<sort[i+1])
       {
         strcpy(str, lName[i+1]->GetText());
-        lName[i+1]->SetText(lName[i]->GetText());
+        lName[i+1]->SetText((char*)lName[i]->GetText());
         lName[i]->SetText(str);
         strcpy(str, lFrags[i+1]->GetText());
-        lFrags[i+1]->SetText(lFrags[i]->GetText());
+        lFrags[i+1]->SetText((char*)lFrags[i]->GetText());
         lFrags[i]->SetText(str);
         strcpy(str, lPoints[i+1]->GetText());
-        lPoints[i+1]->SetText(lPoints[i]->GetText());
+        lPoints[i+1]->SetText((char*)lPoints[i]->GetText());
         lPoints[i]->SetText(str);
         int x;
         x = sort[i+1];
