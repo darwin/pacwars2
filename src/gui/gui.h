@@ -20,6 +20,7 @@
 #include "guisoundmenu.h"
 #include "guinewgamemenu.h"
 #include "guiservermenu.h"
+#include "guiclientmenu.h"
 
 #include "smapman.h"
 #include "sprite.h"
@@ -1210,36 +1211,6 @@ public:
 #define CMS_PY 130
 #define CMS_VX 360
 #define CMS_VY 220
-
-
-class GUI_ClientMenu : public GUI_BaseMenu {
-public:
-  GUI_ClientMenu();
-  
-  GUI_Board Board1;
-  GUI_Label ClientMenu;
-  
-  GUI_Label lClientName;
-  GUI_TextEdit eClientName;
-  GUI_Label lClientDesc;
-  GUI_TextEdit eClientDesc;
-
-  GUI_CheckBox cDelTmps;
-  GUI_CheckBox cDRqs;
-  GUI_CheckBox cURqs;
-
-  GUI_Label lEffect;
-
-  GUI_ButtonSmall bSet;
-  GUI_ButtonSmall bCancel;
-  
-  void Show();
-  void Hide();
-  void Default();
-  void Return();
-  
-  bool eventButtonClick(int id, SDLWidget* widget);
-};
 
 /////////////////////////////////////////////////////////////////////////////
 // GUI wrappers
