@@ -812,7 +812,7 @@ int HandleServerMessage()
         
         SV_BroadcastMsg(MSG2, msg_ssock, RESEND_CHAT);
         break;
-        
+
         
       default:
         ConErr("%d>Server: Unresolved message packet ID=%d from %s !\n", server_info.ticks, msg_spackets[n]->data[POS_MSG_ID], AddrToS(&msg_spackets[n]->address));
@@ -820,11 +820,106 @@ int HandleServerMessage()
     }
     else // we've got unbound packet
     {
-      // UNBOUND MESSAGES ARE ALLWAYS WITHOUT MESSAGE HEADER (currently only LOGIN message)
+      // UNBOUND MESSAGES ARE ALLWAYS WITHOUT MESSAGE HEADER 
       // receiving&sending in raw packet format
       
       switch (msg_spackets[n]->data[POS_MSG_ID]) {
-        // login message 
+      case MSGID_SERVERINFO:   // assemble server info packet
+        {
+          // 1b     server info tag
+          // 2b     version
+          // 1b     max num players
+          // 1b     server status
+          // 1b     num players
+          // 1b     game type
+          // string server name (MAX_SERVER_NAME)
+          // string map name (MAX_MAP_NAME)
+          // string script name (MAX_MAP_NAME)
+
+          // assemble SERVERINFO packet
+          UDPpacket packet;
+          unsigned char body[500];
+          int pos = 0;
+          packet.data = body;
+          packet.data[pos] = (const Uint8)PW2_RESPONSE_SERVERINFO; pos++;
+          packet.data[pos] = PROTOCOL_VERSION_MAJOR; pos++;
+          packet.data[pos] = PROTOCOL_VERSION_MINOR; pos++;
+          packet.data[pos] = PWP_TOTALMAX_CLIENTS; pos++;
+          packet.data[pos] = net_server_status; pos++;
+          
+          if (net_server_status == NS_RUNNING) 
+          {
+            // obtain # of players
+            char num_players = 0;
+	          for (int i = 0; i < GAME_MAX_OBJS; i++) {
+		          if ((server_info.game.objs[i]->state&OSTATE_ACTIVE) && server_info.game.objs[i]->GetType() == ot_player) num_players++;
+	          }
+            packet.data[pos] = num_players; pos++;
+            packet.data[pos] = server_info.game.game_type; pos++;
+            strcpy((char*)&packet.data[pos], s_name.string); pos+=strlen(s_name.string)+1;
+            strcpy((char*)&packet.data[pos], MapName); pos+=strlen(MapName)+1;
+            strcpy((char*)&packet.data[pos], ScriptName); pos+=strlen(ScriptName)+1;
+          }
+          packet.len = pos;
+          packet.channel = -1;
+          packet.address = msg_spackets[n]->address;
+          SDLNet_UDP_Send(msg_ssock, -1, &packet);
+        }
+        break;
+      case MSGID_PLAYERINFO:   // assemble player info packet
+        {
+          // 1b     player info tag
+          // 1b     n = num players
+
+          // n times player structure:
+          // signed 1b     frags
+          // signed 2b     score
+          // unsigned 2b   ping
+          // unsigned 1b   team
+          // unsigned 2b   connect time
+          // string        player name
+          // string        skin name
+
+          // assemble PLAYERINFO packet
+          UDPpacket packet;
+          unsigned char body[1000];
+          int pos = 0;
+          packet.data = body;
+          packet.data[pos] = (const Uint8)PW2_RESPONSE_PLAYERINFO; pos++;
+          pos++;
+          char num_players = 0;
+          if (net_server_status == NS_RUNNING) 
+          {
+	          for (int i = 0; i < GAME_MAX_OBJS; i++) {
+		          if ((server_info.game.objs[i]->state&OSTATE_ACTIVE) && server_info.game.objs[i]->GetType() == ot_player) 
+              {
+                num_players++;
+                GPlayer* p = (GPlayer*)server_info.game.objs[i];
+
+                packet.data[pos] = p->frags; pos++;
+                Sint16 score = p->points;
+                memcpy(&packet.data[pos], &score, 2); pos+=2;
+                Uint16 ping = p->ping; 
+                memcpy(&packet.data[pos], &ping, 2); pos+=2;
+                packet.data[pos] = 0; pos+=1;  // TODO: teams implementation
+                Uint16 time=0;  // TODO: connenction time
+                memcpy(&packet.data[pos], &time, 2); pos+=2;
+
+                strcpy((char*)&packet.data[pos], p->player_name.GetValRef()->chars); pos+=strlen(p->player_name.GetValRef()->chars)+1;
+                strcpy((char*)&packet.data[pos], p->skin_name.GetValRef()->chars); pos+=strlen(p->skin_name.GetValRef()->chars)+1;
+              }
+	          }
+          }
+          packet.data[1] = num_players; 
+
+          packet.len = pos;
+          packet.channel = -1;
+          packet.address = msg_spackets[n]->address;
+          SDLNet_UDP_Send(msg_ssock, -1, &packet);
+        }
+        break;
+        
+      // login message 
       case MSGID_LOGIN:
 
         // magick test
@@ -920,7 +1015,7 @@ LOSTWELCOME:
             MSG2.pos = 0;
             MSG2 << MSGID_WELCOME;
             MSG2 << new_player;
-            MSG2 << VERSION_MAJOR << VERSION_MINOR;
+            MSG2 << PROTOCOL_VERSION_MAJOR << PROTOCOL_VERSION_MINOR;
             MSG2.nprintf(LEN_MSG_WSNAME, "%s", s_name.string);
             MSG2.pos = POS_MSG_WSMSG;
             MSG2.nprintf(LEN_MSG_WSMSG, "%s", s_welcome_msg.string);

@@ -35,6 +35,8 @@
 //## Constants & defines
 //###########################################################################
 
+const Uint8 PROTOCOL_VERSION_MAJOR = 01;
+const Uint8 PROTOCOL_VERSION_MINOR = 20;
 
 //#define PWP_MAX_PLAYERS     16 
 #define PWP_TICKS_PER_PACKET_SERVER 1
@@ -109,6 +111,13 @@ const Uint8 MSGID_CHASEPLAYERCF =29;  // s->c of chasing player confirmation
 const Uint8 MSGID_SOUND         =30;  // s->c sound replaying
 const Uint8 MSGID_VOICE         =31;  // s->c sound replaying
 const Uint8 MSGID_ATTACHDONE    =32;  // s->c console attached
+const Uint8 MSGID_SERVERINFO    =40;  // c->s server info
+const Uint8 MSGID_PLAYERINFO    =41;  // c->s player info
+const Uint8 MSGID_RULEINFO      =42;  // c->s rule info
+
+#define PW2_RESPONSE_SERVERINFO  0
+#define PW2_RESPONSE_PLAYERINFO  1  
+
 
 
 #define MSG_SPOOL_SIZE      30

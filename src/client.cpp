@@ -1042,9 +1042,9 @@ int HandleClientMessage()
             ConOutEx(CLIENT_FONT, "Welcome to %s", (char *) &MSG.buf[POS_MSG_WSNAME]);
             ConOutEx(CLIENT_FONT, "Server version: %d.%02d", major, minor);
             ConOutEx(CLIENT_FONT, "Server message: %s", (char *) &MSG.buf[POS_MSG_WSMSG]);
-            if (major > VERSION_MAJOR || (major == VERSION_MAJOR && minor > VERSION_MINOR)) 
+            if (major > PROTOCOL_VERSION_MAJOR || (major == PROTOCOL_VERSION_MAJOR && minor > PROTOCOL_VERSION_MINOR)) 
             {
-              ConOutEx(CLIENT_FONT, "Server version %d.%02d is greater than version of your program %d.%02d.\n");
+              ConOutEx(CLIENT_FONT, "Server protocol version %d.%02d is greater than version of your program %d.%02d.\n");
               ConOutEx(CLIENT_FONT, "Please download latest version of PacWars2. (%s)\n", PW_WEBADDRESS);
             } 
             else 
