@@ -17,7 +17,7 @@ GUI_CreatePlayerSelMenu::GUI_CreatePlayerSelMenu() : GUI_BaseMenu(GUI_CREATEPLAY
 	Default();
 
 	lCreatePlayerSelMenu->enabled = false;
-	lCreatePlayerSelMenu->LoadThemeStyle("GUI_MenuTitle", "Button");
+	lCreatePlayerSelMenu->LoadThemeStyle("GUI_MenuTitle");
 	
 	LoadThemeStyle("GUI_Board");	
 }
