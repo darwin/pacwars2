@@ -312,7 +312,7 @@ GUI_Button(parent,btnid,r,text)
 }
 
 void GUI_ButtonBig::eventMouseLeave() {
-    //SetFont(MainFont);
+    SetFont(MainFont);
     if (enabled)
     {
       SetTextColor(GUI_BtnTextColor);
@@ -321,7 +321,7 @@ void GUI_ButtonBig::eventMouseLeave() {
 }
 
 void GUI_ButtonBig::eventMouseEnter() {
-    //SetFont(MainFont2);
+    SetFont(MainFont2);
     if (enabled)
     {
       SetTextColor(GUI_BtnATextColor);

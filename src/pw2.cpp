@@ -110,6 +110,8 @@ Uint8 video_bpp;
 SDL_Surface *screen;
 const SDL_VideoInfo *VideoInfo = NULL;
 
+char PW_CONFIG_FILE_PERSONAL[255];
+
 #ifdef PW_MUSIC
 static int audio_open = 0;
 char playing_music[250] = "none";
@@ -1792,7 +1794,7 @@ int SaveConfig(char *cfgname)
 	FILE *f;
 	f = fopen(cfgname, "wt");
 	if (!f) {
-		fprintf(stderr, "Couldn't write config %s", cfgname);
+		fprintf(stderr, "Couldn't write config %s\n", cfgname);
 		return 1;
 	}
 	fprintf(f, "#-PW2-config-file------------------------\n");
@@ -2878,7 +2880,19 @@ main(int argc, char *argv[])
 	// Add console commands
 	AddConsoleCommands();
 	AddConsoleVars();
+
+#ifndef WIN32
+	sprintf(PW_CONFIG_FILE_PERSONAL, "%s/.pw2config", getenv("HOME"));
+	if(LoadConfig(PW_CONFIG_FILE_PERSONAL) != 0) {
+		fprintf(stderr, "trying global config: %s\n", PW_CONFIG_FILE);
+		if(LoadConfig(PW_CONFIG_FILE) == 0) {
+			fprintf(stderr, "saving personal config: %s\n", PW_CONFIG_FILE_PERSONAL);
+			SaveConfig(PW_CONFIG_FILE_PERSONAL);
+		}
+	}
+#else
 	LoadConfig(PW_CONFIG_FILE);
+#endif
 
 	//sprintf(fname, "PARAGUIDIR=%s", gui_dir.string);
 	//putenv(fname);
@@ -3572,7 +3586,12 @@ main(int argc, char *argv[])
 	// Done network
 	DoneNet();
 
+#ifdef WIN32
 	SaveConfig(PW_CONFIG_FILE);
+#else
+	SaveConfig(PW_CONFIG_FILE_PERSONAL);
+#endif
+
 	Cvar_Free();
 
 	FreeCommands();
