@@ -263,12 +263,10 @@ void CGame::GameThink(TICK_TYPE time)
 					if (c / 1000 != last) {
 						last = c / 1000;
 						if (last == 1)
-							SV_BroadcastPrintf
-								("Server: last second remains");
+							SV_BroadcastPrintf("Server: last second remains");
 						else {
 							if (last == 10 || last <= 3)
-								SV_BroadcastPrintf
-									("Server: %d seconds remain", last);
+								SV_BroadcastPrintf("Server: %d seconds remain", last);
 							if (last == 10)
 								SV_BroadcastVoice(SM_10_0, 100, 100);
 						}
@@ -280,8 +278,8 @@ void CGame::GameThink(TICK_TYPE time)
 		break;
 	case GT_DEATHMATCH_FRAG:
 		for (i = 0; i < GAME_MAX_OBJS; i++)
-			if (objs[i]->GetType() == ot_player
-				&& ((GPlayer *) objs[i])->frags >= s_fraglimit.value) {	// player i has fraglimit
+			if (objs[i]->GetType() == ot_player	&& ((GPlayer *) objs[i])->frags >= s_fraglimit.value) 
+      {	// player i has fraglimit
 				SV_ChangeGame();
 				break;
 			}
@@ -293,22 +291,26 @@ void CGame::UpdateGamebarSlots()
 {
 	int slot = 0;
 	int i = 0;
-	MainSlot = -1;
 	BecherSlot = -1;
+  
+  // test main slot
+  if (MainSlot!=-1)
+  {
+    if ((!(objs[MainSlot]->state & OSTATE_ACTIVE)) || objs[MainSlot]->GetType()!=ot_player)
+      MainSlot = -1;
+  }
 
 	for (i = 0; i < GAME_MAX_OBJS; i++) {
-		if ((objs[i]->GetType() == ot_player)
-			&& (objs[i]->state & OSTATE_ACTIVE)) {
-			GPlayer *p = (GPlayer *) objs[i];
-			if (p->brain_owner == client_info.client_num)
-				MainSlot = i;
+		if ((objs[i]->GetType() == ot_player)	&& (objs[i]->state & OSTATE_ACTIVE)) {
+			/*GPlayer *p = (GPlayer *) objs[i];
+			if (MainSlot==-1 && p->brain_owner == client_info.client_num)
+				MainSlot = i;*/
 			if (slot < MAX_GAMEBAR_PLAYERS) {
 				GBSlots[slot] = i;
 				slot++;
 			}
 		}
-		if ((objs[i]->state & OSTATE_ACTIVE)
-			&& (objs[i]->GetType() == ot_extra)) {
+		if ((objs[i]->state & OSTATE_ACTIVE) && (objs[i]->GetType() == ot_extra)) {
 			GExtra *e = (GExtra *) objs[i];
 			if (e->type >= EX_SUP_BECHER) {
 				BecherSlot = i;
@@ -423,7 +425,7 @@ void CGame::RenderStatusBar(SDL_Surface * screen, int font, int px, int py)
 	r.y = py;
 	r.w = statusbar_bkg->w;
 	r.h = statusbar_bkg->h;
-	SDL_BlitSurface(statusbar_bkg, NULL, screen, &r);
+  SDL_BlitSurface(statusbar_bkg, NULL, screen, &r);
 	if (MainSlot != -1) {
 		GPlayer *p = (GPlayer *) objs[MainSlot];
 		if (p->state & OSTATE_ACTIVE) {
@@ -611,6 +613,7 @@ void CGame::RenderBecherBar(SDL_Surface * screen, int px, int py)
 	}
 }
 
+// OBSOLETE - is not used
 void CGame::RenderResults(SDL_Surface * screen, int font)
 {
 	char line[1024];

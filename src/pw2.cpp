@@ -2986,7 +2986,7 @@ void ProcessEvents()
         
         if (event.key.keysym.sym==key_chat.value)
         {
-          if (net_client_status == NS_CONNECTED) 
+          if (net_client_status == NS_CONNECTED && !ConsoleDown) 
           {
             chat_on=true;
             blocked_inputs = 1;
@@ -3000,21 +3000,7 @@ void ProcessEvents()
       }
       break;
     }
-    
-    
-    
-    // If the console is down send events that were not
-    // filtered out yet to the console 
-    if (ConsoleDown) {
-      ConsoleEvents(&event);
-      //continue;
-    }
-    
-    if (GUI_id) {
-      PG_MessageObject::PumpIntoEventQueue(&event);
-      //continue;
-    }
-    
+
     if (ServerView)
       switch (event.type) {
       case SDL_KEYDOWN:
@@ -3040,6 +3026,18 @@ void ProcessEvents()
         }
         break;
     }
+    
+    // If the console is down send events that were not
+    // filtered out yet to the console 
+    if (ConsoleDown) {
+      ConsoleEvents(&event);
+      continue;
+    }
+    
+    if (GUI_id) {
+      PG_MessageObject::PumpIntoEventQueue(&event);
+      continue;
+    }
   }
   
   //while(SDL_PeepEvents(&event, 1, SDL_GETEVENT, SDL_KEYDOWNMASK | SDL_MOUSEMOTIONMASK | SDL_SYSWMEVENTMASK) > 0);
@@ -3053,9 +3051,11 @@ void Renderscreen(SDL_Surface * screen)
   
   if (net_client_status == NS_VIEWING_RESULTS) {
     DrawResultsBack(screen);
-    while (GUI_id) GUI_Return(); 
-    GUI_OpenMenu(GUI_RESULTS);
-    RenderResults(screen);
+    if (GUI_id!=GUI_RESULTS) 
+    {
+      while (GUI_id) GUI_Return(); 
+      GUI_OpenMenu(GUI_RESULTS);
+    }
   } else {
     if (MapLoaded != 2)		//(client_info.game.state!=GS_INITED)
     {

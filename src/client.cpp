@@ -1867,6 +1867,7 @@ int CL_ChasePlayerConf(int i)
     ConOutEx(CLIENT_FONT, "Chasing player \"%s\"",
 			   ((GPlayer *) client_info.game.objs[i])->
          player_name.GetValRef()->chars);
+    client_info.game.MainSlot = i;
   } else {
     ConErr("Chasing player: something went wrong ");
   }

@@ -25,7 +25,7 @@
 #define MAX_MESSENGER_TEXT 1024
 #define STD_MESSENGER_X "0"
 #define STD_MESSENGER_Y "0"
-#define STD_MESSENGER_TIME "5000"
+#define STD_MESSENGER_TIME "3000"
 
 extern DECLSPEC cvar_t	messenger_x;
 extern DECLSPEC cvar_t	messenger_y;

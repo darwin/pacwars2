@@ -63,9 +63,18 @@ void SetMessenger(const char *str, ...)
 		if (!messenger_text[i][0])
 			break;
 	}
-	i = 0;
+  if (i==MAX_MSNG_MESSAGES) 
+  {
+    for (int j = 1; j < MAX_MSNG_MESSAGES; j++) {
+			strcpy(messenger_text[j - 1], messenger_text[j]);
+      messenger_last_time[j - 1] = messenger_last_time[j];
+      messenger_text[j][0] = 0;
+    }
+    
+    i = MAX_MSNG_MESSAGES-1;
+  }
 
-	va_list marker;
+  va_list marker;
 
 	va_start(marker, str);
 	vsprintf(messenger_text[i], str, marker);
