@@ -285,7 +285,19 @@
 
 
 
-    <widget>
+   <widget>
+	<type value="GUI_BaseMenu"/>
+	<object>
+	    <type value="GradientWidget"/>
+	    <name value="GradientWidget"/>
+	    <filename name="background" value="none"/>
+	    <property name="backmode" value="TILE"/>
+	    <gradient name="gradient" color0="0x00000000" color1="0x00000000" color2="0x00000000" color3="0x00000000"/>
+	    <property name="blend" value="255"/>
+	</object>
+    </widget>
+
+   <widget>
 	<type value="GUI_Board"/>
 	<object>
 	    <type value="GradientWidget"/>

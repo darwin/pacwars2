@@ -359,16 +359,20 @@ SDL_Surface *LoadPic(char *fname)
 
 void DrawGameBack(SDL_Surface * screen)
 {
+	/*
 	SDL_FillRect(screen, NULL,
 				 SDL_MapRGB(screen->format, GUI_BackColor.r,
 							GUI_BackColor.g, GUI_BackColor.b));
+	*/
 }
 
 void DrawGUIBack(SDL_Surface * screen)
 {
+	/*
 	SDL_FillRect(screen, NULL,
 				 SDL_MapRGB(screen->format, GUI_BackColor.r,
 							GUI_BackColor.g, GUI_BackColor.b));
+	*/
 	SDL_Rect r;
 	r.x = 0;
 	r.y = 0;
@@ -3491,6 +3495,7 @@ main(int argc, char *argv[])
 				Volume_Music(music_volume.string);
 				enable_menu_music = 0;
 			}
+
 			SDL_Rect r1, r2;
 			GUI_menu->GetClipRects(r1, r2);
 
