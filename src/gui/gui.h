@@ -430,7 +430,7 @@ class GUI_SkinCtrl : public PG_Widget {
 public:
   GUI_SkinCtrl(PG_Widget* parent, const PG_Rect& r, bool storebackground = false);
   
-  void eventDraw(SDL_Surface* surface, const PG_Rect& rect);
+//  void eventDraw(SDL_Surface* surface, const PG_Rect& rect);
   bool eventButtonClick(int id, PG_Widget* widget);
   
   GUI_SkinPic* SkinPic;

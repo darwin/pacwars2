@@ -1543,7 +1543,7 @@ void CL_EnterGame(Uint32 time)
   // synchronize time with server
   client_info.last_time = time + delta - ctime;
 }
-
+ 
 int CL_ChangeMap(char *mapname, char *scriptname)
 {
   // dispose old game info

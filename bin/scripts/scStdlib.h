@@ -27,6 +27,8 @@
 extern "C" {
 #endif
 
+//#define long int  // SeeR doesn't support long type, but in VC++6.0 int = long
+
 #ifndef _SIZE_T_DEFINED
 typedef unsigned int size_t;
 #define _SIZE_T_DEFINED
@@ -62,7 +64,7 @@ typedef struct _div_t {
 //l typedef struct _ldiv_t {
 //l         long quot;
 //l         long rem;
-//l } ldiv_t;
+//l} ldiv_t;
 
 #define _DIV_T_DEFINED
 #endif
@@ -151,14 +153,14 @@ import int _fileinfo;       /* open file info mode (for spawn) */
 import void   abort();
 import void   exit(int);
 
-import int    abs(int);
+//import int    abs(int);
 import double atof(const char *);
 //! import int    atexit(void (*)());
 import int    atoi(const char *);
 //l import long   atol(const char *);
-#ifdef  _M_M68K
+//#ifdef  _M_M68K
 //l import long double _atold(const char *);
-#endif
+//#endif
 //! import void * bsearch(const void *, const void *, size_t, size_t, int (*)(const void *, const void *));
 import void * calloc(size_t, size_t);
 import div_t  div(int, int);
@@ -183,9 +185,9 @@ import int    _set_error_mode(int);
 import void   srand(unsigned int);
 import double strtod(const char *, char **);
 //l import long   strtol(const char *, char **, int);
-#ifdef  _M_M68K
+//#ifdef  _M_M68K
 //l import long double _strtold(const char *, char **);
-#endif
+//#endif
 //l import unsigned long strtoul(const char *, char **, int);
 import int    system(const char *);
 //l import char * _ultoa(unsigned long, char *, int);
@@ -247,12 +249,12 @@ import void _beep(unsigned int, unsigned int);
 /* --------- The declarations below should not be in stdlib.h --------- */
 /* --------- and will be removed in a future release. Include --------- */
 /* --------- ctype.h to obtain these declarations.            --------- */
-#ifndef tolower     /* tolower has been undefined - use function */
+//#ifndef tolower     /* tolower has been undefined - use function */
 import int tolower(int);
-#endif  /* tolower */
-#ifndef toupper     /* toupper has been undefined - use function */
+//#endif  /* tolower */
+//#ifndef toupper     /* toupper has been undefined - use function */
 import int toupper(int);
-#endif  /* toupper */
+//#endif  /* toupper */
 /* --------- The declarations above will be removed.          --------- */
 
 

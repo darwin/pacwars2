@@ -13,7 +13,6 @@ GUI_BaseMenu::GUI_BaseMenu(int iid, const PG_Rect& rect): PG_GradientWidget(NULL
 	mid = iid;
 	next = NULL;
 	LoadThemeStyle("GUI_BaseMenu");
-	SetStoreBackground(false);
 }
 
 void GUI_BaseMenu::eventDraw(SDL_Surface* surface, const PG_Rect& rect) {

@@ -77,7 +77,7 @@ const GAME_MAXOBJS_TYPE MAX_PACS_PER_STATION = 16;
 //###########################################################################
 
 const Uint8 VERSION_MAJOR = 01;
-const Uint8 VERSION_MINOR = 20;
+const Uint8 VERSION_MINOR = 25;
 
 #define PW_CONFIG_FILE "config.cfg"
 

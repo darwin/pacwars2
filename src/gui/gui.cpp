@@ -458,7 +458,6 @@ bool GUI_OKDialog2::eventButtonClick(int id, PG_Widget* widget)
 GUI_ButtonS::GUI_ButtonS(PG_Widget* parent, int btnid, const PG_Rect& r):
 PG_Widget(parent, r, false)
 {
-  //  drawbackground = true;
   SDL_Surface* background = NULL;
   id = btnid;
 }
@@ -511,7 +510,6 @@ bool GUI_ButtonS::SetBackground(const char* filename, int mode){
 GUI_SkinPic::GUI_SkinPic(PG_Widget* parent, const PG_Rect& r):
 PG_Widget(parent, r, false)
 {
-
   lName = NULL;
   sprite = NULL;
 }
@@ -526,7 +524,7 @@ void GUI_SkinPic::eventDraw(SDL_Surface* surface, const PG_Rect& rect)
   SDL_Rect sr;
   SDL_Rect dr;
 
-  SDL_FillRect(surface, NULL, 1);
+  SDL_FillRect(surface, NULL, 255);
   if (sprite)
   {
     // locate rectangle of source sprite
@@ -599,9 +597,9 @@ void GUI_SkinPic::SetSkin(char* ns)
 }
 
 GUI_SkinCtrl::GUI_SkinCtrl(PG_Widget* parent, const PG_Rect& r,  bool storebackground) : PG_Widget(parent,r,storebackground) {
-	SkinPic = new GUI_SkinPic(this, PG_Rect(1, 1, 32, 32));
 	bNext = new PG_Button(this, 2, PG_Rect(17, 33, 16, 16));
 	bPrev = new PG_Button(this, 1, PG_Rect(1, 33, 16, 16));
+	SkinPic = new GUI_SkinPic(this, PG_Rect(1, 1, 32, 32));
 
 	c = GUI_Gray64;
 	drawbackground = true;
@@ -609,7 +607,7 @@ GUI_SkinCtrl::GUI_SkinCtrl(PG_Widget* parent, const PG_Rect& r,  bool storebackg
 	bPrev->LoadThemeStyle("GUI_PrevSkinButton");
 	bNext->LoadThemeStyle("GUI_NextSkinButton");
 }
-
+/*
 void GUI_SkinCtrl::eventDraw(SDL_Surface* surface, const PG_Rect& rect)
 {
 	if (drawbackground) {
@@ -622,7 +620,7 @@ void GUI_SkinCtrl::eventDraw(SDL_Surface* surface, const PG_Rect& rect)
 
 	PG_Widget::eventDraw(surface, rect);
 }
-
+*/
 bool GUI_SkinCtrl::eventButtonClick(int id, PG_Widget* widget)
 {
 	switch (id) {

@@ -20,9 +20,7 @@
 #title "pacwars"
 #author "Woid"
 
-// !!! don't do this - there is a bug #include "scripts/scStdlib.h"     // we use rand() function
 import int rand();
-
 #include "scripts/sapi.h" // include scripting api
 
 
@@ -225,6 +223,7 @@ int csInit()
 
   cvPlayMusic("paccore.xm");
 //  cvVolumeMusic("40");
+  Mod_UltraRailingOnly();
   return 0;
 }
 

@@ -2844,7 +2844,7 @@ void ProcessEvents()
             
             // reconnect sequence
             CommandExecuteOut("connect %s", last_server.string);
-            waiting_connection = true;
+            //waiting_connection = true;
             
             // recreate players
             RecreatePlayers();
@@ -2975,9 +2975,8 @@ void Renderscreen(SDL_Surface * screen)
   
   if (net_client_status == NS_VIEWING_RESULTS) {
     DrawResultsBack(screen);
-    if (!GUI_id) {
-      GUI_OpenMenu(GUI_RESULTS);
-    }
+    while (GUI_id) GUI_Return(); 
+    GUI_OpenMenu(GUI_RESULTS);
     RenderResults(screen);
   } else {
     if (MapLoaded != 2)		//(client_info.game.state!=GS_INITED)
@@ -3658,13 +3657,7 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
     if (client_info.active) {
       CL_Move(ticktime);
       client_info.game.UpdateGamebarSlots();
-    } else {
-/*      if (net_client_status != NS_VIEWING_RESULTS)
-        if (!GUI_menu && waiting_connection) {
-//          GUI_OpenMenu(GUI_MAINMENU);
-//          waiting_connection = false;
-        }*/
-    }
+    } 
     
     if (!GUI_menu && waiting_connection) {
       if (client_info.active)

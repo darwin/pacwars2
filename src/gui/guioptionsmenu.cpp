@@ -21,7 +21,7 @@ GUI_OptionsMenu::GUI_OptionsMenu() : GUI_BaseMenu(GUI_OPTIONS, PG_Rect(OM_PX,OM_
 	lOptionsMenu->enabled = false;
 	lOptionsMenu->LoadThemeStyle("GUI_MenuTitle", "Button");
 }
-
+ 
 void GUI_OptionsMenu::Default(){
 }
 
