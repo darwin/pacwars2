@@ -509,68 +509,6 @@ void GUI_WidgetList::AddWidget(SDLWidget* w) {
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// Slider
-/////////////////////////////////////////////////////////////////////////////
-
-GUI_Slider::GUI_Slider(SDLWidget* parent, int id, SDL_Rect& r, int direction):
-GUI_ScrollBar(parent, id, r, direction)
-{
-	if(direction == SDL_SB_VERTICAL) {
-		position[3].h = r.w;
-	}
-	else {
-		position[3].w = r.h;
-	}
-  
-  LoadThemeStyle("GUI_Slider");
-
-  dragbutton->SizeWindow(16, 16);
-  dragbutton->SetTickMode(true);
-  
-	position[0].w = 0;
-  position[0].h = 0;
-  position[1].w = 0;
-  position[1].h = 0;
-   
-  position[2].x = 0;
-  position[2].y = 0;
-  position[2].w = r.w;
-  position[2].h = r.h;
-    
-  delete scrollbutton[0];
-  scrollbutton[0] = NULL;
-    
-  delete scrollbutton[1];
-  scrollbutton[1] = NULL;
-    
-  SetPosition(scroll_min);
-}
-
-void GUI_Slider::LoadThemeStyle(const char* widgettype) {
-
-	if(sb_direction == SDL_SB_VERTICAL) {
-		scrollbutton[0]->LoadThemeStyle(widgettype, "SliderUp");
-		scrollbutton[1]->LoadThemeStyle(widgettype, "SliderDown");
-	}
-	else {
-		scrollbutton[0]->LoadThemeStyle(widgettype, "SliderLeft");
-		scrollbutton[1]->LoadThemeStyle(widgettype, "SliderRight");
-	}
-
-	dragbutton->LoadThemeStyle(widgettype, "SliderDrag");
-
-	if(sb_direction == SDL_SB_VERTICAL) {
-		SDLGradientWidget::LoadThemeStyle(widgettype, "SliderV");
-	}
-	else {
-		SDLGradientWidget::LoadThemeStyle(widgettype, "SliderH");
-	}
-
-	SDLScrollBar::LoadThemeStyle(widgettype);
-}
-
-	
-/////////////////////////////////////////////////////////////////////////////
 // OK dialog widgets
 /////////////////////////////////////////////////////////////////////////////
 
