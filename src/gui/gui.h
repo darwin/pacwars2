@@ -24,6 +24,7 @@
 #include "guivideomenu.h"
 #include "guipathsmenu.h"
 #include "guimainmenu.h"
+#include "guioptionsmenu.h"
 
 #include "smapman.h"
 #include "sprite.h"
@@ -521,26 +522,6 @@ public:
 #define OM_PY 100
 #define OM_VX 280
 #define OM_VY 280
-
-
-class GUI_OptionsMenu : public GUI_BaseMenu {
-public:
-  GUI_OptionsMenu();
-  
-  GUI_ButtonBig lOptionsMenu;
-  GUI_ButtonBig bServer;
-  GUI_ButtonBig bClient;
-  GUI_ButtonBig bVideo;
-  GUI_ButtonBig bSound;
-  GUI_ButtonBig bPaths;
-  GUI_ButtonBig bBack;
-  
-  void Show();
-  void Hide();
-  void Default();
-  
-  bool eventButtonClick(int id, SDLWidget* widget);
-};
 
 
 /////////////////////////////////////////////////////////////////////////////

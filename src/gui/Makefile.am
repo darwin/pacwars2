@@ -12,7 +12,8 @@ libgui_la_SOURCES = \
 	guiclientmenu.cpp \
 	guivideomenu.cpp \
 	guipathsmenu.cpp \
-	guimainmenu.cpp
+	guimainmenu.cpp \
+	guioptionsmenu.cpp
 
 EXTRA_DIST = \
 	gui.h \
@@ -23,4 +24,5 @@ EXTRA_DIST = \
 	guiclientmenu.h \
 	guivideomenu.h \
 	guipathsmenu.h \
-	guimainmenu.h
+	guimainmenu.h \
+	guioptionsmenu.h

@@ -32,11 +32,11 @@ GUI_NewGameMenu::GUI_NewGameMenu(): GUI_BaseMenu(GUI_NEWGAME, mkrect(NG_PX,NG_PY
 	lChoose2 = new GUI_Label(this, SDLWidget::mkrect(25+150+10,179, 150,20), "Choose script:", false);
 	WidgetList2 = new GUI_WidgetList(this, SDLWidget::mkrect(26+150+10, 201, 148, 64));
 
-	lAuthFile = new GUI_Label(this, SDLWidget::mkrect(25,275, NG_VX-50-8,12), "file", false);
-	lDesc1 = new GUI_Label(this, SDLWidget::mkrect(25,287, NG_VX-50-20,12), "d1", false);
-	lDesc2 = new GUI_Label(this, SDLWidget::mkrect(25,299, NG_VX-50-20,12), "d2", false);
-	lDesc3 = new GUI_Label(this, SDLWidget::mkrect(25,311, NG_VX-50-20,12), "d3", false);
 	Board3 = new GUI_Board(this, SDLWidget::mkrect(25, 273, NG_VX-50, 54), false, "GUI_MapInfoBoard");
+	lAuthFile = new GUI_Label(Board3, SDLWidget::mkrect(2,2, NG_VX-50-8,12), "file", false);
+	lDesc1 = new GUI_Label(Board3, SDLWidget::mkrect(2,14, NG_VX-50-20,12), "d1", false);
+	lDesc2 = new GUI_Label(Board3, SDLWidget::mkrect(2,26, NG_VX-50-20,12), "d2", false);
+	lDesc3 = new GUI_Label(Board3, SDLWidget::mkrect(2,38, NG_VX-50-20,12), "d3", false);
 
 	cJoin = new GUI_CheckBox(this, SDLWidget::mkrect(25,333,NG_VX-50, CB_SIZEY), "join the game after starting server", true, GUI_Gray64);
 
@@ -114,7 +114,7 @@ void GUI_NewGameMenu::Return()
 
 void scriptchCB(GUI_LabelL* l)
 {
-	NGMenu->Board3->Redraw();
+	//NGMenu->Board3->Redraw();
 
 	if(l == NULL) {
 		return;
