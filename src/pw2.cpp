@@ -2780,7 +2780,6 @@ void ProcessEvents()
       }
       else
       {
-        blocked_inputs = 0;
         switch (event.key.keysym.sym) {
         case SDLK_BACKQUOTE:
           if (ConsoleDown) {
@@ -3523,7 +3522,6 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
   ConOut("GUI initialized.");
   UpdateSplash(screen, 90);
   
-  
   // Console's inviting message
   ConOut("----------------------------------------------------");
   ConOut("At your service, my Lord ...");
@@ -3536,9 +3534,8 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
   client_info.active = false;
   net_client_status = NS_UNINITED;
   
-  SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY,
-    SDL_DEFAULT_REPEAT_INTERVAL);
-  
+  SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
+
   // Main execution loop
   firsttick = SDL_GetTicks();
   
@@ -3568,7 +3565,7 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
     ConOutEx(MISC_FONT, "> \"autoserver\" command sequence: <");
     CommandExecuteOut("ss");
   }
-  
+ 
   inloop = true;
   while (MainProgram) {
     PollNet();
