@@ -509,8 +509,8 @@ public:
 #define CP_VX 400
 #define CP_VY 270
 
-#define CP_SK_X    (CP_PX+CP_VX-34-10)
-#define CP_SK_Y    (CP_PY+40)
+#define CP_SK_X    (CP_VX-34-10)
+#define CP_SK_Y    (40)
 
 /////////////////////////////////////////////////////////////////////////////
 // Skin widgets
@@ -556,9 +556,9 @@ public:
   void eventDraw(SDL_Surface* surface, SDL_Rect* rect);
   bool eventButtonClick(int id, SDLWidget* widget);
   
-  GUI_SkinPic SkinPic;
-  SDLButton bNext;
-  SDLButton bPrev;
+  GUI_SkinPic* SkinPic;
+  SDLButton* bNext;
+  SDLButton* bPrev;
   
   SDL_Color c;
   bool drawbackground;

@@ -1019,21 +1019,16 @@ void GUI_SkinPic::SetSkin(char* ns)
   GetParent()->Redraw();
 }
 
-GUI_SkinCtrl::GUI_SkinCtrl(SDLWidget* parent, SDL_Rect& r,  bool storebackground):
-SDLWidget(parent,r,storebackground),
-SkinPic(NULL, SDLWidget::mkrect(CP_SK_X+1, CP_SK_Y+1, 32, 32)),
-bNext(NULL, 2, SDLWidget::mkrect(CP_SK_X+17, CP_SK_Y+33, 16, 16)),
-bPrev(NULL, 1, SDLWidget::mkrect(CP_SK_X+1, CP_SK_Y+33, 16, 16))
-{
-  c = GUI_Gray64;
-  drawbackground = true;
-  
-  bPrev.SetIcon("./s1l.bmp", "./s1l.bmp");
-  bNext.SetIcon("./s1p.bmp", "./s1p.bmp");
-  
-  AddChild(&SkinPic);
-  AddChild(&bPrev);
-  AddChild(&bNext);
+GUI_SkinCtrl::GUI_SkinCtrl(SDLWidget* parent, SDL_Rect& r,  bool storebackground) : SDLWidget(parent,r,storebackground) {
+	SkinPic = new GUI_SkinPic(this, SDLWidget::mkrect(1, 1, 32, 32));
+	bNext = new SDLButton(this, 2, SDLWidget::mkrect(17, 33, 16, 16));
+	bPrev = new SDLButton(this, 1, SDLWidget::mkrect(1, 33, 16, 16));
+
+	c = GUI_Gray64;
+	drawbackground = true;
+
+	bPrev->SetIcon("./s1l.bmp", "./s1l.bmp");
+	bNext->SetIcon("./s1p.bmp", "./s1p.bmp");
 }
 
 void GUI_SkinCtrl::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
@@ -1052,26 +1047,26 @@ bool GUI_SkinCtrl::eventButtonClick(int id, SDLWidget* widget)
 {
   switch (id) {
   case 1:
-    if (SkinPic.PrevSkin())
+    if (SkinPic->PrevSkin())
     {
-      bPrev.Hide();
+      bPrev->Hide();
     }
     else
     {
-      bPrev.Show();
+      bPrev->Show();
     }
-    bNext.Show();
+    bNext->Show();
     break;
   case 2:
-    if (SkinPic.NextSkin())
+    if (SkinPic->NextSkin())
     {
-      bNext.Hide();
+      bNext->Hide();
     }
     else
     {
-      bNext.Show();
+      bNext->Show();
     }
-    bPrev.Show();
+    bPrev->Show();
     break;
   }
   return true;

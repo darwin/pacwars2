@@ -54,12 +54,12 @@ GUI_CreatePlayerMenu::GUI_CreatePlayerMenu(int id, int inum) : GUI_BaseMenu(id, 
 	lSkin->SetAlignment(SDL_TA_LEFT);
 	lSkin->shiftx = 4;
 
-	SkinCtrl->SkinPic.lName = eSkin;
+	SkinCtrl->SkinPic->lName = eSkin;
 	switch (num) {
-	case 1: SkinCtrl->SkinPic.SetSkin(p1_skin.string); break;
-	case 2: SkinCtrl->SkinPic.SetSkin(p2_skin.string); break;
-	case 3: SkinCtrl->SkinPic.SetSkin(p3_skin.string); break;
-	case 4: SkinCtrl->SkinPic.SetSkin(p4_skin.string); break;
+	case 1: SkinCtrl->SkinPic->SetSkin(p1_skin.string); break;
+	case 2: SkinCtrl->SkinPic->SetSkin(p2_skin.string); break;
+	case 3: SkinCtrl->SkinPic->SetSkin(p3_skin.string); break;
+	case 4: SkinCtrl->SkinPic->SetSkin(p4_skin.string); break;
 	}
 
 	lUp->SetAlignment(SDL_TA_RIGHT);
