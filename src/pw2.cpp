@@ -137,6 +137,8 @@ Uint32 firsttick;
 Uint32 ticktime;
 
 bool waiting_connection = false;
+Uint32 waiting_connection_time;
+
 bool want_quit = false;
 int frames = 0, oldframes = 0;
 
@@ -3127,6 +3129,7 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
   if (fname[strlen(fname) - 1] == '/')
     fname[strlen(fname) - 1] = 0;
   app.SetApplicationPath(fname);
+  fprintf(stderr, "loading theme %s from %s\n", theme.string, fname);
   if (!app.LoadTheme(theme.string, true, fname))
   {
     fprintf(stderr, "Couldn't load menu theme %s from %s\nCheck config.cfg for \"gui_dir\" and \"theme\"\n", theme.string, gui_dir.string);
@@ -3250,6 +3253,7 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
     sound_3d_enabled = false;
   
   // Initialize SDL
+  fprintf(stderr, "initing SDL\n");
   if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO|SDL_INIT_NOPARACHUTE) < 0) {
     fprintf(stderr, "Couldn't initialize SDL: %s\n", SDL_GetError());
     exit(1);
@@ -3257,6 +3261,7 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
   atexit(SDL_Quit);
   
   // Intialize network
+  fprintf(stderr, "initing net\n");
   if (InitNet() < 0) {
     fprintf(stderr, "Couldn't inititalize network: %s\n",
       SDL_GetError());
@@ -3267,6 +3272,7 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
   FileNameConversion(gfx_dir.string, "icon", "bmp", tmptxt);
   SDL_WM_SetIcon(SDL_LoadBMP(tmptxt), NULL);
   // Set video mode
+  fprintf(stderr, "setting up viedo mode\n");
   if (!app.InitScreen(640, 480, video_bpp, videoflags)) {
     fprintf(stderr, "Couldn't set 640x480x%d video mode: %s\n",
       video_bpp, SDL_GetError());
@@ -3283,6 +3289,7 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
   ResetGamma();
   
 #ifdef PW_AUDIO
+  fprintf(stderr, "initing audio hw\n");
 #ifdef PW_BASS
   // try initializing the default device, at 44100hz stereo 16 bits
   if (sound_hw_enabled) {
@@ -3330,6 +3337,7 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
   ConOut("");
   // Inform about previous initializations
 #ifdef PW_AUDIO
+  fprintf(stderr, "enabling audio\n");
 #ifdef PW_BASS
   BASS_Start();				// Start digital output
   ConOut("BASS sound sytem initialized.");
@@ -3343,6 +3351,7 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
   ConOut("Network engine initialized.");
   
 #ifdef PW_MUSIC
+  fprintf(stderr, "playing music\n");
 #ifdef PW_BASS
   Play_Music(menu_music_file.string);
   Volume_Music(music_volume.string);
@@ -3355,12 +3364,13 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
 #endif
   
 #ifdef PW_SOUND
+  fprintf(stderr, "loading samples\n");
   smLoadSamples();
   // Load the requested music file
   Volume_Sound(sound_volume.string);
 #endif
   
-  
+  fprintf(stderr, "loading gfx\n");
   FileNameConversion(gfx_dir.string, "mainscr", PNG_EXT, tmptxt);
   menu_background = LoadPic(tmptxt);
   
@@ -3415,6 +3425,7 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
   UpdateSplash(screen, 10);
   
   // Init the console
+  fprintf(stderr, "initing console\n");
   int tmp_font;
   FileNameConversion(gfx_dir.string, "cfont0", PNG_EXT, tmptxt);
   if (InitConsole(tmptxt, screen, 100)) {
@@ -3497,6 +3508,7 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
   UpdateSplash(screen, 45);
   
   // Enable the scripting engine
+  fprintf(stderr, "enabling scripting\n");
   InitScripting();
   UpdateSplash(screen, 60);
   
@@ -3514,6 +3526,7 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
   UpdateSplash(screen, 65);
   
   // Scan for sprites
+  fprintf(stderr, "scanning for game files\n");
   ConOut("%d sprite(s) found",
     SpriteMan.Scan(sprite_dir.string, sprite_ext.string));
   UpdateSplash(screen, 70);
@@ -3530,6 +3543,7 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
   UpdateSplash(screen, 85);
   
   // Init GUI system
+  fprintf(stderr, "initing gui system\n");
   if (!GUI_Init(screen))
     return 2;
   GUI_OKDialog1 OKDialog1("");
@@ -3629,6 +3643,8 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
     CommandExecuteOut("ss");
   }
  
+  fprintf(stderr, "entering main loop\n");
+  GUI_OpenMenu(GUI_MAINMENU);
   inloop = true;
   while (MainProgram) {
     PollNet();
@@ -3642,14 +3658,32 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
     if (client_info.active) {
       CL_Move(ticktime);
       client_info.game.UpdateGamebarSlots();
-      waiting_connection = false;
     } else {
-      if (net_client_status != NS_VIEWING_RESULTS)
-        if (!GUI_menu && !waiting_connection) {
-          GUI_OpenMenu(GUI_MAINMENU);
-        }
+/*      if (net_client_status != NS_VIEWING_RESULTS)
+        if (!GUI_menu && waiting_connection) {
+//          GUI_OpenMenu(GUI_MAINMENU);
+//          waiting_connection = false;
+        }*/
     }
     
+    if (!GUI_menu && waiting_connection) {
+      if (client_info.active)
+      {
+        GUI_OpenMenu(GUI_MAINMENU);
+        waiting_connection = false;
+      }
+      else
+      {
+        if (abs(ticktime-waiting_connection_time)>WAITING_CONNECTION_TIMEOUT)
+        {
+          waiting_connection = false;
+          OKD2->Reset("Connection failed", "Unable to connect remote PW2 server.", "Try to check IP address or host name you entered. See console for errors.");
+          GUI_OpenMenu(GUI_MAINMENU);
+          GUI_OpenMenu(GUI_JOINGAME);
+          GUI_OpenMenu(GUI_OKDIALOG2);
+        }
+      }
+    }
     // automatic scheduler 1
     if (auto_playername[0][0] && (ticktime > time_playername)) {
       CommandExecuteOut("cp %s 1", auto_playername[0]);

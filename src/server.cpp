@@ -1024,14 +1024,14 @@ int SV_SetMap(char* mapname, char* scriptname)
 }
 
 
-int SV_Poll()
+int SV_Poll(Uint32 timeout)
 {
   int count;
   int transfered;
   
   if (net_server_status!=NS_UNINITED)
   {
-    SDLNet_CheckSockets(ssocket_set, 0);
+    SDLNet_CheckSockets(ssocket_set, timeout);
     if (SDLNet_SocketReady(msg_ssock)) {
       
       HandleServerMessage();

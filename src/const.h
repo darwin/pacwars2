@@ -81,7 +81,7 @@ const Uint8 VERSION_MINOR = 20;
 
 #define PW_CONFIG_FILE "config.cfg"
 
-#define PW_WEBADDRESS "http://pw2.tsx.org"
+#define PW_WEBADDRESS "http://pw2.sourceforge.net"
 // dirs
 #define STD_SCRIPT_DIR "scripts/"
 #define STD_MAP_DIR "maps/"

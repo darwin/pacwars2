@@ -2210,7 +2210,7 @@ lLine14(NULL, PG_Rect(CM_G2_PX,CM_G2_PY+315, CM_G2_VX-2,20), "zlib, libpng, libj
 lLine16(NULL, PG_Rect(CM_PX+4,CM_PY+235, CM_VX-2,20), "Thanks to SLiK, Mem, Lada, Tessien, Dusty, Farey, Kerim, Garett Banuk, Nula, ...", false),
 lLine17(NULL, PG_Rect(CM_PX+4,CM_PY+255, CM_VX-8,20), "See credits.txt for full list.", false),
 lLine18(NULL, PG_Rect(CM_PX+4,CM_PY+315, CM_VX-2,25), "visit pacComunity at", false),
-lLine19(NULL, PG_Rect(CM_PX+4,CM_PY+345, CM_VX-2,25), "http://pw2.tsx.org", false),
+lLine19(NULL, PG_Rect(CM_PX+4,CM_PY+345, CM_VX-2,25), "http://pw2.sourceforge.net", false),
 lLine15(NULL, PG_Rect(CM_PX+4,CM_PY+285, CM_VX-4,25), "PacWars2 rulezzz !!!", false),
 bOK(NULL, 1, PG_Rect(CM_PX+155,CM_PY+390,150,25), "COOL")
 {

@@ -60,6 +60,8 @@ extern Uint32 time_chasename;
 
 extern cvar_t sound_volume;
 extern bool inloop;
+extern bool waiting_connection;
+extern Uint32 waiting_connection_time;
 
 extern DECLSPEC int LoadConfig(char* cfgname);
 extern DECLSPEC int SaveConfig(char* cfgname);

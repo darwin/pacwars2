@@ -62,6 +62,8 @@ bool GUI_JoinGameMenu::eventButtonClick(int id, PG_Widget* widget) {
 
 		CommandExecuteOut("sc");
 		CommandExecuteOut("connect %s", eServerAddress->GetText());
+    waiting_connection_time = SDL_GetTicks();
+    waiting_connection = true;
 		ConOutEx(MISC_FONT, "> end of sequence <");
 		ConOut("");
 

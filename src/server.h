@@ -142,7 +142,7 @@ extern DECLSPEC int SV_ChangeGame();
 
 extern DECLSPEC int SV_SetMap(char* mapname, char* scriptname);
 
-extern DECLSPEC int SV_Poll();
+extern DECLSPEC int SV_Poll(Uint32 timeout=0);
 extern DECLSPEC void SV_Move(Uint32 ticktime);
 extern DECLSPEC char SV_ParseReplication(net_msg * msg, TICK_TYPE time);
 extern DECLSPEC void SV_CreatePlayer(net_msg * MSG, int owner);

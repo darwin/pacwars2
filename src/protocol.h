@@ -74,6 +74,7 @@
 #define STD_DROP_TIMEOUT "20000" // 20s
 #define STD_PING_TIMEOUT "20000" // 20s 
 
+#define WAITING_CONNECTION_TIMEOUT 5000  // 5s
 
 // Messages
 // ID, 

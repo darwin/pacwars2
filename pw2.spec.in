@@ -7,7 +7,7 @@ Name: %{name}
 Version: %{version}
 Release: %{release}
 Source0: %{name}-%{version}.tar.gz
-URL: http://pw2.tsx.org
+URL: http://pw2.sourceforge.net
 Copyright: GPL
 Group: Games
 BuildRoot: /var/tmp/%{name}-buildroot

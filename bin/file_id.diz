@@ -2,6 +2,6 @@ name: PacWars2
 desc: TCP/UDP internet action game
 auth: Woid, Raist, Braindead, Dusty, GameOver
 OS  : Windows 95/98/ME/NT/2000, Linux, BeOS
-url : http://pw2.tsx.org
+url : http://pw2.sourceforge.net
 
 msg : pac them all !!!
