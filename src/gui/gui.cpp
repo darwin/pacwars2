@@ -527,7 +527,7 @@ void GUI_SkinPic::eventDraw(SDL_Surface* surface, const PG_Rect& rect)
   SDL_Rect sr;
   SDL_Rect dr;
 
-  SDL_FillRect(surface, NULL, 255);
+  SDL_FillRect(surface, NULL, 1);
   if (sprite)
   {
     // locate rectangle of source sprite
