@@ -25,62 +25,59 @@ CSMapManager SMapMan;
 //## CSMapInfo
 //###########################################################################
 
-CSMapInfo::CSMapInfo()
-{
+CSMapInfo::CSMapInfo() {
   name[0] = 0;
   map[0] = 0;
 }
 
-CSMapInfo::~CSMapInfo()
-{
+CSMapInfo::~CSMapInfo() {
 }
 
 //###########################################################################
 //## CSMapManager
 //###########################################################################
 
-CSMapManager::CSMapManager()
-{
-  Scripts = NULL;
+CSMapManager::CSMapManager() {
+	Scripts = NULL;
 }
 
-CSMapManager::~CSMapManager()
-{
-  Destroy();
+CSMapManager::~CSMapManager() {
+	Destroy();
 }
 
-void CSMapManager::Destroy()
-{
-  CSMapInfo *a, *n;
-  a = Scripts;
-  while (a) {
-    n = a->next;
-    delete a;
-    a = n;
-  }
-  Scripts = NULL;
+void CSMapManager::Destroy() {
+	CSMapInfo *a, *n;
+
+	a = Scripts;
+	while (a) {
+		n = a->next;
+		delete a;
+		a = n;
+	}
+
+	Scripts = NULL;
 }
 
 void ReadScriptInfo(char* fname, CSMapInfo* si)
 {
-  FILE* f;
-  f=fopen(fname,"rt");
-  if (f)
-  {
-    fgetc(f);fgetc(f);fgets(si->map, MAX_MAP_NAME, f);
-    if (si->map[strlen(si->map)-1]==10) si->map[strlen(si->map)-1]=0;
-    fgetc(f);fgetc(f);fgets(si->sname, MAX_SSCRIPT_NAME, f);
-    if (si->sname[strlen(si->sname)-1]==10) si->sname[strlen(si->sname)-1]=0;
-    fgetc(f);fgetc(f);fgets(si->desc[0], MAX_DESC_NAME, f);
-    if (si->desc[0][strlen(si->desc[0])-1]==10) si->desc[0][strlen(si->desc[0])-1]=0;
-    fgetc(f);fgetc(f);fgets(si->desc[1], MAX_DESC_NAME, f);
-    if (si->desc[1][strlen(si->desc[1])-1]==10) si->desc[1][strlen(si->desc[1])-1]=0;
-    fgetc(f);fgetc(f);fgets(si->desc[2], MAX_DESC_NAME, f);
-    if (si->desc[2][strlen(si->desc[2])-1]==10) si->desc[2][strlen(si->desc[2])-1]=0;
-    fgetc(f);fgetc(f);fgets(si->author, MAX_AUTHOR_NAME, f);
-    if (si->author[strlen(si->author)-1]==10) si->author[strlen(si->author)-1]=0;
-    fclose(f);
-  }
+	FILE* f;
+	f=fopen(fname,"rt");
+
+	if (f) {
+		fgetc(f);fgetc(f);fgets(si->map, MAX_MAP_NAME, f);
+		if (si->map[strlen(si->map)-1]==10) si->map[strlen(si->map)-1]=0;
+		fgetc(f);fgetc(f);fgets(si->sname, MAX_SSCRIPT_NAME, f);
+		if (si->sname[strlen(si->sname)-1]==10) si->sname[strlen(si->sname)-1]=0;
+		fgetc(f);fgetc(f);fgets(si->desc[0], MAX_DESC_NAME, f);
+		if (si->desc[0][strlen(si->desc[0])-1]==10) si->desc[0][strlen(si->desc[0])-1]=0;
+		fgetc(f);fgetc(f);fgets(si->desc[1], MAX_DESC_NAME, f);
+		if (si->desc[1][strlen(si->desc[1])-1]==10) si->desc[1][strlen(si->desc[1])-1]=0;
+		fgetc(f);fgetc(f);fgets(si->desc[2], MAX_DESC_NAME, f);
+		if (si->desc[2][strlen(si->desc[2])-1]==10) si->desc[2][strlen(si->desc[2])-1]=0;
+		fgetc(f);fgetc(f);fgets(si->author, MAX_AUTHOR_NAME, f);
+		if (si->author[strlen(si->author)-1]==10) si->author[strlen(si->author)-1]=0;
+		fclose(f);
+	}
 }
 
 // Adds new "fmp" filenames to manager (do not load them now)
@@ -180,4 +177,3 @@ void CSMapManager::List(char * t)
     a = a->next;
   }
 }
-

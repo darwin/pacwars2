@@ -59,60 +59,57 @@ interface from being ambiguous.
 
 class cvar_t;
 
-typedef void (cvar_callback)(cvar_t* var, int* changed);
+typedef void (cvar_callback) (cvar_t * var, int *changed);
 
-class cvar_t
-{
-public:
-	char	*name;
-	char	*string;
-	int   archive;		// set to true to cause it to be saved to vars.rc
-	int   server;		  // notifies players when changed
-  cvar_callback* callback;
-	float	value;
+class cvar_t {
+  public:
+	char *name;
+	char *string;
+	int archive;				// set to true to cause it to be saved to vars.rc
+	int server;					// notifies players when changed
+	cvar_callback *callback;
+	float value;
 	cvar_t *next;
 
-  inline operator int() 
-  { 
-    return (int)value; 
-  };
+	inline operator int () { return (int) value;
+	};
 
 };
 
-void 	Cvar_RegisterVariable (cvar_t *variable);
+void Cvar_RegisterVariable(cvar_t * variable);
 // registers a cvar that allready has the name, string, and optionally the
 // archive elements set.
 
-void 	Cvar_Set (char *var_name, char *value, bool callback=true);
+void Cvar_Set(char *var_name, char *value, bool callback = true);
 // equivelant to "<name> <variable>" typed at the console
 
-void	Cvar_SetValue (char *var_name, float value);
+void Cvar_SetValue(char *var_name, float value);
 // expands value to a string and calls Cvar_Set
 
-float	Cvar_VariableValue (char *var_name);
+float Cvar_VariableValue(char *var_name);
 // returns 0 if not defined or non numeric
 
-char	*Cvar_VariableString (char *var_name);
+char *Cvar_VariableString(char *var_name);
 // returns an empty string if not defined
 
-char 	*Cvar_CompleteVariable (char *partial);
+char *Cvar_CompleteVariable(char *partial);
 // attempts to match a partial variable name for command line completion
 // returns NULL if nothing fits
 
-int	Cvar_Command (char* varname, char* value);
+int Cvar_Command(char *varname, char *value);
 // called by Cmd_ExecuteString when Cmd_Argv(0) doesn't match a known
 // command.  Returns true if the command was a variable reference that
 // was handled. (print or change)
 
-void Cvar_WriteVariables (FILE *f);
+void Cvar_WriteVariables(FILE * f);
 // Writes lines containing "set variable value" for all variables
 // with the archive flag set to true.
 
-cvar_t *Cvar_FindVar (char *var_name);
+cvar_t *Cvar_FindVar(char *var_name);
 
 void Cvar_Free();
 
 
-extern DECLSPEC cvar_t	*cvar_vars;
+extern DECLSPEC cvar_t *cvar_vars;
 
 #endif

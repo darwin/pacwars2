@@ -29,8 +29,7 @@
 #define GS_CLIENT   3
 #define GS_ENDED    5
 
-const char GAME_STATES_STR[6][20] =
-{
+const char GAME_STATES_STR[6][20] = {
 	"uninited",
 	"server",
 	"",
@@ -49,8 +48,7 @@ const char GAME_STATES_STR[6][20] =
 #define GT_1ON1_TIME        6
 #define GT_1ON1_FRAG        7
 
-const char GAME_TYPES_STR[8][40] =
-{
+const char GAME_TYPES_STR[8][40] = {
 	"Deathmatch (timelimit)",
 	"Deathmatch (fraglimit)",
 	"CTF (timelimit)",
@@ -63,9 +61,9 @@ const char GAME_TYPES_STR[8][40] =
 
 #define MAX_GAMEBAR_PLAYERS  10
 
-extern DECLSPEC cvar_t	g_results_x;
-extern DECLSPEC cvar_t	g_results_y;
-extern DECLSPEC cvar_t	g_results_time;
+extern DECLSPEC cvar_t g_results_x;
+extern DECLSPEC cvar_t g_results_y;
+extern DECLSPEC cvar_t g_results_time;
 
 extern SDL_Surface *gamebar_bkg;
 extern SDL_Surface *gamebar_playerbar;
@@ -78,72 +76,77 @@ extern SDL_Surface *becherbar;
 //## Data structures
 //###########################################################################
 
-class DECLSPEC CGame {
-public:
-  Uint8           state;
-  Uint32          starttick;
-  TICK_TYPE       tick;         // last thinking tick
-  Uint16          last_oid;     // last created object id
-  
-  // game data
-  CVars       vars;
-  CMapState   map;
-  GObj        *objs[GAME_MAX_OBJS];
+class DECLSPEC CGame { public:
+	Uint8 state;
+	Uint32 starttick;
+	TICK_TYPE tick;				// last thinking tick
+	Uint16 last_oid;			// last created object id
 
-  // game types
-  Uint8       game_type;  
+	// game data
+	CVars vars;
+	CMapState map;
+	GObj *objs[GAME_MAX_OBJS];
 
-  // helpers
+	// game types
+	Uint8 game_type;
 
-  CReplicator replicator;
-  
-  int GBSlots[MAX_GAMEBAR_PLAYERS];
-  int MainSlot;
-  int BecherSlot;
+	// helpers
 
-  // methods
-  CGame();
-  ~CGame();
+	CReplicator replicator;
 
-  GAME_MAXOBJS_TYPE FindUnusedSlot();
-  void IncrementLOID() { last_oid++; if (last_oid==0) last_oid=1; } // 0 is reserved
-  int  RebornObject(Uint16 id, GAME_MAXOBJS_TYPE slot, Uint8 ot);   // chybovy kod
+	int GBSlots[MAX_GAMEBAR_PLAYERS];
+	int MainSlot;
+	int BecherSlot;
 
-  void ServerThink(TICK_TYPE time);
-  void ClientThink(TICK_TYPE time);
-  void GameThink(TICK_TYPE time);
+	// methods
+	 CGame();
+	~CGame();
 
-  char ServerReplicate(int cnum, CReplicator& rep, TICK_TYPE time);
-  char ClientReplicate(TICK_TYPE time);
+	GAME_MAXOBJS_TYPE FindUnusedSlot();
+	void IncrementLOID() {
+		last_oid++;
+		if (last_oid == 0)
+			last_oid = 1;
+	}
+		// 0 is reservedobject id####################################################he float interpretation of the string.  Generally, all cvar_t declarations should be registered in the apropriate init function before any console commands are executed:
+		int RebornObject(Uint16 id, GAME_MAXOBJS_TYPE slot, Uint8 ot);	// chybovy kod
 
-  void SetGameType(Uint8 gametype) { game_type = gametype; }
+	void ServerThink(TICK_TYPE time);
+	void ClientThink(TICK_TYPE time);
+	void GameThink(TICK_TYPE time);
 
-  void UpdateGamebarSlots();
-  void RenderPlayerBar(GPlayer* p, SDL_Surface* screen, int font, int px, int py);
-  void RenderStatusBar(SDL_Surface* screen, int font, int px, int py);
-  void RenderBecherBar(SDL_Surface* screen, int px, int py);
-  void RenderGameBar(SDL_Surface* screen, int font, int px, int py);
-  void RenderResults(SDL_Surface* screen, int font);
+	char ServerReplicate(int cnum, CReplicator & rep, TICK_TYPE time);
+	char ClientReplicate(TICK_TYPE time);
 
-  void Clear();
-  void Reset();
+	void SetGameType(Uint8 gametype) {
+		game_type = gametype;
+	} void UpdateGamebarSlots();
+	void RenderPlayerBar(GPlayer * p, SDL_Surface * screen, int font,
+						 int px, int py);
+	void RenderStatusBar(SDL_Surface * screen, int font, int px, int py);
+	void RenderBecherBar(SDL_Surface * screen, int px, int py);
+	void RenderGameBar(SDL_Surface * screen, int font, int px, int py);
+	void RenderResults(SDL_Surface * screen, int font);
 
-private:
-  bool l1;
-  bool l2;
-  bool l3;
-  bool l4;
-  bool l5;
+	void Clear();
+	void Reset();
 
-  TICK_TYPE w1;
-  TICK_TYPE w2;
-  TICK_TYPE w3;
-  TICK_TYPE w4;
-  TICK_TYPE w5;
-  TICK_TYPE w6;
-  int h6;
-  TICK_TYPE w7;
-  int h7;
+  private:
+	 bool l1;
+	bool l2;
+	bool l3;
+	bool l4;
+	bool l5;
+
+	TICK_TYPE w1;
+	TICK_TYPE w2;
+	TICK_TYPE w3;
+	TICK_TYPE w4;
+	TICK_TYPE w5;
+	TICK_TYPE w6;
+	int h6;
+	TICK_TYPE w7;
+	int h7;
 
 };
 

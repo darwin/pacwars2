@@ -12,26 +12,26 @@ Desc:priorities, "protected" calling exported functions in script
 #include "seer.h"
 #include "internal.h"
 
-void scSet_Priority(scInstance *Ins, int priority_level)
+void scSet_Priority(scInstance * Ins, int priority_level)
 {
 //<ERASED> scKernelOnly(;);
- if (Ins)
-  {
-   Ins->flags.priority=priority_level;
-  }
+	if (Ins) {
+		Ins->flags.priority = priority_level;
+	}
 }
 
-int scGet_Priority(scInstance *Ins)//if NULL returns scrights_TOP
+int scGet_Priority(scInstance * Ins) //if NULL returns scrights_TOP******************************************/
 {
 //<ERASED> scKernelOnly(scrights_USER);
- if (!Ins)
-    return scrights_TOP;
- return Ins->flags.priority;
+	if (!Ins)
+		return scrights_TOP;
+	return Ins->flags.priority;
 }
 
 int scGet_Actual_Priority()
 {
- if (!scActual_Instance) return scrights_TOP;
- return scActual_Instance->flags.priority;
- return scGet_Priority(scActual_Instance);
+	if (!scActual_Instance)
+		return scrights_TOP;
+	return scActual_Instance->flags.priority;
+	return scGet_Priority(scActual_Instance);
 }

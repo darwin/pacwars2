@@ -24,11 +24,11 @@
 
 CVars::CVars()
 {
-  camx = 0;
-  camy = 0;
-  zonex = 0;
-  zoney = 0;
-  chasing = -1;
+	camx = 0;
+	camy = 0;
+	zonex = 0;
+	zoney = 0;
+	chasing = -1;
 }
 
 CVars::~CVars()

@@ -60,95 +60,83 @@
 		(((long) ((unsigned long) a ^ (unsigned long) b)) >= 0 )
 
 
-bool lines_intersect(
-	long x1, long y1,   /* First line segment */
-	long x2, long y2,
-
-	long x3, long y3,   /* Second line segment */
-	long x4, long y4,
-
-	long *x,        /* Output value:* point of intersection */
-	long *y
-)
+bool lines_intersect(long x1, long y1,	/* First line segment */
+					 long x2, long y2, long x3, long y3,	/* Second line segment */
+					 long x4, long y4, long *x,	/* Output value:* point of intersection */
+					 long *y)
 {
-    /* Compute a1, b1, c1, where line joining points 1 and 2
-     * is "a1 x  +  b1 y  +  c1  =  0".
-     */
+	/* Compute a1, b1, c1, where line joining points 1 and 2
+	 * is "a1 x  +  b1 y  +  c1  =  0".
+	 */
 
-    long a1 = y2 - y1;
-    long b1 = x1 - x2;
-    long c1 = x2 * y1 - x1 * y2;
+	long a1 = y2 - y1;
+	long b1 = x1 - x2;
+	long c1 = x2 * y1 - x1 * y2;
 
-    /* Compute r3 and r4.
-     */
-    long r3 = a1 * x3 + b1 * y3 + c1;
-    long r4 = a1 * x4 + b1 * y4 + c1;
+	/* Compute r3 and r4.
+	 */
+	long r3 = a1 * x3 + b1 * y3 + c1;
+	long r4 = a1 * x4 + b1 * y4 + c1;
 
-    /* Check signs of r3 and r4.  If both point 3 and point 4 lie on
-     * same side of line 1, the line segments do not intersect.
-     */
+	/* Check signs of r3 and r4.  If both point 3 and point 4 lie on
+	 * same side of line 1, the line segments do not intersect.
+	 */
 
-    if ( r3 != 0 &&
-         r4 != 0 &&
-         SAME_SIGNS( r3, r4 ))
-        return false;
+	if (r3 != 0 && r4 != 0 && SAME_SIGNS(r3, r4))
+		return false;
 
-    /* Compute a2, b2, c2 */
+	/* Compute a2, b2, c2 */
 
-    long a2 = y4 - y3;
-    long b2 = x3 - x4;
-    long c2 = x4 * y3 - x3 * y4;
+	long a2 = y4 - y3;
+	long b2 = x3 - x4;
+	long c2 = x4 * y3 - x3 * y4;
 
-    /* Compute r1 and r2 */
+	/* Compute r1 and r2 */
 
-    long r1 = a2 * x1 + b2 * y1 + c2;
-    long r2 = a2 * x2 + b2 * y2 + c2;
+	long r1 = a2 * x1 + b2 * y1 + c2;
+	long r2 = a2 * x2 + b2 * y2 + c2;
 
-    /* Check signs of r1 and r2.  If both point 1 and point 2 lie
-     * on same side of second line segment, the line segments do
-     * not intersect.
-     */
+	/* Check signs of r1 and r2.  If both point 1 and point 2 lie
+	 * on same side of second line segment, the line segments do
+	 * not intersect.
+	 */
 
-    if ( r1 != 0 &&
-         r2 != 0 &&
-         SAME_SIGNS( r1, r2 ))
-        return false;
+	if (r1 != 0 && r2 != 0 && SAME_SIGNS(r1, r2))
+		return false;
 
-    /* Line segments intersect: compute intersection point.
-     */
+	/* Line segments intersect: compute intersection point.
+	 */
 
-    long denom = a1 * b2 - a2 * b1;
-    if ( denom == 0 )
-        return false;
-    long offset = denom < 0 ? - denom / 2 : denom / 2;
+	long denom = a1 * b2 - a2 * b1;
+	if (denom == 0)
+		return false;
+	long offset = denom < 0 ? -denom / 2 : denom / 2;
 
-    /* The denom/2 is to get rounding instead of truncating.  It
-     * is added or subtracted to the numerator, depending upon the
-     * sign of the numerator.
-     */
+	/* The denom/2 is to get rounding instead of truncating.  It
+	 * is added or subtracted to the numerator, depending upon the
+	 * sign of the numerator.
+	 */
 
-    long num = b1 * c2 - b2 * c1;
-    *x = ( num < 0 ? num - offset : num + offset ) / denom;
+	long num = b1 * c2 - b2 * c1;
+	*x = (num < 0 ? num - offset : num + offset) / denom;
 
-    num = a2 * c1 - a1 * c2;
-    *y = ( num < 0 ? num - offset : num + offset ) / denom;
+	num = a2 * c1 - a1 * c2;
+	*y = (num < 0 ? num - offset : num + offset) / denom;
 
-    return true;
-} /* lines_intersect */
+	return true;
+}								/* lines_intersect */
 
 //=============================================================================
-int triangle_direct_tion (
-	float ax, float ay,
-	float bx, float by,
-	float cx, float cy
-)
+int triangle_direct_tion(
+						 float ax, float ay,
+						 float bx, float by, float cx, float cy)
 {
-	float abx = ax-bx;
-	float aby = ay-by;
-	float cbx = cx-bx;
-	float cby = cy-by;
+	float abx = ax - bx;
+	float aby = ay - by;
+	float cbx = cx - bx;
+	float cby = cy - by;
 
-	float d  = abx*cby-aby*cbx;
+	float d = abx * cby - aby * cbx;
 
 	if (d > 0)
 		return 1;
@@ -157,15 +145,13 @@ int triangle_direct_tion (
 }
 
 //=============================================================================
-bool point_in_triangle(
-	float px, float py,
-	float ax, float ay,
-	float bx, float by,
-	float cx, float cy)
+bool point_in_triangle(float px, float py,
+					   float ax, float ay,
+					   float bx, float by, float cx, float cy)
 {
-	int d1 = triangle_direct_tion(px,py,ax,ay,bx,by);
-	int d2 = triangle_direct_tion(px,py,bx,by,cx,cy);
-	int d3 = triangle_direct_tion(px,py,cx,cy,ax,ay);
+	int d1 = triangle_direct_tion(px, py, ax, ay, bx, by);
+	int d2 = triangle_direct_tion(px, py, bx, by, cx, cy);
+	int d3 = triangle_direct_tion(px, py, cx, cy, ax, ay);
 
 	return (d1 == d2) && (d2 == d3);
 }
@@ -182,17 +168,17 @@ Vector rot90ccw(Vector v)
 //=============================================================================
 Vector rad2vector(float rad)
 {
-	float mat=-rad-PI/2;
+	float mat = -rad - PI / 2;
 	Vector v;
-	v.x = (float)sin(mat);
-	v.y = (float)-cos(mat);
+	v.x = (float) sin(mat);
+	v.y = (float) -cos(mat);
 	return v;
 }
 
 //=============================================================================
 Vector normalize(Vector v)
 {
-	float length = (float)sqrt(SQR(v.x)+SQR(v.y));
+	float length = (float) sqrt(SQR(v.x) + SQR(v.y));
 	if (length != 0) {
 		v.x /= length;
 		v.y /= length;
@@ -222,27 +208,32 @@ rad: 0=north, +=cw.
 float elev2rad(float elev, int dir)
 {
 	if (dir < 0)
-		return PI/2-elev;
+		return PI / 2 - elev;
 	else
-		return PI/2+elev;
+		return PI / 2 + elev;
 }
 
 //=============================================================================
-float dist(float x0, float y0, float x1, float y1) {return (float)sqrt(SQR(x1-x0)+SQR(y1-y0));}
+float dist(float x0, float y0, float x1, float y1)
+{
+	return (float) sqrt(SQR(x1 - x0) + SQR(y1 - y0));
+}
 
 //=============================================================================
 int elev2dir(float elev, int dir)
 {
-	if (elev > PI) elev = PI;
-	if (elev < 0) elev = 0;
+	if (elev > PI)
+		elev = PI;
+	if (elev < 0)
+		elev = 0;
 
 	if (dir > 0)
-		return ROUND(8-8*elev/PI);
+		return ROUND(8 - 8 * elev / PI);
 	else
-		return ROUND(8+8*elev/PI);
+		return ROUND(8 + 8 * elev / PI);
 }
 
-int minimum(int x,int y)
+int minimum(int x, int y)
 {
 	if (x < y)
 		return x;
@@ -252,8 +243,8 @@ int minimum(int x,int y)
 
 void Vector::rotate(float angle)
 {
-	float newx = (float)(x*sin(angle) - y*cos(angle));
-	float newy = (float)(y*sin(angle) + x*cos(angle));
+	float newx = (float) (x * sin(angle) - y * cos(angle));
+	float newy = (float) (y * sin(angle) + x * cos(angle));
 	x = newx;
 	y = newy;
 }
@@ -261,28 +252,26 @@ void Vector::rotate(float angle)
 
 bool point_in_rect(SDL_Rect * r, Uint16 x, Uint16 y)
 {
-  if (x>=r->x && x<=r->x+r->w &&
-      y>=r->y && y<=r->y+r->h)
-    return true;
-  else
-    return false;
+	if (x >= r->x && x <= r->x + r->w && y >= r->y && y <= r->y + r->h)
+		return true;
+	else
+		return false;
 }
 
-bool point_in_rect(Uint16 x, Uint16 y, Uint16 w, Uint16 h, Uint16 px, Uint16 py)
+bool point_in_rect(Uint16 x, Uint16 y, Uint16 w, Uint16 h, Uint16 px,
+				   Uint16 py)
 {
-  if (px>=x && px<=x+w &&
-      py>=y && py<=y+h)
-    return true;
-  else
-    return false;
+	if (px >= x && px <= x + w && py >= y && py <= y + h)
+		return true;
+	else
+		return false;
 }
 
 bool RectOverlap(rect_t * r1, rect_t * r2)
 {
-    if (r1->left >= r2->right || r2->left >= r1->right ||
-        r1->top >= r2->bottom || r2->top >= r1->bottom)
-        return false;
-    else 
-        return true;
+	if (r1->left >= r2->right || r2->left >= r1->right ||
+		r1->top >= r2->bottom || r2->top >= r1->bottom)
+		return false;
+	else
+		return true;
 }
-

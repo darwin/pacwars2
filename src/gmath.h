@@ -30,24 +30,35 @@
 #define MAXELEVATION PI
 
 typedef struct {
-    int left;
-    int top;
-    int right;
-    int bottom;
+	int left;
+	int top;
+	int right;
+	int bottom;
 } rect_t;
 
-class DECLSPEC Vector {
-	public:
-	
-	float x;
+class DECLSPEC Vector { public:
+	 float x;
 	float y;
 
-	void zero() 				{x=0;y=0;}
-	void add(Vector &v) 		{x += v.x; y += v.y;}
-	float length() 		        {return (float)sqrt(SQR(x)+SQR(y));}
-	void normalize() 			{float len=length(); if (len==0) return; x/=len; y/=len;};
-	void scale(float factor)	{x*=factor;y*=factor;}
-	void rotate(float angle);
+	void zero() {
+		x = 0;
+		y = 0;
+	} void add(Vector & v) {
+		x += v.x;
+		y += v.y;
+	} float length() {
+		return (float) sqrt(SQR(x) + SQR(y));
+	} void normalize() {
+		float len = length();
+		if (len == 0)
+			 return;
+		 x /= len;
+		 y /= len;
+	};
+	void scale(float factor) {
+		x *= factor;
+		y *= factor;
+	} void rotate(float angle);
 };
 
 
@@ -55,7 +66,8 @@ int minimum(int x, int y);
 float dist(float x0, float y0, float x1, float y1);
 
 bool point_in_rect(SDL_Rect * r, Uint16 x, Uint16 y);
-bool point_in_rect(Uint16 x, Uint16 y, Uint16 w, Uint16 h, Uint16 px, Uint16 py);
+bool point_in_rect(Uint16 x, Uint16 y, Uint16 w, Uint16 h, Uint16 px,
+				   Uint16 py);
 
 bool RectOverlap(rect_t * r1, rect_t * r2);
 
@@ -66,30 +78,20 @@ float elev2rad(float elev, int dir);
 Vector normalize(Vector v);
 
 //=============================================================================
-int triangle_direction (
-	float ax, float ay,
-	float bx, float by,
-	float cx, float cy
-);
+int triangle_direction(
+					   float ax, float ay,
+					   float bx, float by, float cx, float cy);
 
 //=============================================================================
-bool point_in_triangle(
-	float px, float py,
-	float ax, float ay,
-	float bx, float by,
-	float cx, float cy
-);
+bool point_in_triangle(float px, float py,
+					   float ax, float ay,
+					   float bx, float by, float cx, float cy);
 
 //=============================================================================
-bool lines_intersect(
-	long x1, long y1,   /* First line segment */
-	long x2, long y2,
-
-	long x3, long y3,   /* Second line segment */
-	long x4, long y4,
-
-	long *x, long *y    /* Output value:* point of intersection */
-);
+bool lines_intersect(long x1, long y1,	/* First line segment */
+					 long x2, long y2, long x3, long y3,	/* Second line segment */
+					 long x4, long y4, long *x, long *y	/* Output value:* point of intersection */
+	);
 
 
 #endif

@@ -7,25 +7,25 @@
 #define CMD_CLIENT 1
 #define CMD_SERVER 2
 
-typedef struct CommandInfo_td
-{
-	void					(*CommandCallback)(char *Parameters);
-	char					*CommandWord;
+typedef struct CommandInfo_td {
+	void (*CommandCallback) (char *Parameters);
+	char *CommandWord;
 
-  char          CommandGroup;
-	struct CommandInfo_td	*NextCommand;
+	char CommandGroup;
+	struct CommandInfo_td *NextCommand;
 } CommandInfo;
 
 
 void CommandExecute(char *BackStrings, ...);
 void ExecuteRemoteCommand(int who, char *BackStrings);
 
-void AddCommand(void (*CommandCallback)(char *Parameters),const char *CommandWord, char CmdGroup=CMD_LOCAL);
-void TabCompletion(char* CommandLine, int *location);
+void AddCommand(void (*CommandCallback) (char *Parameters),
+				const char *CommandWord, char CmdGroup = CMD_LOCAL);
+void TabCompletion(char *CommandLine, int *location);
 void ListCommands();
-bool CommandExists(char* cmd_name);
+bool CommandExists(char *cmd_name);
 void FreeCommands();
 
-extern CommandInfo	*Commands;
+extern CommandInfo *Commands;
 
 #endif

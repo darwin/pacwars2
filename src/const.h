@@ -13,7 +13,7 @@
 #ifndef _CONST2934_H_
 #define _CONST2934_H_
 
-#include "osdep.h"   // include OS dependent defines & rutines
+#include "osdep.h"				// include OS dependent defines & rutines
 #include "SDL.h"
 #include "cvar.h"
 
@@ -46,15 +46,15 @@
 // Defined components
 #define PW_MUSIC
 #define PW_SOUND
-#define PW_BASS    // sound will be played via BASS sound system
+#define PW_BASS					// sound will be played via BASS sound system
 
 // Dependent defines
 #ifdef PW_MUSIC
-  #define PW_AUDIO
+#define PW_AUDIO
 #endif
 
 #ifdef PW_SOUND
-  #define PW_AUDIO
+#define PW_AUDIO
 #endif
 
 #define PW_NETCLIENT
@@ -72,16 +72,16 @@
 
 const Uint8 PREDICTION_BUF_LENGTH = 50;
 
-const GAME_MAXOBJS_TYPE GAME_MAX_OBJS = 250;  // pozor pri praci na velikost <=250
-const GAME_MAXOBJS_TYPE MAX_PACS_PER_STATION = 16;  
+const GAME_MAXOBJS_TYPE GAME_MAX_OBJS = 250;	// pozor pri praci na velikost <=250
+const GAME_MAXOBJS_TYPE MAX_PACS_PER_STATION = 16;
 
 
 //###########################################################################
 //## Constants
 //###########################################################################
 
-const Uint8 VERSION_MAJOR=1;
-const Uint8 VERSION_MINOR=0;
+const Uint8 VERSION_MAJOR = 1;
+const Uint8 VERSION_MINOR = 0;
 
 #define PW_CONFIG_FILE "config.cfg"
 
@@ -95,13 +95,13 @@ const Uint8 VERSION_MINOR=0;
 #define STD_SND_DIR "snd/"
 #define STD_GUI_DIR "gfx/gui/"
 
-extern DECLSPEC cvar_t	sprite_dir;
-extern DECLSPEC cvar_t	script_dir;
-extern DECLSPEC cvar_t	gui_dir;
-extern DECLSPEC cvar_t	map_dir;
-extern DECLSPEC cvar_t	gfx_dir;
-extern DECLSPEC cvar_t	skin_dir;
-extern DECLSPEC cvar_t	snd_dir;
+extern DECLSPEC cvar_t sprite_dir;
+extern DECLSPEC cvar_t script_dir;
+extern DECLSPEC cvar_t gui_dir;
+extern DECLSPEC cvar_t map_dir;
+extern DECLSPEC cvar_t gfx_dir;
+extern DECLSPEC cvar_t skin_dir;
+extern DECLSPEC cvar_t snd_dir;
 
 // extensions
 #define STD_TMP_EXT "tmp"
@@ -111,18 +111,18 @@ extern DECLSPEC cvar_t	snd_dir;
 #define STD_SKIN_EXT "pac"
 #define STD_SPRITE_EXT "pac"
 
-extern DECLSPEC cvar_t	tmp_ext;
-extern DECLSPEC cvar_t	map_ext;
-extern DECLSPEC cvar_t	script_ext;
-extern DECLSPEC cvar_t	smap_ext;
-extern DECLSPEC cvar_t	skin_ext;
-extern DECLSPEC cvar_t	sprite_ext;
+extern DECLSPEC cvar_t tmp_ext;
+extern DECLSPEC cvar_t map_ext;
+extern DECLSPEC cvar_t script_ext;
+extern DECLSPEC cvar_t smap_ext;
+extern DECLSPEC cvar_t skin_ext;
+extern DECLSPEC cvar_t sprite_ext;
 
 #define STD_SPRITE_IMP "implicit"
 #define STD_SKIN_IMP   "implicit"
 
-extern DECLSPEC cvar_t	skin_imp;
-extern DECLSPEC cvar_t	sprite_imp;
+extern DECLSPEC cvar_t skin_imp;
+extern DECLSPEC cvar_t sprite_imp;
 
 // std controls
 #define STD_KEY_UP      SDLK_UP
@@ -140,14 +140,14 @@ extern DECLSPEC cvar_t	sprite_imp;
 
 // console
 #define MAX_WORD_INPUTED 100
-#define MAX_LINE_CHARS 110 // for line breaking in ConPar()
+#define MAX_LINE_CHARS 110		// for line breaking in ConPar()
 
 // scripting manager
 #define MAX_SCRIPTS 10
 
 // misc
-#define FPS_MEASURE 400 // in ticks (500 = each 0.5s update)
-#define PING_MEASURE 2000 // in ticks (each 2s update)
+#define FPS_MEASURE 400			// in ticks (500 = each 0.5s update)
+#define PING_MEASURE 2000		// in ticks (each 2s update)
 
 // temp
 #define CSX 16
@@ -168,7 +168,7 @@ extern DECLSPEC cvar_t	sprite_imp;
 
 
 #ifndef _MAX_PATH
-  #define _MAX_PATH 260
+#define _MAX_PATH 260
 #endif
 
 #define FPS 30
@@ -176,7 +176,8 @@ extern DECLSPEC cvar_t	sprite_imp;
 #define THINKINGS_PER_TICK 1
 #define MOVE_SUB_STEPS 4
 
-void FileNameConversion(char* dir, char *shortn, char *ext, char *expandedn);
+void FileNameConversion(char *dir, char *shortn, char *ext,
+						char *expandedn);
 void TempName(char *fname, char *tmpname);
 
 #define MAX_EXT 10
@@ -207,23 +208,22 @@ extern DECLSPEC int MMOY;
 //types of objects that lives in the world:
 typedef enum object_type {
 //player:
-	ot_obj=0,	
-	ot_entity,			
-	ot_player,							
-	ot_shot,	
-	ot_bomb,	
-	ot_extra,	
-	ot_rail,	
-	ot_fray,	
-	ot_sound,	
-	ot_bshot,	
-	ot_grenade,	
+	ot_obj = 0,
+	ot_entity,
+	ot_player,
+	ot_shot,
+	ot_bomb,
+	ot_extra,
+	ot_rail,
+	ot_fray,
+	ot_sound,
+	ot_bshot,
+	ot_grenade,
 
-	ot_error						
+	ot_error
 };
 
-const char OBJECT_NAMES[ot_error+1][40] =
-{
+const char OBJECT_NAMES[ot_error + 1][40] = {
 	"base_object",
 	"base_entity",
 	"pac player",
@@ -241,18 +241,17 @@ const char OBJECT_NAMES[ot_error+1][40] =
 
 // Brain types
 typedef enum brain_type {
-	bt_soulfree=0,	
-	bt_client,			
-	bt_bot,							
+	bt_soulfree = 0,
+	bt_client,
+	bt_bot,
 };
 
-enum ENetRole
-{
-    ROLE_None = 0,            // Means the actor is not relevant in network play.
-    ROLE_DumbProxy,       // A dumb proxy.
-    ROLE_SimulatedProxy,  // A simulated proxy.
-    ROLE_AutonomousProxy, // An autonomous proxy.
-    ROLE_Authority,       // The one authoritative version of the actor.
+enum ENetRole {
+	ROLE_None = 0,				// Means the actor is not relevant in network play.
+	ROLE_DumbProxy,				// A dumb proxy.
+	ROLE_SimulatedProxy,		// A simulated proxy.
+	ROLE_AutonomousProxy,		// An autonomous proxy.
+	ROLE_Authority,				// The one authoritative version of the actor.
 };
 
 #endif

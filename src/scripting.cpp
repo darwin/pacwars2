@@ -474,7 +474,6 @@ void InitExternals()
   AddVapiExternals();
 
 #ifdef _WIN32
-
 #ifdef SCRIPTING_STD_LIBS
   // Stdio.h externals
   scAdd_External_Symbol("_iob", &_iob);
@@ -783,11 +782,6 @@ void InitExternals()
   scAddExtSym(wcsupr);
   scAddExtSym(wcsicoll);
 #endif
-
-#else
-
-#warning SCRIPTING !!!
-
 #endif
 
 }
