@@ -185,6 +185,8 @@ Sources=*.cpp,*.c,*.cc,*.C,*.cxx,*.ec,*.ecpp,*.lxx,*.l++,*.ll,*.l,
 Translations=*.ts,*.po,
 User Interface=*.ui,*.kdevdlg,*.rc,
 groups=Headers,Sources,GNU,Translations,User Interface,Others
+[Makefile.am]
+sub_dirs=src
 [bin/Makefile.am]
 files=bin/gfx,bin/maps,bin/README-SDL.txt,bin/file_id.diz,bin/licence.txt,bin/scripts,bin/snd,bin/pw2.sh,bin/config.cfg,bin/PW2-site.url,bin/README-ParaGUI.txt,
 sub_dirs=
@@ -1976,7 +1978,7 @@ install=false
 install_location=
 type=HEADER
 [src/Makefile.am]
-files=src/console,src/_bldnum.h,src/bldnum.cpp,src/bldnum.h,src/client.cpp,src/client.h,src/const.cpp,src/const.h,src/cvar.cpp,src/cvar.h,src/game.cpp,src/game.h,src/gamedefs.h,src/gmath.cpp,src/gmath.h,src/gvars.cpp,src/gvars.h,src/map.cpp,src/map.h,src/mapi.cpp,src/mapi.h,src/mapman.cpp,src/mapman.h,src/messenger.cpp,src/messenger.h,src/mouse.cpp,src/mouse.h,src/net.cpp,src/net.h,src/oapi.cpp,src/oapi.h,src/osdep.cpp,src/osdep.h,src/pac.h,src/pac_bomb.cpp,src/pac_bomb.h,src/pac_bshot.cpp,src/pac_bshot.h,src/pac_entity.cpp,src/pac_entity.h,src/pac_extra.cpp,src/pac_extra.h,src/pac_fray.cpp,src/pac_fray.h,src/pac_grenade.cpp,src/pac_grenade.h,src/pac_obj.cpp,src/pac_obj.h,src/pac_player.cpp,src/pac_player.h,src/pac_rail.cpp,src/pac_rail.h,src/pac_shot.cpp,src/pac_shot.h,src/pac_sound.cpp,src/pac_sound.h,src/prediction.cpp,src/prediction.h,src/protocol.h,src/pw2.cpp,src/pw2.h,src/replication.cpp,src/replication.h,src/sampleman.cpp,src/sampleman.h,src/scripting.cpp,src/scripting.h,src/server.cpp,src/server.h,src/smapman.cpp,src/smapman.h,src/sprite.cpp,src/sprite.h,src/stdconfig.cpp,src/stdconfig.h,src/vapi.cpp,src/vapi.h,src/seer,src/config.cfg,src/gui,
+files=src/console,src/_bldnum.h,src/bldnum.cpp,src/bldnum.h,src/client.cpp,src/client.h,src/const.cpp,src/const.h,src/cvar.cpp,src/cvar.h,src/game.cpp,src/game.h,src/gamedefs.h,src/gmath.cpp,src/gmath.h,src/gvars.cpp,src/gvars.h,src/map.cpp,src/map.h,src/mapi.cpp,src/mapi.h,src/mapman.cpp,src/mapman.h,src/messenger.cpp,src/messenger.h,src/mouse.cpp,src/mouse.h,src/net.cpp,src/net.h,src/oapi.cpp,src/oapi.h,src/osdep.cpp,src/osdep.h,src/pac.h,src/pac_bomb.cpp,src/pac_bomb.h,src/pac_bshot.cpp,src/pac_bshot.h,src/pac_entity.cpp,src/pac_entity.h,src/pac_extra.cpp,src/pac_extra.h,src/pac_fray.cpp,src/pac_fray.h,src/pac_grenade.cpp,src/pac_grenade.h,src/pac_obj.cpp,src/pac_obj.h,src/pac_player.cpp,src/pac_player.h,src/pac_rail.cpp,src/pac_rail.h,src/pac_shot.cpp,src/pac_shot.h,src/pac_sound.cpp,src/pac_sound.h,src/prediction.cpp,src/prediction.h,src/protocol.h,src/pw2.cpp,src/pw2.h,src/replication.cpp,src/replication.h,src/sampleman.cpp,src/sampleman.h,src/scripting.cpp,src/scripting.h,src/server.cpp,src/server.h,src/smapman.cpp,src/smapman.h,src/sprite.cpp,src/sprite.h,src/stdconfig.cpp,src/stdconfig.h,src/vapi.cpp,src/vapi.h,src/seer,src/config.cfg,src/gui,src/chat.cpp
 sub_dirs=
 type=prog_main
 [src/_bldnum.h]
@@ -1994,6 +1996,11 @@ dist=true
 install=false
 install_location=
 type=HEADER
+[src/chat.cpp]
+dist=true
+install=false
+install_location=
+type=SOURCE
 [src/client.cpp]
 dist=true
 install=false

@@ -192,15 +192,15 @@ void GUI_Bitmap::eventDraw(SDL_Surface* surface, SDL_Rect* rect)
 
 
 GUI_Label::GUI_Label(SDLWidget* parent, SDL_Rect& r, char* text, bool storebackground, char* style):
-SDLLabel(parent,r,text,storebackground)
+SDLLabel(parent,r,text)
 {
   SetFont(TextFont);
   SetAlignment(SDL_TA_CENTER); 
-  LoadThemeStyle(style, "GUI_Label");
+  SDLWidget::LoadThemeStyle(style, "GUI_Label");
 }
 
 GUI_LabelC::GUI_LabelC(SDLWidget* parent, SDL_Rect& r, char* text, bool storebackground):
-SDLLabel(parent,r,text,storebackground)
+SDLLabel(parent,r,text)
 {
   SetFont(TextFont);
   SetAlignment(SDL_TA_LEFT); 
@@ -212,7 +212,7 @@ SDLLabel(parent,r,text,storebackground)
 /////////////////////////////////////////////////////////////////////////////
 
 GUI_LabelL::GUI_LabelL(SDLWidget* parent, SDL_Rect& r, char* text, GUI_LabelL** iselected, CSMapInfo* si, SDL_Color ic1, SDL_Color ic2, void (*cb)(GUI_LabelL*)):
-SDLLabel(parent,r,text,false)
+SDLLabel(parent,r,text)
 {
   SetFont(TextFont);
   c1 = ic1;

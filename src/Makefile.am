@@ -48,7 +48,8 @@ pw2_SOURCES = \
 	map.cpp \
 	pac_bomb.cpp \
 	pac_rail.cpp \
-	server.cpp
+	server.cpp \
+	chat.cpp
 
 EXTRA_DIST = \
 	_bldnum.h \
@@ -90,5 +91,6 @@ EXTRA_DIST = \
 	pac_bshot.h \
 	pac_rail.h \
 	sampleman.h \
-	vapi.h
+	vapi.h \
+	chat.h
 

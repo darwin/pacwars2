@@ -112,12 +112,14 @@ void GUI_ResultsMenu::Return() {
 
 void GUI_ResultsMenu::eventShow() {
   Clear();
+  int i=0;
+
 	my_rectDisplay.w = RM_VX;
 	my_rectDisplay.h = 59+(1+index)*19+1;
 //  SizeWindow(RM_VX, 59+(1+index)*19+1);
   LoadThemeStyle("GUI_Results");
 
-  for (int i=0; i<RM_MAX_NAMES; i++)
+  for (i=0; i<RM_MAX_NAMES; i++)
   {
     lName[i]->Hide();
     lPoints[i]->Hide();
