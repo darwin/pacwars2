@@ -12,7 +12,6 @@ pw2_DATA = \
 	licence.txt \
 	PW2-site.url \
 	README-SDL.txt \
-	README-ParaGUI.txt \
-	pw2
+	README-ParaGUI.txt
 
-EXTRA_DIST = $(pw2_DATA) 
+EXTRA_DIST = $(pw2_DATA) pw2
