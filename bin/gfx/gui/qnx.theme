@@ -1,21 +1,12 @@
 <?xml version="1.0"?>
 
 <theme>
-    <title value="default"/>
-    <description value="ParaGUI default theme"/>
+    <title value="qnx"/>
+    <description value="ParaGUI qnx theme"/>
     <author value="Alexander Pipelka"/>
     <email value="pipelka@teleweb.at"/>
 
-    <font name="default" value="default/font.ttf" size="13"/>
-
-    <widget>
-	<type value="Background"/>
-	<object>
-  	     <name value="Background"/>
-	     <filename name="background" value="qnx/wallpaper.bmp"/>
-	     <property name="backmode" value="STRETCH"/>
-	</object>
-    </widget>
+    <font name="default" value="fonts/font2.ttf" size="13"/>
 
     <widget>
 	<type value="GradientWidget"/>

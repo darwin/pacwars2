@@ -3112,17 +3112,28 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
   
 #endif
   
-  char date[20];
-  char time[20];
+  char curr_date[20];
+  char curr_time[20];
   
-  strcpy(date, "");
-  strcpy(time, "");
+  strcpy(curr_date, "");
+  strcpy(curr_time, "");
   
 #ifdef WIN32
-  _strdate(date);
-  _strtime(time);
+
+  _strdate(curr_date);
+  _strtime(curr_time);
+
 #else
-  
+
+  time_t curtime;
+  struct tm *loctime;
+
+  curtime = time (NULL);
+  loctime = localtime (&curtime);
+
+  strftime(curr_date, sizeof(curr_date), "%d.%m.%y", loctime);
+  strftime(curr_time, sizeof(curr_time), "%H:%M:%S", loctime);
+
 #endif
   
   fprintf(stderr, "+-----------------------------------------+\n");
@@ -3132,7 +3143,7 @@ int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
   fprintf(stderr, "|   build %04d                            |\n",
     build_number);
   fprintf(stderr, "+-----------------------------------------+\n");
-  fprintf(stderr, "executed: %s on %s, %s\n\n", argv[0], time, date);
+  fprintf(stderr, "executed: %s on %s, %s\n\n", argv[0], curr_time, curr_date);
   
   // parse and process program's arguments
   videoflags = SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN;	//|SDL_ASYNCBLIT|SDL_OPENGLBLIT;
