@@ -27,6 +27,7 @@
 #include "guioptionsmenu.h"
 #include "guijoingamemenu.h"
 #include "guicreditsmenu.h"
+#include "guicreateplayermenu.h"
 
 #include "smapman.h"
 #include "sprite.h"
@@ -597,70 +598,11 @@ public:
 	SDL_Color textcolor;
 };
 
+#define CP_INPUT_X1 (5)
+#define CP_INPUT_Y1 (90)
 
-class GUI_CreatePlayerMenu : public GUI_BaseMenu {
-public:
-  GUI_CreatePlayerMenu(int id, int inum);
-  int num;
-
-  GUI_Board Board1;
-  GUI_Label CreatePlayerMenu;
-  
-  GUI_Label lPName;
-  GUI_TextEdit ePName;
-  GUI_Label lSkin;
-  GUI_TextEdit eSkin;
-  GUI_SkinCtrl SkinCtrl;
-  
-  GUI_Input iUp;
-  GUI_Input iDown;
-  GUI_Input iLeft;
-  GUI_Input iRight;
-  GUI_Input iFire;
-  GUI_Input iWarp;
-  GUI_Input iShield;
-
-  GUI_Input iWeapon1;
-  GUI_Input iWeapon2;
-  GUI_Input iWeapon3;
-  GUI_Input iWeapon4;
-  GUI_Input iWeapon5;
-  
-  GUI_Label lUp;
-  GUI_Label lDown;
-  GUI_Label lLeft;
-  GUI_Label lRight;
-  GUI_Label lFire;
-  GUI_Label lWarp;
-  GUI_Label lShield;
-  
-  GUI_Label lWeapon1;
-  GUI_Label lWeapon2;
-  GUI_Label lWeapon3;
-  GUI_Label lWeapon4;
-  GUI_Label lWeapon5;
-
-  GUI_ButtonSmall bOK;
-  GUI_ButtonSmall bCancel;
-  
-  void Show();
-  void Hide();
-  void Default();
-  void Return();
-  
-  bool eventButtonClick(int id, SDLWidget* widget);
-  bool eventNextInput(int id, SDLWidget* widget);
-  bool eventMessage(MSG_MESSAGE* msg);
-
-  void NextBox();
-};
-
-
-#define CP_INPUT_X1 (CP_PX + 5)
-#define CP_INPUT_Y1 (CP_PY + 90)
-
-#define CP_INPUT_X2 (CP_PX + 170)
-#define CP_INPUT_Y2 (CP_PY + 90)
+#define CP_INPUT_X2 (170)
+#define CP_INPUT_Y2 (90)
 
 #define CCSX 60
 
