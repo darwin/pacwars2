@@ -156,6 +156,9 @@ extern DECLSPEC cvar_t	sprite_imp;
 // animations
 #define MAX_SPRITE_NAME 12
 #define MAX_MAP_NAME 40
+#define MAX_SSCRIPT_NAME 40
+#define MAX_DESC_NAME 100
+#define MAX_AUTHOR_NAME 100
 #define MAX_SCRIPT_NAME 40
 #define MAX_DESC_LEN    100
 #define MAX_ANIMATIONS  100

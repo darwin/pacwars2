@@ -15,10 +15,11 @@
 #undef PW_BASS
 #endif
 
-//#include "gmath.h"
-//#include "map.h"
 
 #ifdef PW_BASS
+#include "gmath.h"
+#include "map.h"
+
 #include "bass.h"
 #endif
 
