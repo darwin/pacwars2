@@ -18,7 +18,9 @@ libgui_la_SOURCES = \
 	guicreditsmenu.cpp \
 	guicreateplayermenu.cpp \
 	guideleteplayermenu.cpp \
-	guiresultsmenu.cpp
+	guiresultsmenu.cpp \
+	guicreateplayerselmenu.cpp \
+	guiyndialog.cpp
 
 EXTRA_DIST = \
 	gui.h \
@@ -35,4 +37,7 @@ EXTRA_DIST = \
 	guicreditsmenu.h \
 	guicreateplayermenu.h \
 	guideleteplayermenu.h \
-	guiresultsmenu.h
+	guiresultsmenu.h \
+	guicreateplayerselmenu.h \
+	guiyndialog.h
+

@@ -31,6 +31,9 @@
 #include "guicreateplayermenu.h"
 #include "guideleteplayermenu.h"
 #include "guiresultsmenu.h"
+#include "guicreateplayerselmenu.h"
+
+#include "guiyndialog.h"
 
 #include "smapman.h"
 #include "sprite.h"
@@ -329,27 +332,6 @@ public:
 #define YN_VY 95
 
 
-class GUI_YNDialog : public GUI_BaseMenu {
-public:
-  GUI_YNDialog();
-
-  void Reset(void (*cb)(int res), char* title, char* line1="", char* tla="YES", char* tlb="NO");
-  
-  GUI_Label* YNDialog;
-  GUI_Label* lPrompt1;
-  
-  GUI_ButtonSmall* bA;
-  GUI_ButtonSmall* bB;
-
-  int result;
-  void (*callback)(int res);
-
-  void Default();
-  
-  bool eventButtonClick(int id, SDLWidget* widget);
-};
-
-
 /////////////////////////////////////////////////////////////////////////////
 // Main menu widgets
 /////////////////////////////////////////////////////////////////////////////
@@ -407,25 +389,6 @@ extern GUI_JoinGameMenu* JGMenu;
 #define CPS_PY 130
 #define CPS_VX 280
 #define CPS_VY 240
-
-
-class GUI_CreatePlayerSelMenu : public GUI_BaseMenu {
-public:
-  GUI_CreatePlayerSelMenu();
-  
-  GUI_ButtonBig lCreatePlayerSelMenu;
-  GUI_ButtonBig bCP1;
-  GUI_ButtonBig bCP2;
-  GUI_ButtonBig bCP3;
-  GUI_ButtonBig bCP4;
-  GUI_ButtonBig bBack;
-  
-  void Show();
-  void Hide();
-  void Default();
-  
-  bool eventButtonClick(int id, SDLWidget* widget);
-};
 
 
 /////////////////////////////////////////////////////////////////////////////
