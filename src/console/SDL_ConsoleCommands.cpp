@@ -48,8 +48,7 @@ void CommandExecute(char *Input, ...)
 		/* Find the command nd execute the function associated with it */
 		while (CurrentCommand) {
 			if (0 == strcmp(Command, CurrentCommand->CommandWord)) {
-				CurrentCommand->CommandCallback(BackStrings +
-												strlen(Command) + 1);
+				CurrentCommand->CommandCallback(RestOfLine);
 				return;
 			}
 			CurrentCommand = CurrentCommand->NextCommand;
@@ -72,6 +71,62 @@ void CommandExecute(char *Input, ...)
 	}
 }
 
+/* executes the command passed in from the string and outputs it to the console*/
+void CommandExecuteOut(char *Input, ...)
+{
+	va_list marker;
+	char BackStrings[300];
+
+	va_start(marker, Input);
+	vsprintf(BackStrings, Input, marker);
+	va_end(marker);
+
+	char Command[CHARS_PER_LINE];
+	char *RestOfLine;
+	CommandInfo *CurrentCommand = Commands;
+	Uint8 buffer[CHARS_PER_LINE];
+
+	/* Get the command out of the string */
+	if (EOF == sscanf(BackStrings, "%s", Command))
+		return;
+
+	RestOfLine = BackStrings + strlen(Command);
+	while (*RestOfLine == ' ')
+		RestOfLine++;
+
+	// do we have remote or local command ?
+	if (Command[0] != REMOTE_CMD_CHAR) {
+		/* Find the command nd execute the function associated with it */
+		while (CurrentCommand) {
+			if (0 == strcmp(Command, CurrentCommand->CommandWord)) {
+        ConOutEx(CMD_FONT, BackStrings);
+				CurrentCommand->CommandCallback(RestOfLine);
+				return;
+			}
+			CurrentCommand = CurrentCommand->NextCommand;
+		}
+		// Command wasn't found, test if it is cvar
+		if (Cvar_Command(Command, RestOfLine)) {	// wasn't cvar
+			// assume this is message and send it to others
+			if (net_client_status != NS_UNINITED)
+				ChatMessage(BackStrings);
+		}
+    else
+    {
+      ConOutEx(VAR_FONT, BackStrings);
+    }
+	} else						// remote command
+	{
+		buffer[POS_MSG_ID] = MSGID_REMOTECMD;
+		int len =
+			snprintf((char *) &buffer[POS_MSG_CMD], LEN_MSG_CMD, "%s",
+					 &BackStrings[1]);
+		len += POS_MSG_CMD + 1;
+		SendMsg(&server.msg_pool, msg_csock, 0, buffer, len, true,
+				RESEND_SYSTEM);
+	}
+}
+
 void ExecuteRemoteCommand(int who, char *BackStrings)
 // only aplicable to CMD_SERVER commands !!!
 {
@@ -82,24 +137,40 @@ void ExecuteRemoteCommand(int who, char *BackStrings)
 	if (EOF == sscanf(BackStrings, "%s", Command))
 		return;
 
-	if (client[who].status == CS_ACTIVE) {
-		//! TODO: SECURITY TESTS
+	char* RestOfLine = BackStrings + strlen(Command);
+	while (*RestOfLine == ' ')
+		RestOfLine++;
 
-		ConOut("[%s] %s", client[who].name, BackStrings);
-		/* Find the command nd execute the function associated with it */
+	if (client[who].status == CS_ACTIVE) {
+    if (!client[who].con_attach)
+    {
+		  ConOutEx(CMD_FONT, "%s tried to send remote command, but is unauthorized [security problems]", client[who].name);
+      return;
+    }
+
+		/* Find the command and execute the function associated with it */
 		while (CurrentCommand) {
-			if ((CurrentCommand->CommandGroup == CMD_SERVER) &&
+			if (//(CurrentCommand->CommandGroup == CMD_SERVER) &&
 				(0 == strcmp(Command, CurrentCommand->CommandWord))) {
-				CurrentCommand->CommandCallback(BackStrings +
-												strlen(Command) + 1);
+		    ConOutEx(CMD_FONT, "[%s] %s", client[who].name, BackStrings);
+				CurrentCommand->CommandCallback(RestOfLine);
 				return;
 			}
 			CurrentCommand = CurrentCommand->NextCommand;
 		}
-		/* Command wasn't found */
-		ConOut("[%s] Bad command", client[who].name);
+		// Command wasn't found, test if it is cvar
+		if (Cvar_Command(Command, RestOfLine)) 
+    {	// wasn't cvar
+  		ConOut("[%s] %s, bad command", client[who].name, BackStrings);
+		}
+    else
+    {
+      ConOutEx(VAR_FONT, "[%s] %s", client[who].name, BackStrings);
+      return;
+    }
 	}
-	ConErr("Remote command execution by unconnected client !");
+  else
+	  ConErr("Remote command execution by unconnected client !");
 	return;
 }
 
@@ -182,23 +253,20 @@ void ListCommands()
 {
 	CommandInfo *CurrentCommand = Commands;
 
-	ConOut("Local commands:");
-	ConOut("---------------");
+	ConOutEx(2, "Local commands:");
 	while (CurrentCommand) {
 		if (CurrentCommand->CommandGroup == CMD_LOCAL)
 			ConOut("%s", CurrentCommand->CommandWord);
 		CurrentCommand = CurrentCommand->NextCommand;
 	}
-	ConOut("Client commands:");
-	ConOut("-----------------");
+	ConOutEx(2, "Client commands:");
 	CurrentCommand = Commands;
 	while (CurrentCommand) {
 		if (CurrentCommand->CommandGroup == CMD_CLIENT)
 			ConOut("%s", CurrentCommand->CommandWord);
 		CurrentCommand = CurrentCommand->NextCommand;
 	}
-	ConOut("Server commands:");
-	ConOut("----------------");
+	ConOutEx(2,"Server commands:");
 	CurrentCommand = Commands;
 	while (CurrentCommand) {
 		if (CurrentCommand->CommandGroup == CMD_SERVER)

@@ -17,6 +17,7 @@ typedef struct CommandInfo_td {
 
 
 void CommandExecute(char *BackStrings, ...);
+void CommandExecuteOut(char *Input, ...);
 void ExecuteRemoteCommand(int who, char *BackStrings);
 
 void AddCommand(void (*CommandCallback) (char *Parameters),

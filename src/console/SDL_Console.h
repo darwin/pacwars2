@@ -8,6 +8,8 @@
 
 #include "../cvar.h"
 
+extern int  *ConsoleFonts;
+
 #define CHARS_PER_LINE	128
 
 int InitConsole(const char *FontName, SDL_Surface * DisplayScreen,
@@ -21,6 +23,7 @@ void NewLineConsole();
 void NewLineCommand();
 void ConSer(const char *str, ...);
 void ConOut(const char *str, ...);
+void ConOutEx(int font, const char *str, ...);
 void ConErr(const char *str, ...);
 void ConPut(int linenum, const char *str, ...);
 void ConPar(const char *str, ...);

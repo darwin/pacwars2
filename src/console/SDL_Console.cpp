@@ -15,11 +15,12 @@
 #include "SDL_image.h"
 
 static char **ConsoleLines = NULL;
+int  *ConsoleFonts = NULL;
 static char **CommandLines = NULL;
 static int TotalConsoleLines = 0;	/* Total number of lines in the console */
 static int ConsoleScrollBack = 0;	/* How much the users scrolled back in the console */
 static int TotalCommands = 0;	/* Number of commands in the Back Commands */
-static int FontNumber;			/* This is the number of the font for the console */
+static int FontNumber;			/* This is the number of the default font for the console */
 static int Line_Buffer;			/* The number of lines in the console */
 static int BackX, BackY;		/* Background images x and y coords */
 static SDL_Surface *ConsoleSurface;	/* Surface for the console text */
@@ -110,6 +111,7 @@ void ConsoleEvents(SDL_Event * event)
 			/* copy the input into the past commands strings */
 			strcpy(CommandLines[0], ConsoleLines[0]);
 			strcpy(ConsoleLines[1], ConsoleLines[0]);
+			ConsoleFonts[1] = CMD_FONT;
 			SV_RemoteViewer(0, ConsoleLines[0]);
 			NewLineConsole();
 			CommandExecute(ConsoleLines[0]);
@@ -128,7 +130,7 @@ void ConsoleEvents(SDL_Event * event)
 		case SDLK_CAPSLOCK:
 		case SDLK_NUMLOCK:
 		case SDLK_SCROLLOCK:
-
+		case SDLK_ESCAPE:
 			break;
 		default:
 			if (StringLocation < CHARS_PER_LINE - 1
@@ -165,8 +167,9 @@ void DrawCursor()
 {
 	memset(CursorLine, 0, CHARS_PER_LINE);
 	strcpy(CursorLine, ConsoleLines[0]);
-	if (strlen(CursorLine) < CHARS_PER_LINE)
-		CursorLine[strlen(CursorLine)] = CursorChar;
+  if (strlen(CursorLine) < CHARS_PER_LINE)
+    CursorLine[strlen(CursorLine)] = CursorChar;
+
 
 	DrawText(CursorLine, ConsoleSurface, FontNumber, 4,
 			 ConsoleSurface->h - FontHeight(FontNumber));
@@ -180,7 +183,6 @@ void UpdateConsole()
 	int loop;
 	int Screenline = OutputScreen->h / 2 / FontHeight(FontNumber);
 	SDL_Rect DestRect;
-
 
 	SDL_FillRect(ConsoleSurface, NULL, 0);
 
@@ -196,8 +198,8 @@ void UpdateConsole()
 	/* Draw the text */
 	for (loop = 0; loop < Screenline; loop++)
 		DrawText(ConsoleLines[Screenline - loop + ConsoleScrollBack],
-				 ConsoleSurface, FontNumber, 4,
-				 loop * FontHeight(FontNumber));
+				 ConsoleSurface, ConsoleFonts[Screenline - loop + ConsoleScrollBack], 4,
+				 loop * FontHeight(ConsoleFonts[Screenline - loop + ConsoleScrollBack]));
 
 	if (ConsoleScrollBack > 0)
 		for (loop = 4; loop < OutputScreen->w - FontWidth(FontNumber) * 2;
@@ -247,6 +249,10 @@ int DoneConsole()
 		free(ConsoleLines);
 		ConsoleLines = NULL;
 	}
+	if (ConsoleFonts) {
+		free(ConsoleFonts);
+		ConsoleFonts = NULL;
+	}
 	if (CommandLines) {
 		for (loop = 0; loop <= Line_Buffer - 1; loop++)
 			free(CommandLines[loop]);
@@ -290,10 +296,12 @@ int InitConsole(const char *FontName, SDL_Surface * DisplayScreen,
 
 	/* malloc memory for the console lines. */
 	ConsoleLines = (char **) malloc(sizeof(char *) * Line_Buffer);
+	ConsoleFonts = (int *) malloc(sizeof(int) * Line_Buffer);
 	CommandLines = (char **) malloc(sizeof(char *) * Line_Buffer);
 
 	for (loop = 0; loop <= Line_Buffer - 1; loop++) {
 		ConsoleLines[loop] = (char *) calloc(CHARS_PER_LINE, sizeof(char));
+    ConsoleFonts[loop] = 0;
 		CommandLines[loop] = (char *) calloc(CHARS_PER_LINE, sizeof(char));
 	}
 
@@ -307,12 +315,10 @@ int InitConsole(const char *FontName, SDL_Surface * DisplayScreen,
 						 OutputScreen->h / 2,
 						 OutputScreen->format->BitsPerPixel, 0, 0, 0, 0);
 	if (Temp == NULL) {
-		SDL_SetError
-			("Error Console.c:ConsoleInit()\n\tCouldn't create the ConsoleSurface\n");
+		SDL_SetError("Error Console.c:ConsoleInit()\n\tCouldn't create the ConsoleSurface\n");
 		return 1;
 	}
-	ConsoleSurface =
-		SDL_ConvertSurface(Temp, OutputScreen->format, SDL_SWSURFACE);
+	ConsoleSurface = SDL_ConvertSurface(Temp, OutputScreen->format, SDL_SWSURFACE);
 	SDL_FreeSurface(Temp);
 	SDL_FillRect(ConsoleSurface, NULL, 0);
 
@@ -355,11 +361,16 @@ void NewLineConsole()
 {
 	int loop;
 	char *temp = ConsoleLines[Line_Buffer - 1];
+  int tempf = ConsoleFonts[Line_Buffer - 1];
 
 	for (loop = Line_Buffer - 1; loop > 1; loop--)
+  {
 		ConsoleLines[loop] = ConsoleLines[loop - 1];
+		ConsoleFonts[loop] = ConsoleFonts[loop - 1];
+  }
 
 	ConsoleLines[1] = temp;
+	ConsoleFonts[1] = tempf;
 
 	memset(ConsoleLines[1], 0, CHARS_PER_LINE);
 	TotalConsoleLines++;
@@ -405,6 +416,7 @@ void ConErr(const char *str, ...)
 
 	/* And print to stdout */
 	fprintf(stderr, "%s\n", temp);
+	fflush(stdout);
 }
 
 
@@ -425,13 +437,39 @@ void ConOut(const char *str, ...)
 	if (ConsoleLines) {
 		strncpy(ConsoleLines[1], temp, CHARS_PER_LINE);
 		ConsoleLines[1][CHARS_PER_LINE - 1] = '\0';
+    ConsoleFonts[1] = FontNumber;
 		NewLineConsole();
 		UpdateConsole();
 	}
 
 	/* And print to stdout */
 	fprintf(stdout, "%s\n", temp);
-	fflush(stdout);
+}
+
+/* Outputs text to the console (in game and stdout), up to 256 chars can be entered
+* '\n' characters only take effect on stdout.
+*/
+void ConOutEx(int font, const char *str, ...)
+{
+	va_list marker;
+	char temp[256];
+
+	va_start(marker, str);
+	vsprintf(temp, str, marker);
+	va_end(marker);
+
+	SV_RemoteViewer(0, temp);
+
+	if (ConsoleLines) {
+		strncpy(ConsoleLines[1], temp, CHARS_PER_LINE);
+		ConsoleLines[1][CHARS_PER_LINE - 1] = '\0';
+    ConsoleFonts[1] = font;
+		NewLineConsole();
+		UpdateConsole();
+	}
+
+	/* And print to stdout */
+	fprintf(stdout, "%s\n", temp);
 }
 
 /* Breaks text into MAX_LINE_CHARS long lines and 
