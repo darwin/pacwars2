@@ -27,7 +27,7 @@ GUI_CreditsMenu::GUI_CreditsMenu() : GUI_BaseMenu(GUI_CREDITS, PG_Rect(CM_PX,CM_
 	lLine[12] = new PG_Label(mBack1, PG_Rect(CM_G2_PX,CM_G2_PY+295, CM_G2_VX-2,20), "SDL: net, console, ttf, mixer and image libs", "GUI_LabelL");
 	lLine[13] = new PG_Label(mBack1, PG_Rect(CM_G2_PX,CM_G2_PY+315, CM_G2_VX-2,20), "zlib, libpng, libjpeg, UPX packer", "GUI_LabelL");
 	lLine[14] = new PG_Label(mBack1, PG_Rect(CM_G1_PX,CM_G1_PY+135, CM_G1_VX-2,20), "Linux & BeOS port by Alex Pipelka aka Braindead", "GUI_LabelL");
-	lLine[15] = new PG_Label(mBack1, PG_Rect(4,235, CM_VX-2,20), "Thanks to SLiK, Mem, Lada, Tessien, Farey, Kerim, Garett Banuk, Nula, Eugenie, ...", "GUI_Label");
+	lLine[15] = new PG_Label(mBack1, PG_Rect(4,235, CM_VX-2,20), "Thanks to SLiK, Mem, Lada, Tessien, Farey, Kerim, Garett Banuk, Nula, ...", "GUI_Label");
 	lLine[17] = new PG_Label(mBack1, PG_Rect(4,315, CM_VX-2,25), "visit PW2 site at", "GUI_Label");
 	lLine[16] = new PG_Label(mBack1, PG_Rect(CM_G1_PX,CM_G1_PY+175, CM_G1_VX-2,20), "Iain Syme author of the orignal PacWars", "GUI_LabelL");
 	lLine[18] = new PG_Label(mBack1, PG_Rect(4,345, CM_VX-2,25), "http://pw2.tsx.org", "GUI_Label");
