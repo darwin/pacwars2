@@ -2765,7 +2765,7 @@ void ProcessEvents()
   SDL_Event event;
   if (net_client_status != NS_CONNECTED) ResetChat();
   
-  while (SDL_PollEvent(&event)) {
+  if (SDL_PollEvent(&event)) {
     switch (event.type) {
     case SDL_QUIT:
         App_Quit();
@@ -2798,7 +2798,8 @@ void ProcessEvents()
             ConsoleDown = true;
             blocked_inputs = 1;
           }
-          continue;
+			break;
+          //continue;
         case SDLK_F1:
           if (!NetStatsDown) {
             NetStatsDown = true;
@@ -2868,12 +2869,12 @@ void ProcessEvents()
     // filtered out yet to the console 
     if (ConsoleDown) {
       ConsoleEvents(&event);
-      continue;
+      //continue;
     }
     
     if (GUI_id) {
       SDLMessageObject::PumpIntoEventQueue(&event);
-      continue;
+      //continue;
     }
     
     if (ServerView)
@@ -2904,6 +2905,8 @@ void ProcessEvents()
         }
     }
   }
+  while(SDL_PeepEvents(&event, 1, SDL_GETEVENT, SDL_KEYDOWNMASK | SDL_MOUSEMOTIONMASK | SDL_SYSWMEVENTMASK) > 0);
+
 }
 
 void Renderscreen(SDL_Surface * screen)

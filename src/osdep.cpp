@@ -65,29 +65,6 @@ static int find_dummy(const struct dirent *unused)
 	return 1;
 }
 
-fhandle_t pacFindFirst(char *filespec, fileinfo_t * fileinfo)
-{
-	struct dirent **eps = NULL;
-	fhandle_t h;
-
-	strcpy(file_pattern, filespec);
-#ifdef __BEOS__
-        count = scandir(filespec, &eps, find_dummy, NULL); 
-#else
-	count = scandir(filespec, &eps, find_dummy, alphasort);
-#endif
-	h.handle = (long) eps;
-	file_index = 0;
-
-	if (count <= 0 || eps == NULL) {
-		h.handle = -1;
-	} else {
-		pacFindNext(h, fileinfo);
-	}
-
-	return h;
-}
-
 fhandle_t pacFindFirst_new(char *dir, char *ext, fileinfo_t * fileinfo)
 {
 	struct dirent **eps = NULL;
@@ -105,11 +82,7 @@ fhandle_t pacFindFirst_new(char *dir, char *ext, fileinfo_t * fileinfo)
 		strcpy(file_pattern, "*");
 	}
 
-#ifdef __BEOS__
-        count = scandir(fileinfo->dir, &eps, find_dummy, NULL); 
-#else
 	count = scandir(fileinfo->dir, &eps, find_dummy, alphasort);
-#endif
 	h.handle = (long) eps;
 	file_index = 0;
 
@@ -140,9 +113,9 @@ int pacFindNext(fhandle_t handle, fileinfo_t * fileinfo)
 				file_index++;
 				found = true;
 			}
-
-			file_index++;
-
+			else {
+				file_index++;
+   			}
 		}
 	}
 

@@ -1,5 +1,5 @@
 
-SUBDIRS = fonts menu
+SUBDIRS = fonts
 
 pw2gfxguidir = $(prefix)/gfx/gui
 
