@@ -24,6 +24,7 @@
 	<type value="Button"/>
 	<object>
 	    <name value="Button"/>
+	    <color textcolor="0x00404040"/>
 	    <filename name="background0" value="none"/>
 	    <filename name="background1" value="none"/>
 	    <filename name="background2" value="none"/>
@@ -285,5 +286,13 @@
 	    <property name="width" value="15"/>
 	</object>
     </widget>
-    	
+
+    <widget>
+	<type value="Label"/>
+	<object>
+	    <name value="Label"/>
+	    <color textcolor="0x00404040"/>
+	</object>
+    </widget>
+        	
 </theme>

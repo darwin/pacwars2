@@ -219,6 +219,7 @@
 	<object>
 	    <type value="Button"/>
 	    <name value="Button"/>
+	    <color name="textcolor" value="0x00FFFFFF"/>
 	    <filename name="background0" value="menu/mb_button1.png"/>
 	    <filename name="background1" value="menu/mb_button1.png"/>
 	    <filename name="background2" value="menu/mb_button1.png"/>

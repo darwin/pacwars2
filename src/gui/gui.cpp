@@ -261,6 +261,7 @@ GUI_Button(parent,btnid,r,text)
   drawbackground = true;
   enabled = true;
 	LoadThemeStyle("GUI_MenuButton", "Button");
+	GUI_BtnTextColor = GetTextColor();
 }
 
 void GUI_ButtonBig::eventMouseLeave() {
