@@ -819,6 +819,7 @@ GUI_WidgetList::GUI_WidgetList(SDLWidget* parent, SDL_Rect& r) : SDLWidgetList(p
   
   // TODO: comment SDLWidgetList(...) !!! when download new paragui
 
+	/*
 	my_widgetCount = 0;
 	my_firstWidget = 0;
 	my_widthScrollbar = 12;
@@ -835,7 +836,8 @@ GUI_WidgetList::GUI_WidgetList(SDLWidget* parent, SDL_Rect& r) : SDLWidgetList(p
 	my_rectList.y = 0;
 	my_rectList.w = r.w - my_widthScrollbar;
 	my_rectList.h = r.h;
- 
+ 	*/
+
   LoadThemeStyle("GUI_WidgetList", "GradientWidget");
 /*	
   my_rectScrollbar.x = r.w - my_widthScrollbar - 1;
@@ -858,6 +860,9 @@ GUI_WidgetList::~GUI_WidgetList()
 
 void GUI_WidgetList::AddWidget(SDLWidget* w) {
 
+	SDLWidgetList::AddWidget(w);
+
+	/*
 	w->SetVisible(false);
 	AddChild(w);
 	w->SetStoreBackground(false);
@@ -881,6 +886,7 @@ void GUI_WidgetList::AddWidget(SDLWidget* w) {
 
 	my_objScrollbar->SetLineSize(my_height / my_widgetCount);
 	my_objScrollbar->SetRange(0, my_height - Height());
+	*/
 }
 
 

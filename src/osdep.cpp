@@ -85,13 +85,23 @@ fhandle_t pacFindFirst_new(char *dir, char *ext, fileinfo_t *fileinfo) {
 	struct dirent **eps = NULL;
 	fhandle_t h;
 
-	if(ext) {
-		sprintf(file_pattern, "%s/*.%s", dir,ext);
+	strcpy(fileinfo->dir, dir);
+	if(fileinfo->dir[strlen(fileinfo->dir)-1] == '/') {
+		fileinfo->dir[strlen(fileinfo->dir)-1] = 0;
 	}
+
+	if(ext) {
+		strcpy(fileinfo->ext, ext);
+		sprintf(file_pattern, "*.%s", ext);
+	}
+	else {
+		strcpy(file_pattern, "*");
+	}
+
 	printf("pacFindFirst: %s\n", dir);
 
 	//file_pattern = filespec;
-	count = scandir (dir, &eps, find_dummy, alphasort);
+	count = scandir (fileinfo->dir, &eps, find_dummy, alphasort);
 	h.handle = (long)eps;
 	file_index = 0;
 
@@ -110,19 +120,30 @@ fhandle_t pacFindFirst_new(char *dir, char *ext, fileinfo_t *fileinfo) {
 int pacFindNext(fhandle_t handle, fileinfo_t *fileinfo) {
 	struct dirent **eps = (struct dirent **)handle.handle;
 
-	if(eps == NULL || count==0) {
+	if(eps == NULL) {
 		return -1;
 	}
 
-	if(file_index < count) {
-		if(fnmatch (file_pattern, eps[file_index++]->d_name, FNM_PATHNAME) == 0) {
-			printf("pacFindNext: %s\n", eps[file_index++]->d_name);
-			strcpy(fileinfo->name, eps[file_index++]->d_name);
-			return 0;
+	bool found = false;
+
+	if(eps[file_index] != NULL) {
+
+		while(!found && (file_index < count)) {
+			printf("match: %s <-> %s\n", file_pattern, eps[file_index]->d_name);
+
+			if(fnmatch (file_pattern, eps[file_index]->d_name, FNM_PATHNAME) == 0) {
+				printf("found: %s\n", eps[file_index]->d_name);
+				strcpy(fileinfo->name, eps[file_index]->d_name);
+				file_index++;
+				found = true;
+			}
+
+			file_index++;
+
 		}
 	}
 
-	return -1;
+	return found ? 0 : -1;
 }
 
 int pacFindClose(fhandle_t handle) {

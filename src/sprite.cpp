@@ -268,6 +268,7 @@ int CSpriteManager::Load(CSpriteInfo* si)
     if ((!src) || (si->Load(src))) 
     {
       FileNameConversion(fdir, sprite_imp.string, fext, fname);
+		printf("Load sprite: %s\n", fname);
       SDL_RWops *src2 = SDL_RWFromFile(fname, "rb");
       if ((!src2) || (si->Load(src2))) 
       {

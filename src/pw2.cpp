@@ -2975,17 +2975,17 @@ main(int argc, char *argv[])
 
   if (alphamenu.value) 
   {
-    SDL_Surface* fake_screen = SDL_CreateRGBSurface(SDL_HWSURFACE|SDL_SRCCOLORKEY|SDL_SRCALPHA, 640, 480, video_bpp, 0, 0, 0, 0);
-    SDL_FillRect(fake_screen, NULL, 0);
-    SDL_SetColorKey(fake_screen, SDL_SRCCOLORKEY, 0);
+    SDL_Surface* fake_screen = SDL_CreateRGBSurface(SDL_SWSURFACE|SDL_SRCCOLORKEY|SDL_SRCALPHA, 640, 480, video_bpp, 0, 0, 0, 0);
+    SDL_FillRect(fake_screen, NULL, 0x0);
+    //SDL_SetColorKey(fake_screen, SDL_SRCCOLORKEY, 0x000000FF);
     SDL_SetAlpha(fake_screen, SDL_SRCALPHA, MENUALPHA);
     app.SetScreen(fake_screen);
   }
   else
   {
-    SDL_Surface* fake_screen = SDL_CreateRGBSurface(SDL_HWSURFACE|SDL_SRCCOLORKEY, 640, 480, video_bpp, 0, 0, 0, 0);
+    SDL_Surface* fake_screen = SDL_CreateRGBSurface(SDL_SWSURFACE|SDL_SRCCOLORKEY, 640, 480, video_bpp, 0, 0, 0, 0);
     SDL_FillRect(fake_screen, NULL, 0x0);
-    SDL_SetColorKey(fake_screen, SDL_SRCCOLORKEY, 0);
+    //SDL_SetColorKey(fake_screen, SDL_SRCCOLORKEY, 0x000000FF);
     app.SetScreen(fake_screen);
   }
 
@@ -3467,8 +3467,8 @@ main(int argc, char *argv[])
         SDL_SetAlpha(app.GetScreen(), SDL_SRCALPHA, MENUALPHA);
       else
         SDL_SetAlpha(app.GetScreen(), 0, 0);
-//      SDL_BlitSurface(app.GetScreen(), &r2, screen, &r2);
-      SDL_BlitSurface(app.GetScreen(), NULL, screen, NULL);
+      SDL_BlitSurface(app.GetScreen(), &r2, screen, &r2);
+      //SDL_BlitSurface(app.GetScreen(), NULL, screen, NULL);
       if (GUI_id!=GUI_MAINMENU)
       {
         GUI_menu->DrawHLine(r2.x - 1, r2.y - 1, r2.w+1, 255, 255, 255, screen);
